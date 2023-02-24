@@ -1,6 +1,6 @@
-x64/*
-Debug/*
-Release/*
-.vs/
-.vcxproj.filters
-.vcxproj.user
+/.vs
+*.vcxproj.filters
+*.vcxproj.user
+x64/
+Release/
+Debug/
