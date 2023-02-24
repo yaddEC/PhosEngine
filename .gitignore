@@ -2,5 +2,5 @@ x64/*
 Debug/*
 Release/*
 .vs/
-.filters
-.user
+.vcxproj.filters
+.vcxproj.user
