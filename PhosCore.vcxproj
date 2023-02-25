@@ -231,7 +231,9 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"</Command>
+      <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -311,7 +313,9 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"</Command>
+      <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
