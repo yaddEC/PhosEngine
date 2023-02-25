@@ -3,5 +3,10 @@
 #include "HelloWorld.hpp"
 int main(int argc, char** argv)
 {
-	std::cout << HelloWorld() << " " << calcul(2,5) << std::endl;
+	Maths::Vec2 feur(1, 2);
+	feur *= 2;
+
+	Maths::Vec2 feure(feur);
+
+	std::cout << HelloWorld() << "  " << "x = " << feure.x << " y = " << feure.y << std::endl;
 }
