@@ -13,7 +13,14 @@ namespace Maths
 	public:
 		//MEMBERS :
 
-		float x, y;
+		union
+		{
+			struct
+			{
+				float x, y;
+			};
+			float xy[2];
+		};
 
 		//CONSTRUCTORS :
 
