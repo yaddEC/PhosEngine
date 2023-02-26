@@ -187,8 +187,9 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -232,8 +233,9 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -269,8 +271,9 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -314,8 +317,9 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"</Command>
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
