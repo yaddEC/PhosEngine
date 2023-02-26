@@ -82,7 +82,14 @@ namespace Maths
 	public:
 		//MEMBERS :
 
-		float x, y, z;
+		union
+		{
+			struct
+			{
+				float x, y, z;
+			};
+			float xyz[3];
+		};
 
 		//CONSTRUCTORS :
 
@@ -145,7 +152,14 @@ namespace Maths
 	public:
 		//MEMBERS :
 
-		float x, y, z, w;
+		union
+		{
+			struct
+			{
+				float x, y, z, w;
+			};
+			float xyzw[4];
+		};
 
 		//CONSTRUCTORS :
 
