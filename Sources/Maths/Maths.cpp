@@ -575,3 +575,119 @@ Maths::Vec4 Maths::Vec4::operator /= (float _Sca)
 	return *this;
 }
 #pragma endregion Vec4
+
+/************************\
+ *-------MATRIX_3-------*
+\************************/
+#pragma region Mat3
+//CONSTRUCTORS :
+
+Maths::Mat3::Mat3(void)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		data[i] = 0;
+	}
+}
+Maths::Mat3::Mat3(float _data[9])
+{
+	for (int i = 0; i < 9; i++)
+	{
+		data[i] = _data[i];
+	}
+}
+
+//DESTRUCTOR :
+
+Maths::Mat3::~Mat3(void) {}
+
+//UTILS :
+
+//ASSINGMENT AND EQUALITY OPERATIONS :
+
+Maths::Mat3 Maths::Mat3::operator=(Mat3 _Mat)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		data[i] = _Mat.data[i];
+	}
+	return *this;
+}
+
+//Mat3 TO Mat3 OPERATIONS :
+
+Maths::Mat3 Maths::Mat3::operator+(Mat3 _Mat) const
+{
+	Mat3 temp;
+	for (int i = 0; i < 9; i++)
+	{
+		temp.data[i] = data[i] + _Mat.data[i];
+	}
+	return temp;
+}
+Maths::Mat3 Maths::Mat3::operator-(Mat3 _Mat) const
+{
+	Mat3 temp;
+	for (int i = 0; i < 9; i++)
+	{
+		temp.data[i] = data[i] - _Mat.data[i];
+	}
+	return temp;
+}
+Maths::Mat3 Maths::Mat3::operator*(Mat3 _Mat) const
+{
+	Mat3 temp;
+
+	temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[3] + data[2] * _Mat.data[6];
+	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[4] + data[2] * _Mat.data[7];
+	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[5] + data[2] * _Mat.data[8];
+
+	temp.data[3] = data[3] * _Mat.data[0] + data[4] * _Mat.data[3] + data[5] * _Mat.data[6];
+	temp.data[4] = data[3] * _Mat.data[1] + data[4] * _Mat.data[4] + data[5] * _Mat.data[7];
+	temp.data[5] = data[3] * _Mat.data[2] + data[4] * _Mat.data[5] + data[5] * _Mat.data[8];
+
+	temp.data[6] = data[6] * _Mat.data[0] + data[7] * _Mat.data[3] + data[8] * _Mat.data[6];
+	temp.data[7] = data[6] * _Mat.data[1] + data[7] * _Mat.data[4] + data[8] * _Mat.data[7];
+	temp.data[8] = data[6] * _Mat.data[2] + data[7] * _Mat.data[5] + data[8] * _Mat.data[8];
+
+	return temp;
+}
+
+//Mat3 TO THIS OPERATIONS :
+
+Maths::Mat3 Maths::Mat3::operator+=(Mat3 _Mat)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		data[i] += _Mat.data[i];
+	}
+	return *this;
+}
+Maths::Mat3 Maths::Mat3::operator-=(Mat3 _Mat)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		data[i] -= _Mat.data[i];
+	}
+	return *this;
+}
+Maths::Mat3 Maths::Mat3::operator*=(Mat3 _Mat)
+{
+	Mat3 temp;
+	
+	temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[3] + data[2] * _Mat.data[6];
+	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[4] + data[2] * _Mat.data[7];
+	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[5] + data[2] * _Mat.data[8];
+	
+	temp.data[3] = data[3] * _Mat.data[0] + data[4] * _Mat.data[3] + data[5] * _Mat.data[6];
+	temp.data[4] = data[3] * _Mat.data[1] + data[4] * _Mat.data[4] + data[5] * _Mat.data[7];
+	temp.data[5] = data[3] * _Mat.data[2] + data[4] * _Mat.data[5] + data[5] * _Mat.data[8];
+	
+	temp.data[6] = data[6] * _Mat.data[0] + data[7] * _Mat.data[3] + data[8] * _Mat.data[6];
+	temp.data[7] = data[6] * _Mat.data[1] + data[7] * _Mat.data[4] + data[8] * _Mat.data[7];
+	temp.data[8] = data[6] * _Mat.data[2] + data[7] * _Mat.data[5] + data[8] * _Mat.data[8];
+
+	*this = temp;
+	return *this;
+}
+#pragma endregion Mat3

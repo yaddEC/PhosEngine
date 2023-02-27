@@ -229,4 +229,51 @@ namespace Maths
 		Vec4 operator *= (float _Sca);
 		Vec4 operator /= (float _Sca);
 	};
+
+	class MATHS_API Mat3
+	{
+	public:
+		//MEMBERS :
+
+		union
+		{
+			struct
+			{
+				float data[9];
+			};
+			Vec3 data3V[3];
+			float data_3_3[3][3];
+		};
+
+		//CONSTRUCTORS :
+
+		Mat3(void);
+		Mat3(float data[9]);
+
+		//DESTRUCTOR :
+
+		~Mat3(void);
+
+		//UTILS :
+
+		//TODO_IF_NEEDED
+		
+		//ASSINGMENT AND EQUALITY OPERATIONS :
+
+		Mat3 operator=(Mat3 _Mat);
+
+		//Mat3 TO Mat3 OPERATIONS :
+
+		Mat3 operator+(Mat3 _Mat) const;
+		Mat3 operator-(Mat3 _Mat) const;
+		Mat3 operator*(Mat3 _Mat) const;
+
+		//Mat3 TO THIS OPERATIONS :
+
+		Mat3 operator+=(Mat3 _Mat);
+		Mat3 operator-=(Mat3 _Mat);
+		Mat3 operator*=(Mat3 _Mat);
+
+	};
+
 }
