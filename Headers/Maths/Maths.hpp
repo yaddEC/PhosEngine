@@ -25,8 +25,8 @@ namespace Maths
 		//CONSTRUCTORS :
 
 		Vec2();
-		Vec2(const float xy);
-		Vec2(const float x, const float y);
+		Vec2(float xy);
+		Vec2(float x, float y);
 
 		//DESTRUCTOR :
 
@@ -34,15 +34,16 @@ namespace Maths
 
 		//UTILS :
 
-		float GetMagnitude();
+		float GetMagnitude()											const;
 		void Normalize();
-		float DotProduct(const Vec2& _VecB);
+		Vec2 GetNormalized()											const;
+		float DotProduct(const Vec2& _VecB)								const;
 		static float DotProduct(const Vec2& _VecA, const Vec2& _VecB);
 
 		//ASSINGMENT AND EQUALITY OPERATIONS :
 
 		Vec2 operator = (const Vec2& _Vec);
-		Vec2 operator = (const float _Sca);
+		Vec2 operator = (float _Sca);
 
 		Vec2 operator - (void)               const;
 		bool operator == (const Vec2& _Vec)  const;
@@ -64,17 +65,17 @@ namespace Maths
 
 		//SCALER TO Vec2 OPERATIONS :
 
-		Vec2 operator + (const float _Sca) const;
-		Vec2 operator - (const float _Sca) const;
-		Vec2 operator * (const float _Sca) const;
-		Vec2 operator / (const float _Sca) const;
+		Vec2 operator + (float _Sca) const;
+		Vec2 operator - (float _Sca) const;
+		Vec2 operator * (float _Sca) const;
+		Vec2 operator / (float _Sca) const;
 
 		//SCALER TO THIS OPERATIONS :
 
-		Vec2 operator += (const float _Sca);
-		Vec2 operator -= (const float _Sca);
-		Vec2 operator *= (const float _Sca);
-		Vec2 operator /= (const float _Sca);
+		Vec2 operator += (float _Sca);
+		Vec2 operator -= (float _Sca);
+		Vec2 operator *= (float _Sca);
+		Vec2 operator /= (float _Sca);
 	};
 
 	class MATHS_API Vec3
@@ -94,8 +95,9 @@ namespace Maths
 		//CONSTRUCTORS :
 
 		Vec3(void);
-		Vec3(const float xyz);
-		Vec3(const float x, const float y, const float z);
+		Vec3(float xyz);
+		Vec3(float x, float y, float z);
+		Vec3(const Vec2& _Vec2, float z);
 
 		//DESTRUCTOR :
 
@@ -103,27 +105,32 @@ namespace Maths
 
 		//UTILS :
 
-		float GetMagnitude();
+		Vec2 xy()	const;
+		Vec2 xz()	const;
+		Vec2 yz()	const;
+
+		float GetMagnitude()											const;
 		void Normalize();
-		float DotProduct(const Vec3& _VecB);
-		float DotProduct(const Vec3& _VecA, const Vec3& _VecB);
-		Vec3 CrossProduct(const Vec3& _VecA, const Vec3& _VecB);
+		Vec3 GetNormalized()											const;
+		float DotProduct(const Vec3& _VecB)								const;
+		static float DotProduct(const Vec3& _VecA, const Vec3& _VecB);
+		Vec3 CrossProduct(const Vec3& _VecA, const Vec3& _VecB)			const;
 
 		//ASSINGMENT AND EQUALITY OPERATIONS :
 
 		Vec3 operator = (const Vec3& _Vec);
-		Vec3 operator = (const float _Sca);
+		Vec3 operator = (float _Sca);
 
-		Vec3 operator - (void)              const;
-		bool operator == (const Vec3& _Vec) const;
-		bool operator != (const Vec3& _Vec) const;
+		Vec3 operator - (void)				const;
+		bool operator == (const Vec3& _Vec)	const;
+		bool operator != (const Vec3& _Vec)	const;
 
 		//Vec3 TO Vec3 OPERATIONS :
 
-		Vec3 operator + (const Vec3& _Vec) const;
-		Vec3 operator - (const Vec3& _Vec) const;
-		Vec3 operator * (const Vec3& _Vec) const;
-		Vec3 operator / (const Vec3& _Vec) const;
+		Vec3 operator + (const Vec3& _Vec)	const;
+		Vec3 operator - (const Vec3& _Vec)	const;
+		Vec3 operator * (const Vec3& _Vec)	const;
+		Vec3 operator / (const Vec3& _Vec)	const;
 
 		//Vec3 TO THIS OPERATIONS :
 
@@ -134,10 +141,10 @@ namespace Maths
 
 		//SCALER TO Vec3 OPERATIONS :
 
-		Vec3 operator + (float _Sca) const;
-		Vec3 operator - (float _Sca) const;
-		Vec3 operator * (float _Sca) const;
-		Vec3 operator / (float _Sca) const;
+		Vec3 operator + (float _Sca)	const;
+		Vec3 operator - (float _Sca)	const;
+		Vec3 operator * (float _Sca)	const;
+		Vec3 operator / (float _Sca)	const;
 
 		//SCALER TO THIS OPERATIONS :
 
@@ -147,7 +154,7 @@ namespace Maths
 		Vec3 operator /= (float _Sca);
 	};
 
-	class Vec4
+	class MATHS_API Vec4
 	{
 	public:
 		//MEMBERS :
@@ -164,8 +171,8 @@ namespace Maths
 		//CONSTRUCTORS :
 
 		Vec4(void);
-		Vec4(const float xyzw);
-		Vec4(const float x, const float y, const float z, const float w);
+		Vec4(float xyzw);
+		Vec4(float x, float y, float z, float w);
 
 		//DESTRUCTOR :
 
@@ -173,16 +180,22 @@ namespace Maths
 
 		//UTILS :
 
-		float GetMagnitude();
+		Vec3 xyz()	const;
+		Vec3 xzw()	const;
+		Vec3 xyw()	const;
+		Vec3 yzw()	const;
+
+		float GetMagnitude()											const;
 		void Normalize();
-		float DotProduct(const Vec4& _VecB);
-		float DotProduct(const Vec4& _VecA, const Vec4& _VecB);
-		Vec4 Homogenize();
+		Vec4 GetNormalized()											const;
+		float DotProduct(const Vec4& _VecB)								const;
+		static float DotProduct(const Vec4& _VecA, const Vec4& _VecB);
+		Vec4 Homogenize()												const;
 
 		//ASSINGMENT AND EQUALITY OPERATIONS :
 
 		Vec4 operator = (const Vec4& _Vec);
-		Vec4 operator = (const float _Sca);
+		Vec4 operator = (float _Sca);
 
 		Vec4 operator - (void)               const;
 		bool operator == (const Vec4& _Vec)  const;
@@ -204,16 +217,16 @@ namespace Maths
 
 		//SCALER TO Vec4 OPERATIONS :
 
-		Vec4 operator + (const float _Sca) const;
-		Vec4 operator - (const float _Sca) const;
-		Vec4 operator * (const float _Sca) const;
-		Vec4 operator / (const float _Sca) const;
+		Vec4 operator + (float _Sca) const;
+		Vec4 operator - (float _Sca) const;
+		Vec4 operator * (float _Sca) const;
+		Vec4 operator / (float _Sca) const;
 
 		//SCALER TO THIS OPERATIONS :
 
-		Vec4 operator += (const float _Sca);
-		Vec4 operator -= (const float _Sca);
-		Vec4 operator *= (const float _Sca);
-		Vec4 operator /= (const float _Sca);
+		Vec4 operator += (float _Sca);
+		Vec4 operator -= (float _Sca);
+		Vec4 operator *= (float _Sca);
+		Vec4 operator /= (float _Sca);
 	};
 }
