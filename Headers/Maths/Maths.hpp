@@ -6,8 +6,13 @@
 #define MATHS_API __declspec(dllimport)
 #endif
 
+
+
 namespace Maths
 {
+	constexpr float M_PI = 3.14159265358979323846264338327950288419716939937510582f; //TODO maybe to long
+	constexpr float DEG2RAD = M_PI / 180;
+
 	class MATHS_API Vec2
 	{
 	public:
@@ -255,11 +260,10 @@ namespace Maths
 		~Mat3(void);
 
 		//UTILS :
-
-		//TODO_IF_NEEDED
 		
 		//ASSINGMENT AND EQUALITY OPERATIONS :
 
+		Mat3 operator=(float _data[9]);
 		Mat3 operator=(Mat3 _Mat);
 
 		//Mat3 TO Mat3 OPERATIONS :
@@ -274,6 +278,64 @@ namespace Maths
 		Mat3 operator-=(Mat3 _Mat);
 		Mat3 operator*=(Mat3 _Mat);
 
+	};
+
+	class MATHS_API Mat4
+	{
+	public:
+		//MEMBERS :
+
+		union
+		{
+			struct
+			{
+				float data[16];
+			};
+			Vec4 data3V[4];
+			float data_4_4[4][4];
+		};
+
+		//CONSTRUCTORS :
+
+		Mat4(void);
+		Mat4(float _data[16]);
+
+		//DESTRUCTOR :
+
+		~Mat4(void);
+
+		//UTILS :
+
+		//Create a matrix similar to identity matrix
+		static Mat4 CreateDiagonalMatrix(float value = 1);
+		static Mat4 CreateDiagonalMatrix(const Vec4& _Vec);
+
+		static Mat4 CreateTranslationMatrix(const Vec3& _Vec);
+		static Mat4 CreateScaleMatrix(const Vec3& _Vec);
+		static Mat4 CreateXRotationMatrix(float x);
+		static Mat4 CreateYRotationMatrix(float y);
+		static Mat4 CreateZRotationMatrix(float z);
+
+		static Mat4 CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale);
+
+		static Mat4 CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio);
+
+		//ASSINGMENT AND EQUALITY OPERATIONS :
+
+		Mat4 operator=(float p_newData[16]);
+		Mat4 operator=(Mat4 _Mat);
+
+		//Mat4 TO Mat4 OPERATIONS :
+
+		Mat4 operator+(Mat4 _Mat) const;
+		Mat4 operator-(Mat4 _Mat) const;
+		Mat4 operator*(Mat4 _Mat) const;
+
+		//Mat4 TO THIS OPERATIONS :
+
+		Mat4 operator+=(Mat4 _Mat);
+		Mat4 operator-=(Mat4 _Mat);
+		Mat4 operator*=(Mat4 _Mat);
 	};
 
 }

@@ -5,8 +5,6 @@
 //----------------
 
 #include <math.h>
-#include <string>
-#include <memory>
 
 #define MATHS_EXPORTS
 #include "Maths/Maths.hpp"
@@ -605,6 +603,14 @@ Maths::Mat3::~Mat3(void) {}
 
 //ASSINGMENT AND EQUALITY OPERATIONS :
 
+Maths::Mat3 Maths::Mat3::operator=(float _data[9])
+{
+	for (int i = 0; i < 9; i++)
+	{
+		data[i] = _data[i];
+	}
+	return *this;
+}
 Maths::Mat3 Maths::Mat3::operator=(Mat3 _Mat)
 {
 	for (int i = 0; i < 9; i++)
@@ -691,3 +697,245 @@ Maths::Mat3 Maths::Mat3::operator*=(Mat3 _Mat)
 	return *this;
 }
 #pragma endregion Mat3
+
+/************************\
+ *-------MATRIX_4-------*
+\************************/
+#pragma region Mat4
+//CONSTRUCTORS :
+
+Maths::Mat4::Mat4(void)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		data[i] = 0;
+	}
+}
+Maths::Mat4::Mat4(float _data[16])
+{
+	for (int i = 0; i < 16; i++)
+	{
+		data[i] = _data[i];
+	}
+}
+
+//DESTRUCTOR :
+
+Maths::Mat4::~Mat4(void) {}
+
+//UTILS :
+
+Maths::Mat4 Maths::Mat4::CreateDiagonalMatrix(float value)
+{
+	Mat4 temp;
+	temp.data[0] = value;
+	temp.data[5] = value;
+	temp.data[10] = value;
+	temp.data[15] = value;
+	return temp;
+}
+Maths::Mat4 Maths::Mat4::CreateDiagonalMatrix(const Vec4& _Vec)
+{
+	Mat4 temp;
+	temp.data[0] = _Vec.x;
+	temp.data[5] = _Vec.y;
+	temp.data[10] = _Vec.z;
+	temp.data[15] = _Vec.w;
+	return temp;
+}
+
+Maths::Mat4 Maths::Mat4::CreateTranslationMatrix(const Vec3& _Vec)
+{
+	Mat4 temp;
+
+	temp.data[0] = 1;
+	temp.data[5] = 1;
+	temp.data[10] = 1;
+	temp.data[15] = 1;
+
+	temp.data[3] = _Vec.x;
+	temp.data[7] = _Vec.y;
+	temp.data[11] = _Vec.z;
+
+	return temp;
+}
+Maths::Mat4 Maths::Mat4::CreateScaleMatrix(const Vec3& _Vec)
+{
+	Mat4 temp;
+
+	temp.data[0] = _Vec.x;
+	temp.data[5] = _Vec.y;
+	temp.data[10] = _Vec.z;
+	temp.data[15] = 1;
+
+	return temp;
+}
+Maths::Mat4 Maths::Mat4::CreateXRotationMatrix(float x)
+{
+	float rotationXData[16] =
+	{
+		1,		0,			0,			0,
+		0,		cosf(x),	-sinf(x),	0,
+		0,		sinf(x),	cosf(x),	0,
+		0,		0,			0,			1
+	};
+	return Mat4(rotationXData);
+}
+Maths::Mat4 Maths::Mat4::CreateYRotationMatrix(float y)
+{
+	float rotationYData[16] =
+	{
+		cosf(y),	0,		sinf(y),	0,
+		0,			1,		0,			0,
+		-sinf(y),	0,		cosf(y),	0,
+		0,			0,		0,			1
+	};
+	return Mat4(rotationYData);
+}
+Maths::Mat4 Maths::Mat4::CreateZRotationMatrix(float z)
+{
+	float rotationZData[16] =
+	{
+		cosf(z),	-sinf(z),	0,		0,
+		sinf(z),	cosf(z),	0,		0,
+		0,			0,			1,		0,
+		0,			0,			0,		1
+	};
+	return Mat4(rotationZData);
+}
+
+Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
+{
+	return CreateTranslationMatrix(translation) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y) * CreateZRotationMatrix(rotation.z) * CreateScaleMatrix(scale);
+}
+
+Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)
+{
+	float view = tanf((_fov / 2.0f) * (float)DEG2RAD);
+
+	float param1 = -(_far + _near) / (_far + _near);
+	float param2 = -(2 * _near * _far) / (_far - _near);
+
+	float projectionData[16] =
+	{
+		(1/view)/_aspectRatio,	0,				0,			0,
+		0,						-(1/view),		0,			0,
+		0,						0,				param1,		param2,
+		0,						0,				-1,			0
+	};
+	return Mat4(projectionData);
+}
+
+//ASSINGMENT AND EQUALITY OPERATIONS :
+
+Maths::Mat4 Maths::Mat4::operator=(float _data[16])
+{
+	for (int i = 0; i < 16; i++)
+	{
+		data[i] = _data[i];
+	}
+	return *this;
+}
+Maths::Mat4 Maths::Mat4::operator=(Mat4 _Mat)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		data[i] = _Mat.data[i];
+	}
+	return *this;
+}
+
+//Mat4 TO Mat4 OPERATIONS :
+
+Maths::Mat4 Maths::Mat4::operator+(Mat4 _Mat) const
+{
+	Mat4 temp;
+	for (int i = 0; i < 16; i++)
+	{
+		temp.data[i] = data[i] + _Mat.data[i];
+	}
+	return temp;
+}
+Maths::Mat4 Maths::Mat4::operator-(Mat4 _Mat) const
+{
+	Mat4 temp;
+	for (int i = 0; i < 16; i++)
+	{
+		temp.data[i] = data[i] - _Mat.data[i];
+	}
+	return temp;
+}
+Maths::Mat4 Maths::Mat4::operator*(Mat4 _Mat) const
+{
+	Mat4 temp;
+	
+	temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[4] + data[2] * _Mat.data[8] + data[3] * _Mat.data[12];
+	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[5] + data[2] * _Mat.data[9] + data[3] * _Mat.data[13];
+	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[6] + data[2] * _Mat.data[10] + data[3] * _Mat.data[14];
+	temp.data[3] = data[0] * _Mat.data[3] + data[1] * _Mat.data[7] + data[2] * _Mat.data[11] + data[3] * _Mat.data[15];
+
+	temp.data[4] = data[4] * _Mat.data[0] + data[5] * _Mat.data[4] + data[6] * _Mat.data[8] + data[7] * _Mat.data[12];
+	temp.data[5] = data[4] * _Mat.data[1] + data[5] * _Mat.data[5] + data[6] * _Mat.data[9] + data[7] * _Mat.data[13];
+	temp.data[6] = data[4] * _Mat.data[2] + data[5] * _Mat.data[6] + data[6] * _Mat.data[10] + data[7] * _Mat.data[14];
+	temp.data[7] = data[4] * _Mat.data[3] + data[5] * _Mat.data[7] + data[6] * _Mat.data[11] + data[7] * _Mat.data[15];
+
+	temp.data[8] = data[8] * _Mat.data[0] + data[9] * _Mat.data[4] + data[10] * _Mat.data[8] + data[11] * _Mat.data[12];
+	temp.data[9] = data[8] * _Mat.data[1] + data[9] * _Mat.data[5] + data[10] * _Mat.data[9] + data[11] * _Mat.data[13];
+	temp.data[10] = data[8] * _Mat.data[2] + data[9] * _Mat.data[6] + data[10] * _Mat.data[10] + data[11] * _Mat.data[14];
+	temp.data[11] = data[8] * _Mat.data[3] + data[9] * _Mat.data[7] + data[10] * _Mat.data[11] + data[11] * _Mat.data[15];
+
+	temp.data[12] = data[12] * _Mat.data[0] + data[13] * _Mat.data[4] + data[14] * _Mat.data[8] + data[15] * _Mat.data[12];
+	temp.data[13] = data[12] * _Mat.data[1] + data[13] * _Mat.data[5] + data[14] * _Mat.data[9] + data[15] * _Mat.data[13];
+	temp.data[14] = data[12] * _Mat.data[2] + data[13] * _Mat.data[6] + data[14] * _Mat.data[10] + data[15] * _Mat.data[14];
+	temp.data[15] = data[12] * _Mat.data[3] + data[13] * _Mat.data[7] + data[14] * _Mat.data[11] + data[15] * _Mat.data[15];
+
+	return temp;
+}
+
+//Mat4 TO THIS OPERATIONS :
+
+Maths::Mat4 Maths::Mat4::operator+=(Mat4 _Mat)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		data[i] += _Mat.data[i];
+	}
+	return *this;
+}
+Maths::Mat4 Maths::Mat4::operator-=(Mat4 _Mat)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		data[i] -= _Mat.data[i];
+	}
+	return *this;
+}
+Maths::Mat4 Maths::Mat4::operator*=(Mat4 _Mat)
+{
+	Mat4 temp;
+	
+	temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[4] + data[2] * _Mat.data[8] + data[3] * _Mat.data[12];
+	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[5] + data[2] * _Mat.data[9] + data[3] * _Mat.data[13];
+	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[6] + data[2] * _Mat.data[10] + data[3] * _Mat.data[14];
+	temp.data[3] = data[0] * _Mat.data[3] + data[1] * _Mat.data[7] + data[2] * _Mat.data[11] + data[3] * _Mat.data[15];
+
+	temp.data[4] = data[4] * _Mat.data[0] + data[5] * _Mat.data[4] + data[6] * _Mat.data[8] + data[7] * _Mat.data[12];
+	temp.data[5] = data[4] * _Mat.data[1] + data[5] * _Mat.data[5] + data[6] * _Mat.data[9] + data[7] * _Mat.data[13];
+	temp.data[6] = data[4] * _Mat.data[2] + data[5] * _Mat.data[6] + data[6] * _Mat.data[10] + data[7] * _Mat.data[14];
+	temp.data[7] = data[4] * _Mat.data[3] + data[5] * _Mat.data[7] + data[6] * _Mat.data[11] + data[7] * _Mat.data[15];
+
+	temp.data[8] = data[8] * _Mat.data[0] + data[9] * _Mat.data[4] + data[10] * _Mat.data[8] + data[11] * _Mat.data[12];
+	temp.data[9] = data[8] * _Mat.data[1] + data[9] * _Mat.data[5] + data[10] * _Mat.data[9] + data[11] * _Mat.data[13];
+	temp.data[10] = data[8] * _Mat.data[2] + data[9] * _Mat.data[6] + data[10] * _Mat.data[10] + data[11] * _Mat.data[14];
+	temp.data[11] = data[8] * _Mat.data[3] + data[9] * _Mat.data[7] + data[10] * _Mat.data[11] + data[11] * _Mat.data[15];
+
+	temp.data[12] = data[12] * _Mat.data[0] + data[13] * _Mat.data[4] + data[14] * _Mat.data[8] + data[15] * _Mat.data[12];
+	temp.data[13] = data[12] * _Mat.data[1] + data[13] * _Mat.data[5] + data[14] * _Mat.data[9] + data[15] * _Mat.data[13];
+	temp.data[14] = data[12] * _Mat.data[2] + data[13] * _Mat.data[6] + data[14] * _Mat.data[10] + data[15] * _Mat.data[14];
+	temp.data[15] = data[12] * _Mat.data[3] + data[13] * _Mat.data[7] + data[14] * _Mat.data[11] + data[15] * _Mat.data[15];
+
+	*this = temp;
+	return *this;
+}
+
+#pragma endregion Mat4
