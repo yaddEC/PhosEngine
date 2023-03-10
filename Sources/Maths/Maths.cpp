@@ -231,11 +231,14 @@ float Maths::Vec3::DotProduct(const Vec3& _VecA, const Vec3& _VecB)
 {
 	return (float)(_VecA.x * _VecB.x + _VecA.y * _VecB.y + _VecA.z * _VecB.z);
 }
-Maths::Vec3 Maths::Vec3::CrossProduct(const Vec3& _VecA, const Vec3& _VecB)		const
+Maths::Vec3 Maths::Vec3::CrossProduct(const Vec3& _VecB)		const
+{
+	return { y * _VecB.z - z * _VecB.y, z * _VecB.x - x * _VecB.z, x * _VecB.y - y * _VecB.x };
+}
+Maths::Vec3 Maths::Vec3::CrossProduct(const Vec3& _VecA, const Vec3& _VecB)
 {
 	return { _VecA.y * _VecB.z - _VecA.z * _VecB.y, _VecA.z * _VecB.x - _VecA.x * _VecB.z, _VecA.x * _VecB.y - _VecA.y * _VecB.x };
 }
-
 //ASSINGMENT AND EQUALITY OPERATIONS :
 
 Maths::Vec3 Maths::Vec3::operator = (const Vec3& _Vec)
