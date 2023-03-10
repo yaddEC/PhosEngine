@@ -4,6 +4,8 @@
 
 int main(int argc, char** argv)
 {
-
-	std::cout << HelloWorld() << std::endl;
+	int a;
+	std::cin >> a;
+	//std::cout << HelloWorld() << std::endl;
+	return 0;
 }

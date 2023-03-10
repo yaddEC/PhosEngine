@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;Externals/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;Externals/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -172,10 +172,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\PhosCore\Maths.hpp" />
+    <ClInclude Include="External\PhosCore\Window.hpp" />
     <ClInclude Include="Headers\HelloWorld.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\PhosCore.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libs\PhosCore.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
