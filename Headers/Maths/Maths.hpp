@@ -119,7 +119,8 @@ namespace Maths
 		Vec3 GetNormalized()											const;
 		float DotProduct(const Vec3& _VecB)								const;
 		static float DotProduct(const Vec3& _VecA, const Vec3& _VecB);
-		Vec3 CrossProduct(const Vec3& _VecA, const Vec3& _VecB)			const;
+		Vec3 CrossProduct(const Vec3& _VecB)							const;
+		static Vec3 CrossProduct(const Vec3& _VecA, const Vec3& _VecB);
 
 		//ASSINGMENT AND EQUALITY OPERATIONS :
 
