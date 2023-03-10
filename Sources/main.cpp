@@ -1,11 +1,13 @@
 #include <iostream>
 #include <PhosCore/Maths.hpp>
-#include "HelloWorld.hpp"
+#include "Core/Application.hpp"
 
 int main(int argc, char** argv)
 {
-	int a;
-	std::cin >> a;
-	//std::cout << HelloWorld() << std::endl;
+	Application app;
+	app.Init();
+	app.Run();
+	app.Close();
+
 	return 0;
 }
