@@ -1,6 +1,8 @@
 #include "Core/Editor.hpp"
 #include <iostream>
 
+
+
 using namespace Core;
 
 bool Editor::Init()
@@ -12,11 +14,10 @@ bool Editor::Init()
         return false;
     }
 
-    if (!window.Create("Phos Editor", 1920, 1080))
-        return false;
+    window = glfwCreateWindow(1920, 1080, "Phos Editor", nullptr, nullptr);
 
     /* Make the window's context current */
-    glfwMakeContextCurrent(window.GetWindow());
+    glfwMakeContextCurrent(window);
 
     GLenum err = glewInit();
     if (GLEW_OK != err)
@@ -34,11 +35,13 @@ bool Editor::Init()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
-    ImGui_ImplGlfw_InitForOpenGL(window.GetWindow(), true);
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+
+    sceneGUI = new SceneGUI();
 
     return true;
 }
@@ -46,9 +49,10 @@ bool Editor::Init()
 void Editor::Run()
 {
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window.GetWindow()))
+    while (!glfwWindowShouldClose(window))
     {
-        window.Update();
+        glfwGetWindowSize(window, &width, &height);
+
         /* Poll for and process events */
         glfwPollEvents();
 
@@ -62,17 +66,22 @@ void Editor::Run()
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::DockSpaceOverViewport(viewport);
 
+        sceneGUI->Update();
+        ImGui::Begin("window", 0, ImGuiWindowFlags_NoCollapse);
+        ImGui::Text("exemple");
+        ImGui::End();
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
         // Render ImGui Frame
         ImGui::Render();
         int display_w, display_h;
-        glfwGetFramebufferSize(window.GetWindow(), &display_w, &display_h);
+        glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
-
+        glClearColor(0, 0.2f, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        ImGui::EndFrame();
 
 
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -84,7 +93,7 @@ void Editor::Run()
         }
 
         /* Swap front and back buffers */
-        glfwSwapBuffers(window.GetWindow());
+        glfwSwapBuffers(window);
     }
 }
 
@@ -96,7 +105,8 @@ void Editor::Destroy()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
+    delete sceneGUI;
 
-    window.Destroy();
+    glfwDestroyWindow(window);
     glfwTerminate();
 }

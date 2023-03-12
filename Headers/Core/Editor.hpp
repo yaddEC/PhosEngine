@@ -8,6 +8,8 @@
 #include <GLFW/glfw3.h>
 
 #include "Window.hpp"
+#include "EditorGUI/SceneGUI.hpp"
+
 
 namespace Core
 {
@@ -24,7 +26,7 @@ namespace Core
 		void Run();
 		void Destroy();
 
-		Window& GetWindow() { return window; }
+		GLFWwindow* GetWindow() { return window; }
 
 	private:
 
@@ -32,9 +34,12 @@ namespace Core
 		//class SceneWindow* sceneWindow;
 		//class AssetsExplorer* assetsExplorer;
 
+		SceneGUI* sceneGUI;
+
 		ImGuiIO& io;
 
-		Window window;
+		GLFWwindow* window;
+		int width, height;
 
 
 		ImGuiIO& GetIO()
