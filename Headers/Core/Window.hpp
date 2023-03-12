@@ -8,24 +8,32 @@
 
 #include <GLFW/glfw3.h>
 
-
-class WINDOW_API Window
+namespace Core
 {
-public:
+	class WINDOW_API Window
+	{
+	public:
 
-	~Window();
+		
+		~Window();
 
-	Window* Create(const char* windowName, int clientWidth, int clientHeight);
-	void Destroy();
-	inline GLFWwindow* GetWindow() { return window; }
-	int GetWidth() { return width; }
-	int GetHeight() { return height; }
+		bool Create(const char* windowName, int clientWidth, int clientHeight);
+		void Destroy();
+		void Update();
 
-private:
+		inline GLFWwindow* GetWindow() { return window; }
+		int GetWidth() { return width; }
+		int GetHeight() { return height; }
 
-	GLFWwindow* window;
-	const char* name;
+	private:
 
-	int width, height;
+		GLFWwindow* window;
+		const char* name;
 
-};
+		int width, height;
+
+	};
+}
+
+
+
