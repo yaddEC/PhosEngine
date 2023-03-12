@@ -1,28 +1,22 @@
-#include "Core/Application.hpp"
+#include "Core/Editor.hpp"
 #include <iostream>
 
+using namespace Core;
 
-void Application::Init()
+bool Editor::Init()
 {
     /* Initialize the library */
     if (!glfwInit())
     {
         std::cout << "FAILED TO INITIALIZE GLFW" << std::endl;
-        return;
+        return false;
     }
 
-    /* Create a windowed mode window and its OpenGL context */
-
-    window = glfwCreateWindow(1920, 1080, "Phos Engine", NULL, NULL);
-    if (!window)
-    {
-        std::cout << "FAILED TO CREATE A WINDOW" << std::endl;
-        glfwTerminate();
-        return;
-    }
+    if (!window.Create("Phos Editor", 1920, 1080))
+        return false;
 
     /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window.GetWindow());
 
     GLenum err = glewInit();
     if (GLEW_OK != err)
@@ -33,9 +27,6 @@ void Application::Init()
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
 
-
-
-
     // Set up ImGui
     (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
@@ -43,22 +34,21 @@ void Application::Init()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(window.GetWindow(), true);
     ImGui_ImplOpenGL3_Init();
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
-
+    return true;
 }
 
-void Application::Run()
+void Editor::Run()
 {
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window.GetWindow()))
     {
-        glfwGetWindowSize(window, &width, &height);
-
+        window.Update();
         /* Poll for and process events */
         glfwPollEvents();
 
@@ -67,26 +57,18 @@ void Application::Run()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        //ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.05f, 0.01f, 0.2f, 0.5f));
 
         // Set docking space
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::DockSpaceOverViewport(viewport);
 
-
-
-
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-        // ImGui::PopStyleColor();
-
 
 
         // Render ImGui Frame
         ImGui::Render();
         int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glfwGetFramebufferSize(window.GetWindow(), &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -102,13 +84,11 @@ void Application::Run()
         }
 
         /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-
+        glfwSwapBuffers(window.GetWindow());
     }
 }
 
-void Application::Close()
+void Editor::Destroy()
 {
 
     // Cleanup
@@ -117,6 +97,6 @@ void Application::Close()
     ImGui::DestroyContext();
 
 
-    glfwDestroyWindow(window);
+    window.Destroy();
     glfwTerminate();
 }

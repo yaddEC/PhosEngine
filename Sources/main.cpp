@@ -1,13 +1,13 @@
 #include <iostream>
 #include <PhosCore/Maths.hpp>
-#include "Core/Application.hpp"
+#include "Core/Editor.hpp"
 
 int main(int argc, char** argv)
 {
-	Application app;
-	app.Init();
-	app.Run();
-	app.Close();
+	Core::Editor editor;
+	editor.Init();
+	editor.Run();
+	editor.Destroy();
 
 	return 0;
 }
