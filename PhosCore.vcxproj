@@ -340,13 +340,11 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Externals\GL\glxew.h" />
     <ClInclude Include="Externals\GL\wglew.h" />
     <ClInclude Include="Externals\STB_Image\stb_image.h" />
-    <ClInclude Include="Headers\Core\Window.hpp" />
     <ClInclude Include="Headers\framework.h" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Core\Window.cpp" />
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Maths\Maths.cpp" />
     <ClCompile Include="Sources\pch.cpp">
