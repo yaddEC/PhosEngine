@@ -1,11 +1,16 @@
 #pragma once
-#include "EditorGUI/IEditorGUI.h"
+#include "EditorGUI/IEditorGUI.hpp"
 
-class SceneGUI : public IEditorGUI
+namespace EditorGUI
 {
-public:
-	SceneGUI() : IEditorGUI("Scene") {}
+	class SceneGUI : public IEditorGUI
+	{
+	public:
+		SceneGUI() : IEditorGUI("Scene") {}
 
-	void DoUpdate() override;
-private:
-};
+		void DoUpdate() override;
+	private:
+	};
+}
+
+

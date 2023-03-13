@@ -200,7 +200,7 @@
     <ClInclude Include="External\PhosCore\Maths.hpp" />
     <ClInclude Include="External\PhosCore\Window.hpp" />
     <ClInclude Include="Headers\Core\Editor.hpp" />
-    <ClInclude Include="Headers\EditorGUI\IEditorGUI.h" />
+    <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
     <ClInclude Include="Headers\HelloWorld.hpp" />
   </ItemGroup>

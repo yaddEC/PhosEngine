@@ -1,6 +1,7 @@
 #include "EditorGUI/SceneGUI.hpp"
 
 using namespace Maths;
+using namespace EditorGUI;
 
 void SceneGUI::DoUpdate()
 {
