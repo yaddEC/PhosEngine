@@ -345,7 +345,11 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
+<<<<<<< HEAD
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
+=======
+    <ClInclude Include="Headers\Resource\Texture.hpp" />
+>>>>>>> 0bada7c264d0d1c7114b45e04707523235782154
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\dllmain.cpp" />
@@ -361,7 +365,11 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Sources\Resource\IResource.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
+=======
+    <ClCompile Include="Sources\Resource\Texture.cpp" />
+>>>>>>> 0bada7c264d0d1c7114b45e04707523235782154
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\assimp-vc142-mt.lib" />
