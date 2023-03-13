@@ -8,8 +8,12 @@
 #include <GLFW/glfw3.h>
 
 #include "Window.hpp"
-#include "EditorGUI/SceneGUI.hpp"
 
+
+namespace EditorGUI
+{
+	class SceneGUI;
+}
 
 namespace Core
 {
@@ -20,8 +24,6 @@ namespace Core
 		Editor()
 			:io(GetIO()) {}
 
-
-
 		bool Init();
 		void Run();
 		void Destroy();
@@ -30,11 +32,19 @@ namespace Core
 
 	private:
 
+		bool InitImGui();
+		bool InitEditorGUI();
+		bool InitGLFWWindow();
+		bool InitGlew();
+
+		void ImGuiNewFrame();
+		void RenderImGuiFrame();
+		void UpdateEditorGUI();
 		//class Scene* mainScene; // TEMP : load scene eventually
 		//class SceneWindow* sceneWindow;
 		//class AssetsExplorer* assetsExplorer;
 
-		SceneGUI* sceneGUI;
+		EditorGUI::SceneGUI* sceneGUI;
 
 		ImGuiIO& io;
 
