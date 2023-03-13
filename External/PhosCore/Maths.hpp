@@ -10,8 +10,11 @@
 
 namespace Maths
 {
-	constexpr float M_PI = 3.14159265358979323846264338327950288419716939937510582f; //TODO maybe to long
+	constexpr float M_PI = 3.14159265358979323846f;
 	constexpr float DEG2RAD = M_PI / 180;
+
+	template <typename T>
+	void Swap(T& a, T& b);
 
 	class MATHS_API Vec2
 	{
@@ -292,7 +295,7 @@ namespace Maths
 			{
 				float data[16];
 			};
-			Vec4 data3V[4];
+			Vec4 data4V[4];
 			float data_4_4[4][4];
 		};
 
