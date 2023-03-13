@@ -268,7 +268,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Libs/;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -277,6 +277,7 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
 xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
@@ -343,6 +344,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\framework.h" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
+    <ClInclude Include="Headers\Resource\IResource.hpp" />
+    <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\dllmain.cpp" />
@@ -357,6 +360,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Sources\Resource\IResource.cpp" />
+    <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\assimp-vc142-mt.lib" />

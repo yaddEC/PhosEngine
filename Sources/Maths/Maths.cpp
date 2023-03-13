@@ -9,6 +9,14 @@
 #define MATHS_EXPORTS
 #include "Maths/Maths.hpp"
 
+template <typename T>
+void Maths::Swap(T& a, T& b)
+{
+	T buffer = b;
+	b = a;
+	a = buffer;
+}
+
 /************************\
  *-------VECTOR_2-------*
 \************************/
