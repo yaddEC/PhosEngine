@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -132,13 +132,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosCore/;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Libs/*;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>DLL/*;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;glew32.lib;glfw3.lib;PhosCore.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>DLL/*;%(AdditionalLibraryDirectories);$(SolutionDir)Libs/;$(SolutionDir)Libs/;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "DLL\" "$(OutDir)"</Command>
@@ -152,7 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;Externals/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,15 +168,53 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="External\ImGUI\Source\imgui.cpp" />
+    <ClCompile Include="External\ImGUI\Source\imgui_demo.cpp" />
+    <ClCompile Include="External\ImGUI\Source\imgui_draw.cpp" />
+    <ClCompile Include="External\ImGUI\Source\imgui_impl_glfw.cpp" />
+    <ClCompile Include="External\ImGUI\Source\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="External\ImGUI\Source\imgui_tables.cpp" />
+    <ClCompile Include="External\ImGUI\Source\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Core\Editor.cpp" />
+    <ClCompile Include="Sources\EditorGUI\IEditorGUI.cpp" />
+    <ClCompile Include="Sources\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\HelloWorld.cpp" />
     <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="External\GLFW\glfw3.h" />
+    <ClInclude Include="External\GLFW\glfw3native.h" />
+    <ClInclude Include="External\GL\eglew.h" />
+    <ClInclude Include="External\GL\glew.h" />
+    <ClInclude Include="External\GL\glxew.h" />
+    <ClInclude Include="External\GL\wglew.h" />
+    <ClInclude Include="External\ImGUI\Header\imconfig.h" />
+    <ClInclude Include="External\ImGUI\Header\imgui.h" />
+    <ClInclude Include="External\ImGUI\Header\imgui_impl_glfw.h" />
+    <ClInclude Include="External\ImGUI\Header\imgui_impl_opengl3.h" />
+    <ClInclude Include="External\ImGUI\Header\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="External\ImGUI\Header\imgui_internal.h" />
+    <ClInclude Include="External\ImGUI\Header\imstb_rectpack.h" />
+    <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
+    <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
     <ClInclude Include="External\PhosCore\Maths.hpp" />
+    <ClInclude Include="External\PhosCore\Window.hpp" />
+    <ClInclude Include="Headers\Core\Editor.hpp" />
+    <ClInclude Include="Headers\EditorGUI\IEditorGUI.h" />
+    <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
     <ClInclude Include="Headers\HelloWorld.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\PhosCore.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libs\assimp-vc142-mt.lib" />
+    <Library Include="Libs\glew32.lib" />
+    <Library Include="Libs\glew32s.lib" />
+    <Library Include="Libs\glfw3.lib" />
+    <Library Include="Libs\glfw3_mt.lib" />
+    <Library Include="Libs\PhosCore.lib" />
+    <Library Include="Libs\zlibstatic.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

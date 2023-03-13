@@ -1,9 +1,13 @@
 #include <iostream>
 #include <PhosCore/Maths.hpp>
-#include "HelloWorld.hpp"
+#include "Core/Editor.hpp"
 
 int main(int argc, char** argv)
 {
+	Core::Editor editor;
+	editor.Init();
+	editor.Run();
+	editor.Destroy();
 
-	std::cout << HelloWorld() << std::endl;
+	return 0;
 }
