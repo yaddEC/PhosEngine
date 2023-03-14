@@ -15,7 +15,7 @@
 
 namespace Resource 
 {
-	class ResourceManager
+	class RESOURCEMANAGER_API ResourceManager
 	{
 	public:
 		ResourceManager(const ResourceManager&) = delete;

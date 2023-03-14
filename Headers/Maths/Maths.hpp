@@ -1,4 +1,6 @@
-#pragma once
+﻿#pragma once
+
+
 
 #ifdef MATHS_EXPORTS
 #define MATHS_API __declspec(dllexport)
@@ -319,6 +321,8 @@ namespace Maths
 		static Mat4 CreateXRotationMatrix(float x);
 		static Mat4 CreateYRotationMatrix(float y);
 		static Mat4 CreateZRotationMatrix(float z);
+		static Mat4 CreateViewMatrix(const Vec3& position, float pitch, float yaw);
+
 
 		static Mat4 CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale);
 

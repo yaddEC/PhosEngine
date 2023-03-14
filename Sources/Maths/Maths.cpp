@@ -815,6 +815,29 @@ Maths::Mat4 Maths::Mat4::CreateZRotationMatrix(float z)
 	return Mat4(rotationZData);
 }
 
+Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, float yaw)
+{
+	float p = pitch * Maths::M_PI / 180.f;
+	float y = yaw * Maths::M_PI / 180.f;
+	float cosPitch = cos(p);
+	float sinPitch = sin(p);
+	float cosYaw = cos(y);
+	float sinYaw = sin(y);
+
+	Vec3 xaxis = { cosYaw, 0, -sinYaw };
+	Vec3 yaxis = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch };
+	Vec3 zaxis = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw };
+
+
+	float view[16] = {
+		xaxis.x, xaxis.y, xaxis.z, -(Maths::Vec3::DotProduct(xaxis, position)),
+		yaxis.x, yaxis.y, yaxis.z, -(Maths::Vec3::DotProduct(yaxis, position)),
+		zaxis.x, zaxis.y, zaxis.z, -(Maths::Vec3::DotProduct(zaxis, position)),
+		0, 0, 0, 1 };
+
+	return Mat4{ view };
+}
+
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
 	return CreateTranslationMatrix(translation) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y) * CreateZRotationMatrix(rotation.z) * CreateScaleMatrix(scale);
