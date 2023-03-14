@@ -180,7 +180,6 @@
     <ClCompile Include="Sources\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\HelloWorld.cpp" />
     <ClCompile Include="Sources\main.cpp" />
-    <ClCompile Include="Sources\Resource\IResource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\GLFW\glfw3.h" />
@@ -204,7 +203,6 @@
     <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
     <ClInclude Include="Headers\HelloWorld.hpp" />
-    <ClInclude Include="Headers\Resource\IResource.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\PhosCore.dll" />
