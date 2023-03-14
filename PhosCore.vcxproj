@@ -268,8 +268,8 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>Libs/;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
@@ -345,11 +345,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
-<<<<<<< HEAD
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
-=======
     <ClInclude Include="Headers\Resource\Texture.hpp" />
->>>>>>> 0bada7c264d0d1c7114b45e04707523235782154
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\dllmain.cpp" />
@@ -365,11 +362,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Sources\Resource\IResource.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
-=======
     <ClCompile Include="Sources\Resource\Texture.cpp" />
->>>>>>> 0bada7c264d0d1c7114b45e04707523235782154
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\assimp-vc142-mt.lib" />

@@ -1,9 +1,15 @@
 #pragma once
 #include "IResource.hpp"
 
+#ifdef TEXTURE_EXPORTS
+#define TEXTURE_API __declspec(dllexport)
+#else
+#define TEXTURE_API __declspec(dllimport)
+#endif
+
 namespace Resource
 {
-	class Texture : public IResource
+	class TEXTURE_API Texture : public IResource
 	{
 	public:
 
