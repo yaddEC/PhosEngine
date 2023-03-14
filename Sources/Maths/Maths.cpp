@@ -33,6 +33,15 @@ Maths::Vec2::~Vec2(void) {}
 
 //UTILS :
 
+Maths::Vec2 Maths::Vec2::GetRotated(const Maths::Vec2& origin, float angle) const
+{
+	Vec2 op = *this - origin;
+	Vec2 opP;
+	opP.x = cos(angle) * op.x - sin(angle) * op.y;
+	opP.y = sin(angle) * op.x + cos(angle) * op.y;
+	return opP + origin;
+}
+
 float Maths::Vec2::GetMagnitude()												const
 {
 	return sqrtf((x * x) + (y * y));
@@ -211,6 +220,8 @@ Maths::Vec2 Maths::Vec3::yz()	const
 {
 	return Vec2(y, z);
 }
+
+
 
 float Maths::Vec3::GetMagnitude()												const
 {

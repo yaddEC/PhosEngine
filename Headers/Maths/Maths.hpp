@@ -43,7 +43,7 @@ namespace Maths
 		~Vec2(void);
 
 		//UTILS :
-
+		Vec2 GetRotated(const Vec2& origin, float angle) const;
 		float GetMagnitude()											const;
 		void Normalize();
 		Vec2 GetNormalized()											const;
@@ -119,6 +119,7 @@ namespace Maths
 		Vec2 xz()	const;
 		Vec2 yz()	const;
 
+		
 		float GetMagnitude()											const;
 		void Normalize();
 		Vec3 GetNormalized()											const;
