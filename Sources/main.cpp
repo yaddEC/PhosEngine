@@ -1,5 +1,4 @@
 #include <iostream>
-#include <PhosCore/Maths.hpp>
 #include "Core/Editor.hpp"
 
 int main(int argc, char** argv)
