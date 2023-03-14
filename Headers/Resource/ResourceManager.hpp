@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "IResource.hpp"
-#include "Texture.hpp"
+
 
 #ifdef RESOURCEMANAGER_EXPORTS
 #define RESOURCEMANAGER_API __declspec(dllexport)

@@ -261,7 +261,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
 xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
@@ -290,7 +290,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
 xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
@@ -323,7 +323,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
 xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
@@ -356,7 +356,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
 xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
@@ -375,8 +375,10 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
+    <ClInclude Include="Headers\Resource\Mesh.hpp" />
     <ClInclude Include="Headers\Resource\ResourceManager.hpp" />
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
+    <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -393,8 +395,10 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Sources\Resource\IResource.cpp" />
+    <ClCompile Include="Sources\Resource\Mesh.cpp" />
     <ClCompile Include="Sources\Resource\ResourceManager.cpp" />
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
+    <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,8 @@
 //----------------
 
 #include "Resource/ShaderProgram.hpp"
+#include "Resource/Mesh.hpp"
+#include "Resource/Texture.hpp"
 
 #define RESOURCE_PATH "Resources"
 
@@ -41,7 +43,7 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			}
 			else if (GetExtension(entry) == "obj" || GetExtension(entry) == "OBJ")
 			{
-				//CreateResource<Mesh>(GetRelativePath(entry, rootAseetsPath));
+				CreateResource<Mesh>(GetRelativePath(entry, rootAseetsPath));
 			}
 			else if (GetExtension(entry) == "prog" || GetExtension(entry) == "PROG")
 			{
