@@ -199,8 +199,10 @@
     <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
     <ClInclude Include="External\Maths\Maths.hpp" />
+    <ClInclude Include="External\PhosCore\Framebuffer.hpp" />
     <ClInclude Include="External\PhosCore\IResource.hpp" />
     <ClInclude Include="External\PhosCore\Mesh.hpp" />
+    <ClInclude Include="External\PhosCore\MeshRenderer.hpp" />
     <ClInclude Include="External\PhosCore\ResourceManager.hpp" />
     <ClInclude Include="External\PhosCore\ShaderProgram.hpp" />
     <ClInclude Include="External\PhosCore\SubMesh.hpp" />
