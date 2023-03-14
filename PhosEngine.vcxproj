@@ -265,6 +265,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
@@ -295,6 +296,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
@@ -329,6 +331,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
@@ -363,6 +366,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
@@ -375,6 +379,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Externals\GL\glxew.h" />
     <ClInclude Include="Externals\GL\wglew.h" />
     <ClInclude Include="Externals\STB_Image\stb_image.h" />
+    <ClInclude Include="Headers\Engine\Input.hpp" />
     <ClInclude Include="Headers\Engine\Transform.hpp" />
     <ClInclude Include="Headers\framework.h" />
     <ClInclude Include="Headers\LowRenderer\Camera.hpp" />
@@ -391,6 +396,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\dllmain.cpp" />
+    <ClCompile Include="Sources\Engine\Input.cpp" />
     <ClCompile Include="Sources\Engine\Transform.cpp" />
     <ClCompile Include="Sources\LowRenderer\Camera.cpp" />
     <ClCompile Include="Sources\LowRenderer\FrameBuffer.cpp" />
