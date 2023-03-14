@@ -201,6 +201,7 @@
     <ClInclude Include="External\Maths\Maths.hpp" />
     <ClInclude Include="External\PhosCore\Camera.hpp" />
     <ClInclude Include="External\PhosCore\Framebuffer.hpp" />
+    <ClInclude Include="External\PhosCore\Input.hpp" />
     <ClInclude Include="External\PhosCore\IResource.hpp" />
     <ClInclude Include="External\PhosCore\Mesh.hpp" />
     <ClInclude Include="External\PhosCore\MeshRenderer.hpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="External\PhosCore\ShaderProgram.hpp" />
     <ClInclude Include="External\PhosCore\SubMesh.hpp" />
     <ClInclude Include="External\PhosCore\Texture.hpp" />
+    <ClInclude Include="External\PhosCore\Transform.hpp" />
     <ClInclude Include="External\PhosCore\Window.hpp" />
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
