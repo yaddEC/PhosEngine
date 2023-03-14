@@ -199,6 +199,7 @@
     <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
     <ClInclude Include="External\Maths\Maths.hpp" />
+    <ClInclude Include="External\PhosCore\Camera.hpp" />
     <ClInclude Include="External\PhosCore\Framebuffer.hpp" />
     <ClInclude Include="External\PhosCore\IResource.hpp" />
     <ClInclude Include="External\PhosCore\Mesh.hpp" />
