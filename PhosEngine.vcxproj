@@ -148,11 +148,11 @@
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -247,13 +247,26 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
+
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
+xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugFromEngine|x64'">
     <ClCompile>
@@ -263,14 +276,15 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Headers/;Externals/;Externals/ImGUI/Header/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(ProjectDir)Libs;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
@@ -293,7 +307,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -301,7 +316,19 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
+xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
+
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
+xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">
     <ClCompile>
@@ -313,7 +340,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Headers/;Externals/;Externals/ImGUI/Header/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -321,8 +349,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)PhosCore.dll" "$(SolutionDir)DLL\"
@@ -330,6 +358,7 @@ xcopy /y /d "$(OutDir)PhosCore.lib" "$(SolutionDir)Libs\"
 
 xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
@@ -346,6 +375,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
+    <ClInclude Include="Headers\Resource\ResourceManager.hpp" />
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
   </ItemGroup>
@@ -363,6 +393,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Sources\Resource\IResource.cpp" />
+    <ClCompile Include="Sources\Resource\ResourceManager.cpp" />
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
   </ItemGroup>

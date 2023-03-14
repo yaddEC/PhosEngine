@@ -1,16 +1,3 @@
-﻿/*******************************\
-*                               *
-*          Math Library         *
-*         ‾‾‾‾‾‾‾‾‾‾‾‾‾‾        *
-*     UnitTest Based on GLM     *
-*    ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾    *
-*  ---Previous Modification---  *
-*          14/03/2023           *
-*                               *
-* By : Mathieu Robion           *
-* https://github.com/Motisma479 *
-\*******************************/
-
 #pragma once
 
 #ifdef MATHS_EXPORTS
@@ -18,6 +5,8 @@
 #else
 #define MATHS_API __declspec(dllimport)
 #endif
+
+
 
 namespace Maths
 {
