@@ -21,10 +21,6 @@ bool Editor::Init()
 
     InitEditorGUI();
     
-    Resource::ShaderProgram sp;
-    sp.Load("Assets\\Shader\\BasicShader.prog");
-    sp.Bind();
-    sp.Unload();
 
     return true;
 }
