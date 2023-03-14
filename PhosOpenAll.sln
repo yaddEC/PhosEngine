@@ -3,14 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhosEngine", "PhosEngine.vcxproj", "{7B30B564-9F43-44E0-B8A1-C47C6E08B689}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7} = {AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhosCore", "..\PhosCore\PhosCore.vcxproj", "{AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhosEngine", "..\PhosCore\PhosCore.vcxproj", "{AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhosUnitTest", "..\PhosUnitTest\PhosUnitTest.vcxproj", "{254FFFF2-11E2-4DDD-9539-C2C80AED8FA5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhosEditor", "PhosEditor.vcxproj", "{7B30B564-9F43-44E0-B8A1-C47C6E08B689}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,14 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x64.ActiveCfg = Debug|x64
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x64.Build.0 = Debug|x64
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x86.ActiveCfg = Debug|Win32
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x86.Build.0 = Debug|Win32
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x64.ActiveCfg = Release|x64
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x64.Build.0 = Release|x64
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x86.ActiveCfg = Release|Win32
-		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x86.Build.0 = Release|Win32
 		{AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7}.Debug|x64.ActiveCfg = DebugFromEngine|x64
 		{AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7}.Debug|x64.Build.0 = DebugFromEngine|x64
 		{AEA2CA50-21B0-4B59-ADC7-B98E6992E6B7}.Debug|x86.ActiveCfg = DebugFromEngine|Win32
@@ -44,6 +33,14 @@ Global
 		{254FFFF2-11E2-4DDD-9539-C2C80AED8FA5}.Release|x64.Build.0 = Release|x64
 		{254FFFF2-11E2-4DDD-9539-C2C80AED8FA5}.Release|x86.ActiveCfg = Release|Win32
 		{254FFFF2-11E2-4DDD-9539-C2C80AED8FA5}.Release|x86.Build.0 = Release|Win32
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x64.ActiveCfg = Debug|x64
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x64.Build.0 = Debug|x64
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x86.ActiveCfg = Debug|Win32
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Debug|x86.Build.0 = Debug|Win32
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x64.ActiveCfg = Release|x64
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x64.Build.0 = Release|x64
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x86.ActiveCfg = Release|Win32
+		{7B30B564-9F43-44E0-B8A1-C47C6E08B689}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
