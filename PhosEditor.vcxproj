@@ -139,7 +139,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;glew32.lib;glfw3.lib;PhosCore.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;glew32.lib;glfw3.lib;PhosEngine.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>DLL/*;%(AdditionalLibraryDirectories);$(SolutionDir)Libs/;$(SolutionDir)Libs/;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -179,7 +179,6 @@
     <ClCompile Include="Sources\Core\Editor.cpp" />
     <ClCompile Include="Sources\EditorGUI\IEditorGUI.cpp" />
     <ClCompile Include="Sources\EditorGUI\SceneGUI.cpp" />
-    <ClCompile Include="Sources\HelloWorld.cpp" />
     <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +197,7 @@
     <ClInclude Include="External\ImGUI\Header\imstb_rectpack.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
-    <ClInclude Include="External\Maths\Maths.hpp" />
+    <ClInclude Include="External\PhosCore\Maths.hpp" />
     <ClInclude Include="External\PhosCore\Camera.hpp" />
     <ClInclude Include="External\PhosCore\Framebuffer.hpp" />
     <ClInclude Include="External\PhosCore\Input.hpp" />
@@ -206,6 +205,7 @@
     <ClInclude Include="External\PhosCore\Mesh.hpp" />
     <ClInclude Include="External\PhosCore\MeshRenderer.hpp" />
     <ClInclude Include="External\PhosCore\ResourceManager.hpp" />
+    <ClInclude Include="External\PhosCore\Scene.hpp" />
     <ClInclude Include="External\PhosCore\ShaderProgram.hpp" />
     <ClInclude Include="External\PhosCore\SubMesh.hpp" />
     <ClInclude Include="External\PhosCore\Texture.hpp" />
@@ -214,7 +214,6 @@
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
-    <ClInclude Include="Headers\HelloWorld.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\PhosCore.dll" />
@@ -225,7 +224,7 @@
     <Library Include="Libs\glew32s.lib" />
     <Library Include="Libs\glfw3.lib" />
     <Library Include="Libs\glfw3_mt.lib" />
-    <Library Include="Libs\PhosCore.lib" />
+    <Library Include="Libs\PhosEngine.lib" />
     <Library Include="Libs\zlibstatic.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

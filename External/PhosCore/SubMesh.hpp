@@ -1,5 +1,5 @@
 #pragma once
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 #include <vector>
 
 #ifdef VERTEX_EXPORTS

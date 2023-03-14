@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"

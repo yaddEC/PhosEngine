@@ -1,9 +1,9 @@
 #pragma once
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 
 #include <vector>
-#include "LowRenderer/Framebuffer.hpp"
-#include "Resource/Texture.hpp"
+#include "Framebuffer.hpp"
+#include "Texture.hpp"
 
 #ifdef CAMERA_EXPORTS
 #define CAMERA_API __declspec(dllexport)
@@ -28,30 +28,34 @@ namespace Engine
 	class Transform;
 }
 
-class CAMERA_API Camera
+namespace LowRenderer
 {
-public:
-	Camera();
-	~Camera();
+	class CAMERA_API Camera
+	{
+	public:
+		Camera();
+		~Camera();
 
-	Engine::Transform* transform;
+		Engine::Transform* transform;
 
-	void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
-		const Maths::Vec2& viewportSize);
+		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
+			const Maths::Vec2& viewportSize);
 
-	inline unsigned int GetRenderTextureKey() { return renderTexture.GetTextureKey(); }
+		inline unsigned int GetRenderTextureKey() { return renderTexture.GetTextureKey(); }
 
-	void OnGUI();
+		void OnGUI();
 
-	static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform, const Engine::Transform& camTransform, const Resource::ShaderProgram& shaderProgram, float fov = 50.f);
+		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform, const Engine::Transform& camTransform, const Resource::ShaderProgram& shaderProgram, float fov = 50.f);
 
-private:
+	private:
 
-	LowRenderer::FrameBuffer framebuffer;
-	Resource::Texture renderTexture;
+		LowRenderer::FrameBuffer framebuffer;
+		Resource::Texture renderTexture;
 
-	// For testing
-	Resource::ShaderProgram* shaderProgram;
+		// For testing
+		Resource::ShaderProgram* shaderProgram;
 
-	float fov = 50.f;
-};
+		float fov = 50.f;
+	};
+}
+

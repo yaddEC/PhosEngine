@@ -1,5 +1,5 @@
 #pragma once
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 
 #ifdef MESHRENDERER_EXPORTS
 #define MESHRENDERER_API __declspec(dllexport)

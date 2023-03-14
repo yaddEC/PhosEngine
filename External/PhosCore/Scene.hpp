@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "LowRenderer/Camera.hpp"
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 
 #ifdef SCENE_EXPORTS
 #define SCENE_API __declspec(dllexport)

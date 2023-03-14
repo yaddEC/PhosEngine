@@ -1,5 +1,5 @@
 #pragma once
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 
 #ifdef FRAMEBUFFER_EXPORTS
 #define FRAMEBUFFER_API __declspec(dllexport)

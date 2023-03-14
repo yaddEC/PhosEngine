@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Maths/Maths.hpp"
+#include "Maths.hpp"
 #include "IResource.hpp"
 
 #ifdef SHADERPROGRAM_EXPORTS
