@@ -380,6 +380,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Externals\GL\wglew.h" />
     <ClInclude Include="Externals\STB_Image\stb_image.h" />
     <ClInclude Include="Headers\Engine\Input.hpp" />
+    <ClInclude Include="Headers\Engine\Scene.hpp" />
     <ClInclude Include="Headers\Engine\Transform.hpp" />
     <ClInclude Include="Headers\framework.h" />
     <ClInclude Include="Headers\LowRenderer\Camera.hpp" />
@@ -397,6 +398,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
   <ItemGroup>
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Engine\Input.cpp" />
+    <ClCompile Include="Sources\Engine\Scene.cpp" />
     <ClCompile Include="Sources\Engine\Transform.cpp" />
     <ClCompile Include="Sources\LowRenderer\Camera.cpp" />
     <ClCompile Include="Sources\LowRenderer\FrameBuffer.cpp" />
