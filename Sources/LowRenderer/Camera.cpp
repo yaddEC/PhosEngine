@@ -25,17 +25,17 @@ using namespace Maths;
 
 
 Camera::Camera()
-    : framebuffer(FrameBuffer(10, 10))
-    , renderTexture(Texture())
+    : m_framebuffer(FrameBuffer(10, 10))
+    , m_renderTexture(Texture())
 {
     transform = new Transform;
     transform->position = Vec3(0, 0, -10);
 
-    shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Resources\\Shader\\BasicShader.prog");
+    m_shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Resources\\Shader\\BasicShader.prog");
 
 
-    renderTexture.Bind();
-    framebuffer.AttachTexture(&renderTexture);
+    m_renderTexture.Bind();
+    m_framebuffer.AttachTexture(&m_renderTexture);
 }
 
 Camera::~Camera()
@@ -51,17 +51,17 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 
     Mat4 viewProj = view * proj;
 
-    framebuffer.Bind(viewportSize.x, viewportSize.y);
-    framebuffer.Clear();
+    m_framebuffer.Bind(viewportSize.x, viewportSize.y);
+    m_framebuffer.Clear();
 
-    shaderProgram->Use();
+    m_shaderProgram->Use();
 
     glCullFace(GL_FRONT);
     glDepthFunc(GL_LEQUAL);
 
     for (MeshRenderer* rend : rendList)
     {
-        rend->Render(shaderProgram, viewProj);
+        rend->Render(m_shaderProgram, viewProj);
     }
 
     // unbind the framebuffer

@@ -261,13 +261,14 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <Command>xcopy /y /d "$(OutDir)PhosEngine.dll" "$(SolutionDir)DLL\"
 xcopy /y /d "$(OutDir)PhosEngine.lib" "$(SolutionDir)Libs\"
 
-xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\Maths\"
-xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosCore\"
-xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosCore\"
-xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosCore\"
-xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosCore\"
+xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Maths\"
+xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosEngine\Core\"
+xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
+xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
-xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
+xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugFromEngine|x64'">

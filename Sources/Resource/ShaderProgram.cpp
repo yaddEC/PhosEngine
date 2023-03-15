@@ -54,16 +54,16 @@ void ShaderProgram::Load(const std::string& filepath)
 				cout << "Error opening file " + sourcePath << endl;
 				return;
 			}
-			shaderList.push_back(info);
+			m_shaderList.push_back(info);
 		}
 	}
 }
 
 void ShaderProgram::Bind()
 {
-	programKey = glCreateProgram();
+	m_programKey = glCreateProgram();
 
-	for (auto& shader : shaderList)
+	for (auto& shader : m_shaderList)
 	{
 		shader.key = GetCompiledShader(shader.shaderType, shader.source);
 		if (shader.key == -1)
@@ -73,23 +73,23 @@ void ShaderProgram::Bind()
 		}
 	}
 
-	for (auto& shader : shaderList)
+	for (auto& shader : m_shaderList)
 	{
-		glAttachShader(programKey, shader.key);
+		glAttachShader(m_programKey, shader.key);
 	}
 
-	glLinkProgram(programKey);
+	glLinkProgram(m_programKey);
 
 	int success;
-	glGetProgramiv(programKey, GL_LINK_STATUS, &success);
+	glGetProgramiv(m_programKey, GL_LINK_STATUS, &success);
 	if (!success)
 	{
 		char infoLog[512];
-		glGetProgramInfoLog(programKey, 512, NULL, infoLog);
+		glGetProgramInfoLog(m_programKey, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
 
-	for (auto& shader : shaderList)
+	for (auto& shader : m_shaderList)
 	{
 		glDeleteShader(shader.key);
 	}
@@ -129,27 +129,27 @@ int ShaderProgram::GetCompiledShader(unsigned int shaderType, const std::string&
 
 void ShaderProgram::Use() const
 {
-	glUseProgram(programKey);
+	glUseProgram(m_programKey);
 }
 
 void ShaderProgram::SetUniformMatrix(const string& uniformName, const Mat4& mat) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, GL_TRUE, &mat.data_4_4[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(m_programKey, uniformName.c_str()), 1, GL_TRUE, &mat.data_4_4[0][0]);
 }
 
 void ShaderProgram::SetUniformVec3(const string& uniformName, const Vec3& vec3) const
 {
-	glUniform3fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, &vec3.x);
+	glUniform3fv(glGetUniformLocation(m_programKey, uniformName.c_str()), 1, &vec3.x);
 }
 
 void ShaderProgram::SetUniformInt(const std::string& uniformName, int value) const
 {
-	glUniform1i(glGetUniformLocation(programKey, uniformName.c_str()), value);
+	glUniform1i(glGetUniformLocation(m_programKey, uniformName.c_str()), value);
 }
 
 void ShaderProgram::Unload()
 {
-	glDeleteProgram(programKey);
+	glDeleteProgram(m_programKey);
 }
 
 Texture* ShaderProgram::GenerateFileIcon()

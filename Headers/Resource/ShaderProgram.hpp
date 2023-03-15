@@ -42,11 +42,11 @@ namespace Resource
 
 
 	private:
-		unsigned int programKey;
+		unsigned int m_programKey;
 
 		int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);
 
-		std::vector<ShaderInfo> shaderList;
+		std::vector<ShaderInfo> m_shaderList;
 	};
 }
 

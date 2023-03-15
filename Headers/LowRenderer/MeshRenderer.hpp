@@ -30,7 +30,9 @@ namespace LowRenderer
 		Engine::Transform* transform; // TEMPORARY
 
 		void Render(const Resource::ShaderProgram* shader, const Maths::Mat4& viewProj) const;
+
 	private:
+
 		Resource::Mesh* m_mesh;
 	};
 }
