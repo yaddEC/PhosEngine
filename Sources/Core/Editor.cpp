@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "EditorGUI/SceneGUI.hpp"
-#include "PhosCore/ShaderProgram.hpp"
 
 using namespace Core;
 

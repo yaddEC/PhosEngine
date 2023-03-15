@@ -1,7 +1,7 @@
 #pragma once
 #include "EditorGUI/IEditorGUI.hpp"
-#include "PhosCore/Camera.hpp"
-#include "PhosCore/Scene.hpp"
+#include "LowRenderer/Camera.hpp"
+#include "Engine/Scene.hpp"
 
 namespace EditorGUI
 {

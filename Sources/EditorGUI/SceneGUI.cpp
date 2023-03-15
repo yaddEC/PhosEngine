@@ -1,6 +1,6 @@
 #include "EditorGUI/SceneGUI.hpp"
-#include "PhosCore/Transform.hpp"
-#include "PhosCore/Input.hpp"
+#include "Engine/Transform.hpp"
+#include "Engine/Input.hpp"
 
 using namespace Maths;
 using namespace EditorGUI;

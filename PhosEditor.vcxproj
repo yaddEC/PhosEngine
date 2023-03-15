@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosCore/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -197,6 +197,19 @@
     <ClInclude Include="External\ImGUI\Header\imstb_rectpack.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
+    <ClInclude Include="External\PhosEngine\Engine\Input.hpp" />
+    <ClInclude Include="External\PhosEngine\Engine\Scene.hpp" />
+    <ClInclude Include="External\PhosEngine\Engine\Transform.hpp" />
+    <ClInclude Include="External\PhosEngine\LowRenderer\Camera.hpp" />
+    <ClInclude Include="External\PhosEngine\LowRenderer\Framebuffer.hpp" />
+    <ClInclude Include="External\PhosEngine\LowRenderer\MeshRenderer.hpp" />
+    <ClInclude Include="External\PhosEngine\Maths\Maths.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\IResource.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\Mesh.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\ResourceManager.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\ShaderProgram.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\SubMesh.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\Texture.hpp" />
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
