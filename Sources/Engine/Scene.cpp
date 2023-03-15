@@ -24,7 +24,7 @@ Scene::Scene()
 {
 
 	Mesh* boo = new Mesh();
-	boo->Load("Resources\\Model\\boo.obj");
+	boo->Load("Assets\\Model\\boo.obj");
 	boo->Bind();
 	MeshRenderer* rend = new MeshRenderer(boo);
 	AddModel(rend);

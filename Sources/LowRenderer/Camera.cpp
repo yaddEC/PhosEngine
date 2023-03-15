@@ -27,11 +27,13 @@ using namespace Maths;
 Camera::Camera()
     : m_framebuffer(FrameBuffer(10, 10))
     , m_renderTexture(Texture())
+    , rm(ResourceManager::GetInstance())
 {
+
     transform = new Transform;
     transform->position = Vec3(0, 0, -10);
 
-    m_shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Resources\\Shader\\BasicShader.prog");
+    m_shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\BasicShader.prog");
 
 
     m_renderTexture.Bind();
@@ -52,7 +54,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     Mat4 viewProj = view * proj;
 
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
-    m_framebuffer.Clear();
+    m_framebuffer.Clear(Maths::Vec4(0, 0.1f, 0.2f, 1));
 
     m_shaderProgram->Use();
 

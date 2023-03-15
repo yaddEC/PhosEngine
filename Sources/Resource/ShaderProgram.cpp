@@ -134,7 +134,7 @@ void ShaderProgram::Use() const
 
 void ShaderProgram::SetUniformMatrix(const string& uniformName, const Mat4& mat) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(m_programKey, uniformName.c_str()), 1, GL_TRUE, &mat.data_4_4[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(m_programKey, uniformName.c_str()), 1, true, &mat.data_4_4[0][0]);
 }
 
 void ShaderProgram::SetUniformVec3(const string& uniformName, const Vec3& vec3) const

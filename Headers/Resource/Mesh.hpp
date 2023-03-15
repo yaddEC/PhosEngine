@@ -38,9 +38,9 @@ namespace Resource
 		std::vector<SubMesh> m_subMeshes;
 		Maths::Vec3 m_boundingBoxMin, m_boundingBoxMax;
 
-		void ProcessNode(aiNode* node, const aiScene* scene);
-		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-		class Texture* ProcessTexture(aiMaterial* mat, aiTextureType type);
+		void ProcessNode(aiNode* node, const aiScene* scene, const std::string& filepath);
+		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
+		class Texture* ProcessTexture(aiMaterial* mat, aiTextureType type, const std::string& filepath);
 	};
 }
 

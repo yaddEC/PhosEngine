@@ -9,6 +9,7 @@
 
 #include "Resource/Texture.hpp"
 #include "Resource/SubMesh.hpp"
+#include "Resource/ResourceManager.hpp"
 #include "Resource/ShaderProgram.hpp"
 
 #define MESH_EXPORTS
@@ -30,7 +31,7 @@ void Mesh::Load(const std::string& filepath)
         return;
     }
 
-    ProcessNode(scene->mRootNode, scene);
+    ProcessNode(scene->mRootNode, scene, filepath);
     return;
 }
 
@@ -84,22 +85,22 @@ Texture* Mesh::GenerateFileIcon()
     return nullptr;
 }
 
-void Mesh::ProcessNode(aiNode* node, const aiScene* scene)
+void Mesh::ProcessNode(aiNode* node, const aiScene* scene, const std::string& filepath)
 {
     // process all the node's meshes (if any)
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        m_subMeshes.push_back(ProcessMesh(mesh, scene));
+        m_subMeshes.push_back(ProcessMesh(mesh, scene, filepath));
     }
     // then do the same for each of its children
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        ProcessNode(node->mChildren[i], scene);
+        ProcessNode(node->mChildren[i], scene, filepath);
     }
 }
 
-SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath)
 {
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
@@ -140,17 +141,17 @@ SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     if (mesh->mMaterialIndex >= 0)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        texture = ProcessTexture(material, aiTextureType_DIFFUSE);
+        texture = ProcessTexture(material, aiTextureType_DIFFUSE, filepath);
     }
 
     return SubMesh(vertices, indices, texture);
 }
 
-Texture* Mesh::ProcessTexture(aiMaterial* mat, aiTextureType type)
+Texture* Mesh::ProcessTexture(aiMaterial* mat, aiTextureType type, const std::string& filepath)
 {
     aiString str;
     mat->GetTexture(type, 0, &str);
-    //ResourceManager& rm = ResourceManager::GetInstance();
-    //return rm.GetResource<Texture>(directory + "\\" + str.C_Str());
-    return nullptr;
+    ResourceManager& rm = ResourceManager::GetInstance();
+    Texture* tex = rm.GetResource<Texture>(p_directory + "\\" + str.C_Str());
+    return tex;
 }

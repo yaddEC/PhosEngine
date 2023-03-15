@@ -856,17 +856,14 @@ Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Ve
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)
 {
-	float view = tanf((_fov / 2.0f) * (float)DEG2RAD);
-
-	float param1 = -(_far + _near) / (_far + _near);
-	float param2 = -(2 * _near * _far) / (_far - _near);
+	float view = tanf((_fov * 0.5f) * (float)DEG2RAD);
 
 	float projectionData[16] =
 	{
-		(1/view)/_aspectRatio,	0,				0,			0,
-		0,						-(1/view),		0,			0,
-		0,						0,				param1,		param2,
-		0,						0,				-1,			0
+		(1 / view * (_aspectRatio)),	0,		    0,			0,
+		0,						1 / view,		0,			0,
+		0,						0,				(_far / (_far - _near)), -((_far * _near) / (_far - _near)),
+		0,						0,				1,			0
 	};
 	return Mat4(projectionData);
 }
@@ -914,7 +911,7 @@ Maths::Mat4 Maths::Mat4::operator*(Mat4 _Mat) const
 {
 	Mat4 temp;
 	
-	temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[4] + data[2] * _Mat.data[8] + data[3] * _Mat.data[12];
+	/*temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[4] + data[2] * _Mat.data[8] + data[3] * _Mat.data[12];
 	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[5] + data[2] * _Mat.data[9] + data[3] * _Mat.data[13];
 	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[6] + data[2] * _Mat.data[10] + data[3] * _Mat.data[14];
 	temp.data[3] = data[0] * _Mat.data[3] + data[1] * _Mat.data[7] + data[2] * _Mat.data[11] + data[3] * _Mat.data[15];
@@ -932,7 +929,14 @@ Maths::Mat4 Maths::Mat4::operator*(Mat4 _Mat) const
 	temp.data[12] = data[12] * _Mat.data[0] + data[13] * _Mat.data[4] + data[14] * _Mat.data[8] + data[15] * _Mat.data[12];
 	temp.data[13] = data[12] * _Mat.data[1] + data[13] * _Mat.data[5] + data[14] * _Mat.data[9] + data[15] * _Mat.data[13];
 	temp.data[14] = data[12] * _Mat.data[2] + data[13] * _Mat.data[6] + data[14] * _Mat.data[10] + data[15] * _Mat.data[14];
-	temp.data[15] = data[12] * _Mat.data[3] + data[13] * _Mat.data[7] + data[14] * _Mat.data[11] + data[15] * _Mat.data[15];
+	temp.data[15] = data[12] * _Mat.data[3] + data[13] * _Mat.data[7] + data[14] * _Mat.data[11] + data[15] * _Mat.data[15];*/
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			temp.data_4_4[i][j] = data_4_4[0][j] * _Mat.data_4_4[i][0] + data_4_4[1][j] * _Mat.data_4_4[i][1] + data_4_4[2][j] * _Mat.data_4_4[i][2] + data_4_4[3][j] * _Mat.data_4_4[i][3];
+		}
+	}
 
 	return temp;
 }
