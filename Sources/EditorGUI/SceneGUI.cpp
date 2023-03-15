@@ -1,6 +1,7 @@
 #include "EditorGUI/SceneGUI.hpp"
 #include "Engine/Transform.hpp"
 #include "Engine/Input.hpp"
+#include "Resource/ResourceManager.hpp"
 
 using namespace Maths;
 using namespace EditorGUI;
@@ -17,30 +18,44 @@ void SceneGUI::DoUpdate()
 		// TEMP Camera Input 
 		if (isOnFocus)
 		{
-			
 			Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotation.y * (M_PI / 180)), 0);
 			Vec3 forward = Vec3(direction.x, 0, direction.y);
 			Vec3 left = Vec3(forward.z, 0, -forward.x);
 			
 
 			float speed = 0.4f;
+			Input& input = Input::GetInstance();
+			if (input.IsAnyKeyDown())
+			{
+				std::cout << "Key down" << std::endl;
+			}
 
-			m_sceneCamera.transform->position += forward * Input::GetInstance().GetVerticalAxis() * speed;
-			m_sceneCamera.transform->position += left * Input::GetInstance().GetHorizontalAxis() * speed;
-			if (Input::GetInstance().IsKeyPressed(GLFW_KEY_SPACE))
+			m_sceneCamera.transform->position += forward * input.GetVerticalAxis() * speed;
+			m_sceneCamera.transform->position += left * input.GetHorizontalAxis() * speed;
+			if (input.IsKeyPressed(GLFW_KEY_SPACE))
 				m_sceneCamera.transform->position.y += 1 * speed;
-			if (Input::GetInstance().IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+			if (input.IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 				m_sceneCamera.transform->position.y += -1 * speed;
 
-			if (Input::GetInstance().IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+			if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
 			{
-				m_sceneCamera.transform->rotation += Vec3(Input::GetInstance().GetMouseDelta().y, Input::GetInstance().GetMouseDelta().x, 0) * 0.4f;
+				m_sceneCamera.transform->rotation += Vec3(input.GetMouseDelta().y, input.GetMouseDelta().x, 0) * 0.4f;
 			}
+			ImGui::Text(std::to_string(Input::GetInstance().GetVerticalAxis()).c_str()); ImGui::SameLine();
+			ImGui::Text(std::to_string(Input::GetInstance().GetHorizontalAxis()).c_str());
+			ImGui::Text("%.2f, %.2f", input.GetMouseDelta().x, input.GetMouseDelta().y);
 
 		}
 
 		if(m_currentScene)
 			m_sceneCamera.Render(m_currentScene->GetModelList(), size - Vec2(10, 35));
+
+		//Resource::Texture* tex = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\ShaderCode.PNG");
+
+		//ImGui::Image((ImTextureID)tex->GetTextureKey(), ImVec2(size.x - 10, size.y - 35), ImVec2(0, 1), ImVec2(1, 0));
+		
+		ImGui::DragFloat3("Camera Position", &m_sceneCamera.transform->position.x, 0.05f);
+		ImGui::DragFloat3("Camera Rotation", &m_sceneCamera.transform->rotation.x, 0.05f);
 
 		ImGui::Image((ImTextureID)m_sceneCamera.GetRenderTextureKey(), ImVec2(size.x - 10, size.y - 35), ImVec2(0, 1), ImVec2(1, 0));
 

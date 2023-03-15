@@ -16,6 +16,7 @@ namespace Resource
 {
 	class ShaderProgram;
 	class Mesh;
+	class ResourceManager;
 }
 
 namespace LowRenderer
@@ -51,7 +52,7 @@ namespace LowRenderer
 
 		LowRenderer::FrameBuffer m_framebuffer;
 		Resource::Texture m_renderTexture;
-
+		Resource::ResourceManager& rm;
 		// For testing
 		Resource::ShaderProgram* m_shaderProgram;
 

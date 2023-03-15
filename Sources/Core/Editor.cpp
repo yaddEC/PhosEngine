@@ -2,6 +2,11 @@
 #include <iostream>
 
 #include "EditorGUI/SceneGUI.hpp"
+#include "Engine/Scene.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Resource/Mesh.hpp"
+#include "Engine/Input.hpp"
+#include "Resource/ShaderProgram.hpp"
 
 using namespace Core;
 
@@ -18,7 +23,15 @@ bool Editor::Init()
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
+    // INIT SCENE TEST
+    Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+    rm.Init("Assets");
+    Resource::ShaderProgram* sp = rm.GetResource<Resource::ShaderProgram>("Assets\\Shader\\BasicShader.prog");
+    Engine::Input::GetInstance().Init(m_window);
     InitEditorGUI();
+    m_mainScene = new Engine::Scene();
+    m_sceneGUI->SetCurrentScene(m_mainScene);
+
     
 
     return true;
@@ -27,21 +40,23 @@ bool Editor::Init()
 void Editor::Run()
 {
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(m_window))
     {
-        glfwGetWindowSize(window, &width, &height);
+        glfwGetWindowSize(m_window, &m_width, &m_height);
 
         /* Poll for and process events */
         glfwPollEvents();
 
         ImGuiNewFrame();
         
+        Engine::Input::GetInstance().Update();
+        m_mainScene->Update();
         UpdateEditorGUI();
 
         RenderImGuiFrame();
         
         /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(m_window);
     }
 }
 
@@ -51,9 +66,10 @@ void Editor::Destroy()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    delete sceneGUI;
+    delete m_sceneGUI;
+    delete m_mainScene;
 
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(m_window);
     glfwTerminate();
 }
 
@@ -61,20 +77,20 @@ void Editor::Destroy()
 bool Core::Editor::InitImGui()
 {
     // Set up ImGui
-    (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+    (void)m_io;
+    m_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+    m_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+    m_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(m_window, true);
     ImGui_ImplOpenGL3_Init();
     return true;
 }
 
 bool Core::Editor::InitEditorGUI()
 {
-    sceneGUI = new EditorGUI::SceneGUI();
+    m_sceneGUI = new EditorGUI::SceneGUI();
     return true;
 }
 
@@ -87,10 +103,10 @@ bool Core::Editor::InitGLFWWindow()
         return false;
     }
 
-    window = glfwCreateWindow(1920, 1080, "Phos Editor", nullptr, nullptr);
-    if (!window) return false;
+    m_window = glfwCreateWindow(1920, 1080, "Phos Editor", nullptr, nullptr);
+    if (!m_window) return false;
     /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(m_window);
 
     return true;
 }
@@ -121,14 +137,14 @@ void Core::Editor::RenderImGuiFrame()
 
     ImGui::Render();
     int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glfwGetFramebufferSize(m_window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
     glClearColor(0, 0.2f, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    if (m_io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         GLFWwindow* backup_current_context = glfwGetCurrentContext();
         ImGui::UpdatePlatformWindows();
@@ -143,6 +159,6 @@ void Core::Editor::UpdateEditorGUI()
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::DockSpaceOverViewport(viewport);
 
-    sceneGUI->Update();
+    m_sceneGUI->Update();
 }
 

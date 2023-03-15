@@ -226,6 +226,9 @@
     <Library Include="Libs\PhosEngine.lib" />
     <Library Include="Libs\zlibstatic.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Model\boo.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

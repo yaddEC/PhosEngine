@@ -10,6 +10,8 @@ namespace EditorGUI
 	public:
 		SceneGUI() : IEditorGUI("Scene") {}
 
+		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
+
 		void DoUpdate() override;
 	private:
 		LowRenderer::Camera m_sceneCamera;
