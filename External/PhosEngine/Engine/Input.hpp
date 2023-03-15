@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Maths.hpp"
+#include "Maths/Maths.hpp"
 
 #ifdef INPUT_EXPORTS
 #define INPUT_API __declspec(dllexport)

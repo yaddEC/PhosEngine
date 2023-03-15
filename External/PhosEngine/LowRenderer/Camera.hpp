@@ -1,9 +1,9 @@
 #pragma once
-#include "Maths.hpp"
+#include "Maths/Maths.hpp"
 
 #include <vector>
-#include "Framebuffer.hpp"
-#include "Texture.hpp"
+#include "LowRenderer/Framebuffer.hpp"
+#include "Resource/Texture.hpp"
 
 #ifdef CAMERA_EXPORTS
 #define CAMERA_API __declspec(dllexport)
@@ -41,7 +41,7 @@ namespace LowRenderer
 		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
 			const Maths::Vec2& viewportSize);
 
-		inline unsigned int GetRenderTextureKey() { return renderTexture.GetTextureKey(); }
+		inline unsigned int GetRenderTextureKey() { return m_renderTexture.GetTextureKey(); }
 
 		void OnGUI();
 
@@ -49,11 +49,11 @@ namespace LowRenderer
 
 	private:
 
-		LowRenderer::FrameBuffer framebuffer;
-		Resource::Texture renderTexture;
+		LowRenderer::FrameBuffer m_framebuffer;
+		Resource::Texture m_renderTexture;
 
 		// For testing
-		Resource::ShaderProgram* shaderProgram;
+		Resource::ShaderProgram* m_shaderProgram;
 
 		float fov = 50.f;
 	};

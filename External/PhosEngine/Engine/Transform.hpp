@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Maths.hpp"
+#include "Maths/Maths.hpp"
 
 #ifdef TRANSFORM_EXPORTS
 #define TRANSFORM_API __declspec(dllexport)

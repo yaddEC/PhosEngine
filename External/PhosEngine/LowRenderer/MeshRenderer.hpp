@@ -1,5 +1,5 @@
 #pragma once
-#include "Maths.hpp"
+#include "Maths/Maths.hpp"
 
 #ifdef MESHRENDERER_EXPORTS
 #define MESHRENDERER_API __declspec(dllexport)
@@ -30,7 +30,9 @@ namespace LowRenderer
 		Engine::Transform* transform; // TEMPORARY
 
 		void Render(const Resource::ShaderProgram* shader, const Maths::Mat4& viewProj) const;
+
 	private:
+
 		Resource::Mesh* m_mesh;
 	};
 }

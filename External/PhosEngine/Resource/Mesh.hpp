@@ -1,12 +1,12 @@
 #pragma once
-#include "IResource.hpp"
+#include "Resource/IResource.hpp"
 #include <vector>
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
 
-#include "SubMesh.hpp"
+#include "Resource/SubMesh.hpp"
 
 #ifdef MESH_EXPORTS
 #define MESH_API __declspec(dllexport)
