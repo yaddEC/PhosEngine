@@ -264,6 +264,7 @@ xcopy /y /d "$(OutDir)PhosEngine.lib" "$(SolutionDir)Libs\"
 xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Maths\"
 xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosEngine\Core\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
+xcopy /y /d "$(ProjectDir)Headers\RHI\" "$(SolutionDir)External\PhosEngine\RHI\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
@@ -395,6 +396,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
+    <ClInclude Include="Headers\RHI\RHI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\dllmain.cpp" />
@@ -421,6 +423,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
     <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
+    <ClCompile Include="Sources\RHI\RHI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\assimp-vc142-mt.lib" />
