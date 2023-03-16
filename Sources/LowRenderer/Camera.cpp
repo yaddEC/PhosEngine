@@ -70,6 +70,11 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+Resource::Texture& LowRenderer::Camera::GetRenderTexture()
+{
+    return m_renderTexture;
+}
+
 void Camera::OnGUI()
 {
     /*if (ImGui::CollapsingHeader("Scene Camera"))

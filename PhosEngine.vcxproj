@@ -247,7 +247,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;Externals;Externals/ImGUI/Header</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -262,7 +262,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
 xcopy /y /d "$(OutDir)PhosEngine.lib" "$(SolutionDir)Libs\"
 
 xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Maths\"
-xcopy /y /d "$(ProjectDir)Headers\Core\" "$(SolutionDir)External\PhosEngine\Core\"
+xcopy /y /d "$(ProjectDir)Headers\GUI\" "$(SolutionDir)External\PhosEngine\GUI\"
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\RHI\" "$(SolutionDir)External\PhosEngine\RHI\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
@@ -380,11 +380,21 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Externals\GL\glew.h" />
     <ClInclude Include="Externals\GL\glxew.h" />
     <ClInclude Include="Externals\GL\wglew.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imconfig.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imgui.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imgui_impl_glfw.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imgui_impl_opengl3.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imgui_internal.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imstb_rectpack.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imstb_textedit.h" />
+    <ClInclude Include="Externals\ImGUI\Header\imstb_truetype.h" />
     <ClInclude Include="Externals\STB_Image\stb_image.h" />
     <ClInclude Include="Headers\Engine\Input.hpp" />
     <ClInclude Include="Headers\Engine\Scene.hpp" />
     <ClInclude Include="Headers\Engine\Transform.hpp" />
     <ClInclude Include="Headers\framework.h" />
+    <ClInclude Include="Headers\GUI\GUI.hpp" />
     <ClInclude Include="Headers\LowRenderer\Camera.hpp" />
     <ClInclude Include="Headers\LowRenderer\Framebuffer.hpp" />
     <ClInclude Include="Headers\LowRenderer\MeshRenderer.hpp" />
@@ -399,10 +409,18 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Comma
     <ClInclude Include="Headers\RHI\RHI.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Externals\ImGUI\Source\imgui.cpp" />
+    <ClCompile Include="Externals\ImGUI\Source\imgui_demo.cpp" />
+    <ClCompile Include="Externals\ImGUI\Source\imgui_draw.cpp" />
+    <ClCompile Include="Externals\ImGUI\Source\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Externals\ImGUI\Source\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Externals\ImGUI\Source\imgui_tables.cpp" />
+    <ClCompile Include="Externals\ImGUI\Source\imgui_widgets.cpp" />
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Engine\Input.cpp" />
     <ClCompile Include="Sources\Engine\Scene.cpp" />
     <ClCompile Include="Sources\Engine\Transform.cpp" />
+    <ClCompile Include="Sources\GUI\GUI.cpp" />
     <ClCompile Include="Sources\LowRenderer\Camera.cpp" />
     <ClCompile Include="Sources\LowRenderer\FrameBuffer.cpp" />
     <ClCompile Include="Sources\LowRenderer\MeshRenderer.cpp" />

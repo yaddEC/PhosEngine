@@ -24,6 +24,7 @@ GLFWwindow* RHI::InitWindow(int width, int height, const char* windowName)
 		std::cout << "FAILED TO CREATE A WINDOW" << std::endl;
 		return nullptr;
 	}
+	SetCurrentContext(window);
 
 	return window;
 }
@@ -39,6 +40,11 @@ bool RHI::InitGlew()
 	}
 	fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 	return true;
+}
+
+bool RHI::WindowShouldClose(GLFWwindow* window)
+{
+	return glfwWindowShouldClose(window);
 }
 
 void RHI::SwapBuffer(GLFWwindow* window)
@@ -72,4 +78,14 @@ GLFWwindow* RHI::GetCurrentContext()
 void RHI::SetCurrentContext(GLFWwindow* window)
 {
 	glfwMakeContextCurrent(window);
+}
+
+void RHI::EnableCulling()
+{
+	glEnable(GL_CULL_FACE);
+}
+
+void RHI::EnableDepthTest()
+{
+	glEnable(GL_DEPTH_TEST);
 }

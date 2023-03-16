@@ -9,14 +9,23 @@
 #define RHI_API __declspec(dllimport)
 #endif
 
-namespace RHI
+class RHI_API RHI
 {
-	GLFWwindow* InitWindow(int width, int height, const char* windowName);
-	bool InitGlew();
-	void SwapBuffer(GLFWwindow* window);
-	Maths::Vec2 GetWindowSize(GLFWwindow* window);
-	void PollEvents();
-	void DestroyWindow(GLFWwindow* window);
-	GLFWwindow* GetCurrentContext();
-	void SetCurrentContext(GLFWwindow* window);
-}
+public:
+	static GLFWwindow* InitWindow(int width, int height, const char* windowName);
+	static bool  InitGlew();
+
+	static bool WindowShouldClose(GLFWwindow* window);
+	static void SwapBuffer(GLFWwindow* window);
+	static void PollEvents();
+
+	static Maths::Vec2 GetWindowSize(GLFWwindow* window);
+
+	static void DestroyWindow(GLFWwindow* window);
+
+	static GLFWwindow* GetCurrentContext();
+	static void SetCurrentContext(GLFWwindow* window);
+
+	static void EnableCulling(); // TEMP
+	static void EnableDepthTest(); // TEMP
+};
