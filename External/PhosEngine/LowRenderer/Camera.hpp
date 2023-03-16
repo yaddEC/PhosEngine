@@ -42,7 +42,7 @@ namespace LowRenderer
 		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
 			const Maths::Vec2& viewportSize);
 
-		inline unsigned int GetRenderTextureKey() { return m_renderTexture.GetTextureKey(); }
+		Resource::Texture& GetRenderTexture();
 
 		void OnGUI();
 

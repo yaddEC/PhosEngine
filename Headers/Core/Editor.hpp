@@ -8,6 +8,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
+#include "Maths/Maths.hpp"
 #include "Engine/Scene.hpp"
 
 //#include "Window.hpp"
@@ -27,7 +28,8 @@ namespace Core
 	public:
 
 		Editor()
-			:m_io(GetIO()) {}
+			:m_io(GetIO())
+		{}
 
 		bool Init();
 		void Run();
@@ -55,7 +57,7 @@ namespace Core
 		ImGuiIO& m_io;
 
 		GLFWwindow* m_window;
-		int m_width, m_height;
+		Maths::Vec2 m_windowSize;
 
 
 		ImGuiIO& GetIO()

@@ -8,20 +8,24 @@
 #include "Engine/Input.hpp"
 #include "Resource/ShaderProgram.hpp"
 
+#include "RHI/RHI.hpp"
+#include "GUI/GUI.hpp"
+
 using namespace Core;
 
 bool Editor::Init()
 {
-    if (!InitGLFWWindow()) return false;
+    m_window = RHI::InitWindow(1440, 920, "Phos Engine");
+    if (!m_window) return false;
     
-    if (!InitGlew()) return false;
-    
-
-    if (!InitImGui()) return false;
+    if (!RHI::InitGlew()) return false;
     
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+    if (!GUI::InitGUI(m_window)) return false;
+    //InitImGui();
+
+    RHI::EnableCulling();
+    RHI::EnableDepthTest();
 
     // INIT SCENE TEST
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
@@ -40,48 +44,51 @@ bool Editor::Init()
 void Editor::Run()
 {
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(m_window))
+    while (!RHI::WindowShouldClose(m_window))
     {
-        glfwGetWindowSize(m_window, &m_width, &m_height);
+        m_windowSize = RHI::GetWindowSize(m_window);
 
         /* Poll for and process events */
-        glfwPollEvents();
+        RHI::PollEvents();
 
-        ImGuiNewFrame();
+        GUI::NewFrame();
+        //ImGuiNewFrame();
         
         Engine::Input::GetInstance().Update();
         m_mainScene->Update();
         UpdateEditorGUI();
 
-        RenderImGuiFrame();
+        GUI::RenderFrame(m_window);
+        //RenderImGuiFrame();
         
         /* Swap front and back buffers */
-        glfwSwapBuffers(m_window);
+        RHI::SwapBuffer(m_window);
     }
 }
 
 void Editor::Destroy()
 {
-    ImGui_ImplOpenGL3_Shutdown();
+    /*ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    ImGui::DestroyContext();*/
+    GUI::DestroyGUI();
 
     delete m_sceneGUI;
     delete m_mainScene;
 
-    glfwDestroyWindow(m_window);
-    glfwTerminate();
+    /*glfwDestroyWindow(m_window);
+    glfwTerminate();*/
+    RHI::DestroyWindow(m_window);
 }
 
 
 bool Core::Editor::InitImGui()
 {
-    // Set up ImGui
     (void)m_io;
     m_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    m_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-    m_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+    m_io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     //  Enable Gamepad Controls
+    m_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;          //  Enable Docking
+    m_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;        //  Enable Multi-Viewport / Platform Windows
 
     ImGui_ImplGlfw_InitForOpenGL(m_window, true);
     ImGui_ImplOpenGL3_Init();
@@ -156,8 +163,9 @@ void Core::Editor::RenderImGuiFrame()
 void Core::Editor::UpdateEditorGUI()
 {
     // Set docking space
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::DockSpaceOverViewport(viewport);
+    //ImGuiViewport* viewport = ImGui::GetMainViewport();
+    //ImGui::DockSpaceOverViewport(viewport);
+    GUI::DockingSpace();
 
     m_sceneGUI->Update();
 }

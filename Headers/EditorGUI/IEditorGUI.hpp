@@ -6,6 +6,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
+#include "GUI/GUI.hpp"
+
 namespace EditorGUI
 {
 	class IEditorGUI
@@ -24,8 +26,8 @@ namespace EditorGUI
 		bool isOpen;
 
 	protected:
-		void SetSize() { size = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y }; }
-		void SetIsOnFocus() { isOnFocus = ImGui::IsWindowFocused(); }
+		void SetSize() { size = GUI::GetWindowSize(); }
+		void SetIsOnFocus() { isOnFocus = GUI::IsWondowFocused(); }
 		virtual void DoUpdate() = 0;
 
 
