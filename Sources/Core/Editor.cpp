@@ -15,17 +15,17 @@ using namespace Core;
 
 bool Editor::Init()
 {
-    m_window = RHI::InitWindow(1440, 920, "Phos Engine");
+    m_window = Wrapper::RHI::InitWindow(1440, 920, "Phos Engine");
     if (!m_window) return false;
     
-    if (!RHI::InitGlew()) return false;
+    if (!Wrapper::RHI::InitGlew()) return false;
     
 
     if (!GUI::InitGUI(m_window)) return false;
     //InitImGui();
 
-    RHI::EnableCulling();
-    RHI::EnableDepthTest();
+    Wrapper::RHI::EnableCulling();
+    Wrapper::RHI::EnableDepthTest();
 
     // INIT SCENE TEST
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
@@ -44,12 +44,12 @@ bool Editor::Init()
 void Editor::Run()
 {
     /* Loop until the user closes the window */
-    while (!RHI::WindowShouldClose(m_window))
+    while (!Wrapper::RHI::WindowShouldClose(m_window))
     {
-        m_windowSize = RHI::GetWindowSize(m_window);
+        m_windowSize = Wrapper::RHI::GetWindowSize(m_window);
 
         /* Poll for and process events */
-        RHI::PollEvents();
+        Wrapper::RHI::PollEvents();
 
         GUI::NewFrame();
         //ImGuiNewFrame();
@@ -62,7 +62,7 @@ void Editor::Run()
         //RenderImGuiFrame();
         
         /* Swap front and back buffers */
-        RHI::SwapBuffer(m_window);
+        Wrapper::RHI::SwapBuffer(m_window);
     }
 }
 
@@ -78,7 +78,7 @@ void Editor::Destroy()
 
     /*glfwDestroyWindow(m_window);
     glfwTerminate();*/
-    RHI::DestroyWindow(m_window);
+    Wrapper::RHI::DestroyWindow(m_window);
 }
 
 
