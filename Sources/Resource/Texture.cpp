@@ -11,6 +11,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <STB_Image/stb_image.h>
 
+#include "RHI/RHI.hpp"
+
 #define TEXTURE_EXPORTS
 #include "Resource/Texture.hpp"
 
@@ -46,32 +48,11 @@ void Texture::SetData(unsigned char* _data, int _width, int _height, int _nrChan
 
 void Texture::Bind()
 {
-	glGenTextures(1, &m_textureKey);
-	glBindTexture(GL_TEXTURE_2D, m_textureKey);
-
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+	Wrapper::RHI::BindTexture(&m_textureKey, m_data, m_nrChannels, m_width, m_height);
 	if (m_data)
 	{
-		if (m_nrChannels == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
-		if (m_nrChannels == 3)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
 		stbi_image_free(m_data);
 	}
-	else
-	{
-		if (m_nrChannels == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		if (m_nrChannels == 3)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-
 	p_isLoaded = true;
 }
 
@@ -87,12 +68,7 @@ void Texture::ResizeAndReset(int _width, int _height)
 	m_width = _width;
 	m_height = _height;
 
-	glBindTexture(GL_TEXTURE_2D, m_textureKey);
-
-	if (m_nrChannels == 4)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	if (m_nrChannels == 3)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	Wrapper::RHI::ResizeTexture(&m_textureKey, m_nrChannels, m_width, m_height);
 }
 
 void Texture::DisplayImage(float maxSize)

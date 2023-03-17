@@ -9,6 +9,8 @@
 #define RHI_EXPORTS
 #include "RHI/RHI.hpp"
 
+using namespace Wrapper;
+
 GLFWwindow* RHI::InitWindow(int width, int height, const char* windowName)
 {
 	/* Initialize the library */
@@ -88,4 +90,41 @@ void RHI::EnableCulling()
 void RHI::EnableDepthTest()
 {
 	glEnable(GL_DEPTH_TEST);
+}
+
+void RHI::BindTexture(unsigned int* textureKey, unsigned char* data, int channel, int width, int height)
+{
+	glGenTextures(1, textureKey);
+	glBindTexture(GL_TEXTURE_2D, *textureKey);
+
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	if (data)
+	{
+		if (channel == 4)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		if (channel == 3)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		if (channel == 4)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		if (channel == 3)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+}
+
+void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int width, int height)
+{
+	glBindTexture(GL_TEXTURE_2D, *textureKey);
+
+	if (channel == 4)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	if (channel == 3)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 }
