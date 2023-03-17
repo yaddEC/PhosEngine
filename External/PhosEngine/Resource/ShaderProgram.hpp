@@ -19,7 +19,6 @@ namespace Resource
 		unsigned int key;
 	};
 
-
 	class SHADERPROGRAM_API ShaderProgram : public IResource
 	{
 	public:
@@ -34,7 +33,7 @@ namespace Resource
 
 		class Texture* GenerateFileIcon() override;
 
-		void Use() const;
+		void Use();
 
 		void SetUniformMatrix(const std::string& uniformName, const Maths::Mat4& mat) const;
 		void SetUniformVec3(const std::string& uniformName, const Maths::Vec3& vec3) const;
@@ -43,8 +42,6 @@ namespace Resource
 
 	private:
 		unsigned int m_programKey;
-
-		int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);
 
 		std::vector<ShaderInfo> m_shaderList;
 	};
