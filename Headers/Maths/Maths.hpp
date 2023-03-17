@@ -18,6 +18,15 @@ namespace Maths
 	template <typename T>
 	void Swap(T& a, T& b);
 
+	template <typename T>
+	T Min(const T& a, const T& b);
+
+	template <typename T>
+	T Max(const T& a, const T& b);
+
+	template <typename T>
+	T Clamp(const T& value, const T& min, const T& max);
+
 	class MATHS_API Vec2
 	{
 	public:

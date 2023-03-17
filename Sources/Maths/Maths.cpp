@@ -17,6 +17,24 @@ void Maths::Swap(T& a, T& b)
 	a = buffer;
 }
 
+template<typename T>
+T Maths::Min(const T& a, const T& b)
+{
+	return a < b ? a : b;
+}
+
+template<typename T>
+T Maths::Max(const T& a, const T& b)
+{
+	return a > b ? a : b;
+}
+
+template<typename T>
+T Maths::Clamp(const T& value, const T& min, const T& max)
+{
+	return value < min ? min : value > max ? max : value;
+}
+
 /************************\
  *-------VECTOR_2-------*
 \************************/
