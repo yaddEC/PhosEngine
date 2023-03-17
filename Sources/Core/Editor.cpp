@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "EditorGUI/SceneGUI.hpp"
+#include "EditorGUI/AssetExplorer.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
@@ -22,7 +23,6 @@ bool Editor::Init()
     
 
     if (!GUI::InitGUI(m_window)) return false;
-    //InitImGui();
 
     RHI::EnableCulling();
     RHI::EnableDepthTest();
@@ -68,16 +68,12 @@ void Editor::Run()
 
 void Editor::Destroy()
 {
-    /*ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();*/
     GUI::DestroyGUI();
 
     delete m_sceneGUI;
     delete m_mainScene;
+    delete m_AssetExplorer;
 
-    /*glfwDestroyWindow(m_window);
-    glfwTerminate();*/
     RHI::DestroyWindow(m_window);
 }
 
@@ -98,75 +94,17 @@ bool Core::Editor::InitImGui()
 bool Core::Editor::InitEditorGUI()
 {
     m_sceneGUI = new EditorGUI::SceneGUI();
+    m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     return true;
 }
 
-bool Core::Editor::InitGLFWWindow()
-{
-    /* Initialize the library */
-    if (!glfwInit())
-    {
-        std::cout << "FAILED TO INITIALIZE GLFW" << std::endl;
-        return false;
-    }
 
-    m_window = glfwCreateWindow(1920, 1080, "Phos Editor", nullptr, nullptr);
-    if (!m_window) return false;
-    /* Make the window's context current */
-    glfwMakeContextCurrent(m_window);
-
-    return true;
-}
-
-bool Core::Editor::InitGlew()
-{
-    GLenum err = glewInit();
-    if (GLEW_OK != err)
-    {
-        /* Problem: glewInit failed, something is seriously wrong. */
-        fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-        return false;
-    }
-    fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
-    return true;
-}
-
-void Core::Editor::ImGuiNewFrame()
-{
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-}
-
-void Core::Editor::RenderImGuiFrame()
-{
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    ImGui::Render();
-    int display_w, display_h;
-    glfwGetFramebufferSize(m_window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    glClearColor(0, 0.2f, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-
-    if (m_io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
-    }
-}
 
 void Core::Editor::UpdateEditorGUI()
 {
-    // Set docking space
-    //ImGuiViewport* viewport = ImGui::GetMainViewport();
-    //ImGui::DockSpaceOverViewport(viewport);
     GUI::DockingSpace();
 
     m_sceneGUI->Update();
+    m_AssetExplorer->Update();
 }
 

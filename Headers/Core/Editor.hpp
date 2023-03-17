@@ -17,6 +17,7 @@
 namespace EditorGUI
 {
 	class SceneGUI;
+	class AssetExplorer;
 }
 
 
@@ -41,17 +42,13 @@ namespace Core
 
 		bool InitImGui();
 		bool InitEditorGUI();
-		bool InitGLFWWindow();
-		bool InitGlew();
-
-		void ImGuiNewFrame();
-		void RenderImGuiFrame();
 		void UpdateEditorGUI();
 
 		//class SceneWindow* sceneWindow;
 		//class AssetsExplorer* assetsExplorer;
 
 		EditorGUI::SceneGUI* m_sceneGUI;
+		EditorGUI::AssetExplorer* m_AssetExplorer;
 		Engine::Scene* m_mainScene; // TEMP
 
 		ImGuiIO& m_io;
