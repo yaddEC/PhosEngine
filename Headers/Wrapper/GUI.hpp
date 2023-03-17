@@ -26,11 +26,20 @@ public:
 	 
 	static bool BeginWindow(const std::string& name, bool canCollpase = false);
 	static void EndWindow();
+
+	static void BeginGroup();
+	static void EndGroup();
 	 
 	static void DockingSpace();
 	 
 	static Maths::Vec2 GetWindowSize();
 	static bool IsWondowFocused();
+
+	static Maths::Vec2 GetCursorPos();
+	static void SetCursorPos(const Maths::Vec2& pos);
+
+	static void Separator();
+	static void SameLine(float spacing = -1.f);
 	 
 	static void Image(const Resource::Texture& texture, Maths::Vec2 size);
 	 
@@ -45,4 +54,6 @@ public:
 	static void DisplayVec2(const std::string& label, const Maths::Vec2& value);
 	static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
+	static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
+		
 };

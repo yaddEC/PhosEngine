@@ -84,6 +84,16 @@ void GUI::EndWindow()
 	ImGui::End();
 }
 
+void GUI::BeginGroup()
+{
+	ImGui::BeginGroup();
+}
+
+void GUI::EndGroup()
+{
+	ImGui::EndGroup();
+}
+
 void GUI::DockingSpace()
 {
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -98,6 +108,27 @@ Maths::Vec2 GUI::GetWindowSize()
 bool GUI::IsWondowFocused()
 {
 	return ImGui::IsWindowFocused();
+}
+
+Maths::Vec2 GUI::GetCursorPos()
+{
+	ImVec2 pos = ImGui::GetCursorPos();
+	return Maths::Vec2(pos.x, pos.y);
+}
+
+void GUI::SetCursorPos(const Maths::Vec2& pos)
+{
+	ImGui::SetCursorPos(ImVec2{ pos.x, pos.y });
+}
+
+void GUI::Separator()
+{
+	ImGui::Separator();
+}
+
+void GUI::SameLine(float spacing)
+{
+	ImGui::SameLine(0, spacing);
 }
 
 void GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
@@ -148,4 +179,9 @@ void GUI::DisplayVec2(const std::string& label, const Maths::Vec2& value)
 void GUI::DisplayVec3(const std::string& label, const Maths::Vec3& value)
 {
 	return ImGui::Text((label + " : (" + std::to_string(value.x) + ", " + std::to_string(value.y) + ", " + std::to_string(value.z) + ")").c_str());
+}
+
+bool GUI::Button(const std::string& label, const Maths::Vec2& size)
+{
+	return ImGui::Button(label.c_str(), ImVec2(size.x, size.y));
 }
