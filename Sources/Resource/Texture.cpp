@@ -11,7 +11,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <STB_Image/stb_image.h>
 
-#include "RHI/RHI.hpp"
+#include "Wrapper/RHI.hpp"
 
 #define TEXTURE_EXPORTS
 #include "Resource/Texture.hpp"

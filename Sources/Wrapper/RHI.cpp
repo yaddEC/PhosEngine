@@ -7,7 +7,7 @@
 #include <iostream>
 
 #define RHI_EXPORTS
-#include "RHI/RHI.hpp"
+#include "Wrapper/RHI.hpp"
 
 using namespace Wrapper;
 

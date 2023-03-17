@@ -16,7 +16,7 @@
 #include "LowRenderer/Framebuffer.hpp"
 
 #define GUI_EXPORTS
-#include "GUI/GUI.hpp"
+#include "Wrapper/GUI.hpp"
 
 bool GUI::InitGUI(GLFWwindow* window)
 {
