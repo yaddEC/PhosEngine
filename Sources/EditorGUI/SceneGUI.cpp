@@ -2,7 +2,7 @@
 #include "Engine/Transform.hpp"
 #include "Engine/Input.hpp"
 #include "Resource/ResourceManager.hpp"
-#include "GUI/GUI.hpp"
+#include "Wrapper/GUI.hpp"
 
 using namespace Maths;
 using namespace EditorGUI;

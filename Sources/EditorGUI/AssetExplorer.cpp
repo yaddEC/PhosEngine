@@ -1,6 +1,7 @@
 #include "EditorGUI/AssetExplorer.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/ResourceManager.hpp"
+#include "Wrapper/GUI.hpp"
 
 namespace fs = std::filesystem;
 using namespace std;
@@ -37,15 +38,14 @@ void AssetExplorer::Reload()
 void AssetExplorer::DoUpdate()
 {
 
-	ImGui::Text(m_currentDirectory.c_str());
-	ImGui::Separator();
+	GUI::DisplayText(m_currentDirectory);
+	GUI::Separator();
 
 	if (m_currentDirectory != m_assetsRootDirectory)
 	{
-		if (ImGui::Button("..."))
+		if (GUI::Button("..."))
 		{
 			m_currentDirectory = m_currentDirectory.substr(0, m_currentDirectory.find_last_of('\\'));
-			ImGui::End();
 			return;
 		}
 	}
@@ -56,10 +56,9 @@ void AssetExplorer::DoUpdate()
 
 		if (fs::is_directory(entry))
 		{
-			if (ImGui::Button(entryName.substr(entryName.find_last_of('\\') + 1).c_str()))
+			if (GUI::Button(entryName.substr(entryName.find_last_of('\\') + 1).c_str()))
 			{
 				m_currentDirectory = entryName;
-				ImGui::End();
 				return;
 			}
 		}
@@ -68,7 +67,7 @@ void AssetExplorer::DoUpdate()
 			DisplayFile(entry.path().u8string());
 		}
 
-		ImGui::SameLine(0, 35);
+		GUI::SameLine(35);
 	}
 
 }
@@ -76,14 +75,9 @@ void AssetExplorer::DoUpdate()
 void AssetExplorer::DisplayFile(const string& file)
 {
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-	float cursorY = ImGui::GetCursorPosY();
-	float cursorX = ImGui::GetCursorPosX();
+	Maths::Vec2 cursorPos = GUI::GetCursorPos();
 
-	//auto dl = ImGui::GetWindowDrawList();
-	//dl->AddRectFilled(ImVec2(cursorX, cursorY), ImVec2(cursorX + 120, cursorY + 140), 50, 5);
-
-
-	ImGui::BeginGroup();
+	GUI::BeginGroup();
 	if (m_fileIcons.count(file))
 	{
 		Resource::Texture* icon = m_fileIcons.at(file);
@@ -91,22 +85,25 @@ void AssetExplorer::DisplayFile(const string& file)
 	}
 	else
 	{
-		Resource::Texture* icon = rm.GetResource<Resource::Texture>("EngineResources\\FileIcon.jpg");
+		Resource::Texture* icon = rm.GetResource<Resource::Texture>("Assets\\Texture\\macron.png");
 		if (icon)
+		{
 			icon->DisplayImage(120);
+			
+		}
 	}
-	ImGui::SetCursorPosY(cursorY + 130);
+	//GUI::SetCursorPos(Maths::Vec2(0, cursorPos.y + 130));
 
 	// TEMP
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
-	float textWidth = 120;
-	//float textWidth = Maths::Min(ImGui::CalcTextSize(displayfilename.c_str()).x, 120.f);
+	float textWidth = 90;
+	//float textWidth = Maths::Min(GUI::CalcTextSize(displayfilename.c_str()).x, 120.f);
 	displayfilename = textWidth >= 120 ? displayfilename.substr(0, 15) + "..." : displayfilename;
 
-	ImGui::SetCursorPosX(cursorX + (120 - textWidth) * 0.5f);
+	//GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (120 - textWidth) * 0.5f, 0));
 
 
-	ImGui::Text(displayfilename.c_str());
-	ImGui::EndGroup();
+	GUI::DisplayText(file);
+	GUI::EndGroup();
 }
