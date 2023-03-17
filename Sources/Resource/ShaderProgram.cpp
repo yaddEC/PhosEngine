@@ -11,6 +11,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include"Wrapper/RHI.hpp"
+
 #define SHADERPROGRAM_EXPORTS
 #include "Resource/ShaderProgram.hpp"
 
@@ -61,95 +63,33 @@ void ShaderProgram::Load(const std::string& filepath)
 
 void ShaderProgram::Bind()
 {
-	m_programKey = glCreateProgram();
-
-	for (auto& shader : m_shaderList)
-	{
-		shader.key = GetCompiledShader(shader.shaderType, shader.source);
-		if (shader.key == -1)
-		{
-			cout << "Error binding shader" << endl;
-			return;
-		}
-	}
-
-	for (auto& shader : m_shaderList)
-	{
-		glAttachShader(m_programKey, shader.key);
-	}
-
-	glLinkProgram(m_programKey);
-
-	int success;
-	glGetProgramiv(m_programKey, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		char infoLog[512];
-		glGetProgramInfoLog(m_programKey, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-
-	for (auto& shader : m_shaderList)
-	{
-		glDeleteShader(shader.key);
-	}
-
+	Wrapper::RHI::BindShader(&m_programKey, m_shaderList);
+	p_isLoaded = true;
 }
 
-int ShaderProgram::GetCompiledShader(unsigned int shaderType, const std::string& shaderSource)
+void ShaderProgram::Use()
 {
-	//compile shader
-	unsigned int shaderID = glCreateShader(shaderType);
-
-	const char* source = shaderSource.c_str();
-	glShaderSource(shaderID, 1, &source, NULL);
-	glCompileShader(shaderID);
-
-
-	// check if shader compilation succeded
-	int success;
-	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
-
-	if (!success)
-	{
-		int length;
-		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &length);
-
-		char* infoLog = new char[length];
-		glGetShaderInfoLog(shaderID, 512, NULL, infoLog);
-
-		std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
-		delete[] infoLog;
-
-		return -1;
-	}
-
-	return shaderID;
-}
-
-void ShaderProgram::Use() const
-{
-	glUseProgram(m_programKey);
+	Wrapper::RHI::UserProgram(&m_programKey);
 }
 
 void ShaderProgram::SetUniformMatrix(const string& uniformName, const Mat4& mat) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(m_programKey, uniformName.c_str()), 1, true, &mat.data_4_4[0][0]);
+	Wrapper::RHI::ShaderMat(&m_programKey, uniformName, mat);
 }
 
 void ShaderProgram::SetUniformVec3(const string& uniformName, const Vec3& vec3) const
 {
-	glUniform3fv(glGetUniformLocation(m_programKey, uniformName.c_str()), 1, &vec3.x);
+	Wrapper::RHI::ShaderVec3(&m_programKey, uniformName, vec3);
 }
 
 void ShaderProgram::SetUniformInt(const std::string& uniformName, int value) const
 {
-	glUniform1i(glGetUniformLocation(m_programKey, uniformName.c_str()), value);
+	Wrapper::RHI::ShaderInt(&m_programKey, uniformName, value);
 }
 
 void ShaderProgram::Unload()
 {
-	glDeleteProgram(m_programKey);
+	Wrapper::RHI::UnloadShader(&m_programKey);
 }
 
 Texture* ShaderProgram::GenerateFileIcon()

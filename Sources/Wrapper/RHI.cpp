@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include"Resource/ShaderProgram.hpp"
+
 #define RHI_EXPORTS
 #include "Wrapper/RHI.hpp"
 
@@ -127,4 +129,96 @@ void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int widt
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	if (channel == 3)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+}
+
+void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> shaderList)
+{
+	*programKey = glCreateProgram();
+
+	for (auto& shader : shaderList)
+	{
+		shader.key = GetCompiledShader(shader.shaderType, shader.source);
+		if (shader.key == -1)
+		{
+			std::cout << "Error binding shader" << std::endl;
+			return;
+		}
+	}
+
+	for (auto& shader : shaderList)
+	{
+		glAttachShader(*programKey, shader.key);
+	}
+
+	glLinkProgram(*programKey);
+
+	int success;
+	glGetProgramiv(*programKey, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		char infoLog[512];
+		glGetProgramInfoLog(*programKey, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+
+	for (auto& shader : shaderList)
+	{
+		glDeleteShader(shader.key);
+	}
+}
+
+void Wrapper::RHI::UserProgram(unsigned int* programKey)
+{
+	glUseProgram(*programKey);
+}
+
+void Wrapper::RHI::ShaderMat(const unsigned int* programKey, const std::string& uniformName, const Maths::Mat4& mat)
+{
+	glUniformMatrix4fv(glGetUniformLocation(*programKey, uniformName.c_str()), 1, true, &mat.data_4_4[0][0]);
+}
+
+void Wrapper::RHI::ShaderVec3(const unsigned int* programKey, const std::string& uniformName, const Maths::Vec3& vec3)
+{
+	glUniform3fv(glGetUniformLocation(*programKey, uniformName.c_str()), 1, &vec3.x);
+}
+
+void Wrapper::RHI::ShaderInt(const unsigned int* programKey, const std::string& uniformName, int value)
+{
+	glUniform1i(glGetUniformLocation(*programKey, uniformName.c_str()), value);
+}
+
+void Wrapper::RHI::UnloadShader(const unsigned int* programKey)
+{
+	glDeleteProgram(*programKey);
+}
+
+int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& shaderSource)
+{
+	//compile shader
+	unsigned int shaderID = glCreateShader(shaderType);
+
+	const char* source = shaderSource.c_str();
+	glShaderSource(shaderID, 1, &source, NULL);
+	glCompileShader(shaderID);
+
+
+	// check if shader compilation succeded
+	int success;
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		int length;
+		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &length);
+
+		char* infoLog = new char[length];
+		glGetShaderInfoLog(shaderID, 512, NULL, infoLog);
+
+		std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
+		delete[] infoLog;
+
+		return -1;
+	}
+
+	return shaderID;
 }
