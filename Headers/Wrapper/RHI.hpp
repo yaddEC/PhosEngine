@@ -2,8 +2,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-
-
+#include <string>
+#include <vector>
 
 #include "Maths/Maths.hpp"
 
@@ -13,6 +13,10 @@
 #define RHI_API __declspec(dllimport)
 #endif
 
+namespace Resource 
+{
+	struct ShaderInfo;
+}
 namespace Wrapper 
 {
 	class RHI_API RHI
@@ -38,5 +42,15 @@ namespace Wrapper
 		//Resource
 		static void BindTexture(unsigned int* textureKey, unsigned char* data, int channel, int width, int height);
 		static void ResizeTexture(unsigned int* textureKey, int channel, int width, int height);
+
+		static void BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> shaderList);
+		static void UserProgram(unsigned int* programKey);
+		static void ShaderMat(const unsigned int* programKey, const std::string& uniformName, const Maths::Mat4& mat);
+		static void ShaderVec3(const unsigned int* programKey, const std::string& uniformName, const Maths::Vec3& vec3);
+		static void ShaderInt(const unsigned int* programKey, const std::string& uniformName, int value);
+		static void UnloadShader(const unsigned int* programKey);
+
+	private:
+		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);
 	};
 }

@@ -85,7 +85,7 @@ void Camera::OnGUI()
     }*/
 }
 
-Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const ShaderProgram& shaderProgram, float fov)
+Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, ShaderProgram& shaderProgram, float fov)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 200, 1);
     Mat4 view = Mat4::CreateViewMatrix(camTransform.position, camTransform.rotation.x, camTransform.rotation.y);
