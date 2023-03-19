@@ -15,6 +15,8 @@
 
 #define SCENE_EXPORTS
 #include "Engine/Scene.hpp"
+#include "Engine/GameObject.hpp"
+#include "Engine/Transform.hpp"
 
 using namespace Engine;
 using namespace LowRenderer;
@@ -39,6 +41,11 @@ void Scene::Update()
 
 	glClearColor(1.0f, 1.0f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+GameObject& Engine::Scene::Instantiate(GameObject* newGameObject)
+{
+	m_gameObjects.push_back(newGameObject);
 }
 
 

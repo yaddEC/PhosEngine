@@ -4,10 +4,6 @@
 #include "pch.h"
 //----------------
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/Mesh.hpp"
 #include "Resource/ShaderProgram.hpp"
@@ -35,12 +31,9 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Render(const ShaderProgram* shader, const Maths::Mat4& viewProj) const
 {
-	//glBindVertexArray(model->GetVAO());
 	shader->SetUniformMatrix("model", transform->GetGlobalMatrix());
 	shader->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
 
 	m_mesh->Render(*shader);
 
-	//glCullFace(GL_FRONT);
-	//glDepthFunc(GL_LESS);
 }

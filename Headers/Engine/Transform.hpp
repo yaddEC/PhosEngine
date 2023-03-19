@@ -10,6 +10,8 @@
 
 namespace Engine
 {
+	class GameObject;
+
 	class TRANSFORM_API Transform
 	{
 	public:
@@ -26,6 +28,7 @@ namespace Engine
 
 		void AddChild(Transform* child) { m_children.push_back(child); child->m_parent = this; }
 		std::vector<Transform*> GetChildren() const { return m_children; }
+		Transform* GetParent() { return m_parent; }
 
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
 
@@ -41,6 +44,7 @@ namespace Engine
 		Transform* m_parent = nullptr;
 		std::vector<Transform*> m_children;
 
+		GameObject* gameObject;
 	};
 }
 
