@@ -10,6 +10,8 @@
 
 namespace Engine
 {
+	class GameObject;
+
 	class TRANSFORM_API Transform
 	{
 	public:
@@ -41,6 +43,7 @@ namespace Engine
 		Transform* m_parent = nullptr;
 		std::vector<Transform*> m_children;
 
+		GameObject* gameObject;
 	};
 }
 
