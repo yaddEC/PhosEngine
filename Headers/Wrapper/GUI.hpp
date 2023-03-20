@@ -29,6 +29,13 @@ public:
 
 	static void BeginGroup();
 	static void EndGroup();
+
+	static bool BeginPopupContextItem(const std::string& ID);
+	static void EndPopup();
+	static void OpenPopup(const std::string& ID);
+
+	static bool TreeNode(const std::string& label, bool isSelected, bool leaf = false);
+	static void TreePop();
 	 
 	static void DockingSpace();
 	 
@@ -55,5 +62,6 @@ public:
 	static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
 	static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
-		
+	static bool Selectable(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
+	static bool IsItemClicked(int mouseButton);
 };
