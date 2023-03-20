@@ -74,18 +74,25 @@ void ShaderProgram::Use()
 
 void ShaderProgram::SetUniformMatrix(const string& uniformName, const Mat4& mat) const
 {
-	Wrapper::RHI::ShaderMat(&m_programKey, uniformName, mat);
+	Wrapper::RHI::ShaderMat(m_programKey, uniformName, mat);
 }
 
 void ShaderProgram::SetUniformVec3(const string& uniformName, const Vec3& vec3) const
 {
-	Wrapper::RHI::ShaderVec3(&m_programKey, uniformName, vec3);
+	Wrapper::RHI::ShaderVec3(m_programKey, uniformName, vec3);
 }
 
 void ShaderProgram::SetUniformInt(const std::string& uniformName, int value) const
 {
-	Wrapper::RHI::ShaderInt(&m_programKey, uniformName, value);
+	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
 }
+
+void ShaderProgram::SetTexture(const std::string& uniformName, int value, const Texture& texture) const
+{
+	Wrapper::RHI::ActivateTexture(texture);
+	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
+}
+
 
 void ShaderProgram::Unload()
 {

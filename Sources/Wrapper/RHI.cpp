@@ -6,7 +6,9 @@
 
 #include <iostream>
 
-#include"Resource/ShaderProgram.hpp"
+#include "Resource/ShaderProgram.hpp"
+#include "Resource/Texture.hpp"
+#include "Resource/SubMesh.hpp"
 
 #define RHI_EXPORTS
 #include "Wrapper/RHI.hpp"
@@ -131,7 +133,7 @@ void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int widt
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 }
 
-void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> shaderList)
+void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList)
 {
 	*programKey = glCreateProgram();
 
@@ -172,24 +174,72 @@ void Wrapper::RHI::UserProgram(unsigned int* programKey)
 	glUseProgram(*programKey);
 }
 
-void Wrapper::RHI::ShaderMat(const unsigned int* programKey, const std::string& uniformName, const Maths::Mat4& mat)
+void Wrapper::RHI::ShaderMat(const unsigned int& programKey, const std::string& uniformName, const Maths::Mat4& mat)
 {
-	glUniformMatrix4fv(glGetUniformLocation(*programKey, uniformName.c_str()), 1, true, &mat.data_4_4[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, true, &mat.data_4_4[0][0]);
 }
 
-void Wrapper::RHI::ShaderVec3(const unsigned int* programKey, const std::string& uniformName, const Maths::Vec3& vec3)
+void Wrapper::RHI::ShaderVec3(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec3& vec3)
 {
-	glUniform3fv(glGetUniformLocation(*programKey, uniformName.c_str()), 1, &vec3.x);
+	glUniform3fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, &vec3.x);
 }
 
-void Wrapper::RHI::ShaderInt(const unsigned int* programKey, const std::string& uniformName, int value)
+void Wrapper::RHI::ShaderInt(const unsigned int& programKey, const std::string& uniformName, int value)
 {
-	glUniform1i(glGetUniformLocation(*programKey, uniformName.c_str()), value);
+	glUniform1i(glGetUniformLocation(programKey, uniformName.c_str()), value);
 }
 
 void Wrapper::RHI::UnloadShader(const unsigned int* programKey)
 {
 	glDeleteProgram(*programKey);
+}
+
+void Wrapper::RHI::ActivateTexture(const Resource::Texture& texture)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.GetTextureKey());
+}
+
+void Wrapper::RHI::RenderSubMesh(const unsigned int& VAO, const std::vector<unsigned int> indices)
+{
+	glBindVertexArray(VAO);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned int& EBO, const std::vector<Resource::Vertex>& vertices, const std::vector<unsigned int>& indices)
+{
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Resource::Vertex), &vertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+	// vertex positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Resource::Vertex), (void*)0);
+	// vertex normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Resource::Vertex), (void*)offsetof(Resource::Vertex, normal));
+	// vertex texture coords
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Resource::Vertex), (void*)offsetof(Resource::Vertex, UVCoords));
+
+	glBindVertexArray(0);
+}
+
+void Wrapper::RHI::UnloadSubMesh(const unsigned int& VAO, const unsigned int& VBO, const unsigned int& EBO)
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }
 
 int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& shaderSource)
