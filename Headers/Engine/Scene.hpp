@@ -31,7 +31,7 @@ namespace Engine
 		Scene();
 
 		void Update();
-		GameObject& Instantiate(GameObject* newGameObject);
+		GameObject* Instantiate(GameObject* newGameObject);
 
 		inline std::vector<LowRenderer::MeshRenderer*> GetModelList() { return modelList; }
 		inline void AddModel(LowRenderer::MeshRenderer* model) { modelList.push_back(model); }
