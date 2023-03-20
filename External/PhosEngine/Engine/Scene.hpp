@@ -18,8 +18,12 @@ namespace LowRenderer
 
 
 
+
 namespace Engine
 {
+	class GameObject;
+	class Renderer;
+
 	class SCENE_API Scene
 	{
 	public:
@@ -27,6 +31,7 @@ namespace Engine
 		Scene();
 
 		void Update();
+		GameObject* Instantiate(GameObject* newGameObject);
 
 		inline std::vector<LowRenderer::MeshRenderer*> GetModelList() { return modelList; }
 		inline void AddModel(LowRenderer::MeshRenderer* model) { modelList.push_back(model); }
@@ -34,7 +39,7 @@ namespace Engine
 
 	private:
 		std::vector<LowRenderer::MeshRenderer*> modelList;
-
+		std::vector<GameObject*> m_gameObjects;
 	};
 }
 
