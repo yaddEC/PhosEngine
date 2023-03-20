@@ -6,7 +6,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "GUI/GUI.hpp"
+#include "Wrapper/GUI.hpp"
 
 namespace EditorGUI
 {

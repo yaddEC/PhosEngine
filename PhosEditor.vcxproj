@@ -177,6 +177,7 @@
     <ClCompile Include="External\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="External\ImGUI\Source\imgui_widgets.cpp" />
     <ClCompile Include="Sources\Core\Editor.cpp" />
+    <ClCompile Include="Sources\EditorGUI\AssetExplorer.cpp" />
     <ClCompile Include="Sources\EditorGUI\IEditorGUI.cpp" />
     <ClCompile Include="Sources\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\main.cpp" />
@@ -200,7 +201,6 @@
     <ClInclude Include="External\PhosEngine\Engine\Input.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Scene.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Transform.hpp" />
-    <ClInclude Include="External\PhosEngine\GUI\GUI.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Camera.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Framebuffer.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\MeshRenderer.hpp" />
@@ -211,8 +211,10 @@
     <ClInclude Include="External\PhosEngine\Resource\ShaderProgram.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\SubMesh.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Texture.hpp" />
-    <ClInclude Include="External\PhosEngine\RHI\RHI.hpp" />
+    <ClInclude Include="External\PhosEngine\Wrapper\GUI.hpp" />
+    <ClInclude Include="External\PhosEngine\Wrapper\RHI.hpp" />
     <ClInclude Include="Headers\Core\Editor.hpp" />
+    <ClInclude Include="Headers\EditorGUI\AssetExplorer.hpp" />
     <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
   </ItemGroup>
