@@ -204,6 +204,7 @@
     <ClInclude Include="External\PhosEngine\LowRenderer\Camera.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Framebuffer.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\MeshRenderer.hpp" />
+    <ClInclude Include="External\PhosEngine\LowRenderer\Renderer.hpp" />
     <ClInclude Include="External\PhosEngine\Maths\Maths.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\IResource.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Mesh.hpp" />

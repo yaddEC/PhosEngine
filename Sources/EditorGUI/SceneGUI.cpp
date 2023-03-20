@@ -3,6 +3,7 @@
 #include "Engine/Input.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Wrapper/GUI.hpp"
+#include "LowRenderer/Renderer.hpp"
 
 using namespace Maths;
 using namespace EditorGUI;
@@ -26,10 +27,6 @@ void SceneGUI::DoUpdate()
 
 			float speed = 0.4f;
 			Input& input = Input::GetInstance();
-			if (input.IsAnyKeyDown())
-			{
-				std::cout << "Key down" << std::endl;
-			}
 
 			m_sceneCamera.transform->position += forward * input.GetVerticalAxis() * speed;
 			m_sceneCamera.transform->position += left * input.GetHorizontalAxis() * speed;
@@ -46,7 +43,7 @@ void SceneGUI::DoUpdate()
 		}
 
 		if(m_currentScene)
-			m_sceneCamera.Render(m_currentScene->GetModelList(), size - Vec2(10, 35));
+			m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
 
 		
 		GUI::EditVec3("Camera Position", m_sceneCamera.transform->position, 0.1f);
