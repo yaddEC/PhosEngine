@@ -198,7 +198,9 @@
     <ClInclude Include="External\ImGUI\Header\imstb_rectpack.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
+    <ClInclude Include="External\PhosEngine\Engine\GameObject.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Input.hpp" />
+    <ClInclude Include="External\PhosEngine\Engine\MonoBehaviour.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Scene.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Transform.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Camera.hpp" />

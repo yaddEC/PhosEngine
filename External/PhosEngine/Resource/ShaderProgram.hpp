@@ -39,6 +39,8 @@ namespace Resource
 		void SetUniformVec3(const std::string& uniformName, const Maths::Vec3& vec3) const;
 		void SetUniformInt(const std::string& uniformName, int value) const;
 
+		void SetTexture(const std::string& uniformName, int value, const Texture& texture) const;
+
 
 	private:
 		unsigned int m_programKey;

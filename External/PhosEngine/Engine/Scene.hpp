@@ -31,19 +31,14 @@ namespace Engine
 		Scene();
 
 		void Update();
-
 		
 		GameObject* Instantiate(GameObject* newGameObject);
-
-		//inline std::vector<LowRenderer::MeshRenderer*> GetModelList() { return modelList; }
-		//inline void AddModel(LowRenderer::MeshRenderer* model) { modelList.push_back(model); }
 
 		LowRenderer::Renderer* GetRenderer() { return renderer; }
 
 		bool GetIsGameMode() { return m_IsGameMode; }
 
 	private:
-		//std::vector<LowRenderer::MeshRenderer*> modelList;
 		std::vector<GameObject*> m_gameObjects;
 
 		LowRenderer::Renderer* renderer;
