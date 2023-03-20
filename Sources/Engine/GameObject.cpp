@@ -13,18 +13,18 @@
 
 using namespace Engine;
 
-Engine::GameObject::GameObject(Scene* _scene, Transform* _transform)
-	: scene(_scene)
-	, transform(_transform)
+Engine::GameObject::GameObject()
 {
+	transform = new Transform();
 	// transform.gameobject = this;
 }
 
 void Engine::GameObject::Start()
 {
-	for (MonoBehaviour* component : components)
+	for (MonoBehaviour* comp : components)
 	{
-		component->Start();
+		if(scene->GetIsGameMode() || comp->renderingComponent)
+			comp->Start();
 	}
 }
 
@@ -33,29 +33,27 @@ void Engine::GameObject::Update()
 	for (MonoBehaviour* comp : componentsBuffer)
 	{
 		components.push_back(comp);
-		comp->Start();
+
+		if (scene->GetIsGameMode() || comp->renderingComponent)
+			comp->Start();
 	}
 	componentsBuffer.clear();
 
 
 	for (MonoBehaviour* comp : components)
 	{
-		comp->Update();
+		if (scene->GetIsGameMode() || comp->renderingComponent)
+			comp->Update();
 	}
 }
 
 void Engine::GameObject::OnDestroy()
 {
-	for (MonoBehaviour* component : components)
+	for (MonoBehaviour* comp : components)
 	{
-		component->OnDestroy();
+		if (scene->GetIsGameMode() || comp->renderingComponent)
+			comp->OnDestroy();
 	}
 	transform->Destroy();
 }
 
-void Engine::GameObject::AddComponent(MonoBehaviour* newComponent)
-{
-	newComponent->gameobject = this;
-	newComponent->transform = transform;
-	componentsBuffer.push_back(newComponent);
-}

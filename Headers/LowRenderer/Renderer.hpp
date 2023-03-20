@@ -20,6 +20,10 @@ namespace LowRenderer
 		void ComputeShadowMap() {}; // Empty for now
 		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras); 
 
+		void AddMeshRenderer(MeshRenderer* rend) { m_meshRenderers.push_back(rend); }
+		void DeleteMeshRenderer(MeshRenderer* rend);
+
+		std::vector<MeshRenderer*> GetMeshRenderers();
 
 	private:
 

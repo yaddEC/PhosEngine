@@ -25,10 +25,11 @@ namespace Resource
 			m_boundingBoxMax = Maths::Vec3(INT32_MIN, INT32_MIN, INT32_MIN);
 		};
 
+
 		void Load(const std::string& filepath) override;
 		void Bind() override;
 		void Unload() override;
-		~Mesh();
+		virtual ~Mesh();
 
 		void Render(const class ShaderProgram& shaderProgram) const;
 

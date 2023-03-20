@@ -11,12 +11,13 @@
 #include "Engine/Transform.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/Mesh.hpp"
+#include "LowRenderer/Renderer.hpp"
+#include "Engine/GameObject.hpp"
+#include "Engine/Transform.hpp"
 
 
 #define SCENE_EXPORTS
 #include "Engine/Scene.hpp"
-#include "Engine/GameObject.hpp"
-#include "Engine/Transform.hpp"
 
 using namespace Engine;
 using namespace LowRenderer;
@@ -24,28 +25,48 @@ using namespace Resource;
 
 Scene::Scene()
 {
+	renderer = new Renderer();
 
 	Mesh* boo = new Mesh();
 	boo->Load("Assets\\Model\\boo.obj");
 	boo->Bind();
-	MeshRenderer* rend = new MeshRenderer(boo);
-	AddModel(rend);
+
+	GameObject* go = new GameObject();
+	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
+	rend->SetMesh(boo);
+
+	GameObject* go2 = new GameObject();
+	MeshRenderer* rend2 = go2->AddComponent<MeshRenderer>();
+	rend2->SetMesh(boo);
+	go2->transform->SetParent(go->transform);
+	go2->transform->position.x = 5;
+
+	Instantiate(go);
+	Instantiate(go2);
 }
 
 void Scene::Update()
 {
-	for (MeshRenderer* rend : modelList)
+	for (GameObject* go : m_gameObjects)
 	{
-		rend->transform->ComputeGlobalMatrix(Maths::Mat4::CreateDiagonalMatrix(1.f));
+		if(!go->transform->GetParent())
+			go->transform->ComputeGlobalMatrix(Maths::Mat4::CreateDiagonalMatrix(1.f));
+	}
+
+	for (GameObject* go : m_gameObjects)
+	{
+		go->Update();
 	}
 
 	glClearColor(1.0f, 1.0f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-GameObject& Engine::Scene::Instantiate(GameObject* newGameObject)
+GameObject* Engine::Scene::Instantiate(GameObject* newGameObject)
 {
+	newGameObject->SetScene(this);
 	m_gameObjects.push_back(newGameObject);
+	return newGameObject;
 }
 
 
