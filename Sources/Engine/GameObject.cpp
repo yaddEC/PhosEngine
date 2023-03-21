@@ -16,6 +16,7 @@ using namespace Engine;
 Engine::GameObject::GameObject()
 {
 	transform = new Transform();
+	transform->SetGameObject(this);
 	// transform.gameobject = this;
 }
 
