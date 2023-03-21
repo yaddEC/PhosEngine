@@ -9,31 +9,6 @@
 #define MATHS_EXPORTS
 #include "Maths/Maths.hpp"
 
-template <typename T>
-void Maths::Swap(T& a, T& b)
-{
-	T buffer = b;
-	b = a;
-	a = buffer;
-}
-
-template<typename T>
-T Maths::Min(const T& a, const T& b)
-{
-	return a < b ? a : b;
-}
-
-template<typename T>
-T Maths::Max(const T& a, const T& b)
-{
-	return a > b ? a : b;
-}
-
-template<typename T>
-T Maths::Clamp(const T& value, const T& min, const T& max)
-{
-	return value < min ? min : value > max ? max : value;
-}
 
 /************************\
  *-------VECTOR_2-------*
@@ -870,8 +845,8 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
-	return CreateTranslationMatrix(translation) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y)
-		* CreateZRotationMatrix(rotation.z) * CreateScaleMatrix(scale);
+	return  CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y)
+		* CreateZRotationMatrix(rotation.z) *  CreateTranslationMatrix(translation);
 }
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)

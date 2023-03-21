@@ -207,6 +207,11 @@ void GUI::TreePop()
 	ImGui::TreePop();
 }
 
+bool GUI::CollapsingHeader(const std::string& label)
+{
+	return ImGui::CollapsingHeader(label.c_str());
+}
+
 bool GUI::IsItemClicked(int mouseButton)
 {
 	return ImGui::IsItemClicked(mouseButton);

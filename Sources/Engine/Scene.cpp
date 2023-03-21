@@ -4,9 +4,6 @@
 #include "pch.h"
 //----------------
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "Resource/Texture.hpp"
 #include "Engine/Transform.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
@@ -50,6 +47,12 @@ Scene::Scene()
 
 void Scene::Update()
 {
+	for (GameObject* go : m_gameObjectBuffer)
+	{
+		m_gameObjects.push_back(go);
+	}
+	m_gameObjectBuffer.clear();
+
 	for (GameObject* go : m_gameObjects)
 	{
 		if(!go->transform->GetParent())
@@ -60,15 +63,12 @@ void Scene::Update()
 	{
 		go->Update();
 	}
-
-	glClearColor(1.0f, 1.0f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 GameObject* Engine::Scene::Instantiate(GameObject* newGameObject)
 {
 	newGameObject->SetScene(this);
-	m_gameObjects.push_back(newGameObject);
+	m_gameObjectBuffer.push_back(newGameObject);
 	return newGameObject;
 }
 
