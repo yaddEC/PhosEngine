@@ -32,6 +32,8 @@ namespace Engine
 		void SetParent(Transform* _parent) { m_parent = _parent; m_parent->AddChild(this); }
 
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
+		GameObject* GetGameObject() const { return gameObject; }
+		void SetGameObject(GameObject* _gameobject) { gameObject = _gameobject; }
 
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 

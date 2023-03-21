@@ -178,7 +178,7 @@
     <ClCompile Include="External\ImGUI\Source\imgui_widgets.cpp" />
     <ClCompile Include="Sources\Core\Editor.cpp" />
     <ClCompile Include="Sources\EditorGUI\AssetExplorer.cpp" />
-    <ClCompile Include="Sources\EditorGUI\Hierarchy.cpp" />
+    <ClCompile Include="Sources\EditorGUI\HierarchyGUI.cpp" />
     <ClCompile Include="Sources\EditorGUI\IEditorGUI.cpp" />
     <ClCompile Include="Sources\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\main.cpp" />

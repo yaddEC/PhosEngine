@@ -38,6 +38,9 @@ namespace Engine
 
 		bool GetIsGameMode() { return m_IsGameMode; }
 
+		std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
+
+
 	private:
 		std::vector<GameObject*> m_gameObjects;
 

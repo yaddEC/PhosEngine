@@ -3,6 +3,7 @@
 
 #include "EditorGUI/SceneGUI.hpp"
 #include "EditorGUI/AssetExplorer.hpp"
+#include "EditorGUI/HierarchyGUI.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
@@ -31,12 +32,11 @@ bool Editor::Init()
     // INIT SCENE TEST
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
     rm.Init("Assets");
-    Resource::ShaderProgram* sp = rm.GetResource<Resource::ShaderProgram>("Assets\\Shader\\BasicShader.prog");
     Engine::Input::GetInstance().Init(m_window);
     InitEditorGUI();
     m_mainScene = new Engine::Scene();
     m_sceneGUI->SetCurrentScene(m_mainScene);
-
+    m_Hierarchy->SetCurrentScene(m_mainScene);
     
 
     return true;
@@ -74,6 +74,7 @@ void Editor::Destroy()
     delete m_sceneGUI;
     delete m_mainScene;
     delete m_AssetExplorer;
+    delete m_Hierarchy;
 
     RHI::DestroyWindow(m_window);
 }
@@ -95,6 +96,7 @@ bool Core::Editor::InitImGui()
 bool Core::Editor::InitEditorGUI()
 {
     m_sceneGUI = new EditorGUI::SceneGUI();
+    m_Hierarchy = new EditorGUI::HierarchyGUI();
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     return true;
 }
@@ -106,6 +108,7 @@ void Core::Editor::UpdateEditorGUI()
     GUI::DockingSpace();
 
     m_sceneGUI->Update();
+    m_Hierarchy->Update();
     m_AssetExplorer->Update();
 }
 

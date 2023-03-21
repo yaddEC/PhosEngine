@@ -7,6 +7,7 @@ namespace EditorGUI
 {
 	class HierarchyGUI : public IEditorGUI
 	{
+	public:
 		HierarchyGUI() : IEditorGUI("Hierarchy") {}
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
@@ -18,6 +19,6 @@ namespace EditorGUI
 		Engine::Scene* m_currentScene;
 		Engine::GameObject* m_selected;
 
-		void DisplayHierarchy();
+		void DisplayHierarchy(Engine::GameObject* current);
 	};
 }
