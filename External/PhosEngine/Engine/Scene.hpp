@@ -43,6 +43,7 @@ namespace Engine
 
 	private:
 		std::vector<GameObject*> m_gameObjects;
+		std::vector<GameObject*> m_gameObjectBuffer;
 
 		LowRenderer::Renderer* renderer;
 		bool m_IsGameMode = false;

@@ -180,6 +180,7 @@
     <ClCompile Include="Sources\EditorGUI\AssetExplorer.cpp" />
     <ClCompile Include="Sources\EditorGUI\HierarchyGUI.cpp" />
     <ClCompile Include="Sources\EditorGUI\IEditorGUI.cpp" />
+    <ClCompile Include="Sources\EditorGUI\InspectorGUI.cpp" />
     <ClCompile Include="Sources\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
@@ -221,6 +222,7 @@
     <ClInclude Include="Headers\EditorGUI\AssetExplorer.hpp" />
     <ClInclude Include="Headers\EditorGUI\HierarchyGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\IEditorGUI.hpp" />
+    <ClInclude Include="Headers\EditorGUI\InspectorGUI.hpp" />
     <ClInclude Include="Headers\EditorGUI\SceneGUI.hpp" />
   </ItemGroup>
   <ItemGroup>

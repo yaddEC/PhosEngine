@@ -46,8 +46,6 @@ void SceneGUI::DoUpdate()
 			m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
 
 		
-		GUI::EditVec3("Camera Position", m_sceneCamera.transform->position, 0.1f);
-		GUI::EditVec3("Camera Rotation", m_sceneCamera.transform->rotation, 0.1f);
 
 		GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
 

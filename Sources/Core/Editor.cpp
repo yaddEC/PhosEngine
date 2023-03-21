@@ -4,6 +4,7 @@
 #include "EditorGUI/SceneGUI.hpp"
 #include "EditorGUI/AssetExplorer.hpp"
 #include "EditorGUI/HierarchyGUI.hpp"
+#include "EditorGUI/InspectorGUI.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
@@ -98,6 +99,7 @@ bool Core::Editor::InitEditorGUI()
     m_sceneGUI = new EditorGUI::SceneGUI();
     m_Hierarchy = new EditorGUI::HierarchyGUI();
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
+    m_Inspector = new EditorGUI::InspectorGUI();
     return true;
 }
 
@@ -110,5 +112,7 @@ void Core::Editor::UpdateEditorGUI()
     m_sceneGUI->Update();
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
+    m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());
+    m_Inspector->Update();
 }
 
