@@ -239,8 +239,6 @@ Maths::Vec2 Maths::Vec3::yz()	const
 	return Vec2(y, z);
 }
 
-
-
 float Maths::Vec3::GetMagnitude()												const
 {
 	return sqrtf((x * x) + (y * y) + (z * z));
@@ -276,6 +274,7 @@ Maths::Vec3 Maths::Vec3::CrossProduct(const Vec3& _VecA, const Vec3& _VecB)
 {
 	return { _VecA.y * _VecB.z - _VecA.z * _VecB.y, _VecA.z * _VecB.x - _VecA.x * _VecB.z, _VecA.x * _VecB.y - _VecA.y * _VecB.x };
 }
+
 //ASSINGMENT AND EQUALITY OPERATIONS :
 
 Maths::Vec3 Maths::Vec3::operator = (const Vec3& _Vec)
@@ -846,8 +845,9 @@ Maths::Mat4 Maths::Mat4::CreateZRotationMatrix(float z)
 
 Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, float yaw)
 {
-	float p = pitch * Maths::M_PI / 180.f;
-	float y = yaw * Maths::M_PI / 180.f;
+	float p = pitch * Maths::DEG2RAD;
+	float y = yaw * Maths::DEG2RAD;
+
 	float cosPitch = cos(p);
 	float sinPitch = sin(p);
 	float cosYaw = cos(y);
@@ -857,20 +857,21 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 	Vec3 yaxis = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch };
 	Vec3 zaxis = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw };
 
-
-	float view[16] = {
+	float view[16] =
+	{
 		xaxis.x, xaxis.y, xaxis.z, -(Maths::Vec3::DotProduct(xaxis, position)),
 		yaxis.x, yaxis.y, yaxis.z, -(Maths::Vec3::DotProduct(yaxis, position)),
 		zaxis.x, zaxis.y, zaxis.z, -(Maths::Vec3::DotProduct(zaxis, position)),
-		0, 0, 0, 1 };
+		0, 0, 0, 1
+	};
 
 	return Mat4{ view };
 }
 
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
-	return CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y)
-		* CreateZRotationMatrix(rotation.z) * CreateTranslationMatrix(translation);
+	return CreateTranslationMatrix(translation) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y)
+		* CreateZRotationMatrix(rotation.z) * CreateScaleMatrix(scale);
 }
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)
@@ -881,10 +882,11 @@ Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _
 	{
 		(1 / view * (_aspectRatio)),	0,		    0,			0,
 		0,						1 / view,		0,			0,
-		0,						0,				(_far / (_far - _near)), -((_far * _near) / (_far - _near)),
+		0,						0,				((-_near - _far)/(_near - _far)), ((2 * _far * _near) / (_near - _far)),
 		0,						0,				1,			0
 	};
 	return Mat4(projectionData);
+
 }
 
 //ASSINGMENT AND EQUALITY OPERATIONS :
@@ -929,33 +931,26 @@ Maths::Mat4 Maths::Mat4::operator-(Mat4 _Mat) const
 Maths::Mat4 Maths::Mat4::operator*(Mat4 _Mat) const
 {
 	Mat4 temp;
+
+	temp.data[0] = data[0] * _Mat.data[0] + data[4] * _Mat.data[1] + data[8] * _Mat.data[2] + data[12] * _Mat.data[3];
+	temp.data[1] = data[1] * _Mat.data[0] + data[5] * _Mat.data[1] + data[9] * _Mat.data[2] + data[13] * _Mat.data[3];
+	temp.data[2] = data[2] * _Mat.data[0] + data[6] * _Mat.data[1] + data[10] * _Mat.data[2] + data[14] * _Mat.data[3];
+	temp.data[3] = data[3] * _Mat.data[0] + data[7] * _Mat.data[1] + data[11] * _Mat.data[2] + data[15] * _Mat.data[3];
 	
-	/*temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[4] + data[2] * _Mat.data[8] + data[3] * _Mat.data[12];
-	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[5] + data[2] * _Mat.data[9] + data[3] * _Mat.data[13];
-	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[6] + data[2] * _Mat.data[10] + data[3] * _Mat.data[14];
-	temp.data[3] = data[0] * _Mat.data[3] + data[1] * _Mat.data[7] + data[2] * _Mat.data[11] + data[3] * _Mat.data[15];
+	temp.data[4] = data[0] * _Mat.data[4] + data[4] * _Mat.data[5] + data[8] * _Mat.data[6] + data[12] * _Mat.data[7];
+	temp.data[5] = data[1] * _Mat.data[4] + data[5] * _Mat.data[5] + data[9] * _Mat.data[6] + data[13] * _Mat.data[7];
+	temp.data[6] = data[2] * _Mat.data[4] + data[6] * _Mat.data[5] + data[10] * _Mat.data[6] + data[14] * _Mat.data[7];
+	temp.data[7] = data[3] * _Mat.data[4] + data[7] * _Mat.data[5] + data[11] * _Mat.data[6] + data[15] * _Mat.data[7];
 
-	temp.data[4] = data[4] * _Mat.data[0] + data[5] * _Mat.data[4] + data[6] * _Mat.data[8] + data[7] * _Mat.data[12];
-	temp.data[5] = data[4] * _Mat.data[1] + data[5] * _Mat.data[5] + data[6] * _Mat.data[9] + data[7] * _Mat.data[13];
-	temp.data[6] = data[4] * _Mat.data[2] + data[5] * _Mat.data[6] + data[6] * _Mat.data[10] + data[7] * _Mat.data[14];
-	temp.data[7] = data[4] * _Mat.data[3] + data[5] * _Mat.data[7] + data[6] * _Mat.data[11] + data[7] * _Mat.data[15];
-
-	temp.data[8] = data[8] * _Mat.data[0] + data[9] * _Mat.data[4] + data[10] * _Mat.data[8] + data[11] * _Mat.data[12];
-	temp.data[9] = data[8] * _Mat.data[1] + data[9] * _Mat.data[5] + data[10] * _Mat.data[9] + data[11] * _Mat.data[13];
-	temp.data[10] = data[8] * _Mat.data[2] + data[9] * _Mat.data[6] + data[10] * _Mat.data[10] + data[11] * _Mat.data[14];
-	temp.data[11] = data[8] * _Mat.data[3] + data[9] * _Mat.data[7] + data[10] * _Mat.data[11] + data[11] * _Mat.data[15];
-
-	temp.data[12] = data[12] * _Mat.data[0] + data[13] * _Mat.data[4] + data[14] * _Mat.data[8] + data[15] * _Mat.data[12];
-	temp.data[13] = data[12] * _Mat.data[1] + data[13] * _Mat.data[5] + data[14] * _Mat.data[9] + data[15] * _Mat.data[13];
-	temp.data[14] = data[12] * _Mat.data[2] + data[13] * _Mat.data[6] + data[14] * _Mat.data[10] + data[15] * _Mat.data[14];
-	temp.data[15] = data[12] * _Mat.data[3] + data[13] * _Mat.data[7] + data[14] * _Mat.data[11] + data[15] * _Mat.data[15];*/
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			temp.data_4_4[i][j] = data_4_4[0][j] * _Mat.data_4_4[i][0] + data_4_4[1][j] * _Mat.data_4_4[i][1] + data_4_4[2][j] * _Mat.data_4_4[i][2] + data_4_4[3][j] * _Mat.data_4_4[i][3];
-		}
-	}
+	temp.data[8] = data[0] * _Mat.data[8] + data[4] * _Mat.data[9] + data[8] * _Mat.data[10] + data[12] * _Mat.data[11];
+	temp.data[9] = data[1] * _Mat.data[8] + data[5] * _Mat.data[9] + data[9] * _Mat.data[10] + data[13] * _Mat.data[11];
+	temp.data[10] = data[2] * _Mat.data[8] + data[6] * _Mat.data[9] + data[10] * _Mat.data[10] + data[14] * _Mat.data[11];
+	temp.data[11] = data[3] * _Mat.data[8] + data[7] * _Mat.data[9] + data[11] * _Mat.data[10] + data[15] * _Mat.data[11];
+	
+	temp.data[12] = data[0] * _Mat.data[12] + data[4] * _Mat.data[13] + data[8] * _Mat.data[14] + data[12] * _Mat.data[15];
+	temp.data[13] = data[1] * _Mat.data[12] + data[5] * _Mat.data[13] + data[9] * _Mat.data[14] + data[13] * _Mat.data[15];
+	temp.data[14] = data[2] * _Mat.data[12] + data[6] * _Mat.data[13] + data[10] * _Mat.data[14] + data[14] * _Mat.data[15];
+	temp.data[15] = data[3] * _Mat.data[12] + data[7] * _Mat.data[13] + data[11] * _Mat.data[14] + data[15] * _Mat.data[15];
 
 	return temp;
 }
@@ -982,25 +977,25 @@ Maths::Mat4 Maths::Mat4::operator*=(Mat4 _Mat)
 {
 	Mat4 temp;
 	
-	temp.data[0] = data[0] * _Mat.data[0] + data[1] * _Mat.data[4] + data[2] * _Mat.data[8] + data[3] * _Mat.data[12];
-	temp.data[1] = data[0] * _Mat.data[1] + data[1] * _Mat.data[5] + data[2] * _Mat.data[9] + data[3] * _Mat.data[13];
-	temp.data[2] = data[0] * _Mat.data[2] + data[1] * _Mat.data[6] + data[2] * _Mat.data[10] + data[3] * _Mat.data[14];
-	temp.data[3] = data[0] * _Mat.data[3] + data[1] * _Mat.data[7] + data[2] * _Mat.data[11] + data[3] * _Mat.data[15];
+	temp.data[0] = data[0] * _Mat.data[0] + data[4] * _Mat.data[1] + data[8] * _Mat.data[2] + data[12] * _Mat.data[3];
+	temp.data[1] = data[1] * _Mat.data[0] + data[5] * _Mat.data[1] + data[9] * _Mat.data[2] + data[13] * _Mat.data[3];
+	temp.data[2] = data[2] * _Mat.data[0] + data[6] * _Mat.data[1] + data[10] * _Mat.data[2] + data[14] * _Mat.data[3];
+	temp.data[3] = data[3] * _Mat.data[0] + data[7] * _Mat.data[1] + data[11] * _Mat.data[2] + data[15] * _Mat.data[3];
+	
+	temp.data[4] = data[0] * _Mat.data[4] + data[4] * _Mat.data[5] + data[8] * _Mat.data[6] + data[12] * _Mat.data[7];
+	temp.data[5] = data[1] * _Mat.data[4] + data[5] * _Mat.data[5] + data[9] * _Mat.data[6] + data[13] * _Mat.data[7];
+	temp.data[6] = data[2] * _Mat.data[4] + data[6] * _Mat.data[5] + data[10] * _Mat.data[6] + data[14] * _Mat.data[7];
+	temp.data[7] = data[3] * _Mat.data[4] + data[7] * _Mat.data[5] + data[11] * _Mat.data[6] + data[15] * _Mat.data[7];
 
-	temp.data[4] = data[4] * _Mat.data[0] + data[5] * _Mat.data[4] + data[6] * _Mat.data[8] + data[7] * _Mat.data[12];
-	temp.data[5] = data[4] * _Mat.data[1] + data[5] * _Mat.data[5] + data[6] * _Mat.data[9] + data[7] * _Mat.data[13];
-	temp.data[6] = data[4] * _Mat.data[2] + data[5] * _Mat.data[6] + data[6] * _Mat.data[10] + data[7] * _Mat.data[14];
-	temp.data[7] = data[4] * _Mat.data[3] + data[5] * _Mat.data[7] + data[6] * _Mat.data[11] + data[7] * _Mat.data[15];
-
-	temp.data[8] = data[8] * _Mat.data[0] + data[9] * _Mat.data[4] + data[10] * _Mat.data[8] + data[11] * _Mat.data[12];
-	temp.data[9] = data[8] * _Mat.data[1] + data[9] * _Mat.data[5] + data[10] * _Mat.data[9] + data[11] * _Mat.data[13];
-	temp.data[10] = data[8] * _Mat.data[2] + data[9] * _Mat.data[6] + data[10] * _Mat.data[10] + data[11] * _Mat.data[14];
-	temp.data[11] = data[8] * _Mat.data[3] + data[9] * _Mat.data[7] + data[10] * _Mat.data[11] + data[11] * _Mat.data[15];
-
-	temp.data[12] = data[12] * _Mat.data[0] + data[13] * _Mat.data[4] + data[14] * _Mat.data[8] + data[15] * _Mat.data[12];
-	temp.data[13] = data[12] * _Mat.data[1] + data[13] * _Mat.data[5] + data[14] * _Mat.data[9] + data[15] * _Mat.data[13];
-	temp.data[14] = data[12] * _Mat.data[2] + data[13] * _Mat.data[6] + data[14] * _Mat.data[10] + data[15] * _Mat.data[14];
-	temp.data[15] = data[12] * _Mat.data[3] + data[13] * _Mat.data[7] + data[14] * _Mat.data[11] + data[15] * _Mat.data[15];
+	temp.data[8] = data[0] * _Mat.data[8] + data[4] * _Mat.data[9] + data[8] * _Mat.data[10] + data[12] * _Mat.data[11];
+	temp.data[9] = data[1] * _Mat.data[8] + data[5] * _Mat.data[9] + data[9] * _Mat.data[10] + data[13] * _Mat.data[11];
+	temp.data[10] = data[2] * _Mat.data[8] + data[6] * _Mat.data[9] + data[10] * _Mat.data[10] + data[14] * _Mat.data[11];
+	temp.data[11] = data[3] * _Mat.data[8] + data[7] * _Mat.data[9] + data[11] * _Mat.data[10] + data[15] * _Mat.data[11];
+	
+	temp.data[12] = data[0] * _Mat.data[12] + data[4] * _Mat.data[13] + data[8] * _Mat.data[14] + data[12] * _Mat.data[15];
+	temp.data[13] = data[1] * _Mat.data[12] + data[5] * _Mat.data[13] + data[9] * _Mat.data[14] + data[13] * _Mat.data[15];
+	temp.data[14] = data[2] * _Mat.data[12] + data[6] * _Mat.data[13] + data[10] * _Mat.data[14] + data[14] * _Mat.data[15];
+	temp.data[15] = data[3] * _Mat.data[12] + data[7] * _Mat.data[13] + data[11] * _Mat.data[14] + data[15] * _Mat.data[15];
 
 	*this = temp;
 	return *this;
