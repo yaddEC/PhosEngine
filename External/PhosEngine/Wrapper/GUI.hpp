@@ -23,15 +23,24 @@ public:
 	static void NewFrame();
 	static void RenderFrame(GLFWwindow* window);
 	static void DestroyGUI(); // Has to be called at the end of the application.
+
+	static void DockingSpace();
 	 
 	static bool BeginWindow(const std::string& name, bool canCollpase = false);
 	static void EndWindow();
 
 	static void BeginGroup();
 	static void EndGroup();
+
+	static bool BeginPopupContextItem(const std::string& ID);
+	static void EndPopup();
+	static void OpenPopup(const std::string& ID);
+
+	static bool TreeNode(const std::string& label, bool isSelected, bool leaf = false);
+	static void TreePop();
 	 
-	static void DockingSpace();
-	 
+	static bool CollapsingHeader(const std::string& label);
+
 	static Maths::Vec2 GetWindowSize();
 	static bool IsWondowFocused();
 
@@ -55,5 +64,6 @@ public:
 	static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
 	static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
-		
+	static bool Selectable(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
+	static bool IsItemClicked(int mouseButton);
 };

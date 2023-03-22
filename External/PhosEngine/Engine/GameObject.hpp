@@ -19,7 +19,7 @@ namespace Engine
 	{
 	public:
 
-		GameObject(Scene* _scene, Transform* _transform);
+		GameObject();
 
 		std::string name;
 
@@ -30,13 +30,24 @@ namespace Engine
 		void OnDestroy();
 
 		Scene* GetScene() { return scene; }
+		void SetScene(Scene* _scene) { scene = _scene; }
 		std::vector<MonoBehaviour*> GetComponents() { return components; }
-		void AddComponent(MonoBehaviour* newComponent);
+
+		template <typename T>
+		T* AddComponent()
+		{
+			T* newComponent = new T();
+			newComponent->gameobject = this;
+			newComponent->transform = transform;
+			componentsBuffer.push_back(newComponent);
+			return newComponent;
+		}
 
 	private:
 		std::vector<MonoBehaviour*> components;
 		std::vector<MonoBehaviour*> componentsBuffer;
-		Scene* scene;
+		Scene* scene = nullptr;
+
 
 	};
 }

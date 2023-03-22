@@ -14,14 +14,19 @@ namespace Engine
 	class MONOBEHAVIOUR_API MonoBehaviour
 	{
 	public:
+
+		MonoBehaviour(bool _renderingComponent = false);
+		virtual ~MonoBehaviour();
 		
 		GameObject* gameobject;
 		Transform* transform;
 
 		bool isActive = true;
 
-		virtual void Start() {};
-		virtual void Update() {};
-		virtual void OnDestroy() {};
+		virtual void Start() = 0;
+		virtual void Update() = 0;
+		virtual void GUIUpdate() = 0;
+		virtual void OnDestroy() = 0;
+		const bool renderingComponent = false;
 	};
 }

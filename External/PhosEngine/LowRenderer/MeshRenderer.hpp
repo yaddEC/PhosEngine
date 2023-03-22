@@ -1,5 +1,6 @@
 #pragma once
 #include "Maths/Maths.hpp"
+#include "Engine/MonoBehaviour.hpp"
 
 #ifdef MESHRENDERER_EXPORTS
 #define MESHRENDERER_API __declspec(dllexport)
@@ -20,16 +21,23 @@ namespace Engine
 
 namespace LowRenderer
 {
-	class MESHRENDERER_API MeshRenderer
+	class MESHRENDERER_API MeshRenderer : public Engine::MonoBehaviour
 	{
 	public:
 
 		MeshRenderer(Resource::Mesh* mesh = nullptr);
-		~MeshRenderer();
+		virtual ~MeshRenderer();
 
-		Engine::Transform* transform; // TEMPORARY
 
 		void Render(const Resource::ShaderProgram* shader, const Maths::Mat4& viewProj) const;
+
+		void Start() override;
+		void Update() override;
+		void GUIUpdate() override {};
+		void OnDestroy() override;
+
+		void SetMesh(Resource::Mesh* _mesh) { m_mesh = _mesh; }
+		Resource::Mesh* GetMesh() { return m_mesh; }
 
 	private:
 

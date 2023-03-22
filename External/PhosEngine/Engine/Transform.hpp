@@ -29,8 +29,11 @@ namespace Engine
 		void AddChild(Transform* child) { m_children.push_back(child); child->m_parent = this; }
 		std::vector<Transform*> GetChildren() const { return m_children; }
 		Transform* GetParent() { return m_parent; }
+		void SetParent(Transform* _parent) { m_parent = _parent; m_parent->AddChild(this); }
 
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
+		GameObject* GetGameObject() const { return gameObject; }
+		void SetGameObject(GameObject* _gameobject) { gameObject = _gameobject; }
 
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 
