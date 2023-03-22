@@ -7,8 +7,7 @@
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Mesh.hpp"
 #include "Resource/Texture.hpp"
-
-#define RESOURCE_PATH "Resources"
+#include "Resource/Material.hpp"
 
 #define RESOURCEMANAGER_EXPORTS
 #include "Resource/ResourceManager.hpp"
@@ -48,6 +47,10 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			else if (GetExtension(entry) == "prog" || GetExtension(entry) == "PROG")
 			{
 				CreateResource<ShaderProgram>(GetRelativePath(entry, rootAseetsPath));
+			}
+			else if (GetExtension(entry) == "phmat" || GetExtension(entry) == "PHMAT")
+			{
+				CreateResource<Material>(GetRelativePath(entry, rootAseetsPath));
 			}
 		}
 	}

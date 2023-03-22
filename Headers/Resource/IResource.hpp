@@ -19,6 +19,7 @@ namespace Resource
 		virtual void Load(const std::string& filepath) = 0;
 		virtual void Bind() = 0;
 		virtual void Unload() = 0;
+		virtual void Save() {};
 
 		inline bool GetIsLoaded() { return p_isLoaded; }
 

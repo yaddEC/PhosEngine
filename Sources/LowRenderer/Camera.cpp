@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include "Wrapper/RHI.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Engine/Transform.hpp"
@@ -60,6 +61,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 
     glCullFace(GL_FRONT);
     glDepthFunc(GL_LEQUAL);
+    
 
     for (MeshRenderer* rend : rendList)
     {

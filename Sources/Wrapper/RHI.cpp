@@ -189,6 +189,11 @@ void Wrapper::RHI::ShaderInt(const unsigned int& programKey, const std::string& 
 	glUniform1i(glGetUniformLocation(programKey, uniformName.c_str()), value);
 }
 
+void Wrapper::RHI::ShaderFloat(unsigned int programKey, const std::string& uniformName, float value)
+{
+	glUniform1f(glGetUniformLocation(programKey, uniformName.c_str()), value);
+}
+
 void Wrapper::RHI::UnloadShader(const unsigned int* programKey)
 {
 	glDeleteProgram(*programKey);
@@ -240,6 +245,63 @@ void Wrapper::RHI::UnloadSubMesh(const unsigned int& VAO, const unsigned int& VB
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+}
+
+void Wrapper::RHI::CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey)
+{
+	glGenFramebuffers(1, frameBufferKey);
+	glBindFramebuffer(GL_FRAMEBUFFER, *frameBufferKey);
+
+	// create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+	glGenRenderbuffers(1, renderBufferKey);
+	glBindRenderbuffer(GL_RENDERBUFFER, *renderBufferKey);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 69, 69); // use a single renderbufferKey object for both a depth AND stencil buffer.
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, *renderBufferKey); // now actually attach it
+
+	// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateSize)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
+	glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
+
+	glViewport(0, 0, width, height);
+	if(updateSize)
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+}
+
+void Wrapper::RHI::UnbindFrameBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+}
+
+void Wrapper::RHI::ClearFrameBuffer(const Maths::Vec4& clearColor)
+{
+	glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureKey, 0);
+}
+
+void Wrapper::RHI::DetachTextureToFrameBuffer(unsigned int frameBufferKey)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
+}
+
+void Wrapper::RHI::UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey)
+{
+	glDeleteFramebuffers(1, frameBufferKey);
+	glDeleteBuffers(1, renderBufferKey);
 }
 
 int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& shaderSource)
