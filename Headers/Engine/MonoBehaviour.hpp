@@ -20,8 +20,9 @@ namespace Engine
 
 		bool isActive = true;
 
-		virtual void Start() {};
-		virtual void Update() {};
-		virtual void OnDestroy() {};
+		virtual void Start() = 0;
+		virtual void Update() = 0;
+		virtual void GUIUpdate() = 0;
+		virtual void OnDestroy() = 0;
 	};
 }

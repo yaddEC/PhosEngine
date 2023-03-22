@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugFromEngine|Win32">
@@ -265,6 +265,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
@@ -297,6 +298,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
@@ -333,6 +335,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
@@ -369,6 +372,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
@@ -400,6 +404,10 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\framework.h" />
     <ClInclude Include="Headers\LowRenderer\Camera.hpp" />
     <ClInclude Include="Headers\LowRenderer\Framebuffer.hpp" />
+    <ClInclude Include="Headers\LowRenderer\Light\DirectionalLight.hpp" />
+    <ClInclude Include="Headers\LowRenderer\Light\ILight.hpp" />
+    <ClInclude Include="Headers\LowRenderer\Light\PointLight.hpp" />
+    <ClInclude Include="Headers\LowRenderer\Light\SpotLight.hpp" />
     <ClInclude Include="Headers\LowRenderer\MeshRenderer.hpp" />
     <ClInclude Include="Headers\LowRenderer\Renderer.hpp" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
@@ -429,6 +437,10 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Engine\Transform.cpp" />
     <ClCompile Include="Sources\LowRenderer\Camera.cpp" />
     <ClCompile Include="Sources\LowRenderer\FrameBuffer.cpp" />
+    <ClCompile Include="Sources\LowRenderer\Light\DirectionalLight.cpp" />
+    <ClCompile Include="Sources\LowRenderer\Light\Light.cpp" />
+    <ClCompile Include="Sources\LowRenderer\Light\PointLight.cpp" />
+    <ClCompile Include="Sources\LowRenderer\Light\SpotLight.cpp" />
     <ClCompile Include="Sources\LowRenderer\MeshRenderer.cpp" />
     <ClCompile Include="Sources\LowRenderer\Renderer.cpp" />
     <ClCompile Include="Sources\Maths\Maths.cpp" />

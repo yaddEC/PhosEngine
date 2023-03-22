@@ -12,6 +12,7 @@ namespace LowRenderer
 {
 	class Camera;
 	class MeshRenderer;
+	class ILight;
 
 	class RENDERER_API Renderer
 	{
@@ -25,7 +26,7 @@ namespace LowRenderer
 
 		std::vector<MeshRenderer*> m_meshRenderers;
 		std::vector<Camera*> m_cameras;
-
+		std::vector<ILight*> m_lights;
 	};
 
 
