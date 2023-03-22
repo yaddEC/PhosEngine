@@ -18,6 +18,8 @@ namespace EditorGUI
 {
 	class SceneGUI;
 	class AssetExplorer;
+	class HierarchyGUI;
+	class InspectorGUI;
 }
 
 
@@ -49,6 +51,9 @@ namespace Core
 
 		EditorGUI::SceneGUI* m_sceneGUI;
 		EditorGUI::AssetExplorer* m_AssetExplorer;
+		EditorGUI::HierarchyGUI* m_Hierarchy;
+		EditorGUI::InspectorGUI* m_Inspector;
+
 		Engine::Scene* m_mainScene; // TEMP
 
 		ImGuiIO& m_io;

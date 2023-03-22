@@ -27,6 +27,7 @@ namespace Engine
 		virtual void Update() = 0;
 		virtual void GUIUpdate() = 0;
 		virtual void OnDestroy() = 0;
+
 		const bool renderingComponent = false;
 	};
 }
