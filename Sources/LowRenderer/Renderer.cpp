@@ -24,3 +24,24 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	}
 	mainCamera->Render(m_meshRenderers, viewportSize);
 }
+
+void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
+{
+	for (std::vector<MeshRenderer*>::iterator it = m_meshRenderers.begin(); it != m_meshRenderers.end();)
+	{
+		if (*it == rend)
+		{
+			it = m_meshRenderers.erase(it);
+			return;
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+std::vector<MeshRenderer*> LowRenderer::Renderer::GetMeshRenderers()
+{
+	return m_meshRenderers;
+}

@@ -14,6 +14,7 @@
 namespace LowRenderer
 {
 	class MeshRenderer;
+	class Renderer;
 }
 
 
@@ -22,7 +23,6 @@ namespace LowRenderer
 namespace Engine
 {
 	class GameObject;
-	class Renderer;
 
 	class SCENE_API Scene
 	{
@@ -31,15 +31,22 @@ namespace Engine
 		Scene();
 
 		void Update();
+		
 		GameObject* Instantiate(GameObject* newGameObject);
 
-		inline std::vector<LowRenderer::MeshRenderer*> GetModelList() { return modelList; }
-		inline void AddModel(LowRenderer::MeshRenderer* model) { modelList.push_back(model); }
+		LowRenderer::Renderer* GetRenderer() { return renderer; }
+
+		bool GetIsGameMode() { return m_IsGameMode; }
+
+		std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 
 
 	private:
-		std::vector<LowRenderer::MeshRenderer*> modelList;
 		std::vector<GameObject*> m_gameObjects;
+		std::vector<GameObject*> m_gameObjectBuffer;
+
+		LowRenderer::Renderer* renderer;
+		bool m_IsGameMode = false;
 	};
 }
 

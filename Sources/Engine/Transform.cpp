@@ -4,6 +4,7 @@
 #include "pch.h"
 //----------------
 
+#include "Wrapper/GUI.hpp"
 
 #define TRANSFORM_EXPORTS
 #include "Engine/Transform.hpp"
@@ -51,10 +52,7 @@ void Transform::ComputeGlobalMatrix(const Mat4& parentMatrix)
 
 void Transform::OnGUI()
 {
-	/*if (ImGui::CollapsingHeader("Transform"))
-	{
-		ImGui::DragFloat3("Position", &position.x, 0.1f, -100, 100);
-		ImGui::DragFloat3("Rotation", &rotation.x, 0.1f, -180, 180);
-		ImGui::DragFloat3("Scale", &scale.x, 0.1f, -100, 100);
-	}*/
+	GUI::EditVec3("Position", position, 0.05f);
+	GUI::EditVec3("Rotation", rotation, 0.05f);
+	GUI::EditVec3("Scale", scale, 0.05f);
 }

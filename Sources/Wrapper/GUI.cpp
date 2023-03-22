@@ -185,3 +185,49 @@ bool GUI::Button(const std::string& label, const Maths::Vec2& size)
 {
 	return ImGui::Button(label.c_str(), ImVec2(size.x, size.y));
 }
+
+bool GUI::Selectable(const std::string& label, const Maths::Vec2& size)
+{
+	return ImGui::Selectable(label.c_str(), nullptr, 0, ImVec2(size.x, size.y));
+}
+
+bool GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)
+{
+	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+	if (isSelected)
+		nodeFlags |= ImGuiTreeNodeFlags_Selected;
+	if (leaf)
+		nodeFlags |= ImGuiTreeNodeFlags_Leaf;
+
+	return ImGui::TreeNodeEx(label.c_str(), nodeFlags);
+}
+
+void GUI::TreePop()
+{
+	ImGui::TreePop();
+}
+
+bool GUI::CollapsingHeader(const std::string& label)
+{
+	return ImGui::CollapsingHeader(label.c_str());
+}
+
+bool GUI::IsItemClicked(int mouseButton)
+{
+	return ImGui::IsItemClicked(mouseButton);
+}
+
+bool GUI::BeginPopupContextItem(const std::string& ID)
+{
+	return ImGui::BeginPopupContextItem(ID.c_str());
+}
+
+void GUI::EndPopup()
+{
+	ImGui::EndPopup();
+}
+
+void GUI::OpenPopup(const std::string& ID)
+{
+	ImGui::OpenPopup(ID.c_str());
+}

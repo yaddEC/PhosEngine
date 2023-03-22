@@ -4,10 +4,12 @@
 #include "pch.h"
 //----------------
 
-#include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/Mesh.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "Engine/Transform.hpp"
+#include "Engine/GameObject.hpp"
+#include "Engine/Scene.hpp"
+#include "LowRenderer/Renderer.hpp"
 
 #define MESHRENDERER_EXPORTS
 #include "LowRenderer/MeshRenderer.hpp"
@@ -18,6 +20,7 @@ using namespace Engine;
 using namespace Resource;
 
 MeshRenderer::MeshRenderer(Mesh* _mesh)
+	: MonoBehaviour(true)
 {
 	m_mesh = _mesh;
 	transform = new Transform();
@@ -36,4 +39,19 @@ void MeshRenderer::Render(const ShaderProgram* shader, const Maths::Mat4& viewPr
 
 	m_mesh->Render(*shader);
 
+}
+
+void LowRenderer::MeshRenderer::Start()
+{
+	gameobject->GetScene()->GetRenderer()->AddMeshRenderer(this);
+}
+
+void LowRenderer::MeshRenderer::Update()
+{
+
+}
+
+void LowRenderer::MeshRenderer::OnDestroy()
+{
+	gameobject->GetScene()->GetRenderer()->DeleteMeshRenderer(this);
 }
