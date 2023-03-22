@@ -33,6 +33,7 @@ namespace LowRenderer
 
 		void Start() override;
 		void Update() override;
+		void GUIUpdate() override {};
 		void OnDestroy() override;
 
 		void SetMesh(Resource::Mesh* _mesh) { m_mesh = _mesh; }
