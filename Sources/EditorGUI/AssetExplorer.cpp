@@ -104,6 +104,6 @@ void AssetExplorer::DisplayFile(const string& file)
 	//GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (120 - textWidth) * 0.5f, 0));
 
 
-	GUI::DisplayText(file);
+	GUI::DisplayText(displayfilename);
 	GUI::EndGroup();
 }
