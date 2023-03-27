@@ -4,7 +4,6 @@
 
 void EditorGUI::InspectorGUI::DoUpdate()
 {
-	float min = Maths::Min(3.5f, 2.5f);
 	if (m_typeToDisplay == ObjectType::GAME_OBJECT)
 	{
 		DisplayGameObject();

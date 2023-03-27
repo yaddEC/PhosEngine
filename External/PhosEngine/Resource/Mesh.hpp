@@ -42,6 +42,8 @@ namespace Resource
 		void ProcessNode(aiNode* node, const aiScene* scene, const std::string& filepath);
 		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
 		class Texture* ProcessTexture(aiMaterial* mat, aiTextureType type, const std::string& filepath);
+
+		void GenerateMaterial(aiMaterial* mat);
 	};
 }
 
