@@ -20,9 +20,8 @@ void LowRenderer::DirectionalLight::Render(const Resource::ShaderProgram& shader
 	if (isActive)
 	{
 		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].direction", direction);
-		//shaderProg.SetUniformVec3(("dirLights[" + std::to_string( number ) + "].ambient", Mvec3 * 0.2f);
-		//shaderProg.SetUniformVec3(("dirLights[" + std::to_string( number ) + "].diffuse", light->diffuseColor * 0.5f);
-		//shaderProg.SetUniformVec3(("dirLights[" + std::to_string( number ) + "].specular", light->specularColor);
+		//shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].diffuse", light->diffuseColor * 0.5f);
+		//shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].specular", light->specularColor);
 	}
 }
 

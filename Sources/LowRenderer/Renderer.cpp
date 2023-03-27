@@ -45,3 +45,8 @@ std::vector<MeshRenderer*> LowRenderer::Renderer::GetMeshRenderers()
 {
 	return m_meshRenderers;
 }
+
+Maths::Vec3 LowRenderer::Renderer::GetAmbiente() const
+{
+	return ambiente;
+}
