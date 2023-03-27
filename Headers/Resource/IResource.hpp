@@ -22,6 +22,8 @@ namespace Resource
 		virtual void Save() {};
 
 		inline bool GetIsLoaded() { return p_isLoaded; }
+		std::string GetFilePath() { return p_directory + "\\" + p_name; }
+		void SetFileInfo(const std::string& filepath);
 
 		// Do not call every frame
 		virtual class Texture* GenerateFileIcon() = 0;
@@ -33,6 +35,5 @@ namespace Resource
 		std::string p_directory;
 		std::string p_name;
 		
-		void SetFileInfo(const std::string& filepath);
 	};
 }

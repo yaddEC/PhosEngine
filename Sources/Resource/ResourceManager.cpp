@@ -18,7 +18,8 @@ namespace fs = std::filesystem;
 
 std::string GetExtension(const fs::directory_entry& entry)
 {
-
+	if (entry.path().u8string().find_last_of('.') == std::string::npos)
+		return "";
 	return strrchr(entry.path().u8string().c_str(), '.') + 1;
 }
 

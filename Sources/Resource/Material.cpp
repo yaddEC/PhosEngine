@@ -10,6 +10,7 @@
 
 #include "Resource/Texture.hpp"
 #include "Resource/ShaderProgram.hpp"
+#include "Resource/ResourceManager.hpp"
 
 #define MATERIAL_EXPORTS
 #include "Resource/Material.hpp"
@@ -24,7 +25,7 @@ void Resource::Material::Load(const std::string& filepath)
 
 void Resource::Material::Bind()
 {
-
+	p_isLoaded = true;
 }
 
 void Resource::Material::Unload()
@@ -39,8 +40,16 @@ void Resource::Material::Save()
 
 	if (progFile)
 	{
-		progFile << "c_alb " << m_albedo.color.x << " " << m_albedo.color.y << " " << m_albedo.color.z << '\n';
-		progFile << "c_spec " << m_specular.color.x << " " << m_specular.color.y << " " << m_specular.color.z << '\n';
+		if (m_albedo.useTexture)
+			progFile << "t_alb " << m_albedo.texture->GetFilePath() << '\n';
+		else
+			progFile << "c_alb " << m_albedo.color.x << " " << m_albedo.color.y << " " << m_albedo.color.z << '\n';
+
+		if (m_specular.useTexture)
+			progFile << "t_spec " << m_specular.texture->GetFilePath() << '\n';
+		else
+			progFile << "c_spec " << m_specular.color.x << " " << m_specular.color.y << " " << m_specular.color.z << '\n';
+
 		progFile << "shiny " << m_shininess;
 	}
 }
@@ -108,8 +117,25 @@ void Resource::Material::SetProperties(const std::string& filepath)
 				m_shininess = std::stof(sh) ;
 				
 			}
+			else if (prefix == "t_alb")
+			{
+				m_albedo.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(6));
+				m_albedo.useTexture = true;
+			}
+			else if (prefix == "t_spec")
+			{
+				m_specular.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(6));
+				m_specular.useTexture = true;
+			}
 		}
 	}
+}
+
+void Resource::Material::SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess)
+{
+	m_albedo.color = albedo.color; m_albedo.texture = albedo.texture; m_albedo.useTexture = albedo.useTexture;
+	m_specular.color = specular.color; m_specular.texture = specular.texture; m_specular.useTexture = specular.useTexture;
+	m_shininess = shininess;
 }
 
 std::vector<std::string> Resource::Material::split(const char* str, char c)

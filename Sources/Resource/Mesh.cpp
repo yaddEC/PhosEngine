@@ -9,6 +9,7 @@
 #include "Resource/SubMesh.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/ShaderProgram.hpp"
+#include "Resource/Material.hpp"
 
 #define MESH_EXPORTS
 #include "Resource/Mesh.hpp"
@@ -139,6 +140,7 @@ SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string&
     if (mesh->mMaterialIndex >= 0)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        GenerateMaterial(material);
         texture = ProcessTexture(material, aiTextureType_DIFFUSE, filepath);
     }
 
@@ -152,4 +154,39 @@ Texture* Mesh::ProcessTexture(aiMaterial* mat, aiTextureType type, const std::st
     ResourceManager& rm = ResourceManager::GetInstance();
     Texture* tex = rm.GetResource<Texture>(p_directory + "\\" + str.C_Str());
     return tex;
+}
+
+void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
+{
+    aiString name;
+    mat->Get(AI_MATKEY_NAME, name);
+
+    aiColor3D albedoCol, specCol;
+    mat->Get(AI_MATKEY_COLOR_DIFFUSE, albedoCol);
+    mat->Get(AI_MATKEY_COLOR_SPECULAR, specCol);
+
+    aiString albedoTex, specTex;
+    mat->GetTexture(aiTextureType_DIFFUSE, 0, &albedoTex);
+    mat->GetTexture(aiTextureType_SPECULAR, 0, &specTex);
+
+    float shininess;
+    mat->Get(AI_MATKEY_SHININESS, shininess);
+
+    Material* material = Resource::ResourceManager::GetInstance().CreateResource<Material>(p_directory + "\\" + name.C_Str() + ".phmat");
+
+    ColorMap albedo;
+    albedo.texture = ResourceManager::GetInstance().GetResource<Texture>(p_directory + "\\" + albedoTex.C_Str());
+    albedo.useTexture = albedo.texture;
+    if (!albedo.useTexture)
+        albedo.color = Maths::Vec3(albedoCol.r, albedoCol.g, albedoCol.b);
+
+    ColorMap spec;
+    spec.texture = ResourceManager::GetInstance().GetResource<Texture>(p_directory + "\\" + specTex.C_Str());
+    spec.useTexture = spec.texture;
+    if (!spec.useTexture)
+        spec.color = Maths::Vec3(specCol.r, specCol.g, specCol.b);
+
+    material->SetProperties(albedo, spec, shininess);
+    material->SetFileInfo(p_directory + "\\" + name.C_Str() + ".phmat");
+    material->Save();
 }
