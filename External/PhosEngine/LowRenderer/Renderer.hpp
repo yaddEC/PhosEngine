@@ -12,7 +12,9 @@ namespace LowRenderer
 {
 	class Camera;
 	class MeshRenderer;
-	class ILight;
+	class DirectionalLight;
+	class PointLight;
+	class SpotLight;
 
 	class RENDERER_API Renderer
 	{
@@ -25,12 +27,15 @@ namespace LowRenderer
 		void DeleteMeshRenderer(MeshRenderer* rend);
 
 		std::vector<MeshRenderer*> GetMeshRenderers();
-
+		Maths::Vec3 GetAmbiente() const;
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
 		std::vector<Camera*> m_cameras;
-		std::vector<ILight*> m_lights;
+		std::vector<DirectionalLight*> m_directionalLights;
+		std::vector<PointLight*> m_pointLights;
+		std::vector<SpotLight*> m_spotLights;
+		Maths::Vec3 ambiente = Maths::Vec3(0);
 	};
 
 
