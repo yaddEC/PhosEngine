@@ -47,6 +47,7 @@ namespace Resource
 		void SendDataToShader() const;
 
 		ShaderProgram* GetShader() { return m_shader; }
+		void SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess);
 
 	private:
 		ShaderProgram* m_shader = nullptr;
