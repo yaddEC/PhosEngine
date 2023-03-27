@@ -8,8 +8,6 @@
 #include <fstream>
 #include <sstream>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
 #include"Wrapper/RHI.hpp"
 
@@ -85,6 +83,16 @@ void ShaderProgram::SetUniformVec3(const string& uniformName, const Vec3& vec3) 
 void ShaderProgram::SetUniformInt(const std::string& uniformName, int value) const
 {
 	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
+}
+
+void Resource::ShaderProgram::SetUniformBool(const std::string& uniformName, bool value) const
+{
+	Wrapper::RHI::ShaderInt(m_programKey, uniformName, (int)value);
+}
+
+void Resource::ShaderProgram::SetUniformFloat(const std::string& uniformName, float value) const
+{
+	Wrapper::RHI::ShaderFloat(m_programKey, uniformName, value);
 }
 
 void ShaderProgram::SetTexture(const std::string& uniformName, int value, const Texture& texture) const

@@ -66,4 +66,6 @@ public:
 	static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
 	static bool Selectable(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
 	static bool IsItemClicked(int mouseButton);
+
+	static void DragDropSource(const std::string& ID, const std::string& Label);
 };

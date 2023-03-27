@@ -413,6 +413,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
+    <ClInclude Include="Headers\Resource\Material.hpp" />
     <ClInclude Include="Headers\Resource\Mesh.hpp" />
     <ClInclude Include="Headers\Resource\ResourceManager.hpp" />
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
@@ -455,6 +456,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Sources\Resource\IResource.cpp" />
+    <ClCompile Include="Sources\Resource\Material.cpp" />
     <ClCompile Include="Sources\Resource\Mesh.cpp" />
     <ClCompile Include="Sources\Resource\ResourceManager.cpp" />
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />

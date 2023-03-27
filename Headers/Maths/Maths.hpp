@@ -13,7 +13,7 @@
 namespace Maths
 {
 	constexpr float M_PI = 3.14159265358979323846f;
-	constexpr float DEG2RAD = M_PI / 180;
+	constexpr float DEG2RAD = M_PI / 180.f;
 
 	template <typename T>
 	void Swap(T& a, T& b)

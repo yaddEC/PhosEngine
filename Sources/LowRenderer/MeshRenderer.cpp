@@ -51,6 +51,11 @@ void LowRenderer::MeshRenderer::Update()
 
 }
 
+void LowRenderer::MeshRenderer::GUIUpdate()
+{
+
+}
+
 void LowRenderer::MeshRenderer::OnDestroy()
 {
 	gameobject->GetScene()->GetRenderer()->DeleteMeshRenderer(this);

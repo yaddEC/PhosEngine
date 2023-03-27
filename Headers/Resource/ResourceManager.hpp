@@ -47,8 +47,8 @@ namespace Resource
 			if (!std::is_base_of<IResource, T>::value)
 				return nullptr;
 
-			/*if (T* resource = GetResource<T>(filepath))
-				return resource;*/
+			if (T* resource = GetResource<T>(filepath))
+				return resource;
 
 			T* newResource = new T();
 

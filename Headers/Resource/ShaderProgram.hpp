@@ -38,7 +38,8 @@ namespace Resource
 		void SetUniformMatrix(const std::string& uniformName, const Maths::Mat4& mat) const;
 		void SetUniformVec3(const std::string& uniformName, const Maths::Vec3& vec3) const;
 		void SetUniformInt(const std::string& uniformName, int value) const;
-
+		void SetUniformBool(const std::string& uniformName, bool value) const;
+		void SetUniformFloat(const std::string& uniformName, float value) const;
 		void SetTexture(const std::string& uniformName, int value, const Texture& texture) const;
 
 

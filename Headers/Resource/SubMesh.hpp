@@ -17,6 +17,8 @@
 
 namespace Resource
 {
+	class Material;
+
 	struct VERTEX_API Vertex
 	{
 		Maths::Vec3 position;
