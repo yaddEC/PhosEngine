@@ -40,12 +40,16 @@ namespace LowRenderer
 		void SetMesh(Resource::Mesh* _mesh) { m_mesh = _mesh; }
 		Resource::Mesh* GetMesh() { return m_mesh; }
 
+		void SetMaterial(Resource::Material* _material) { m_material = _material; }
+		Resource::Material* GetMaterial() { return m_material; }
+
+		
+
 	private:
 
 		Resource::Mesh* m_mesh;
-		Resource::Material* m_material;
+		Resource::Material* m_material = nullptr;
 
-		int testInt, testInt2; // TEST
 	};
 }
 

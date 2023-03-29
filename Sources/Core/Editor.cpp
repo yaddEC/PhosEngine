@@ -33,11 +33,14 @@ bool Editor::Init()
     // INIT SCENE TEST
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
     rm.Init("Assets");
+    rm.Init("DefaultAssets");
+    rm.Reload();
     Engine::Input::GetInstance().Init(m_window);
     InitEditorGUI();
     m_mainScene = new Engine::Scene();
     m_sceneGUI->SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
+    m_AssetExplorer->Reload();
     
 
     return true;
@@ -54,14 +57,12 @@ void Editor::Run()
         Wrapper::RHI::PollEvents();
 
         GUI::NewFrame();
-        //ImGuiNewFrame();
         
         Engine::Input::GetInstance().Update();
         m_mainScene->Update();
         UpdateEditorGUI();
 
         GUI::RenderFrame(m_window);
-        //RenderImGuiFrame();
         
         /* Swap front and back buffers */
         Wrapper::RHI::SwapBuffer(m_window);

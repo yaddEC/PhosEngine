@@ -21,6 +21,7 @@ namespace Resource
 		ResourceManager(const ResourceManager&) = delete;
 
 		void Init(const std::string& rootAseetsPath);
+		void Reload();
 
 		static ResourceManager& GetInstance()
 		{
@@ -51,7 +52,7 @@ namespace Resource
 				return resource;
 
 			T* newResource = new T();
-
+			((IResource*)newResource)->SetFileInfo(filepath);
 
 			GetInstance().m_resourceMap.emplace(filepath, newResource);
 			return newResource;

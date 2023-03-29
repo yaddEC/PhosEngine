@@ -39,8 +39,4 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 
 		GUI::TreePop();
 	}
-	
-	
-	
-
 }

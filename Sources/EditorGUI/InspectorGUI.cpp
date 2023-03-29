@@ -2,6 +2,7 @@
 #include "Engine/Transform.hpp"
 #include "Wrapper/GUI.hpp"
 #include "Engine/MonoBehaviour.hpp"
+#include <typeinfo>
 
 void EditorGUI::InspectorGUI::DoUpdate()
 {
@@ -29,7 +30,6 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 
 	for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
 	{
-		
 		component->GUIUpdate();
 	}
 }

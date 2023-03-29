@@ -1,6 +1,7 @@
 #include "EditorGUI/AssetExplorer.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/ResourceManager.hpp"
+#include "Resource/IResource.hpp"
 #include "Wrapper/GUI.hpp"
 
 namespace fs = std::filesystem;
@@ -37,7 +38,6 @@ void AssetExplorer::Reload()
 
 void AssetExplorer::DoUpdate()
 {
-
 	GUI::DisplayText(m_currentDirectory);
 	GUI::Separator();
 
@@ -50,17 +50,22 @@ void AssetExplorer::DoUpdate()
 		}
 	}
 
+
 	for (const auto& entry : fs::directory_iterator(m_currentDirectory))
 	{
 		string entryName = entry.path().u8string();
 
 		if (fs::is_directory(entry))
 		{
+			GUI::BeginGroup();
+			Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("DefaultAssets\\folderWhite.png")->DisplayImage(90);
 			if (GUI::Button(entryName.substr(entryName.find_last_of('\\') + 1).c_str()))
 			{
 				m_currentDirectory = entryName;
+				GUI::EndGroup();
 				return;
 			}
+			GUI::EndGroup();
 		}
 		else
 		{
@@ -78,32 +83,39 @@ void AssetExplorer::DisplayFile(const string& file)
 	Maths::Vec2 cursorPos = GUI::GetCursorPos();
 
 	GUI::BeginGroup();
-	if (m_fileIcons.count(file))
+	if (m_fileIcons.count(file) && m_fileIcons.at(file))
 	{
 		Resource::Texture* icon = m_fileIcons.at(file);
-		icon->DisplayImage(120);
+		icon->DisplayImage(90);
 	}
 	else
 	{
-		Resource::Texture* icon = rm.GetResource<Resource::Texture>("Assets\\Texture\\macron.png");
+		Resource::Texture* icon = rm.GetResource<Resource::Texture>("DefaultAssets\\whiteFile.png");
 		if (icon)
 		{
-			icon->DisplayImage(120);
+			icon->DisplayImage(90);
 			
 		}
 	}
-	//GUI::SetCursorPos(Maths::Vec2(0, cursorPos.y + 130));
+
 
 	// TEMP
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
-	float textWidth = 90;
-	//float textWidth = Maths::Min(GUI::CalcTextSize(displayfilename.c_str()).x, 120.f);
-	displayfilename = textWidth >= 120 ? displayfilename.substr(0, 15) + "..." : displayfilename;
+	//float textWidth = 90;
+	float textWidth = Maths::Min(GUI::CalcTextSize(displayfilename).x, 90.f);
+	displayfilename = textWidth >= 90 ? displayfilename.substr(0, 12) + "..." : displayfilename;
 
-	//GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (120 - textWidth) * 0.5f, 0));
+	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (90 - textWidth) * 0.5f, cursorPos.y + 100));
 
 
 	GUI::DisplayText(displayfilename);
 	GUI::EndGroup();
+
+	Resource::IResource* resource = rm.GetResource<Resource::IResource>(file);
+	if (resource)
+	{
+		void** item = new void* (resource);
+		GUI::DragDropSource(resource->GetTypeName(), displayfilename, item);
+	}
 }

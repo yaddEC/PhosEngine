@@ -7,6 +7,7 @@
 namespace Resource
 {
 	class Texture;
+	class IResource;
 }
 
 namespace EditorGUI
@@ -24,6 +25,7 @@ namespace EditorGUI
 	private:
 
 		void DoUpdate() override;
+		
 		std::unordered_map<std::string, Resource::Texture*> m_fileIcons;
 
 		const std::string m_assetsRootDirectory;
