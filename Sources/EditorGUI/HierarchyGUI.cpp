@@ -2,6 +2,10 @@
 #include "Wrapper/GUI.hpp"
 #include "Engine/Transform.hpp"
 
+EditorGUI::HierarchyGUI::HierarchyGUI() : IEditorGUI("Hierarchy", true)
+{
+
+}
 
 void EditorGUI::HierarchyGUI::DoUpdate()
 {

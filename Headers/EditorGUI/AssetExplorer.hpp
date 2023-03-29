@@ -14,8 +14,7 @@ namespace EditorGUI
 	class AssetExplorer : public IEditorGUI
 	{
 	public:
-		AssetExplorer(const std::string& rootDirectory)
-			: IEditorGUI("Assets"), m_assetsRootDirectory(rootDirectory), m_currentDirectory(rootDirectory) {}
+		AssetExplorer(const std::string& rootDirectory);
 
 		~AssetExplorer();
 
