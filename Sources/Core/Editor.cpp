@@ -6,6 +6,7 @@
 #include "EditorGUI/AssetExplorer.hpp"
 #include "EditorGUI/HierarchyGUI.hpp"
 #include "EditorGUI/InspectorGUI.hpp"
+#include "EditorGUI/MenuBar.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
@@ -80,6 +81,7 @@ void Editor::Destroy()
     delete m_mainScene;
     delete m_AssetExplorer;
     delete m_Hierarchy;
+    delete m_MenuBar;
 
     RHI::DestroyWindow(m_window);
 }
@@ -104,6 +106,7 @@ bool Core::Editor::InitEditorGUI()
     m_Hierarchy = new EditorGUI::HierarchyGUI();
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     m_Inspector = new EditorGUI::InspectorGUI();
+    m_MenuBar = new EditorGUI::MenuBar();
     return true;
 }
 
@@ -142,5 +145,6 @@ void Core::Editor::UpdateEditorGUI()
     m_AssetExplorer->Update();
     m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());
     m_Inspector->Update();
+    m_MenuBar->Update();
 }
 
