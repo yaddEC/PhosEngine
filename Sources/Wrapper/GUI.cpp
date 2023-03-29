@@ -76,7 +76,10 @@ void GUI::DestroyGUI()
 
 bool GUI::BeginWindow(const std::string& name, bool canCollpase)
 {
-	return ImGui::Begin(name.c_str(), 0, ImGuiWindowFlags_NoCollapse);
+	ImGuiWindowFlags Flag = ImGuiWindowFlags_None;
+	if (!canCollpase)
+		Flag |= ImGuiWindowFlags_NoCollapse;
+	return ImGui::Begin(name.c_str(), 0, Flag);
 }
 
 void GUI::EndWindow()
