@@ -217,6 +217,34 @@ bool GUI::IsItemClicked(int mouseButton)
 	return ImGui::IsItemClicked(mouseButton);
 }
 
+void GUI::DragDropSource(const std::string& ID, const std::string& label, const void* data)
+{
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+	{
+		ImGui::SetDragDropPayload(ID.c_str(), data, sizeof(data));
+		ImGui::Text(label.c_str());
+		ImGui::EndDragDropSource();
+	}
+}
+
+void* GUI::DragDropTarget(const std::string& ID)
+{
+	void* result = nullptr;
+	if (ImGui::BeginDragDropTarget())
+	{
+		// Enable dropping textures onto materials.
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(ID.c_str(), ImGuiDragDropFlags_SourceAllowNullID))
+		{
+			result = payload->Data;
+		}
+		ImGui::EndDragDropTarget();
+	}
+	return result;
+}
+
+
+
+
 bool GUI::BeginPopupContextItem(const std::string& ID)
 {
 	return ImGui::BeginPopupContextItem(ID.c_str());

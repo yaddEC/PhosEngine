@@ -6,10 +6,12 @@
 
 #include "Resource/Mesh.hpp"
 #include "Resource/ShaderProgram.hpp"
+#include "Resource/Material.hpp"
 #include "Engine/Transform.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Scene.hpp"
 #include "LowRenderer/Renderer.hpp"
+#include "Wrapper/GUI.hpp"
 
 #define MESHRENDERER_EXPORTS
 #include "LowRenderer/MeshRenderer.hpp"
@@ -24,6 +26,7 @@ MeshRenderer::MeshRenderer(Mesh* _mesh)
 {
 	m_mesh = _mesh;
 	transform = new Transform();
+
 }
 
 MeshRenderer::~MeshRenderer()
@@ -53,7 +56,8 @@ void LowRenderer::MeshRenderer::Update()
 
 void LowRenderer::MeshRenderer::GUIUpdate()
 {
-
+	
+	
 }
 
 void LowRenderer::MeshRenderer::OnDestroy()
