@@ -187,7 +187,7 @@ void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
     spec.useTexture = spec.texture;
     if (!spec.useTexture)
         spec.color = Maths::Vec3(specCol.r, specCol.g, specCol.b);
-    ShaderProgram* shader = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\BasicShader.prog");
+    ShaderProgram* shader = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\MainShader.prog");
     material->SetProperties(albedo, spec, shininess, shader);
     material->SetFileInfo(p_directory + "\\" + name.C_Str() + ".phmat");
     material->Save();

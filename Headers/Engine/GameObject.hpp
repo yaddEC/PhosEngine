@@ -9,6 +9,13 @@
 #define GAMEOBJECT_API __declspec(dllimport)
 #endif
 
+namespace LowRenderer
+{
+	class DirectionalLight;
+	class PointLight;
+	class SpotLight;
+}
+
 namespace Engine
 {
 	class Transform;

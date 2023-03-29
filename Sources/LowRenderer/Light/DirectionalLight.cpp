@@ -6,12 +6,19 @@
 #include <string>
 
 #include "Resource/ShaderProgram.hpp"
+#include "Engine/MonoBehaviour.hpp"
 #include "Engine/Transform.hpp"
+#include "Engine/GameObject.hpp"
+#include "Engine/Scene.hpp"
+#include "LowRenderer/Renderer.hpp"
 
 #define DIRECTIONALLIGHT_EXPORTS
 #include "LowRenderer/Light/DirectionalLight.hpp"
 
-LowRenderer::DirectionalLight::DirectionalLight() {}
+LowRenderer::DirectionalLight::DirectionalLight()
+{
+	color = Maths::Vec3(1, 1, 1);
+}
 
 LowRenderer::DirectionalLight::~DirectionalLight() {}
 
@@ -20,12 +27,15 @@ void LowRenderer::DirectionalLight::Render(const Resource::ShaderProgram& shader
 	if (isActive)
 	{
 		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].direction", direction);
-		//shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].diffuse", light->diffuseColor * 0.5f);
-		//shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].specular", light->specularColor);
+		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].color", color);
+		shaderProg.SetUniformFloat("dirLights[" + std::to_string( number ) + "].intensity", intensity);
 	}
 }
 
-void LowRenderer::DirectionalLight::Start() {}
+void LowRenderer::DirectionalLight::Start() 
+{
+	gameobject->GetScene()->GetRenderer()->AddDirLight(this);
+}
 
 void LowRenderer::DirectionalLight::Update()
 {
@@ -37,4 +47,9 @@ void LowRenderer::DirectionalLight::Update()
 void LowRenderer::DirectionalLight::GUIUpdate()
 {
 
+}
+
+void LowRenderer::DirectionalLight::OnDestroy()
+{
+	gameobject->GetScene()->GetRenderer()->DeleteDirLight(this);
 }

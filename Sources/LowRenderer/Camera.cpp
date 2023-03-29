@@ -35,7 +35,7 @@ Camera::Camera()
     transform = new Transform;
     transform->position = Vec3(0, 0, -10);
 
-    m_shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\BasicShader.prog");
+    m_shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\MainShader.prog");
 
 
     m_renderTexture.Bind();
@@ -76,6 +76,11 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 Resource::Texture& LowRenderer::Camera::GetRenderTexture()
 {
     return m_renderTexture;
+}
+
+Resource::ShaderProgram& LowRenderer::Camera::GetShaderProg()
+{
+    return *m_shaderProgram;
 }
 
 void Camera::OnGUI()

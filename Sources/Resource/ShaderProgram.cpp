@@ -80,6 +80,11 @@ void ShaderProgram::SetUniformVec3(const string& uniformName, const Vec3& vec3) 
 	Wrapper::RHI::ShaderVec3(m_programKey, uniformName, vec3);
 }
 
+void Resource::ShaderProgram::SetUniformVec4(const std::string& uniformName, const Maths::Vec4& vec4) const
+{
+	Wrapper::RHI::ShaderVec4(m_programKey, uniformName, vec4);
+}
+
 void ShaderProgram::SetUniformInt(const std::string& uniformName, int value) const
 {
 	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);

@@ -184,6 +184,11 @@ void Wrapper::RHI::ShaderVec3(const unsigned int& programKey, const std::string&
 	glUniform3fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, &vec3.x);
 }
 
+void Wrapper::RHI::ShaderVec4(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec4& vec4)
+{
+	glUniform4fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, &vec4.x);
+}
+
 void Wrapper::RHI::ShaderInt(const unsigned int& programKey, const std::string& uniformName, int value)
 {
 	glUniform1i(glGetUniformLocation(programKey, uniformName.c_str()), value);

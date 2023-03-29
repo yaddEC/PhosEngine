@@ -11,6 +11,10 @@
 #include "Resource/Material.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
+#include "LowRenderer/Light/DirectionalLight.hpp"
+#include "LowRenderer/Light/PointLight.hpp"
+#include "LowRenderer/Light/SpotLight.hpp"
+#include "Resource/Mesh.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
 
@@ -27,6 +31,7 @@ Scene::Scene()
 	renderer = new Renderer();
 
 	Mesh* boo = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\boo.obj");
+	Mesh* ground = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\cube.obj");
 
 	Material* mat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Model\\boo_mat.001.phmat");
 
@@ -46,8 +51,32 @@ Scene::Scene()
 	go2->transform->position.x = 5;
 	go2->transform->scale = Maths::Vec3(0.5f, 0.5f, 0.5f);
 
+	GameObject* go3 = new GameObject();
+	go3->name = "Ground";
+	MeshRenderer* rend3 = go3->AddComponent<MeshRenderer>();
+	rend3->SetMesh(ground);
+	rend3->SetMaterial(mat);
+	go3->transform->position.y = -3;
+	go3->transform->scale = Maths::Vec3(10, 1, 10);
+
+	GameObject* light = new GameObject();
+	DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
+	light->name = "DirLight";
+
+	//GameObject* light1 = new GameObject();
+	//PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
+	//light1->name = "pointLight";	
+
+	GameObject* light2 = new GameObject();
+	SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
+	light2->name = "SpotLight";
+
 	Instantiate(go);
 	Instantiate(go2);
+	Instantiate(go3);
+	Instantiate(light);
+	//Instantiate(light1);
+	//Instantiate(light2);
 }
 
 void Scene::Update()

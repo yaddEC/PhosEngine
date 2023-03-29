@@ -439,7 +439,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\LowRenderer\Camera.cpp" />
     <ClCompile Include="Sources\LowRenderer\FrameBuffer.cpp" />
     <ClCompile Include="Sources\LowRenderer\Light\DirectionalLight.cpp" />
-    <ClCompile Include="Sources\LowRenderer\Light\Light.cpp" />
+    <ClCompile Include="Sources\LowRenderer\Light\ILight.cpp" />
     <ClCompile Include="Sources\LowRenderer\Light\PointLight.cpp" />
     <ClCompile Include="Sources\LowRenderer\Light\SpotLight.cpp" />
     <ClCompile Include="Sources\LowRenderer\MeshRenderer.cpp" />
