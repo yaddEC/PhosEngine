@@ -26,8 +26,17 @@ namespace LowRenderer
 		void AddMeshRenderer(MeshRenderer* rend) { m_meshRenderers.push_back(rend); }
 		void DeleteMeshRenderer(MeshRenderer* rend);
 
+		void AddDirLight(DirectionalLight* dir) { m_directionalLights.push_back(dir); }
+		void DeleteDirLight(DirectionalLight* dir);
+
+		void AddPointLight(PointLight* point) { m_pointLights.push_back(point); }
+		void DeletePointLight(PointLight* point);
+
+		void AddSpotLight(SpotLight* spot) { m_spotLights.push_back(spot); }
+		void DeleteSpotLight(SpotLight* dir);
+
 		std::vector<MeshRenderer*> GetMeshRenderers();
-		Maths::Vec3 GetAmbiente() const;
+		Maths::Vec4 GetAmbient() const;
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
@@ -35,7 +44,7 @@ namespace LowRenderer
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;
-		Maths::Vec3 ambiente = Maths::Vec3(0);
+		Maths::Vec4 ambient = Maths::Vec4(1);
 	};
 
 

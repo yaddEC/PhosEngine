@@ -6,6 +6,13 @@
 
 #include "LowRenderer/Camera.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
+#include "LowRenderer/Light/DirectionalLight.hpp"
+#include "LowRenderer/Light/PointLight.hpp"
+#include "LowRenderer/Light/SpotLight.hpp"
+
+#include "Resource/ShaderProgram.hpp"
+
+#include "Engine/Transform.hpp"
 
 #define RENDERER_EXPORTS
 #include "LowRenderer/Renderer.hpp"
@@ -22,21 +29,75 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 			cam->Render(m_meshRenderers, viewportSize);
 		}
 	}
+
+	mainCamera->GetShaderProg().SetUniformVec4("ambientColor", ambient);
+	mainCamera->GetShaderProg().SetUniformVec3("viewPos", mainCamera->transform->position);
+
+	mainCamera->GetShaderProg().SetUniformInt("lenghtDirLight", m_directionalLights.size());
+	mainCamera->GetShaderProg().SetUniformInt("lenghtPointLight", m_pointLights.size());
+	mainCamera->GetShaderProg().SetUniformInt("lenghtSpotLight", m_spotLights.size());
+
+	for (int i = 0; i < m_directionalLights.size(); i++)
+	{
+		m_directionalLights[i]->Render(mainCamera->GetShaderProg(), i);
+	}
+
+	for (int i = 0; i < m_pointLights.size(); i++)
+	{
+		m_pointLights[i]->Render(mainCamera->GetShaderProg(), i);
+	}
+
+	for (int i = 0; i < m_spotLights.size(); i++)
+	{
+		m_spotLights[i]->Render(mainCamera->GetShaderProg(), i);
+	}
 	mainCamera->Render(m_meshRenderers, viewportSize);
 }
 
 void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
 {
-	for (std::vector<MeshRenderer*>::iterator it = m_meshRenderers.begin(); it != m_meshRenderers.end();)
+	for (std::vector<MeshRenderer*>::iterator it = m_meshRenderers.begin(); it != m_meshRenderers.end(); ++it)
 	{
 		if (*it == rend)
 		{
 			it = m_meshRenderers.erase(it);
 			return;
 		}
-		else
+	}
+}
+
+void LowRenderer::Renderer::DeleteDirLight(DirectionalLight* dir)
+{
+	for (std::vector<DirectionalLight*>::iterator it = m_directionalLights.begin(); it != m_directionalLights.end(); ++it)
+	{
+		if (*it == dir)
 		{
-			++it;
+			it = m_directionalLights.erase(it);
+			return;
+		}
+	}
+}
+
+void LowRenderer::Renderer::DeletePointLight(PointLight* point)
+{
+	for (std::vector<PointLight*>::iterator it = m_pointLights.begin(); it != m_pointLights.end(); ++it)
+	{
+		if (*it == point)
+		{
+			it = m_pointLights.erase(it);
+			return;
+		}
+	}
+}
+
+void LowRenderer::Renderer::DeleteSpotLight(SpotLight* dir)
+{
+	for (std::vector<SpotLight*>::iterator it = m_spotLights.begin(); it != m_spotLights.end(); ++it)
+	{
+		if (*it == dir)
+		{
+			it = m_spotLights.erase(it);
+			return;
 		}
 	}
 }
@@ -46,7 +107,7 @@ std::vector<MeshRenderer*> LowRenderer::Renderer::GetMeshRenderers()
 	return m_meshRenderers;
 }
 
-Maths::Vec3 LowRenderer::Renderer::GetAmbiente() const
+Maths::Vec4 LowRenderer::Renderer::GetAmbient() const
 {
-	return ambiente;
+	return ambient;
 }

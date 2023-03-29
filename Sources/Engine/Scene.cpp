@@ -7,8 +7,11 @@
 #include "Resource/Texture.hpp"
 #include "Engine/Transform.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
-#include "Resource/Mesh.hpp"
 #include "LowRenderer/Renderer.hpp"
+#include "LowRenderer/Light/DirectionalLight.hpp"
+#include "LowRenderer/Light/PointLight.hpp"
+#include "LowRenderer/Light/SpotLight.hpp"
+#include "Resource/Mesh.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
 
@@ -41,8 +44,23 @@ Scene::Scene()
 	go2->transform->position.x = 5;
 	go2->transform->scale = Maths::Vec3(0.5f, 0.5f, 0.5f);
 
+	//GameObject* light = new GameObject();
+	//DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
+	//light->name = "DirLight";
+
+	//GameObject* light1 = new GameObject();
+	//PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
+	//light1->name = "pointLight";	
+
+	GameObject* light2 = new GameObject();
+	SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
+	light2->name = "SpotLight";
+
 	Instantiate(go);
 	Instantiate(go2);
+	//Instantiate(light);
+	//Instantiate(light1);
+	Instantiate(light2);
 }
 
 void Scene::Update()

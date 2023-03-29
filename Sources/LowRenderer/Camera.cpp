@@ -77,6 +77,11 @@ Resource::Texture& LowRenderer::Camera::GetRenderTexture()
     return m_renderTexture;
 }
 
+Resource::ShaderProgram& LowRenderer::Camera::GetShaderProg()
+{
+    return *m_shaderProgram;
+}
+
 void Camera::OnGUI()
 {
     /*if (ImGui::CollapsingHeader("Scene Camera"))
