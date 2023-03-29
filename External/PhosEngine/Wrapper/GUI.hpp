@@ -30,6 +30,7 @@ public:
 	static void EndWindow();
 
 	static void BeginGroup();
+	static void BeginGroupCentered(Maths::Vec2 sizeOfGroup);
 	static void EndGroup();
 
 	static bool BeginPopupContextItem(const std::string& ID);
@@ -72,5 +73,13 @@ public:
 
 	static void* DragDropTarget(const std::string& ID);
 	
-	
+	static void Demo();
+	static void MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void));
+
+	static bool BeginMenu(const char* name);
+	static void EndMenu();
+
+	static bool MenuItem(const char* label, const char* shortcut, bool selected);
+	static bool MenuItem(const char* label, const char* shortcut);
+
 };
