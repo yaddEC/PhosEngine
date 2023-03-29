@@ -42,8 +42,9 @@ void SceneGUI::DoUpdate()
 			
 		}
 
-		if(m_currentScene)
-			m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
+		if (m_currentScene)
+			m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
+			//m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
 
 		
 

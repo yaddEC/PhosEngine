@@ -43,7 +43,7 @@ namespace LowRenderer
 			const Maths::Vec2& viewportSize);
 
 		Resource::Texture& GetRenderTexture();
-
+		Resource::ShaderProgram& GetShaderProg();
 		void OnGUI();
 
 		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform, const Engine::Transform& camTransform, Resource::ShaderProgram& shaderProgram, float fov = 50.f);

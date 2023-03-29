@@ -17,13 +17,13 @@ namespace LowRenderer
 
 		void Render(const Resource::ShaderProgram& shaderProg, int number) override;
 
-		void Start() override {};
+		void Start() override;
 		void Update() override;
 		void GUIUpdate() override;
-		void OnDestroy() override {};
+		void OnDestroy() override;
 	private:
 		float linearAttenuation, constantAttenuation, quadraticAttenuation;
-		float spotCutoff;
+		float angle;
 	};
 
 }
