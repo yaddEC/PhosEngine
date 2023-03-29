@@ -6,6 +6,7 @@
 
 
 #include "imgui.h"
+#include "imgui_internal.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "imgui_impl_glfw.h"
@@ -89,6 +90,12 @@ void GUI::EndWindow()
 
 void GUI::BeginGroup()
 {
+	ImGui::BeginGroup();
+}
+void GUI::BeginGroupCentered(Maths::Vec2 sizeOfGroup)
+{
+	Maths::Vec2 r = (Maths::Vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y) - sizeOfGroup) * 0.5f;
+	ImGui::SetCursorPos(ImVec2(r.x, r.y));
 	ImGui::BeginGroup();
 }
 
@@ -252,8 +259,6 @@ void* GUI::DragDropTarget(const std::string& ID)
 }
 
 
-
-
 bool GUI::BeginPopupContextItem(const std::string& ID)
 {
 	return ImGui::BeginPopupContextItem(ID.c_str());
@@ -267,4 +272,47 @@ void GUI::EndPopup()
 void GUI::OpenPopup(const std::string& ID)
 {
 	ImGui::OpenPopup(ID.c_str());
+}
+
+void GUI::Demo()
+{
+	ImGui::ShowDemoWindow();
+}
+
+void GUI::MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void))
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBackground;
+	float height = ImGui::GetFrameHeight();
+
+	if (ImGui::BeginViewportSideBar("##MainStatusBar", NULL, ImGuiDir_Up, height, window_flags)) {
+		if (ImGui::BeginMenuBar()) {
+			funcTopBar();
+			ImGui::EndMenuBar();
+		}
+	}
+	ImGui::End();
+	if (ImGui::BeginViewportSideBar("##SecondaryMenuBar", NULL, ImGuiDir_Up, height, window_flags)) {
+		if (ImGui::BeginMenuBar()) {
+			funcBottomBar();
+			ImGui::EndMenuBar();
+		}
+	}
+	ImGui::End();
+}
+
+bool GUI::BeginMenu(const char* name)
+{
+	return ImGui::BeginMenu(name);
+}
+void GUI::EndMenu()
+{
+	ImGui::EndMenu();
+}
+bool GUI::MenuItem(const char* label, const char* shortcut, bool selected)
+{
+	return ImGui::MenuItem(label, shortcut, selected);
+}
+bool GUI::MenuItem(const char* label, const char* shortcut)
+{
+	return ImGui::MenuItem(label, shortcut);
 }
