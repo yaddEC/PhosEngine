@@ -8,7 +8,7 @@ namespace EditorGUI
 	class SceneGUI : public IEditorGUI
 	{
 	public:
-		SceneGUI() : IEditorGUI("Scene") {}
+		SceneGUI();
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
 

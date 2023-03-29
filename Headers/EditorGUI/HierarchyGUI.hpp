@@ -8,7 +8,7 @@ namespace EditorGUI
 	class HierarchyGUI : public IEditorGUI
 	{
 	public:
-		HierarchyGUI() : IEditorGUI("Hierarchy") {}
+		HierarchyGUI();
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
 

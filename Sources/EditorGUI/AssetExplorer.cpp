@@ -7,6 +7,12 @@ namespace fs = std::filesystem;
 using namespace std;
 using namespace EditorGUI;
 
+AssetExplorer::AssetExplorer(const std::string& rootDirectory)
+	: IEditorGUI("Assets", true), m_assetsRootDirectory(rootDirectory), m_currentDirectory(rootDirectory)
+{
+
+}
+
 AssetExplorer::~AssetExplorer()
 {
 	for (auto icon : m_fileIcons)

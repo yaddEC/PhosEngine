@@ -8,7 +8,7 @@ namespace EditorGUI
 	class InspectorGUI : public IEditorGUI
 	{
 	public:
-		InspectorGUI() : IEditorGUI("Inspector") {}
+		InspectorGUI();
 
 		void SetGameObjectToDisplay(Engine::GameObject* gameObject) { m_gameobject = gameObject; m_typeToDisplay = ObjectType::GAME_OBJECT; }
 		void SetResourceToDisplay(Resource::IResource* resource) { m_resource = resource; m_typeToDisplay = ObjectType::RESOURCE; }
