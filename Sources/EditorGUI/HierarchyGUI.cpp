@@ -30,7 +30,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 		GUI::DisplayText("Example text");
 		GUI::EndPopup();
 	}
-
+	
 	if (GUI::IsItemClicked(1)) GUI::OpenPopup("Test");
 	if (GUI::IsItemClicked(0)) m_selected = current;
 

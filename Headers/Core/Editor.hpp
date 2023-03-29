@@ -20,6 +20,7 @@ namespace EditorGUI
 	class AssetExplorer;
 	class HierarchyGUI;
 	class InspectorGUI;
+	class MenuBar;
 }
 
 
@@ -56,6 +57,7 @@ namespace Core
 		EditorGUI::AssetExplorer* m_AssetExplorer;
 		EditorGUI::HierarchyGUI* m_Hierarchy;
 		EditorGUI::InspectorGUI* m_Inspector;
+		EditorGUI::MenuBar* m_MenuBar;
 
 		Engine::Scene* m_mainScene; // TEMP
 
