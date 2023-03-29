@@ -1,6 +1,7 @@
 #include "EditorGUI/InspectorGUI.hpp"
 #include "Engine/Transform.hpp"
 #include "Wrapper/GUI.hpp"
+#include "Engine/MonoBehaviour.hpp"
 
 void EditorGUI::InspectorGUI::DoUpdate()
 {
@@ -24,6 +25,12 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 	if (GUI::CollapsingHeader("Transform"))
 	{
 		m_gameobject->transform->OnGUI();
+	}
+
+	for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
+	{
+		
+		component->GUIUpdate();
 	}
 }
 

@@ -12,6 +12,7 @@ namespace Resource
 {
 	class ShaderProgram;
 	class Mesh;
+	class Material;
 }
 
 namespace Engine
@@ -42,6 +43,9 @@ namespace LowRenderer
 	private:
 
 		Resource::Mesh* m_mesh;
+		Resource::Material* m_material;
+
+		int testInt, testInt2; // TEST
 	};
 }
 
