@@ -1,4 +1,4 @@
 t_alb Assets\Model\boo.png
 c_spec 0 0 0
 shiny 0
-shader Assets\Shader\BasicShader.prog
+shader Assets\Shader\MainShader.prog

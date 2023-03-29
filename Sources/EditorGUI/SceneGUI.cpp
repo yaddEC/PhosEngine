@@ -9,6 +9,11 @@ using namespace Maths;
 using namespace EditorGUI;
 using namespace Engine;
 
+SceneGUI::SceneGUI() : IEditorGUI("Scene",true)
+{
+
+}
+
 void SceneGUI::DoUpdate()
 {
 
@@ -20,7 +25,7 @@ void SceneGUI::DoUpdate()
 		// TEMP Camera Input 
 		if (isOnFocus)
 		{
-			Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotation.y * (M_PI / 180)), 0);
+			Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotation.y * DEG2RAD), 0);
 			Vec3 forward = Vec3(direction.x, 0, direction.y);
 			Vec3 left = Vec3(forward.z, 0, -forward.x);
 			
@@ -42,8 +47,9 @@ void SceneGUI::DoUpdate()
 			
 		}
 
-		if(m_currentScene)
-			m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
+		if (m_currentScene)
+			m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
+			//m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
 
 		
 

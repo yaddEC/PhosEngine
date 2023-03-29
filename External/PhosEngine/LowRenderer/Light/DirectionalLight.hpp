@@ -20,6 +20,8 @@ namespace LowRenderer
 		void Start() override;
 		void Update() override;
 		void GUIUpdate() override;
+		void OnDestroy() override;
+
 	private:
 
 	};

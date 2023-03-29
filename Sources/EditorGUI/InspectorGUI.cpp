@@ -4,6 +4,11 @@
 #include "Engine/MonoBehaviour.hpp"
 #include <typeinfo>
 
+EditorGUI::InspectorGUI::InspectorGUI() : IEditorGUI("Inspector", true)
+{
+
+}
+
 void EditorGUI::InspectorGUI::DoUpdate()
 {
 	if (m_typeToDisplay == ObjectType::GAME_OBJECT)

@@ -46,6 +46,9 @@ namespace Core
 		bool InitEditorGUI();
 		void UpdateEditorGUI();
 
+		//Only if not existing
+		void CreateGuiIni();
+
 		//class SceneWindow* sceneWindow;
 		//class AssetsExplorer* assetsExplorer;
 
