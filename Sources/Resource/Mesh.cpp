@@ -40,6 +40,7 @@ void Mesh::Bind()
     {
         mesh.SetUpSubMesh();
     }
+    p_isLoaded = true;
 }
 
 void Mesh::Unload()
@@ -55,11 +56,11 @@ Mesh::~Mesh()
     Unload();
 }
 
-void Mesh::Render(const ShaderProgram& shaderProgram) const
+void Mesh::Render(const ShaderProgram& shaderProgram, const class Material& material) const
 {
     for (SubMesh mesh : m_subMeshes)
     {
-        mesh.Render(shaderProgram);
+        mesh.Render(shaderProgram, material);
     }
 }
 
@@ -160,6 +161,7 @@ void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
 {
     aiString name;
     mat->Get(AI_MATKEY_NAME, name);
+    
 
     aiColor3D albedoCol, specCol;
     mat->Get(AI_MATKEY_COLOR_DIFFUSE, albedoCol);
@@ -185,8 +187,8 @@ void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
     spec.useTexture = spec.texture;
     if (!spec.useTexture)
         spec.color = Maths::Vec3(specCol.r, specCol.g, specCol.b);
-
-    material->SetProperties(albedo, spec, shininess);
+    ShaderProgram* shader = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\BasicShader.prog");
+    material->SetProperties(albedo, spec, shininess, shader);
     material->SetFileInfo(p_directory + "\\" + name.C_Str() + ".phmat");
     material->Save();
 }

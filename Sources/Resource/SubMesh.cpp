@@ -7,6 +7,7 @@
 
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Texture.hpp"
+#include "Resource/Material.hpp"
 
 #include "Wrapper/RHI.hpp"
 
@@ -24,12 +25,9 @@ SubMesh::SubMesh(vector<Vertex> _vertices, vector<unsigned int> _indices, Textur
     texture = _texture;
 }
 
-void SubMesh::Render(const ShaderProgram& shaderProgram) const
+void SubMesh::Render(const ShaderProgram& shaderProgram, const class Material& material) const
 {
-    if (texture)
-    {
-        shaderProgram.SetTexture("albedoTexture", 0, *texture);
-    }
+    material.SendDataToShader();
 
     Wrapper::RHI::RenderSubMesh(m_VAO, indices);
 }

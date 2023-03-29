@@ -136,6 +136,12 @@ void GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
 	ImGui::Image((ImTextureID)texture.GetTextureKey(), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
 }
 
+Maths::Vec2 GUI::CalcTextSize(const std::string& text)
+{
+	ImVec2 size = ImGui::CalcTextSize(text.c_str());
+	return Maths::Vec2(size.x, size.y);
+}
+
 bool GUI::EditFloat(const std::string& label, float& value, float speed, float min, float max)
 {
 	return ImGui::DragFloat(label.c_str(), &value, speed, min, max);

@@ -5,6 +5,8 @@
 //----------------
 
 
+#include "Wrapper/GUI.hpp"
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <STB_Image/stb_image.h>
 
@@ -70,20 +72,16 @@ void Texture::ResizeAndReset(int _width, int _height)
 
 void Texture::DisplayImage(float maxSize)
 {
-	//float max = LMath::Max(width, height);
+	float max = Maths::Max(m_width, m_height);
 
-	//float displayWidth = maxSize * (float)width / max;
-	//float displayHeight = maxSize * (float)height / max;
+	float displayWidth = maxSize * (float)m_width / max;
+	float displayHeight = maxSize * (float)m_height / max;
 
-	//ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ((maxSize * 0.5f) - (displayWidth * 0.5f)));
-	//ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ((maxSize * 0.5f) - (displayHeight * 0.5f)));
+	//GUI::SetCursorPos(Maths::Vec2(GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)), 0));
+	GUI::SetCursorPos(Maths::Vec2(GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)),
+		GUI::GetCursorPos().y + ((maxSize * 0.5f) - (displayHeight * 0.5f))));
 
-	//ImGui::Image(
-	//	(ImTextureID)textureKey,
-	//	ImVec2(displayWidth, displayHeight),
-	//	ImVec2(0, 1),
-	//	ImVec2(1, 0)
-	//);
+	GUI::Image(*this, Maths::Vec2(displayWidth, displayHeight));
 }
 
 Texture* Texture::GenerateFileIcon()

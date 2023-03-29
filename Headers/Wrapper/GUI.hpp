@@ -51,6 +51,8 @@ public:
 	static void SameLine(float spacing = -1.f);
 	 
 	static void Image(const Resource::Texture& texture, Maths::Vec2 size);
+
+	static Maths::Vec2 CalcTextSize(const std::string& text);
 	 
 	static bool EditFloat(const std::string& label, float& value, float speed = 1.f, float min = 0, float max = 0);
 	static bool EditVec2(const std::string& label, Maths::Vec2& value, float speed = 1.f, float min = 0, float max = 0);
@@ -68,8 +70,6 @@ public:
 	static bool IsItemClicked(int mouseButton);
 
 	static void DragDropSource(const std::string& ID, const std::string& Label, const void* data);
-
-
 	static void* DragDropTarget(const std::string& ID);
 	
 	

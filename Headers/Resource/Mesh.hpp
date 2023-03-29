@@ -16,6 +16,8 @@
 
 namespace Resource
 {
+	class Material;
+
 	class MESH_API Mesh : public IResource
 	{
 	public:
@@ -30,8 +32,9 @@ namespace Resource
 		void Bind() override;
 		void Unload() override;
 		virtual ~Mesh();
+		std::string GetTypeName() { return "Mesh"; }
 
-		void Render(const class ShaderProgram& shaderProgram) const;
+		void Render(const class ShaderProgram& shaderProgram, const class Material& material) const;
 
 		Texture* GenerateFileIcon() override;
 

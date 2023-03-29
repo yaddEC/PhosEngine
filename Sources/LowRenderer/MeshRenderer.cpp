@@ -40,7 +40,7 @@ void MeshRenderer::Render(const ShaderProgram* shader, const Maths::Mat4& viewPr
 	shader->SetUniformMatrix("model", transform->GetGlobalMatrix());
 	shader->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
 
-	m_mesh->Render(*shader);
+	m_mesh->Render(*shader, *m_material);
 
 }
 
@@ -56,11 +56,26 @@ void LowRenderer::MeshRenderer::Update()
 
 void LowRenderer::MeshRenderer::GUIUpdate()
 {
-	
-	
+	if (GUI::CollapsingHeader("Mesh Renderer"))
+	{
+		GUI::DisplayText("Mesh : "); GUI::SameLine();
+		GUI::Button(m_mesh->GetName());
+		if (Resource::Mesh** mesh = (Mesh**)GUI::DragDropTarget("Mesh"))
+		{
+			m_mesh = *mesh;
+		}
+
+		GUI::DisplayText("Material : "); GUI::SameLine();
+		GUI::Button(m_material->GetName());
+		if (Resource::Material** mat = (Material**)GUI::DragDropTarget("Material"))
+		{
+			m_material = *mat;
+		}
+	}
 }
 
 void LowRenderer::MeshRenderer::OnDestroy()
 {
 	gameobject->GetScene()->GetRenderer()->DeleteMeshRenderer(this);
 }
+

@@ -16,13 +16,17 @@ namespace Resource
 		IResource() { }
 		virtual ~IResource() { }
 
-		virtual void Load(const std::string& filepath) = 0;
-		virtual void Bind() = 0;
-		virtual void Unload() = 0;
-		virtual void Save() {};
+		virtual void Load(const std::string& filepath) {}
+		virtual void Bind() {}
+		virtual void Unload() {}
+		virtual void Save() {}
+
+		virtual std::string GetTypeName() { return "IResource"; }
 
 		inline bool GetIsLoaded() { return p_isLoaded; }
 		std::string GetFilePath() { return p_directory + "\\" + p_name; }
+		std::string GetName() { return p_name; }
+		std::string GetDirectory() { return p_directory; }
 		void SetFileInfo(const std::string& filepath);
 
 		// Do not call every frame

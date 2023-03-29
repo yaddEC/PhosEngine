@@ -22,6 +22,7 @@ namespace Resource
 		void Bind() override;
 		void Unload() override;
 
+		std::string GetTypeName() { return "Texture"; }
 
 		unsigned int GetTextureKey() const { return m_textureKey; }
 

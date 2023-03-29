@@ -41,7 +41,7 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			{
 				CreateResource<Texture>(GetRelativePath(entry, rootAseetsPath));
 			}
-			else if (GetExtension(entry) == "obj" || GetExtension(entry) == "OBJ")
+			else if (GetExtension(entry) == "obj" || GetExtension(entry) == "OBJ" || GetExtension(entry) == "fbx" || GetExtension(entry) == "FBX")
 			{
 				CreateResource<Mesh>(GetRelativePath(entry, rootAseetsPath));
 			}
@@ -56,6 +56,11 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 		}
 	}
 
+	
+}
+
+void Resource::ResourceManager::Reload()
+{
 	for (auto resource : m_resourceMap)
 	{
 		resource.second->Load(resource.first);

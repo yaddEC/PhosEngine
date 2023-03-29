@@ -50,7 +50,8 @@ void Resource::Material::Save()
 		else
 			progFile << "c_spec " << m_specular.color.x << " " << m_specular.color.y << " " << m_specular.color.z << '\n';
 
-		progFile << "shiny " << m_shininess;
+		progFile << "shiny " << m_shininess << '\n';
+		progFile << "shader " << m_shader->GetFilePath() << '\n';
 	}
 }
 
@@ -124,18 +125,36 @@ void Resource::Material::SetProperties(const std::string& filepath)
 			}
 			else if (prefix == "t_spec")
 			{
-				m_specular.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(6));
+				m_specular.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(7));
 				m_specular.useTexture = true;
+			}
+			else if (prefix == "shader")
+			{
+				m_shader = Resource::ResourceManager::GetInstance().GetResource<Resource::ShaderProgram>(line.substr(7));
 			}
 		}
 	}
 }
 
-void Resource::Material::SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess)
+void Resource::Material::SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess, ShaderProgram* shader)
 {
 	m_albedo.color = albedo.color; m_albedo.texture = albedo.texture; m_albedo.useTexture = albedo.useTexture;
 	m_specular.color = specular.color; m_specular.texture = specular.texture; m_specular.useTexture = specular.useTexture;
 	m_shininess = shininess;
+	m_shader = shader;
+}
+
+Resource::Material Resource::Material::DefaultMaterial()
+{
+	Material mat;
+	mat.m_albedo.color = Maths::Vec3(1, 1, 1);
+	mat.m_albedo.useTexture = false;
+	mat.m_specular.color = Maths::Vec3(1, 1, 1);
+	mat.m_specular.useTexture = false;
+	mat.m_shininess = 1;
+	mat.m_shader = nullptr;
+
+	return mat;
 }
 
 std::vector<std::string> Resource::Material::split(const char* str, char c)

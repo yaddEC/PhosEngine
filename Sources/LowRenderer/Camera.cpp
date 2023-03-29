@@ -12,6 +12,7 @@
 #include "Resource/ShaderProgram.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Engine/Transform.hpp"
+#include "Resource/Material.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
 
@@ -87,7 +88,7 @@ void Camera::OnGUI()
     }*/
 }
 
-Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, ShaderProgram& shaderProgram, float fov)
+Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const Resource::Material& material, float fov)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 200, 1);
     Mat4 view = Mat4::CreateViewMatrix(camTransform.position, camTransform.rotation.x, camTransform.rotation.y);
@@ -108,12 +109,13 @@ Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, con
 
     glCullFace(GL_FRONT);
     glDepthFunc(GL_LEQUAL);
+    
+    
+    material.GetShader()->Use();
+    material.GetShader()->SetUniformMatrix("model", model);
+    material.GetShader()->SetUniformMatrix("mvp", model * viewProj);
 
-    shaderProgram.Use();
-    shaderProgram.SetUniformMatrix("model", model);
-    shaderProgram.SetUniformMatrix("mvp", model * viewProj);
-
-    mesh.Render(shaderProgram);
+    mesh.Render(*material.GetShader(), material);
 
     framebuffer.DetachTexture();
 

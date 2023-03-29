@@ -8,6 +8,8 @@
 #include "Engine/Transform.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/Mesh.hpp"
+#include "Resource/Material.hpp"
+#include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
@@ -24,19 +26,22 @@ Scene::Scene()
 {
 	renderer = new Renderer();
 
-	Mesh* boo = new Mesh();
-	boo->Load("Assets\\Model\\boo.obj");
-	boo->Bind();
+	Mesh* boo = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\boo.obj");
+
+	Material* mat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Model\\boo_mat.001.phmat");
 
 	GameObject* go = new GameObject();
 	go->name = "Boo 1";
 	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
 	rend->SetMesh(boo);
+	rend->SetMaterial(mat);
+	
 
 	GameObject* go2 = new GameObject();
 	go2->name = "Boo 2";
 	MeshRenderer* rend2 = go2->AddComponent<MeshRenderer>();
 	rend2->SetMesh(boo);
+	rend2->SetMaterial(mat);
 	go2->transform->SetParent(go->transform);
 	go2->transform->position.x = 5;
 	go2->transform->scale = Maths::Vec3(0.5f, 0.5f, 0.5f);

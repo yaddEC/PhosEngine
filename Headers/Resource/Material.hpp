@@ -41,13 +41,16 @@ namespace Resource
 		void Bind() override;
 		void Unload() override;
 		void Save() override;
+		std::string GetTypeName() { return "Material"; }
 
 		Texture* GenerateFileIcon() override;
 
 		void SendDataToShader() const;
 
-		ShaderProgram* GetShader() { return m_shader; }
-		void SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess);
+		ShaderProgram* GetShader() const { return m_shader; } 
+		void SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess, ShaderProgram* shader);
+
+		static Material DefaultMaterial();
 
 	private:
 		ShaderProgram* m_shader = nullptr;

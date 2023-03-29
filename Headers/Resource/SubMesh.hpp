@@ -37,7 +37,7 @@ namespace Resource
 		// TEMP : meant to be replaced by material.
 		class Texture* texture;
 
-		void Render(const class ShaderProgram& shaderProgram) const;
+		void Render(const class ShaderProgram& shaderProgram, const class Material& material) const;
 
 		void Unload();
 

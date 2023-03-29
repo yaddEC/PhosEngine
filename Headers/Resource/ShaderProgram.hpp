@@ -30,6 +30,7 @@ namespace Resource
 		void Bind() override;
 
 		void Unload() override;
+		std::string GetTypeName() { return "ShaderProgram"; }
 
 		class Texture* GenerateFileIcon() override;
 

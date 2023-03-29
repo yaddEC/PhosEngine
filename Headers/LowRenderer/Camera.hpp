@@ -17,6 +17,7 @@ namespace Resource
 	class ShaderProgram;
 	class Mesh;
 	class ResourceManager;
+	class Material;
 }
 
 namespace LowRenderer
@@ -46,13 +47,16 @@ namespace LowRenderer
 
 		void OnGUI();
 
-		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform, const Engine::Transform& camTransform, Resource::ShaderProgram& shaderProgram, float fov = 50.f);
+		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform,
+			const Engine::Transform& camTransform, const Resource::Material& material, float fov = 50.f);
 
 	private:
 
 		LowRenderer::FrameBuffer m_framebuffer;
 		Resource::Texture m_renderTexture;
 		Resource::ResourceManager& rm;
+
+
 		// For testing
 		Resource::ShaderProgram* m_shaderProgram;
 
