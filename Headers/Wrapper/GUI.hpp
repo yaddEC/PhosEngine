@@ -54,6 +54,7 @@ public:
 	static void Image(const Resource::Texture& texture, Maths::Vec2 size);
 
 	static Maths::Vec2 CalcTextSize(const std::string& text);
+	static bool TruncTextBySize(std::string& text, float maxLength);
 	 
 	static bool EditFloat(const std::string& label, float& value, float speed = 1.f, float min = 0, float max = 0);
 	static bool EditVec2(const std::string& label, Maths::Vec2& value, float speed = 1.f, float min = 0, float max = 0);
@@ -67,7 +68,8 @@ public:
 	static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
 	static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
-	static bool Selectable(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
+	static bool CheckBox(const std::string& label, bool* isChecked);
+	static bool Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
 	static bool IsItemClicked(int mouseButton);
 
 	static void DragDropSource(const std::string& ID, const std::string& Label, const void* data);

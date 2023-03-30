@@ -141,7 +141,7 @@ SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string&
     if (mesh->mMaterialIndex >= 0)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        GenerateMaterial(material);
+        //GenerateMaterial(material);
         texture = ProcessTexture(material, aiTextureType_DIFFUSE, filepath);
     }
 
@@ -159,6 +159,7 @@ Texture* Mesh::ProcessTexture(aiMaterial* mat, aiTextureType type, const std::st
 
 void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
 {
+    
     aiString name;
     mat->Get(AI_MATKEY_NAME, name);
     

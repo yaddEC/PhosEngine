@@ -41,6 +41,8 @@ namespace Resource
 		void Bind() override;
 		void Unload() override;
 		void Save() override;
+		void GUIUpdate();
+
 		std::string GetTypeName() { return "Material"; }
 
 		Texture* GenerateFileIcon() override;

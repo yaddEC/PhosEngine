@@ -204,9 +204,9 @@ void Wrapper::RHI::UnloadShader(const unsigned int* programKey)
 	glDeleteProgram(*programKey);
 }
 
-void Wrapper::RHI::ActivateTexture(const Resource::Texture& texture)
+void Wrapper::RHI::ActivateTexture(const Resource::Texture& texture, int value)
 {
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + value);
 	glBindTexture(GL_TEXTURE_2D, texture.GetTextureKey());
 }
 

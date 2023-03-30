@@ -152,6 +152,17 @@ Maths::Vec2 GUI::CalcTextSize(const std::string& text)
 	return Maths::Vec2(size.x, size.y);
 }
 
+bool GUI::TruncTextBySize(std::string& text, float maxLength)
+{
+	bool trunced = false;
+	while (CalcTextSize(text).x > maxLength)
+	{
+		text.pop_back();
+		trunced = true;
+	}
+	return trunced;
+}
+
 bool GUI::EditFloat(const std::string& label, float& value, float speed, float min, float max)
 {
 	return ImGui::DragFloat(label.c_str(), &value, speed, min, max);
@@ -202,9 +213,14 @@ bool GUI::Button(const std::string& label, const Maths::Vec2& size)
 	return ImGui::Button(label.c_str(), ImVec2(size.x, size.y));
 }
 
-bool GUI::Selectable(const std::string& label, const Maths::Vec2& size)
+bool GUI::CheckBox(const std::string& label, bool* isChecked)
 {
-	return ImGui::Selectable(label.c_str(), nullptr, 0, ImVec2(size.x, size.y));
+	return ImGui::Checkbox(label.c_str(), isChecked);
+}
+
+bool GUI::Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size)
+{
+	return ImGui::Selectable(label.c_str(), &isSelected, 0, ImVec2(size.x, size.y));
 }
 
 bool GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)

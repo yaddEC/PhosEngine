@@ -102,7 +102,7 @@ void Resource::ShaderProgram::SetUniformFloat(const std::string& uniformName, fl
 
 void ShaderProgram::SetTexture(const std::string& uniformName, int value, const Texture& texture) const
 {
-	Wrapper::RHI::ActivateTexture(texture);
+	Wrapper::RHI::ActivateTexture(texture, value);
 	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
 }
 

@@ -11,6 +11,7 @@
 #include "Resource/Texture.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/ResourceManager.hpp"
+#include "Wrapper/GUI.hpp"
 
 #define MATERIAL_EXPORTS
 #include "Resource/Material.hpp"
@@ -53,6 +54,11 @@ void Resource::Material::Save()
 		progFile << "shiny " << m_shininess << '\n';
 		progFile << "shader " << m_shader->GetFilePath() << '\n';
 	}
+}
+
+void Resource::Material::GUIUpdate()
+{
+	
 }
 
 Resource::Texture* Resource::Material::GenerateFileIcon()
