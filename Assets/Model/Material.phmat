@@ -1,4 +1,4 @@
-c_alb 0.128586 0.115896 0.684716
-c_spec 0.199482 0.199482 0.199482
+t_alb Assets\Model\macron.png
+c_spec 0 0 0
 shiny 0
 shader Assets\Shader\MainShader.prog

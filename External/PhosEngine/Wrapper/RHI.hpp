@@ -56,7 +56,7 @@ namespace Wrapper
 		static void ShaderFloat(unsigned int programKey, const std::string& uniformName, float value);
 		static void UnloadShader(const unsigned int* programKey);
 
-		static void ActivateTexture(const Resource::Texture& texture);
+		static void ActivateTexture(const Resource::Texture& texture, int value);
 		static void RenderSubMesh(const unsigned int& VAO, std::vector<unsigned int> indices);
 		static void SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned int& EBO, const std::vector<Resource::Vertex> &vertices, const std::vector<unsigned int> &indices);
 		static void UnloadSubMesh(const unsigned int& VAO, const unsigned int& VBO, const unsigned int& EBO);

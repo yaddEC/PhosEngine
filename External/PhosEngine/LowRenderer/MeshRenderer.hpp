@@ -47,7 +47,7 @@ namespace LowRenderer
 
 	private:
 
-		Resource::Mesh* m_mesh;
+		Resource::Mesh* m_mesh = nullptr;
 		Resource::Material* m_material = nullptr;
 
 	};

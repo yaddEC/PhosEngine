@@ -9,6 +9,7 @@ EditorGUI::HierarchyGUI::HierarchyGUI() : IEditorGUI("Hierarchy", true)
 
 void EditorGUI::HierarchyGUI::DoUpdate()
 {
+	m_selectedClicked = false;
 	std::vector<Engine::GameObject*> goList = m_currentScene->GetGameObjects();
 	for (Engine::GameObject* go : goList)
 	{
@@ -18,6 +19,14 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 		}
 	}
 	
+}
+
+Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
+{
+	if (m_selectedClicked)
+		return m_selected;
+	else
+		return nullptr;
 }
 
 void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
@@ -32,7 +41,11 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 	}
 	
 	if (GUI::IsItemClicked(1)) GUI::OpenPopup("Test");
-	if (GUI::IsItemClicked(0)) m_selected = current;
+	if (GUI::IsItemClicked(0))
+	{
+		m_selected = current;
+		m_selectedClicked = true;
+	}
 
 	if (opened)
 	{

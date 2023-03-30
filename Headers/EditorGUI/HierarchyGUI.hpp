@@ -13,11 +13,12 @@ namespace EditorGUI
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
 
 		void DoUpdate() override;
-		Engine::GameObject* GetSelected() { return m_selected; }
+		Engine::GameObject* GetSelected();
 
 	private:
 		Engine::Scene* m_currentScene;
 		Engine::GameObject* m_selected;
+		bool m_selectedClicked = false;
 
 		void DisplayHierarchy(Engine::GameObject* current);
 	};

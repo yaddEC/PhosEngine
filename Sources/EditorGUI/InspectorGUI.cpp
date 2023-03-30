@@ -43,4 +43,7 @@ void EditorGUI::InspectorGUI::DisplayResource()
 {
 	if (!m_resource) return;
 
+	GUI::DisplayText(m_resource->GetName());
+	GUI::Separator();
+
 }

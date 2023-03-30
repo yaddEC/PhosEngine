@@ -1,7 +1,7 @@
 #version 330 core
 out vec4 FragColor;
 
-in vec2 TexCoord;
+in vec2 texCoord;
 in vec3 Normal;
 in vec3 FragPos;
 
@@ -12,6 +12,7 @@ uniform vec4 ambientColor;
 uniform int lenghtDirLight;
 uniform int lenghtPointLight;
 uniform int lenghtSpotLight;
+
 
 // Structs
 
@@ -63,8 +64,8 @@ struct ColorMap {
 
 struct Material{ 
     
-    ColorMap albedo;
     ColorMap specular;
+    ColorMap albedo;
     float shininess;
 };
 
@@ -76,7 +77,7 @@ vec3 GetColorMapColor(ColorMap map)
 {
     if(map.useTexture)
     {
-        return vec3(texture(map.texture, TexCoord));
+        return texture(map.texture, texCoord).xyz;
     }
     else
     {
@@ -93,11 +94,10 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    // float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    //vec3 specular = light.color * light.intensity * 0.5 * spec;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0);
+    //vec3 specular = light.color * light.intensity * spec;
     vec3 specular = vec3(0, 0, 0);
-    return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular));
+    return vec3(diffuse + specular);
 }  
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -118,7 +118,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
     // float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0);
     vec3 specular = light.color * light.intensity * 0.5 * spec;
 
     float distance = length(light.position - FragPos);
@@ -127,7 +127,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     + (light.linear * distance)
     + (light.constant));
 
-    return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation;
+    return vec3(diffuse + specular) * attenuation;
 }
 
 vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -144,7 +144,7 @@ vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 fragPos, vec3 viewDir)
         float diff = max(dot(normal, lightDir), 0.0);
 
         vec3 h = (viewDir + lightDir)/length(viewDir + lightDir);
-        float spec = pow(max(dot(h, normal), 0.0), material.shininess);
+        float spec = pow(max(dot(h, normal), 0.0), 0);
 
         float distance = length(spotLight.position - fragPos);
         float attenuation = 1.0 / (spotLight.constant 
@@ -154,7 +154,7 @@ vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 fragPos, vec3 viewDir)
         vec3 diffuse  = spotLight.color  * spotLight.intensity * intensity * diff;
         vec3 specular  = spotLight.color * spotLight.intensity * 0.5 * intensity * spec;
 
-        return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation;  
+        return vec3(diffuse  + specular) * attenuation;  
     }
     return vec3(0);
 }
@@ -187,7 +187,8 @@ void main()
     }
 
     //result += vec3(ambientColor) * ambientColor.w;
-
+    result = result * GetColorMapColor(material.albedo);
     FragColor = vec4(result, 1.0);
+    //FragColor = texture(Atexture, texCoord);
     // FragColor = TextureColor;
 }

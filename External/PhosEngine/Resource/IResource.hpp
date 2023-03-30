@@ -20,6 +20,7 @@ namespace Resource
 		virtual void Bind() {}
 		virtual void Unload() {}
 		virtual void Save() {}
+		virtual void GUIUpdate() {};
 
 		virtual std::string GetTypeName() { return "IResource"; }
 

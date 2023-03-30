@@ -21,6 +21,14 @@ namespace EditorGUI
 
 		void Reload();
 
+		Resource::IResource* GetSelected()
+		{
+			if (m_selectedClicked)
+				return m_selectedResource;
+			else
+				return nullptr;
+		}
+
 	private:
 
 		void DoUpdate() override;
@@ -31,6 +39,13 @@ namespace EditorGUI
 		std::string m_currentDirectory;
 
 		void DisplayFile(const std::string& file);
+		void DisplayFolder(const std::string& folder);
+
+		std::string m_selectedFile;
+		bool m_selectedClicked = false;
+		Resource::IResource* m_selectedResource;
+
+		Resource::Texture* m_defaultFileIcon, * m_folderIcon;
 	};
 }
 
