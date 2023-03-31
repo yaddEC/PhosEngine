@@ -249,6 +249,11 @@ bool Wrapper::GUI::IsItemClicked(int mouseButton)
 	return ImGui::IsItemClicked(mouseButton);
 }
 
+bool Wrapper::GUI::IsItemDoubleClicked(int mouseButton)
+{	
+	return ImGui::IsMouseDoubleClicked(mouseButton) && ImGui::IsItemHovered();
+}
+
 void Wrapper::GUI::DragDropSource(const std::string& ID, const std::string& label, const void* data)
 {
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
@@ -331,4 +336,21 @@ bool Wrapper::GUI::MenuItem(const char* label, const char* shortcut, bool select
 bool Wrapper::GUI::MenuItem(const char* label, const char* shortcut)
 {
 	return ImGui::MenuItem(label, shortcut);
+}
+
+void Wrapper::GUI::PushFontSize(float size)
+{
+	ImFont* font = ImGui::GetFont();
+	font->FontSize = size;
+	ImGui::PushFont(font);
+}
+
+void Wrapper::GUI::PopFontSize()
+{
+	ImGui::PopFont();
+}
+
+void Wrapper::GUI::SetWindowFontSize(float size)
+{
+	ImGui::SetWindowFontScale(size);
 }

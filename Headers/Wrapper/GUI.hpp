@@ -73,6 +73,7 @@ namespace Wrapper
 		static bool CheckBox(const std::string& label, bool* isChecked);
 		static bool Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool IsItemClicked(int mouseButton);
+		static bool IsItemDoubleClicked(int mouseButton);
 
 		static void DragDropSource(const std::string& ID, const std::string& Label, const void* data);
 		static void* DragDropTarget(const std::string& ID);
@@ -85,6 +86,10 @@ namespace Wrapper
 
 		static bool MenuItem(const char* label, const char* shortcut, bool selected);
 		static bool MenuItem(const char* label, const char* shortcut);
+
+		static void PushFontSize(float size);
+		static void PopFontSize();
+		static void SetWindowFontSize(float size);
 
 	};
 }
