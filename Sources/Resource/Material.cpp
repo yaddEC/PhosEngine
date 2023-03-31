@@ -58,7 +58,29 @@ void Resource::Material::Save()
 
 void Resource::Material::GUIUpdate()
 {
-	
+	GUI::DisplayText("Albedo");
+
+	GUI::Button(m_albedo.useTexture ? m_albedo.texture->GetName() : "None");
+	if (Resource::Texture** texture = (Texture**)GUI::DragDropTarget("Texture"))
+	{
+		m_albedo.texture = *texture;
+		m_albedo.useTexture = true;
+	}
+
+	if (m_albedo.useTexture)
+	{
+		GUI::SameLine();
+		if (GUI::Button("Delete"))
+		{
+			m_albedo.texture = nullptr;
+			m_albedo.useTexture = false;
+		}
+	}
+	else
+	{
+		GUI::EditColorRGB("##albedo", m_albedo.color);
+	}
+
 }
 
 Resource::Texture* Resource::Material::GenerateFileIcon()
