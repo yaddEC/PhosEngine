@@ -19,7 +19,7 @@
 #define GUI_EXPORTS
 #include "Wrapper/GUI.hpp"
 
-bool GUI::InitGUI(GLFWwindow* window)
+bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -37,14 +37,14 @@ bool GUI::InitGUI(GLFWwindow* window)
 	return true;
 }
 
-void GUI::NewFrame()
+void Wrapper::GUI::NewFrame()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 }
 
-void GUI::RenderFrame(GLFWwindow* window)
+void Wrapper::GUI::RenderFrame(GLFWwindow* window)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -67,7 +67,7 @@ void GUI::RenderFrame(GLFWwindow* window)
 	ImGui::EndFrame();
 }
 
-void GUI::DestroyGUI()
+void Wrapper::GUI::DestroyGUI()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
@@ -75,7 +75,7 @@ void GUI::DestroyGUI()
 }
 
 
-bool GUI::BeginWindow(const std::string& name, bool canCollpase)
+bool Wrapper::GUI::BeginWindow(const std::string& name, bool canCollpase)
 {
 	ImGuiWindowFlags Flag = ImGuiWindowFlags_None;
 	if (!canCollpase)
@@ -83,76 +83,76 @@ bool GUI::BeginWindow(const std::string& name, bool canCollpase)
 	return ImGui::Begin(name.c_str(), 0, Flag);
 }
 
-void GUI::EndWindow()
+void Wrapper::GUI::EndWindow()
 {
 	ImGui::End();
 }
 
-void GUI::BeginGroup()
+void Wrapper::GUI::BeginGroup()
 {
 	ImGui::BeginGroup();
 }
-void GUI::BeginGroupCentered(Maths::Vec2 sizeOfGroup)
+void Wrapper::GUI::BeginGroupCentered(Maths::Vec2 sizeOfGroup)
 {
 	Maths::Vec2 r = (Maths::Vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y) - sizeOfGroup) * 0.5f;
 	ImGui::SetCursorPos(ImVec2(r.x, r.y));
 	ImGui::BeginGroup();
 }
 
-void GUI::EndGroup()
+void Wrapper::GUI::EndGroup()
 {
 	ImGui::EndGroup();
 }
 
-void GUI::DockingSpace()
+void Wrapper::GUI::DockingSpace()
 {
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::DockSpaceOverViewport(viewport);
 }
 
-Maths::Vec2 GUI::GetWindowSize()
+Maths::Vec2 Wrapper::GUI::GetWindowSize()
 {
 	return Maths::Vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
 }
 
-bool GUI::IsWondowFocused()
+bool Wrapper::GUI::IsWondowFocused()
 {
 	return ImGui::IsWindowFocused();
 }
 
-Maths::Vec2 GUI::GetCursorPos()
+Maths::Vec2 Wrapper::GUI::GetCursorPos()
 {
 	ImVec2 pos = ImGui::GetCursorPos();
 	return Maths::Vec2(pos.x, pos.y);
 }
 
-void GUI::SetCursorPos(const Maths::Vec2& pos)
+void Wrapper::GUI::SetCursorPos(const Maths::Vec2& pos)
 {
 	ImGui::SetCursorPos(ImVec2{ pos.x, pos.y });
 }
 
-void GUI::Separator()
+void Wrapper::GUI::Separator()
 {
 	ImGui::Separator();
 }
 
-void GUI::SameLine(float spacing)
+void Wrapper::GUI::SameLine(float spacing)
 {
 	ImGui::SameLine(0, spacing);
 }
 
-void GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
+void Wrapper::GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
 {
 	ImGui::Image((ImTextureID)texture.GetTextureKey(), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
 }
 
-Maths::Vec2 GUI::CalcTextSize(const std::string& text)
+Maths::Vec2 Wrapper::GUI::CalcTextSize(const std::string& text)
 {
 	ImVec2 size = ImGui::CalcTextSize(text.c_str());
 	return Maths::Vec2(size.x, size.y);
 }
 
-bool GUI::TruncTextBySize(std::string& text, float maxLength)
+bool Wrapper::GUI::TruncTextBySize(std::string& text, float maxLength)
 {
 	bool trunced = false;
 	while (CalcTextSize(text).x > maxLength)
@@ -163,67 +163,67 @@ bool GUI::TruncTextBySize(std::string& text, float maxLength)
 	return trunced;
 }
 
-bool GUI::EditFloat(const std::string& label, float& value, float speed, float min, float max)
+bool Wrapper::GUI::EditFloat(const std::string& label, float& value, float speed, float min, float max)
 {
 	return ImGui::DragFloat(label.c_str(), &value, speed, min, max);
 }
 
-bool GUI::EditVec2(const std::string& label, Maths::Vec2& value, float speed, float min, float max)
+bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, float speed, float min, float max)
 {
 	return ImGui::DragFloat2(label.c_str(), &value.x, speed, min, max);
 }
 
-bool GUI::EditVec3(const std::string& label, Maths::Vec3& value, float speed, float min, float max)
+bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, float speed, float min, float max)
 {
 	return ImGui::DragFloat3(label.c_str(), &value.x, speed, min, max);
 }
 
-bool GUI::EditColorRGB(const std::string& label, Maths::Vec3& value)
+bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3& value)
 {
 	return ImGui::ColorEdit3(label.c_str(), &value.x);
 }
 
-bool GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value)
+bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value)
 {
 	return ImGui::ColorEdit4(label.c_str(), &value.x);
 }
 
-void GUI::DisplayText(const std::string& text)
+void Wrapper::GUI::DisplayText(const std::string& text)
 {
 	ImGui::Text(text.c_str());
 }
 
-void GUI::DisplayFloat(const std::string& label, float value)
+void Wrapper::GUI::DisplayFloat(const std::string& label, float value)
 {
 	return ImGui::Text((label + " : " + std::to_string(value)).c_str());
 }
 
-void GUI::DisplayVec2(const std::string& label, const Maths::Vec2& value)
+void Wrapper::GUI::DisplayVec2(const std::string& label, const Maths::Vec2& value)
 {
 	return ImGui::Text((label + " : (" + std::to_string(value.x) + ", " + std::to_string(value.y) + ")").c_str());
 }
 
-void GUI::DisplayVec3(const std::string& label, const Maths::Vec3& value)
+void Wrapper::GUI::DisplayVec3(const std::string& label, const Maths::Vec3& value)
 {
 	return ImGui::Text((label + " : (" + std::to_string(value.x) + ", " + std::to_string(value.y) + ", " + std::to_string(value.z) + ")").c_str());
 }
 
-bool GUI::Button(const std::string& label, const Maths::Vec2& size)
+bool Wrapper::GUI::Button(const std::string& label, const Maths::Vec2& size)
 {
 	return ImGui::Button(label.c_str(), ImVec2(size.x, size.y));
 }
 
-bool GUI::CheckBox(const std::string& label, bool* isChecked)
+bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked)
 {
 	return ImGui::Checkbox(label.c_str(), isChecked);
 }
 
-bool GUI::Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size)
+bool Wrapper::GUI::Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size)
 {
 	return ImGui::Selectable(label.c_str(), &isSelected, 0, ImVec2(size.x, size.y));
 }
 
-bool GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)
+bool Wrapper::GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 	if (isSelected)
@@ -234,27 +234,27 @@ bool GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)
 	return ImGui::TreeNodeEx(label.c_str(), nodeFlags);
 }
 
-void GUI::TreePop()
+void Wrapper::GUI::TreePop()
 {
 	ImGui::TreePop();
 }
 
-bool GUI::CollapsingHeader(const std::string& label)
+bool Wrapper::GUI::CollapsingHeader(const std::string& label)
 {
 	return ImGui::CollapsingHeader(label.c_str());
 }
 
-bool GUI::IsItemClicked(int mouseButton)
+bool Wrapper::GUI::IsItemClicked(int mouseButton)
 {
 	return ImGui::IsItemClicked(mouseButton);
 }
 
-bool GUI::IsItemDoubleClicked(int mouseButton)
+bool Wrapper::GUI::IsItemDoubleClicked(int mouseButton)
 {	
 	return ImGui::IsMouseDoubleClicked(mouseButton) && ImGui::IsItemHovered();
 }
 
-void GUI::DragDropSource(const std::string& ID, const std::string& label, const void* data)
+void Wrapper::GUI::DragDropSource(const std::string& ID, const std::string& label, const void* data)
 {
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 	{
@@ -264,7 +264,7 @@ void GUI::DragDropSource(const std::string& ID, const std::string& label, const 
 	}
 }
 
-void* GUI::DragDropTarget(const std::string& ID)
+void* Wrapper::GUI::DragDropTarget(const std::string& ID)
 {
 	void* result = nullptr;
 	if (ImGui::BeginDragDropTarget())
@@ -280,27 +280,27 @@ void* GUI::DragDropTarget(const std::string& ID)
 }
 
 
-bool GUI::BeginPopupContextItem(const std::string& ID)
+bool Wrapper::GUI::BeginPopupContextItem(const std::string& ID)
 {
 	return ImGui::BeginPopupContextItem(ID.c_str());
 }
 
-void GUI::EndPopup()
+void Wrapper::GUI::EndPopup()
 {
 	ImGui::EndPopup();
 }
 
-void GUI::OpenPopup(const std::string& ID)
+void Wrapper::GUI::OpenPopup(const std::string& ID)
 {
 	ImGui::OpenPopup(ID.c_str());
 }
 
-void GUI::Demo()
+void Wrapper::GUI::Demo()
 {
 	ImGui::ShowDemoWindow();
 }
 
-void GUI::MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void))
+void Wrapper::GUI::MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void))
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBackground;
 	float height = ImGui::GetFrameHeight();
@@ -321,36 +321,36 @@ void GUI::MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void))
 	ImGui::End();
 }
 
-bool GUI::BeginMenu(const char* name)
+bool Wrapper::GUI::BeginMenu(const char* name)
 {
 	return ImGui::BeginMenu(name);
 }
-void GUI::EndMenu()
+void Wrapper::GUI::EndMenu()
 {
 	ImGui::EndMenu();
 }
-bool GUI::MenuItem(const char* label, const char* shortcut, bool selected)
+bool Wrapper::GUI::MenuItem(const char* label, const char* shortcut, bool selected)
 {
 	return ImGui::MenuItem(label, shortcut, selected);
 }
-bool GUI::MenuItem(const char* label, const char* shortcut)
+bool Wrapper::GUI::MenuItem(const char* label, const char* shortcut)
 {
 	return ImGui::MenuItem(label, shortcut);
 }
 
-void GUI::PushFontSize(float size)
+void Wrapper::GUI::PushFontSize(float size)
 {
 	ImFont* font = ImGui::GetFont();
 	font->FontSize = size;
 	ImGui::PushFont(font);
 }
 
-void GUI::PopFontSize()
+void Wrapper::GUI::PopFontSize()
 {
 	ImGui::PopFont();
 }
 
-void GUI::SetWindowFontSize(float size)
+void Wrapper::GUI::SetWindowFontSize(float size)
 {
 	ImGui::SetWindowFontScale(size);
 }

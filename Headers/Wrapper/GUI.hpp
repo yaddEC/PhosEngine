@@ -16,77 +16,80 @@ namespace Resource
 	class Texture;
 }
 
-class GUI_API GUI
+namespace Wrapper
 {
-public:
-	static bool InitGUI(GLFWwindow* window);
-	static void NewFrame();
-	static void RenderFrame(GLFWwindow* window);
-	static void DestroyGUI(); // Has to be called at the end of the application.
+	class GUI_API GUI
+	{
+	public:
+		static bool InitGUI(GLFWwindow* window);
+		static void NewFrame();
+		static void RenderFrame(GLFWwindow* window);
+		static void DestroyGUI(); // Has to be called at the end of the application.
 
-	static void DockingSpace();
-	 
-	static bool BeginWindow(const std::string& name, bool canCollpase = false);
-	static void EndWindow();
+		static void DockingSpace();
 
-	static void BeginGroup();
-	static void BeginGroupCentered(Maths::Vec2 sizeOfGroup);
-	static void EndGroup();
+		static bool BeginWindow(const std::string& name, bool canCollpase = false);
+		static void EndWindow();
 
-	static bool BeginPopupContextItem(const std::string& ID);
-	static void EndPopup();
-	static void OpenPopup(const std::string& ID);
+		static void BeginGroup();
+		static void BeginGroupCentered(Maths::Vec2 sizeOfGroup);
+		static void EndGroup();
 
-	static bool TreeNode(const std::string& label, bool isSelected, bool leaf = false);
-	static void TreePop();
-	 
-	static bool CollapsingHeader(const std::string& label);
+		static bool BeginPopupContextItem(const std::string& ID);
+		static void EndPopup();
+		static void OpenPopup(const std::string& ID);
 
-	static Maths::Vec2 GetWindowSize();
-	static bool IsWondowFocused();
+		static bool TreeNode(const std::string& label, bool isSelected, bool leaf = false);
+		static void TreePop();
 
-	static Maths::Vec2 GetCursorPos();
-	static void SetCursorPos(const Maths::Vec2& pos);
+		static bool CollapsingHeader(const std::string& label);
 
-	static void Separator();
-	static void SameLine(float spacing = -1.f);
-	 
-	static void Image(const Resource::Texture& texture, Maths::Vec2 size);
+		static Maths::Vec2 GetWindowSize();
+		static bool IsWondowFocused();
 
-	static Maths::Vec2 CalcTextSize(const std::string& text);
-	static bool TruncTextBySize(std::string& text, float maxLength);
-	 
-	static bool EditFloat(const std::string& label, float& value, float speed = 1.f, float min = 0, float max = 0);
-	static bool EditVec2(const std::string& label, Maths::Vec2& value, float speed = 1.f, float min = 0, float max = 0);
-	static bool EditVec3(const std::string& label, Maths::Vec3& value, float speed = 1.f, float min = 0, float max = 0);
-	static bool EditColorRGB(const std::string& label, Maths::Vec3& value);
-	static bool EditColorRGBA(const std::string& label, Maths::Vec4& value);
-	 
-	static void DisplayText(const std::string& text);
-	static void DisplayFloat(const std::string& label, float value);
-	static void DisplayVec2(const std::string& label, const Maths::Vec2& value);
-	static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
+		static Maths::Vec2 GetCursorPos();
+		static void SetCursorPos(const Maths::Vec2& pos);
 
-	static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
-	static bool CheckBox(const std::string& label, bool* isChecked);
-	static bool Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
-	static bool IsItemClicked(int mouseButton);
-	static bool IsItemDoubleClicked(int mouseButton);
+		static void Separator();
+		static void SameLine(float spacing = -1.f);
 
-	static void DragDropSource(const std::string& ID, const std::string& Label, const void* data);
-	static void* DragDropTarget(const std::string& ID);
-	
-	static void Demo();
-	static void MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void));
+		static void Image(const Resource::Texture& texture, Maths::Vec2 size);
 
-	static bool BeginMenu(const char* name);
-	static void EndMenu();
+		static Maths::Vec2 CalcTextSize(const std::string& text);
+		static bool TruncTextBySize(std::string& text, float maxLength);
 
-	static bool MenuItem(const char* label, const char* shortcut, bool selected);
-	static bool MenuItem(const char* label, const char* shortcut);
+		static bool EditFloat(const std::string& label, float& value, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec2(const std::string& label, Maths::Vec2& value, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec3(const std::string& label, Maths::Vec3& value, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditColorRGB(const std::string& label, Maths::Vec3& value);
+		static bool EditColorRGBA(const std::string& label, Maths::Vec4& value);
 
-	static void PushFontSize(float size);
-	static void PopFontSize();
-	static void SetWindowFontSize(float size);
+		static void DisplayText(const std::string& text);
+		static void DisplayFloat(const std::string& label, float value);
+		static void DisplayVec2(const std::string& label, const Maths::Vec2& value);
+		static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
-};
+		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
+		static bool CheckBox(const std::string& label, bool* isChecked);
+		static bool Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
+		static bool IsItemClicked(int mouseButton);
+		static bool IsItemDoubleClicked(int mouseButton);
+
+		static void DragDropSource(const std::string& ID, const std::string& Label, const void* data);
+		static void* DragDropTarget(const std::string& ID);
+
+		static void Demo();
+		static void MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void));
+
+		static bool BeginMenu(const char* name);
+		static void EndMenu();
+
+		static bool MenuItem(const char* label, const char* shortcut, bool selected);
+		static bool MenuItem(const char* label, const char* shortcut);
+
+		static void PushFontSize(float size);
+		static void PopFontSize();
+		static void SetWindowFontSize(float size);
+
+	};
+}

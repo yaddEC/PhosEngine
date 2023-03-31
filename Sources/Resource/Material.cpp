@@ -58,10 +58,10 @@ void Resource::Material::Save()
 
 void Resource::Material::GUIUpdate()
 {
-	GUI::DisplayText("Albedo");
+	Wrapper::GUI::DisplayText("Albedo");
 
-	GUI::Button(m_albedo.useTexture ? m_albedo.texture->GetName() : "None");
-	if (Resource::Texture** texture = (Texture**)GUI::DragDropTarget("Texture"))
+	Wrapper::GUI::Button(m_albedo.useTexture ? m_albedo.texture->GetName() : "None");
+	if (Resource::Texture** texture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
 	{
 		m_albedo.texture = *texture;
 		m_albedo.useTexture = true;
@@ -69,8 +69,8 @@ void Resource::Material::GUIUpdate()
 
 	if (m_albedo.useTexture)
 	{
-		GUI::SameLine();
-		if (GUI::Button("Delete"))
+		Wrapper::GUI::SameLine();
+		if (Wrapper::GUI::Button("Delete"))
 		{
 			m_albedo.texture = nullptr;
 			m_albedo.useTexture = false;
@@ -78,7 +78,7 @@ void Resource::Material::GUIUpdate()
 	}
 	else
 	{
-		GUI::EditColorRGB("##albedo", m_albedo.color);
+		Wrapper::GUI::EditColorRGB("##albedo", m_albedo.color);
 	}
 
 }
