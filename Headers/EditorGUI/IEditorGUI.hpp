@@ -26,8 +26,8 @@ namespace EditorGUI
 		bool isOpen;
 
 	protected:
-		void SetSize() { size = GUI::GetWindowSize(); }
-		void SetIsOnFocus() { isOnFocus = GUI::IsWondowFocused(); }
+		void SetSize() { size = Wrapper::GUI::GetWindowSize(); }
+		void SetIsOnFocus() { isOnFocus = Wrapper::GUI::IsWondowFocused(); }
 		virtual void DoUpdate() = 0;
 
 

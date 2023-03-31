@@ -26,9 +26,9 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 	if (!m_gameobject) return;
 
 
-	GUI::DisplayText(m_gameobject->name);
-	GUI::Separator();
-	if (GUI::CollapsingHeader("Transform"))
+	Wrapper::GUI::DisplayText(m_gameobject->name);
+	Wrapper::GUI::Separator();
+	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{
 		m_gameobject->transform->OnGUI();
 	}
@@ -43,7 +43,7 @@ void EditorGUI::InspectorGUI::DisplayResource()
 {
 	if (!m_resource) return;
 
-	GUI::DisplayText(m_resource->GetName());
-	GUI::Separator();
+	Wrapper::GUI::DisplayText(m_resource->GetName());
+	Wrapper::GUI::Separator();
 
 }
