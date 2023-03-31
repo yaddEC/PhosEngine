@@ -1,6 +1,7 @@
 #include "EditorGUI/IEditorGUI.hpp"
 
 
+using namespace Wrapper;
 using namespace EditorGUI;
 
 void IEditorGUI::Update() 

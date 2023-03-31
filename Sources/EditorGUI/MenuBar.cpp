@@ -2,6 +2,8 @@
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
 
+using namespace Wrapper;
+
 EditorGUI::MenuBar::MenuBar()
 {
 

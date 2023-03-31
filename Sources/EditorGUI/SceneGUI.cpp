@@ -5,7 +5,8 @@
 #include "Wrapper/GUI.hpp"
 #include "LowRenderer/Renderer.hpp"
 
-using namespace Maths;
+using namespace Maths; 
+using namespace Wrapper;
 using namespace EditorGUI;
 using namespace Engine;
 

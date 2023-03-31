@@ -6,6 +6,7 @@
 
 namespace fs = std::filesystem;
 using namespace std;
+using namespace Wrapper;
 using namespace EditorGUI;
 
 AssetExplorer::AssetExplorer(const std::string& rootDirectory)

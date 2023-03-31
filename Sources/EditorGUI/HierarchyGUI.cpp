@@ -2,6 +2,8 @@
 #include "Wrapper/GUI.hpp"
 #include "Engine/Transform.hpp"
 
+using namespace Wrapper;
+
 EditorGUI::HierarchyGUI::HierarchyGUI() : IEditorGUI("Hierarchy", true)
 {
 

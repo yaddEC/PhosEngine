@@ -4,6 +4,9 @@
 #include "Engine/MonoBehaviour.hpp"
 #include <typeinfo>
 
+
+using namespace Wrapper;
+
 EditorGUI::InspectorGUI::InspectorGUI() : IEditorGUI("Inspector", true)
 {
 

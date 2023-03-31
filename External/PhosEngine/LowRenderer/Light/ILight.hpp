@@ -18,7 +18,6 @@ namespace LowRenderer
 	{
 	public:
 		ILight();
-		ILight(Maths::Vec3 _color, float _intensity);
 
 		virtual void Render(const Resource::ShaderProgram& shaderProg, int number) = 0;
 	protected:
