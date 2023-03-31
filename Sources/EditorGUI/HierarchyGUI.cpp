@@ -39,7 +39,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 		Wrapper::GUI::DisplayText("Example text");
 		Wrapper::GUI::EndPopup();
 	}
-	
+
 	if (Wrapper::GUI::IsItemClicked(1)) Wrapper::GUI::OpenPopup("Test");
 	if (Wrapper::GUI::IsItemClicked(0))
 	{

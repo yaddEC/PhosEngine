@@ -43,7 +43,7 @@ void Top()
 
 void Bottom()
 {
-	Wrapper::GUI::BeginGroupCentered((40,20));
+	Wrapper::GUI::BeginGroupCentered((40, 20));
 	Wrapper::GUI::Image(*Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\play.png"), { 20, 20 });
 	Wrapper::GUI::Image(*Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\pause.png"), { 20, 20 });
 	Wrapper::GUI::EndGroup();
