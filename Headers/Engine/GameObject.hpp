@@ -49,6 +49,26 @@ namespace Engine
 			componentsBuffer.push_back(newComponent);
 			return newComponent;
 		}
+		template <class T>
+		inline T* GetComponent(unsigned int index = 0)
+		{
+			T* res = nullptr;
+			for (MonoBehaviour* component : components)
+			{
+				if (typeid(*component) == typeid(T))
+				{
+					res = (T*)component;
+					if (index == 0)
+						return res;
+					else
+						index--;
+				}
+			}
+			return res;
+		}
+
+		template <class T>
+		inline T* GetComponentInChildren(unsigned int index = 0);
 
 	private:
 		std::vector<MonoBehaviour*> components;

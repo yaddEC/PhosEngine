@@ -29,6 +29,27 @@ void Engine::GameObject::Start()
 	}
 }
 
+template <class T>
+inline T* Engine::GameObject::GetComponentInChildren(unsigned int index )
+{
+	T* res = nullptr;
+	for (Transform child : transform->m_children)
+	{
+		for (MonoBehaviour* component : child.gameObject->components)
+		{
+			if (typeid(*component) == typeid(T))
+			{
+				res = (T*)component;
+				if (index == 0)
+					return res;
+				else
+					index--;
+			}
+		}
+	}
+	return res;
+}
+
 void Engine::GameObject::Update()
 {
 	for (MonoBehaviour* comp : componentsBuffer)
