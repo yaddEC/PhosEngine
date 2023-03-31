@@ -42,8 +42,10 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 void EditorGUI::InspectorGUI::DisplayResource()
 {
 	if (!m_resource) return;
-
+	GUI::SetWindowFontSize(2.f);
 	GUI::DisplayText(m_resource->GetName());
+	GUI::SetWindowFontSize(1);
+	GUI::SetCursorPos(GUI::GetCursorPos() + Maths::Vec2(0, 5));
 	GUI::Separator();
-
+	m_resource->GUIUpdate();
 }
