@@ -78,10 +78,10 @@ void Texture::DisplayImage(float maxSize)
 	float displayHeight = maxSize * (float)m_height / max;
 
 	//GUI::SetCursorPos(Maths::Vec2(GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)), 0));
-	GUI::SetCursorPos(Maths::Vec2(GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)),
-		GUI::GetCursorPos().y + ((maxSize * 0.5f) - (displayHeight * 0.5f))));
+	Wrapper::GUI::SetCursorPos(Maths::Vec2(Wrapper::GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)),
+		Wrapper::GUI::GetCursorPos().y + ((maxSize * 0.5f) - (displayHeight * 0.5f))));
 
-	GUI::Image(*this, Maths::Vec2(displayWidth, displayHeight));
+	Wrapper::GUI::Image(*this, Maths::Vec2(displayWidth, displayHeight));
 }
 
 Texture* Texture::GenerateFileIcon()

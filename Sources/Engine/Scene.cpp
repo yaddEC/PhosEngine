@@ -63,9 +63,9 @@ Scene::Scene()
 	DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
 	light->name = "DirLight";
 
-	//GameObject* light1 = new GameObject();
-	//PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
-	//light1->name = "pointLight";	
+	GameObject* light1 = new GameObject();
+	PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
+	light1->name = "pointLight";	
 
 	GameObject* light2 = new GameObject();
 	SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
@@ -75,8 +75,8 @@ Scene::Scene()
 	Instantiate(go2);
 	Instantiate(go3);
 	Instantiate(light);
-	//Instantiate(light1);
-	//Instantiate(light2);
+	Instantiate(light1);
+	Instantiate(light2);
 }
 
 void Scene::Update()
