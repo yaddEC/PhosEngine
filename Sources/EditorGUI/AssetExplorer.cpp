@@ -74,10 +74,7 @@ void AssetExplorer::DoUpdate()
 		}
 		else
 		{
-			Resource::IResource* oldSelected = m_selectedResource;
 			DisplayFile(entry.path().u8string());
-			if (oldSelected != m_selectedResource)
-				m_selectedClicked = true;
 		}
 
 		cursorPos.x += 145;
@@ -97,14 +94,6 @@ void AssetExplorer::DisplayFile(const string& file)
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 	Maths::Vec2 cursorPos = Wrapper::GUI::GetCursorPos();
 
-
-	/*bool isSelected = file == m_selectedFile;
-	if (Wrapper::GUI::Selectable("##" + file, isSelected, Maths::Vec2(100, 125)))
-	{
-
-		m_selectedFile = file;
-		m_selectedResource = Resource::ResourceManager::GetInstance().GetResource<Resource::IResource>(file);
-	}*/
 	Wrapper::GUI::SetCursorPos(cursorPos + Maths::Vec2(0, 4));
 
 
@@ -124,12 +113,19 @@ void AssetExplorer::DisplayFile(const string& file)
 
 	if (Wrapper::GUI::TruncTextBySize(displayfilename, 90))
 		displayfilename += "...";
-
+	
 	Wrapper::GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - Wrapper::GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
-
+	
 	Wrapper::GUI::DisplayText(displayfilename);
 	Wrapper::GUI::EndGroup();
 
+	if (Wrapper::GUI::IsItemDoubleClicked(0))
+	{
+		m_selectedClicked = true;
+		m_selectedFile = file;
+		m_selectedResource = Resource::ResourceManager::GetInstance().GetResource<Resource::IResource>(file);
+	}
+	
 
 	Resource::IResource* resource = rm.GetResource<Resource::IResource>(file);
 	if (resource)
