@@ -139,7 +139,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;glew32.lib;glfw3.lib;PhosEngine.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;glew32.lib;glfw3.lib;PhosEngine.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;PhysX/Debug/LowLevel_static_64.lib;PhysX/Debug/LowLevelAABB_static_64.lib;PhysX/Debug/LowLevelDynamics_static_64.lib;PhysX/Debug/PhysX_64.lib;PhysX/Debug/PhysXCharacterKinematic_static_64.lib;PhysX/Debug/PhysXCommon_64.lib;PhysX/Debug/PhysXCooking_64.lib;PhysX/Debug/PhysXExtensions_static_64.lib;PhysX/Debug/PhysXFoundation_64.lib;PhysX/Debug/PhysXPvdSDK_static_64.lib;PhysX/Debug/PhysXTask_static_64.lib;PhysX/Debug/PhysXVehicle_static_64.lib;PhysX/Debug/SceneQuery_static_64.lib;PhysX/Debug/SimulationController_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>DLL/*;%(AdditionalLibraryDirectories);$(SolutionDir)Libs/;$(SolutionDir)Libs/;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>

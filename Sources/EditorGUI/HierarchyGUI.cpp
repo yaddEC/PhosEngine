@@ -32,16 +32,16 @@ Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
 void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 {
 	std::vector<Engine::Transform*> children = current->transform->GetChildren();
-	bool opened = GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
+	bool opened = Wrapper::GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
 			
-	if (GUI::BeginPopupContextItem("Test"))
+	if (Wrapper::GUI::BeginPopupContextItem("Test"))
 	{
-		GUI::DisplayText("Example text");
-		GUI::EndPopup();
+		Wrapper::GUI::DisplayText("Example text");
+		Wrapper::GUI::EndPopup();
 	}
 	
-	if (GUI::IsItemClicked(1)) GUI::OpenPopup("Test");
-	if (GUI::IsItemClicked(0))
+	if (Wrapper::GUI::IsItemClicked(1)) Wrapper::GUI::OpenPopup("Test");
+	if (Wrapper::GUI::IsItemClicked(0))
 	{
 		m_selected = current;
 		m_selectedClicked = true;
@@ -54,6 +54,6 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 			DisplayHierarchy(child->GetGameObject());
 		}
 
-		GUI::TreePop();
+		Wrapper::GUI::TreePop();
 	}
 }

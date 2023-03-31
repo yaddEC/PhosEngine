@@ -14,43 +14,43 @@ EditorGUI::MenuBar::~MenuBar()
 
 void Top()
 {
-	if (GUI::BeginMenu("File"))
+	if (Wrapper::GUI::BeginMenu("File"))
 	{
-		if (GUI::MenuItem("New Project...", NULL)) {}
-		if (GUI::MenuItem("Open Project...", NULL)) {}
-		if (GUI::MenuItem("Save Project", NULL)) {}
-		GUI::Separator();
-		if (GUI::MenuItem("Exit", "Alt+F4")) {}
-		GUI::EndMenu();
+		if (Wrapper::GUI::MenuItem("New Project...", NULL)) {}
+		if (Wrapper::GUI::MenuItem("Open Project...", NULL)) {}
+		if (Wrapper::GUI::MenuItem("Save Project", NULL)) {}
+		Wrapper::GUI::Separator();
+		if (Wrapper::GUI::MenuItem("Exit", "Alt+F4")) {}
+		Wrapper::GUI::EndMenu();
 	}
-	if (GUI::BeginMenu("Window"))
+	if (Wrapper::GUI::BeginMenu("Window"))
 	{
-		if (GUI::MenuItem("Assets Explorer", NULL, true)) {}
-		if (GUI::MenuItem("Hierarchy", NULL, true)) {}
-		if (GUI::MenuItem("Inspector", NULL, true)) {}
-		if (GUI::MenuItem("Scene", NULL, true)) {}
-		GUI::EndMenu();
+		if (Wrapper::GUI::MenuItem("Assets Explorer", NULL, true)) {}
+		if (Wrapper::GUI::MenuItem("Hierarchy", NULL, true)) {}
+		if (Wrapper::GUI::MenuItem("Inspector", NULL, true)) {}
+		if (Wrapper::GUI::MenuItem("Scene", NULL, true)) {}
+		Wrapper::GUI::EndMenu();
 	}
-	if (GUI::BeginMenu("Help"))
+	if (Wrapper::GUI::BeginMenu("Help"))
 	{
-		if (GUI::MenuItem("About Phos", NULL)) {}
-		GUI::Separator();
-		if (GUI::MenuItem("Phos Manual", NULL)) {}
-		if (GUI::MenuItem("Scripting Reference", NULL)) {}
-		GUI::EndMenu();
+		if (Wrapper::GUI::MenuItem("About Phos", NULL)) {}
+		Wrapper::GUI::Separator();
+		if (Wrapper::GUI::MenuItem("Phos Manual", NULL)) {}
+		if (Wrapper::GUI::MenuItem("Scripting Reference", NULL)) {}
+		Wrapper::GUI::EndMenu();
 	}
 }
 
 void Bottom()
 {
-	GUI::BeginGroupCentered((40,20));
-	GUI::Image(*Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\play.png"), { 20, 20 });
-	GUI::Image(*Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\pause.png"), { 20, 20 });
-	GUI::EndGroup();
+	Wrapper::GUI::BeginGroupCentered((40,20));
+	Wrapper::GUI::Image(*Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\play.png"), { 20, 20 });
+	Wrapper::GUI::Image(*Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("Assets\\Texture\\pause.png"), { 20, 20 });
+	Wrapper::GUI::EndGroup();
 }
 
 void EditorGUI::MenuBar::Update()
 {
-	GUI::MenuBar(Top, Bottom);
-	//GUI::Demo();
+	Wrapper::GUI::MenuBar(Top, Bottom);
+	//Wrapper::GUI::Demo();
 }
