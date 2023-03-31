@@ -81,6 +81,32 @@ void Resource::Material::GUIUpdate()
 		GUI::EditColorRGB("##albedo", m_albedo.color);
 	}
 
+	GUI::DisplayText("Specular");
+
+	GUI::Button(m_specular.useTexture ? m_specular.texture->GetName() : "None");
+	if (Resource::Texture** texture = (Texture**)GUI::DragDropTarget("Texture"))
+	{
+		m_specular.texture = *texture;
+		m_specular.useTexture = true;
+	}
+
+	if (m_specular.useTexture)
+	{
+		GUI::SameLine();
+		if (GUI::Button("Delete"))
+		{
+			m_specular.texture = nullptr;
+			m_specular.useTexture = false;
+		}
+	}
+	else
+	{
+		GUI::EditColorRGB("##albedo", m_specular.color);
+	}
+
+	GUI::DisplayText("Shininess"); GUI::SameLine();
+	GUI::EditFloat("##Shininess", m_shininess, 0.01f, 0);
+
 }
 
 Resource::Texture* Resource::Material::GenerateFileIcon()
