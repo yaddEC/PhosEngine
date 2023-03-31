@@ -48,21 +48,21 @@ void AssetExplorer::Reload()
 
 void AssetExplorer::DoUpdate()
 {
-	GUI::DisplayText(m_currentDirectory);
-	GUI::Separator();
+	Wrapper::GUI::DisplayText(m_currentDirectory);
+	Wrapper::GUI::Separator();
 
 	if (m_currentDirectory != m_assetsRootDirectory)
 	{
-		if (GUI::Button("..."))
+		if (Wrapper::GUI::Button("..."))
 		{
 			m_currentDirectory = m_currentDirectory.substr(0, m_currentDirectory.find_last_of('\\'));
 			return;
 		}
 	}
 
-	Maths::Vec2 cursorPos = GUI::GetCursorPos();
+	Maths::Vec2 cursorPos = Wrapper::GUI::GetCursorPos();
 	cursorPos.x = 15;
-	GUI::SetCursorPos(cursorPos);
+	Wrapper::GUI::SetCursorPos(cursorPos);
 	m_selectedClicked = false;
 
 	for (const auto& entry : fs::directory_iterator(m_currentDirectory))
@@ -79,12 +79,12 @@ void AssetExplorer::DoUpdate()
 		}
 
 		cursorPos.x += 145;
-		if (cursorPos.x + 145 >= GUI::GetWindowSize().x)
+		if (cursorPos.x + 145 >= Wrapper::GUI::GetWindowSize().x)
 		{
 			cursorPos.x = 15;
 			cursorPos.y += 145;
 		}
-		GUI::SetCursorPos(cursorPos);
+		Wrapper::GUI::SetCursorPos(cursorPos);
 	}
 
 }
@@ -93,12 +93,12 @@ void AssetExplorer::DoUpdate()
 void AssetExplorer::DisplayFile(const string& file)
 {
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-	Maths::Vec2 cursorPos = GUI::GetCursorPos();
+	Maths::Vec2 cursorPos = Wrapper::GUI::GetCursorPos();
 
-	GUI::SetCursorPos(cursorPos + Maths::Vec2(0, 4));
+	Wrapper::GUI::SetCursorPos(cursorPos + Maths::Vec2(0, 4));
 
 
-	GUI::BeginGroup();
+	Wrapper::GUI::BeginGroup();
 	if (m_fileIcons.count(file) && m_fileIcons.at(file))
 	{
 		Resource::Texture* icon = m_fileIcons.at(file);
@@ -112,15 +112,15 @@ void AssetExplorer::DisplayFile(const string& file)
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
 
-	if (GUI::TruncTextBySize(displayfilename, 90))
+	if (Wrapper::GUI::TruncTextBySize(displayfilename, 90))
 		displayfilename += "...";
 	
-	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
+	Wrapper::GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - Wrapper::GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
 	
-	GUI::DisplayText(displayfilename);
-	GUI::EndGroup();
+	Wrapper::GUI::DisplayText(displayfilename);
+	Wrapper::GUI::EndGroup();
 
-	if (GUI::IsItemDoubleClicked(0))
+	if (Wrapper::GUI::IsItemDoubleClicked(0))
 	{
 		m_selectedClicked = true;
 		m_selectedFile = file;
@@ -132,31 +132,31 @@ void AssetExplorer::DisplayFile(const string& file)
 	if (resource)
 	{
 		void** item = new void* (resource);
-		GUI::DragDropSource(resource->GetTypeName(), displayfilename, item);
+		Wrapper::GUI::DragDropSource(resource->GetTypeName(), displayfilename, item);
 	}
 }
 
 
 void EditorGUI::AssetExplorer::DisplayFolder(const std::string& folder)
 {
-	Maths::Vec2 cursorPos = GUI::GetCursorPos();
+	Maths::Vec2 cursorPos = Wrapper::GUI::GetCursorPos();
 
-	GUI::BeginGroup();
+	Wrapper::GUI::BeginGroup();
 
 	m_folderIcon->DisplayImage(100);
 
 	std::string displayFolderName = folder;
 	displayFolderName = displayFolderName.substr(displayFolderName.find_last_of('\\') + 1);
 
-	if (GUI::TruncTextBySize(displayFolderName, 90))
+	if (Wrapper::GUI::TruncTextBySize(displayFolderName, 90))
 		displayFolderName += "...";
 
-	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayFolderName).x) * 0.5f, cursorPos.y + 110));
-	GUI::DisplayText(displayFolderName);
+	Wrapper::GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - Wrapper::GUI::CalcTextSize(displayFolderName).x) * 0.5f, cursorPos.y + 110));
+	Wrapper::GUI::DisplayText(displayFolderName);
 
-	GUI::EndGroup();
+	Wrapper::GUI::EndGroup();
 
-	if(GUI::IsItemClicked(0))
+	if(Wrapper::GUI::IsItemClicked(0))
 		m_currentDirectory = folder;
 
 }
