@@ -52,7 +52,7 @@ void Transform::ComputeGlobalMatrix(const Mat4& parentMatrix)
 
 void Transform::OnGUI()
 {
-	GUI::EditVec3("Position", position, 0.05f);
-	GUI::EditVec3("Rotation", rotation, 0.05f);
-	GUI::EditVec3("Scale", scale, 0.05f);
+	Wrapper::GUI::EditVec3("Position", position, 0.05f);
+	Wrapper::GUI::EditVec3("Rotation", rotation, 0.05f);
+	Wrapper::GUI::EditVec3("Scale", scale, 0.05f);
 }

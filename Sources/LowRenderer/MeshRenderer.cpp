@@ -56,18 +56,18 @@ void LowRenderer::MeshRenderer::Update()
 
 void LowRenderer::MeshRenderer::GUIUpdate()
 {
-	if (GUI::CollapsingHeader("Mesh Renderer"))
+	if (Wrapper::GUI::CollapsingHeader("Mesh Renderer"))
 	{
-		GUI::DisplayText("Mesh : "); GUI::SameLine();
-		GUI::Button(m_mesh->GetName());
-		if (Resource::Mesh** mesh = (Mesh**)GUI::DragDropTarget("Mesh"))
+		Wrapper::GUI::DisplayText("Mesh : "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::Button(m_mesh->GetName());
+		if (Resource::Mesh** mesh = (Mesh**)Wrapper::GUI::DragDropTarget("Mesh"))
 		{
 			m_mesh = *mesh;
 		}
 
-		GUI::DisplayText("Material : "); GUI::SameLine();
-		GUI::Button(m_material->GetName());
-		if (Resource::Material** mat = (Material**)GUI::DragDropTarget("Material"))
+		Wrapper::GUI::DisplayText("Material : "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::Button(m_material->GetName());
+		if (Resource::Material** mat = (Material**)Wrapper::GUI::DragDropTarget("Material"))
 		{
 			m_material = *mat;
 		}

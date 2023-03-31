@@ -10,6 +10,9 @@
 #include "Engine/Transform.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Scene.hpp"
+
+#include "Wrapper/GUI.hpp"
+
 #include "LowRenderer/Renderer.hpp"
 
 #define DIRECTIONALLIGHT_EXPORTS
@@ -46,7 +49,13 @@ void LowRenderer::DirectionalLight::Update()
 
 void LowRenderer::DirectionalLight::GUIUpdate()
 {
-
+	if (Wrapper::GUI::CollapsingHeader("Directionnal Light"))
+	{
+		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::EditColorRGB("##Color", color);
+		Wrapper::GUI::DisplayText("Intensity: "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::EditFloat("##Intensity", intensity, 0.001f, 0.f, 3.0f);
+	}
 }
 
 void LowRenderer::DirectionalLight::OnDestroy()

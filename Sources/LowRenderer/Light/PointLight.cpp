@@ -13,6 +13,8 @@
 #include "Engine/Scene.hpp"
 #include "Engine/MonoBehaviour.hpp"
 
+#include "Wrapper/GUI.hpp"
+
 #include "LowRenderer/Renderer.hpp"
 
 #define POINTLIGHT_EXPORTS
@@ -53,5 +55,15 @@ void LowRenderer::PointLight::OnDestroy()
 
 void LowRenderer::PointLight::GUIUpdate()
 {
-
+	if (Wrapper::GUI::CollapsingHeader("Spot Light"))
+	{
+		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::EditColorRGB("##Color", color);
+		Wrapper::GUI::DisplayText("Intensity: "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::EditFloat("##Intensity", intensity, 0.001f, 0.f, 3.0f);
+		Wrapper::GUI::DisplayText("Linear Attenuation: "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::EditFloat("##Linear", linearAttenuation, 0.001f, 0.f, 1.0f);
+		Wrapper::GUI::DisplayText("Quadratic Attenuation: "); Wrapper::GUI::SameLine();
+		Wrapper::GUI::EditFloat("##Quadratic", quadraticAttenuation, 0.001f, 0.f, 1.0f);
+	}
 }
