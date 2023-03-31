@@ -16,6 +16,8 @@
 #define MATERIAL_EXPORTS
 #include "Resource/Material.hpp"
 
+using namespace Wrapper;
+
 namespace fs = std::filesystem;
 
 void Resource::Material::Load(const std::string& filepath)
@@ -104,7 +106,7 @@ void Resource::Material::GUIUpdate()
 		GUI::EditColorRGB("##albedo", m_specular.color);
 	}
 
-	GUI::DisplayText("Shininess"); GUI::SameLine();
+	GUI::DisplayText("Shininess : "); GUI::SameLine();
 	GUI::EditFloat("##Shininess", m_shininess, 0.01f, 0);
 
 }
