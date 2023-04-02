@@ -94,15 +94,15 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0);
-    //vec3 specular = light.color * light.intensity * spec;
-    vec3 specular = vec3(0, 0, 0);
-    return vec3(diffuse + specular);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.color * light.intensity * spec;
+    //vec3 specular = vec3(0, 0, 0);
+    return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular));
 }  
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir)
 {
-    vec3 lightDir = normalize(light.position - fragPos);
+    vec3 lightDir = normalize(light.position - FragPos);
 
     float diff = max(dot(normal, lightDir), 0.0);
     vec3 diffuse = light.color * light.intensity * diff;
@@ -117,8 +117,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    // float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3 specular = light.color * light.intensity * 0.5 * spec;
 
     float distance = length(light.position - FragPos);
@@ -127,34 +126,34 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     + (light.linear * distance)
     + (light.constant));
 
-    return vec3(diffuse + specular) * attenuation;
+    return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation;
 }
 
-vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 viewDir)
 {
     
-    vec3 lightDir = normalize(spotLight.position - fragPos);
+    vec3 lightDir = normalize(spotLight.position - FragPos);
     
     float theta = dot(lightDir, normalize(-spotLight.direction)); 
     float epsilon = spotLight.cutOff - spotLight.outerCutOff;
     float intensity = clamp((theta - spotLight.outerCutOff) / epsilon, 0.0, 1.0);
-    
-    if(theta > spotLight.outerCutOff) 
-    {   
+    // clamp((theta - currentLight.spotOuterCutoff) / epsilon, 0.0, 1.0)
+    if(theta / spotLight.outerCutOff > 1)
+    {
         float diff = max(dot(normal, lightDir), 0.0);
 
         vec3 h = (viewDir + lightDir)/length(viewDir + lightDir);
-        float spec = pow(max(dot(h, normal), 0.0), 0);
+        float spec = pow(max(dot(h, normal), 0.0), material.shininess);
 
-        float distance = length(spotLight.position - fragPos);
+        float distance = length(spotLight.position - FragPos);
         float attenuation = 1.0 / (spotLight.constant 
                                     + spotLight.linear * distance 
                                     + spotLight.quadratic * (distance * distance));
 
-        vec3 diffuse  = spotLight.color  * spotLight.intensity * intensity * diff;
-        vec3 specular  = spotLight.color * spotLight.intensity * 0.5 * intensity * spec;
+        vec3 diffuse  = spotLight.color * spotLight.intensity * intensity * diff;
+        vec3 specular = spotLight.color * spotLight.intensity * intensity * spec;
 
-        return vec3(diffuse  + specular) * attenuation;  
+        return (diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation; 
     }
     return vec3(0);
 }
@@ -177,13 +176,13 @@ void main()
     //point lights
     for(int i = 0; i < lenghtPointLight; i++)
     {
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+        result += CalcPointLight(pointLights[i], norm, viewDir);
     }
 
     //spot light
     for(int i = 0; i < lenghtSpotLight; i++)
     {
-        result += CalcSpotLight(spotLights[i], norm, FragPos, viewDir);
+        result += CalcSpotLight(spotLights[i], norm, viewDir);
     }
 
     //result += vec3(ambientColor) * ambientColor.w;

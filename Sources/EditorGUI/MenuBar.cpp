@@ -20,7 +20,10 @@ void Top()
 	{
 		if (Wrapper::GUI::MenuItem("New Project...", NULL)) {}
 		if (Wrapper::GUI::MenuItem("Open Project...", NULL)) {}
-		if (Wrapper::GUI::MenuItem("Save Project", NULL)) {}
+		if (Wrapper::GUI::MenuItem("Save Project", NULL))
+		{
+			Resource::ResourceManager::GetInstance().Save();
+		}
 		Wrapper::GUI::Separator();
 		if (Wrapper::GUI::MenuItem("Exit", "Alt+F4")) {}
 		Wrapper::GUI::EndMenu();

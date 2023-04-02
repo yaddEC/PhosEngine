@@ -1,6 +1,8 @@
 #include "EditorGUI/InspectorGUI.hpp"
 #include "Engine/Transform.hpp"
 #include "Wrapper/GUI.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Resource/Texture.hpp"
 #include "Engine/MonoBehaviour.hpp"
 #include <typeinfo>
 
@@ -23,6 +25,7 @@ void EditorGUI::InspectorGUI::DoUpdate()
 		DisplayResource();
 	}
 }
+
 
 void EditorGUI::InspectorGUI::DisplayGameObject()
 {

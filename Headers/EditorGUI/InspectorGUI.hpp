@@ -14,6 +14,7 @@ namespace EditorGUI
 		void SetResourceToDisplay(Resource::IResource* resource) { m_resource = resource; m_typeToDisplay = ObjectType::RESOURCE; }
 		void DoUpdate() override;
 
+
 	private:
 
 		union

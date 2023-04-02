@@ -18,7 +18,7 @@ namespace Resource
 
 		virtual void Load(const std::string& filepath) {}
 		virtual void Bind() {}
-		virtual void Unload() {}
+		virtual void Unload() { p_isLoaded = false; }
 		virtual void Save() {}
 		virtual void GUIUpdate() {};
 
