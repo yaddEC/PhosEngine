@@ -42,9 +42,7 @@ void LowRenderer::DirectionalLight::Start()
 
 void LowRenderer::DirectionalLight::Update()
 {
-	direction.x = -sin(transform->rotation.y * Maths::DEG2RAD) * cos(transform->rotation.x * Maths::DEG2RAD);
-	direction.y = sin(transform->rotation.x * Maths::DEG2RAD);
-	direction.z = -cos(transform->rotation.x * Maths::DEG2RAD) * cos(transform->rotation.y * Maths::DEG2RAD);
+	direction = (gameobject->transform->GetGlobalMatrix() * Maths::Vec4(0, -1, 0, 0)).xyz();
 }
 
 void LowRenderer::DirectionalLight::GUIUpdate()

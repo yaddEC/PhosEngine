@@ -8,6 +8,7 @@
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
+#include "Resource/Material.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 
 #include "Resource/ShaderProgram.hpp"
@@ -21,6 +22,49 @@ using namespace LowRenderer;
 
 void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
 {
+	std::vector<Resource::ShaderProgram*> shaderList;
+	for (MeshRenderer* rend : m_meshRenderers)
+	{
+		bool isShaderInList = false;
+		for (Resource::ShaderProgram* shader : shaderList)
+		{
+			if (rend->GetMaterial()->GetShader() == shader)
+			{
+				isShaderInList = true;
+				break;
+			}
+		}
+		if (isShaderInList) continue;
+		else shaderList.push_back(rend->GetMaterial()->GetShader());
+	}
+
+	for (Resource::ShaderProgram* shader : shaderList)
+	{
+		shader->SetUniformVec4("ambientColor", ambient);
+		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
+
+		shader->SetUniformInt("lenghtDirLight", m_directionalLights.size());
+		shader->SetUniformInt("lenghtPointLight", m_pointLights.size());
+		shader->SetUniformInt("lenghtSpotLight", m_spotLights.size());
+
+		for (int i = 0; i < m_directionalLights.size(); i++)
+		{
+			m_directionalLights[i]->Render(*shader, i);
+		}
+
+		for (int i = 0; i < m_pointLights.size(); i++)
+		{
+			m_pointLights[i]->Render(*shader, i);
+		}
+
+		for (int i = 0; i < m_spotLights.size(); i++)
+		{
+			m_spotLights[i]->Render(*shader, i);
+		}
+	}
+
+	
+
 	if (renderAllCameras)
 	{
 		for (Camera* cam : m_cameras)
@@ -30,28 +74,8 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 		}
 	}
 
-	mainCamera->GetShaderProg().SetUniformVec4("ambientColor", ambient);
-	mainCamera->GetShaderProg().SetUniformVec3("viewPos", mainCamera->transform->position);
-
-	mainCamera->GetShaderProg().SetUniformInt("lenghtDirLight", m_directionalLights.size());
-	mainCamera->GetShaderProg().SetUniformInt("lenghtPointLight", m_pointLights.size());
-	mainCamera->GetShaderProg().SetUniformInt("lenghtSpotLight", m_spotLights.size());
-
-	for (int i = 0; i < m_directionalLights.size(); i++)
-	{
-		m_directionalLights[i]->Render(mainCamera->GetShaderProg(), i);
-	}
-
-	for (int i = 0; i < m_pointLights.size(); i++)
-	{
-		m_pointLights[i]->Render(mainCamera->GetShaderProg(), i);
-	}
-
-	for (int i = 0; i < m_spotLights.size(); i++)
-	{
-		m_spotLights[i]->Render(mainCamera->GetShaderProg(), i);
-	}
 	mainCamera->Render(m_meshRenderers, viewportSize);
+	
 }
 
 void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)

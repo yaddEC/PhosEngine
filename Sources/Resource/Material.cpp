@@ -60,51 +60,82 @@ void Resource::Material::Save()
 
 void Resource::Material::GUIUpdate()
 {
-	Wrapper::GUI::DisplayText("Albedo");
+	/*using namespace Wrapper;
 
-	Wrapper::GUI::Button(m_albedo.useTexture ? m_albedo.texture->GetName() : "None");
+	std::vector<std::string> textureList;
+	textureList.push_back("Color");
+	for (Texture* tex : ResourceManager::GetInstance().GetResourceList<Texture>())
+	{
+		textureList.push_back(tex->GetName());
+	}
+
+
+	GUI::BeginGroup();
+
+	GUI::DisplayText("Abledo : ");
+	GUI::SameLine();
+
+	std::string selectedAlb = m_albedo.useTexture ? m_albedo.texture->GetName() : "Color";
+	if (GUI::Combo("##texture alb", textureList, selectedAlb))
+	{
+		if (selectedAlb == "Color")
+		{
+			m_albedo.texture = nullptr;
+			m_albedo.useTexture = false;
+		}
+		else
+		{
+			m_albedo.texture = ResourceManager::GetInstance().GetResource<Texture>(selectedAlb);
+			m_albedo.useTexture = true;
+		}
+	}
+
+	GUI::EndGroup();
+
 	if (Resource::Texture** texture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
 	{
 		m_albedo.texture = *texture;
 		m_albedo.useTexture = true;
 	}
+	if (!m_albedo.useTexture)
+		GUI::EditColorRGB("##color alb", m_albedo.color);
 
-	if (m_albedo.useTexture)
-	{
-		Wrapper::GUI::SameLine();
-		if (Wrapper::GUI::Button("Delete"))
-		{
-			m_albedo.texture = nullptr;
-			m_albedo.useTexture = false;
-		}
-	}
-	else
-	{
-		Wrapper::GUI::EditColorRGB("##albedo", m_albedo.color);
-	}
+	
 
-	GUI::DisplayText("Specular");
+	
+	GUI::BeginGroup();
 
-	GUI::Button(m_specular.useTexture ? m_specular.texture->GetName() : "None");
-	if (Resource::Texture** texture = (Texture**)GUI::DragDropTarget("Texture"))
-	{
-		m_specular.texture = *texture;
-		m_specular.useTexture = true;
-	}
+	GUI::DisplayText("Specular : ");
+	GUI::SameLine();
 
-	if (m_specular.useTexture)
+	std::string selectedSpec = m_specular.useTexture ? m_specular.texture->GetName() : "Color";
+	if (GUI::Combo("##texture spec", textureList, selectedSpec))
 	{
-		GUI::SameLine();
-		if (GUI::Button("Delete"))
+		if (selectedSpec == "Color")
 		{
 			m_specular.texture = nullptr;
 			m_specular.useTexture = false;
 		}
+		else
+		{
+			m_specular.texture = ResourceManager::GetInstance().GetResource<Texture>(selectedSpec);
+			m_specular.useTexture = true;
+		}
 	}
-	else
+
+	GUI::EndGroup();
+	
+	if (Resource::Texture** texture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
 	{
-		GUI::EditColorRGB("##albedo", m_specular.color);
+		m_specular.texture = *texture;
+		m_specular.useTexture = true;
 	}
+	if (!m_specular.useTexture)
+		GUI::EditColorRGB("##color spec", m_specular.color);*/
+
+	m_albedo.GUIUpdate("Albedo : ");
+	m_specular.GUIUpdate("Specular : ");
+	
 
 	GUI::DisplayText("Shininess : "); GUI::SameLine();
 	GUI::EditFloat("##Shininess", m_shininess, 0.01f, 0);
@@ -227,4 +258,40 @@ std::vector<std::string> Resource::Material::split(const char* str, char c)
 	} while (0 != *str++);
 
 	return result;
+}
+
+void Resource::ColorMap::GUIUpdate(const std::string& label)
+{
+	std::vector<std::string> textureList = Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>();
+	textureList.insert(textureList.begin(), "Color");
+
+	GUI::BeginGroup();
+
+	GUI::DisplayText(label.c_str());
+	GUI::SameLine();
+
+	std::string selectedSpec = useTexture ? texture->GetName() : "Color";
+	if (GUI::Combo("##" + label, textureList, selectedSpec))
+	{
+		if (selectedSpec == "Color")
+		{
+			texture = nullptr;
+			useTexture = false;
+		}
+		else
+		{
+			texture = ResourceManager::GetInstance().GetResource<Texture>(selectedSpec);
+			useTexture = true;
+		}
+	}
+
+	GUI::EndGroup();
+
+	if (Resource::Texture** newtexture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
+	{
+		texture = *newtexture;
+		useTexture = true;
+	}
+	if (!useTexture)
+		GUI::EditColorRGB("##color spec", color);
 }

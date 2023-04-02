@@ -930,6 +930,14 @@ Maths::Mat4 Maths::Mat4::operator*(Mat4 _Mat) const
 	return temp;
 }
 
+Maths::Vec4 Maths::Mat4::operator*(Vec4 _vec) const
+{
+	return Vec4(data_4_4[0][0] * _vec.x + data_4_4[0][1] * _vec.y + data_4_4[0][2] * _vec.z + data_4_4[0][3] * _vec.w,
+		data_4_4[1][0] * _vec.x + data_4_4[1][1] * _vec.y + data_4_4[1][2] * _vec.z + data_4_4[1][3] * _vec.w,
+		data_4_4[2][0] * _vec.x + data_4_4[2][1] * _vec.y + data_4_4[2][2] * _vec.z + data_4_4[2][3] * _vec.w,
+		data_4_4[3][0] * _vec.x + data_4_4[3][1] * _vec.y + data_4_4[3][2] * _vec.z + data_4_4[3][3] * _vec.w);
+}
+
 //Mat4 TO THIS OPERATIONS :
 
 Maths::Mat4 Maths::Mat4::operator+=(Mat4 _Mat)

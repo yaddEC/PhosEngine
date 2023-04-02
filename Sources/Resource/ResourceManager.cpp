@@ -8,6 +8,7 @@
 #include "Resource/Mesh.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/Material.hpp"
+#include "Wrapper/GUI.hpp"
 
 #define RESOURCEMANAGER_EXPORTS
 #include "Resource/ResourceManager.hpp"
@@ -54,12 +55,10 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 				CreateResource<Material>(GetRelativePath(entry, rootAseetsPath));
 			}
 		}
-	}
-
-	
+	}	
 }
 
-void Resource::ResourceManager::Reload()
+void Resource::ResourceManager::Reload() 
 {
 	for (auto resource : m_resourceMap)
 	{
@@ -71,3 +70,76 @@ void Resource::ResourceManager::Reload()
 		resource.second->Bind();
 	}
 }
+void Resource::ResourceManager::Save()
+{
+	for (auto resource : m_resourceMap)
+	{
+		resource.second->Save();
+	}
+}
+
+
+//template<class T>
+//inline T* ResourceManager::ResourceListGUI(T* selected)
+//{
+//	std::vector<T*> list;
+//	if (typeid(T) == typeid(Material))
+//	{
+//		list = m_materialList;
+//	}
+//
+//	if (typeid(T) == typeid(Mesh))
+//	{
+//		list = m_meshList;
+//	}
+//
+//	if (typeid(T) == typeid(Texture))
+//	{
+//		list = m_textureList;
+//	}
+//
+//	if (typeid(T) == typeid(ShaderProgram))
+//	{
+//		list = m_shaderProgramList;
+//	}
+//
+//	using namespace Wrapper;
+//
+//	
+//	for (T* resource : list)
+//	{
+//		Maths::Vec2 cursorPos = Wrapper::GUI::GetCursorPos();
+//
+//		Wrapper::GUI::SetCursorPos(cursorPos + Maths::Vec2(0, 4));
+//
+//
+//		Wrapper::GUI::BeginGroup();
+//		if (m_fileIcons.count(file) && m_fileIcons.at(file))
+//		{
+//			Resource::Texture* icon = m_fileIcons.at(file);
+//			icon->DisplayImage(100);
+//		}
+//		else
+//		{
+//			m_defaultFileIcon->DisplayImage(100);
+//		}
+//
+//		std::string displayfilename = resource;
+//		displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
+//
+//		if (Wrapper::GUI::TruncTextBySize(displayfilename, 90))
+//			displayfilename += "...";
+//
+//		Wrapper::GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - Wrapper::GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
+//
+//		Wrapper::GUI::DisplayText(displayfilename);
+//		Wrapper::GUI::EndGroup();
+//
+//		if (Wrapper::GUI::IsItemDoubleClicked(0))
+//		{
+//			return resource;
+//		}
+//	}
+//
+//	resource nullptr;
+//}

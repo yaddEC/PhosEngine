@@ -1,6 +1,7 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 #include <string>
 
 #include "Maths/Maths.hpp"
@@ -72,6 +73,8 @@ namespace Wrapper
 		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool CheckBox(const std::string& label, bool* isChecked);
 		static bool Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
+		static bool Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected);
+
 		static bool IsItemClicked(int mouseButton);
 		static bool IsItemDoubleClicked(int mouseButton);
 

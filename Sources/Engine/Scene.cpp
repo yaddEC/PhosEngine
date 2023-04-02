@@ -57,25 +57,26 @@ Scene::Scene()
 	rend3->SetMesh(ground);
 	rend3->SetMaterial(mat);
 	go3->transform->position.y = -3;
-	go3->transform->scale = Maths::Vec3(10, 1, 10);
+	go3->transform->scale = Maths::Vec3(100, 1, 100);
 
 	GameObject* light = new GameObject();
 	DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
 	light->name = "DirLight";
 
-	GameObject* light1 = new GameObject();
+	/*GameObject* light1 = new GameObject();
 	PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
-	light1->name = "pointLight";	
+	light1->name = "pointLight";*/	
 
 	GameObject* light2 = new GameObject();
 	SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
 	light2->name = "SpotLight";
+	light2->transform->position.y = 6;
 
 	Instantiate(go);
 	Instantiate(go2);
 	Instantiate(go3);
 	Instantiate(light);
-	Instantiate(light1);
+	/*Instantiate(light1);*/
 	Instantiate(light2);
 }
 

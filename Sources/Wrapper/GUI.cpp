@@ -223,6 +223,24 @@ bool Wrapper::GUI::Selectable(const std::string& label, bool& isSelected, const 
 	return ImGui::Selectable(label.c_str(), &isSelected, 0, ImVec2(size.x, size.y));
 }
 
+bool Wrapper::GUI::Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected)
+{
+	if (ImGui::BeginCombo(label.c_str(), selected.c_str()))
+	{
+		for (auto str : list)
+		{
+			if (ImGui::Selectable(str.c_str(), str == selected))
+			{
+				selected = str;
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+		return false;
+	}
+}
+
 bool Wrapper::GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;

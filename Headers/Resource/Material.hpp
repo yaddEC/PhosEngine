@@ -28,6 +28,8 @@ namespace Resource
 		};
 
 		bool useTexture = false;
+
+		void GUIUpdate(const std::string& label);
 	};
 
 	class MATERIAL_API Material : public IResource
@@ -51,6 +53,8 @@ namespace Resource
 
 		ShaderProgram* GetShader() const { return m_shader; } 
 		void SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess, ShaderProgram* shader);
+
+
 
 		static Material DefaultMaterial();
 
