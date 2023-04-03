@@ -21,8 +21,8 @@ namespace LowRenderer
 
 		virtual void Render(const Resource::ShaderProgram& shaderProg, int number) = 0;
 	protected:
-		Maths::Vec3 color ;
-		float intensity = 1;
-		Maths::Vec3 direction;
+		Maths::Vec3 p_color ;
+		float p_intensity = 1;
+		Maths::Vec3 p_direction;
 	};
 }
