@@ -5,6 +5,7 @@
 //----------------
 #include <iostream>
 
+#include <Physic/PhysXWrapper.hpp>
 #define PHYSXMANAGER_EXPORTS
 #include <Physic/PhysXManager.hpp>
 

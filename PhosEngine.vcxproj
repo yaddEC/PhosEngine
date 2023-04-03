@@ -414,6 +414,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Physic\Collider.hpp" />
     <ClInclude Include="Headers\Physic\PhysXManager.hpp" />
+    <ClInclude Include="Headers\Physic\PhysXWrapper.hpp" />
     <ClInclude Include="Headers\Physic\Rigidbody.hpp" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
     <ClInclude Include="Headers\Resource\Material.hpp" />
@@ -460,6 +461,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     </ClCompile>
     <ClCompile Include="Sources\Physic\Collider.cpp" />
     <ClCompile Include="Sources\Physic\PhysXManager.cpp" />
+    <ClCompile Include="Sources\Physic\PhysXWrapper.cpp" />
     <ClCompile Include="Sources\Physic\Rigidbody.cpp" />
     <ClCompile Include="Sources\Resource\IResource.cpp" />
     <ClCompile Include="Sources\Resource\Material.cpp" />
