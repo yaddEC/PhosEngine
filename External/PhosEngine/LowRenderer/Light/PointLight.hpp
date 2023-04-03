@@ -9,7 +9,7 @@
 
 namespace LowRenderer
 {
-	class PointLight : public ILight
+	class POINTLIGHT_API PointLight : public ILight
 	{
 	public:
 		PointLight();

@@ -71,6 +71,9 @@ struct Material{
 
 uniform Material material;
 
+#define ToonStep 0.4
+#define ToonLightValue 0.7
+
 // Fuctions
 
 vec3 GetColorMapColor(ColorMap map)
@@ -89,12 +92,12 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(-light.direction);
 
-    float diff = max(dot(normal, lightDir), 0.0);
+    float diff = dot(normal, lightDir) > ToonStep ? ToonLightValue : 0.0;
     vec3 diffuse = light.color * light.intensity * diff;
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess) > ToonStep ? ToonLightValue : 0.0;
     vec3 specular = light.color * light.intensity * spec;
     //vec3 specular = vec3(0, 0, 0);
     return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular));
@@ -104,20 +107,12 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(light.position - FragPos);
 
-    float diff = max(dot(normal, lightDir), 0.0);
+    float diff = dot(normal, lightDir) > ToonStep ? ToonLightValue : 0.0;
     vec3 diffuse = light.color * light.intensity * diff;
-
-    // vec3 h = (viewDir + lightDir)/length(viewDir + lightDir);
-    // float spec = pow(max(dot(h, normal), 0.0), 32);
-
-    // float distance = length(light.position - fragPos);
-    // float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-
-
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess) > ToonStep ? ToonLightValue : 0.0;
     vec3 specular = light.color * light.intensity * 0.5 * spec;
 
     float distance = length(light.position - FragPos);
@@ -125,6 +120,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir)
     ((light.quadratic * distance * distance )
     + (light.linear * distance)
     + (light.constant));
+
+    attenuation = attenuation > 0.3 ? 0.7 : 0.0;
 
     return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation;
 }
@@ -135,23 +132,23 @@ vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 viewDir)
     vec3 lightDir = normalize(spotLight.position - FragPos);
     
     float theta = dot(lightDir, normalize(-spotLight.direction)); 
-    float epsilon = spotLight.cutOff - spotLight.outerCutOff;
-    float intensity = clamp((theta - spotLight.outerCutOff) / epsilon, 0.0, 1.0);
     // clamp((theta - currentLight.spotOuterCutoff) / epsilon, 0.0, 1.0)
     if(theta / spotLight.outerCutOff > 1)
     {
-        float diff = max(dot(normal, lightDir), 0.0);
+        float diff = dot(normal, lightDir) > ToonStep ? 1 : 0.0;
 
         vec3 h = (viewDir + lightDir)/length(viewDir + lightDir);
-        float spec = pow(max(dot(h, normal), 0.0), material.shininess);
+        float spec = pow(max(dot(h, normal), 0.0), material.shininess) > ToonStep ? 1 : 0.0;
 
         float distance = length(spotLight.position - FragPos);
         float attenuation = 1.0 / (spotLight.constant 
                                     + spotLight.linear * distance 
                                     + spotLight.quadratic * (distance * distance));
 
-        vec3 diffuse  = spotLight.color * spotLight.intensity * intensity * diff;
-        vec3 specular = spotLight.color * spotLight.intensity * intensity * spec;
+        attenuation = attenuation > 0.3 ? 0.7 : 0.0;
+
+        vec3 diffuse  = spotLight.color * spotLight.intensity * diff;
+        vec3 specular = spotLight.color * spotLight.intensity * spec;
 
         return (diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation; 
     }

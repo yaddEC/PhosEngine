@@ -1,0 +1,4 @@
+t_alb Assets\Texture\BlazikenTexture.png
+c_spec 0.318627 0.318627 0.318627
+shiny 5.31
+shader Assets\Shader\ToonShader.prog
