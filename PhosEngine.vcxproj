@@ -412,6 +412,10 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\LowRenderer\Renderer.hpp" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
+    <ClInclude Include="Headers\Physic\Collider.hpp" />
+    <ClInclude Include="Headers\Physic\PhysXManager.hpp" />
+    <ClInclude Include="Headers\Physic\PhysXWrapper.hpp" />
+    <ClInclude Include="Headers\Physic\Rigidbody.hpp" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
     <ClInclude Include="Headers\Resource\Material.hpp" />
     <ClInclude Include="Headers\Resource\Mesh.hpp" />
@@ -455,6 +459,10 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Sources\Physic\Collider.cpp" />
+    <ClCompile Include="Sources\Physic\PhysXManager.cpp" />
+    <ClCompile Include="Sources\Physic\PhysXWrapper.cpp" />
+    <ClCompile Include="Sources\Physic\Rigidbody.cpp" />
     <ClCompile Include="Sources\Resource\IResource.cpp" />
     <ClCompile Include="Sources\Resource\Material.cpp" />
     <ClCompile Include="Sources\Resource\Mesh.cpp" />

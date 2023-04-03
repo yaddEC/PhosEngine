@@ -21,7 +21,7 @@
 LowRenderer::DirectionalLight::DirectionalLight()
 	: ILight()
 {
-	color = Maths::Vec3(1, 1, 1);
+	p_color = Maths::Vec3(1, 1, 1);
 }
 
 LowRenderer::DirectionalLight::~DirectionalLight() {}
@@ -30,9 +30,9 @@ void LowRenderer::DirectionalLight::Render(const Resource::ShaderProgram& shader
 {
 	if (isActive)
 	{
-		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].direction", direction);
-		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].color", color);
-		shaderProg.SetUniformFloat("dirLights[" + std::to_string( number ) + "].intensity", intensity);
+		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].direction", p_direction);
+		shaderProg.SetUniformVec3("dirLights[" + std::to_string( number ) + "].color", p_color);
+		shaderProg.SetUniformFloat("dirLights[" + std::to_string( number ) + "].intensity", p_intensity);
 	}
 }
 
@@ -43,7 +43,7 @@ void LowRenderer::DirectionalLight::Start()
 
 void LowRenderer::DirectionalLight::Update()
 {
-	direction = (gameobject->transform->GetGlobalMatrix() * Maths::Vec4(0, -1, 0, 0)).xyz();
+	p_direction = (gameobject->transform->GetGlobalMatrix() * Maths::Vec4(0, -1, 0, 0)).xyz();
 }
 
 void LowRenderer::DirectionalLight::GUIUpdate()
@@ -51,9 +51,9 @@ void LowRenderer::DirectionalLight::GUIUpdate()
 	if (Wrapper::GUI::CollapsingHeader("Directionnal Light"))
 	{
 		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditColorRGB("##Color", color);
+		Wrapper::GUI::EditColorRGB("##Color", p_color);
 		Wrapper::GUI::DisplayText("Intensity: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Intensity", intensity, 0.001f, 0.f, 3.0f);
+		Wrapper::GUI::EditFloat("##Intensity", p_intensity, 0.001f, 0.f, 3.0f);
 	}
 }
 
