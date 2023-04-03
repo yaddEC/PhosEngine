@@ -218,7 +218,7 @@ bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked)
 	return ImGui::Checkbox(label.c_str(), isChecked);
 }
 
-bool Wrapper::GUI::Selectable(const std::string& label, bool& isSelected, const Maths::Vec2& size)
+bool Wrapper::GUI::Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size)
 {
 	return ImGui::Selectable(label.c_str(), &isSelected, 0, ImVec2(size.x, size.y));
 }

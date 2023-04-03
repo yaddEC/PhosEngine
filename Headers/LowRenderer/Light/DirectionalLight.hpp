@@ -9,7 +9,7 @@
 
 namespace LowRenderer
 {
-	class DirectionalLight : public ILight
+	class DIRECTIONALLIGHT_API DirectionalLight : public ILight
 	{
 	public:
 		DirectionalLight();

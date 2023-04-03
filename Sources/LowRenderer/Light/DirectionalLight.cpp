@@ -19,6 +19,7 @@
 #include "LowRenderer/Light/DirectionalLight.hpp"
 
 LowRenderer::DirectionalLight::DirectionalLight()
+	: ILight()
 {
 	color = Maths::Vec3(1, 1, 1);
 }

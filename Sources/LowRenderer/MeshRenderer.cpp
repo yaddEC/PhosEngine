@@ -35,12 +35,13 @@ MeshRenderer::~MeshRenderer()
 	delete m_mesh;
 }
 
-void MeshRenderer::Render(const ShaderProgram* shader, const Maths::Mat4& viewProj) const
+void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 {
-	shader->SetUniformMatrix("model", transform->GetGlobalMatrix());
-	shader->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
+	m_material->GetShader()->Use();
+	m_material->GetShader()->SetUniformMatrix("model", transform->GetGlobalMatrix());
+	m_material->GetShader()->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
 
-	m_mesh->Render(*shader, *m_material);
+	m_mesh->Render(*m_material->GetShader(), *m_material);
 
 }
 

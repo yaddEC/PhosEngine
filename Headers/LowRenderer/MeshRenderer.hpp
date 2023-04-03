@@ -30,7 +30,7 @@ namespace LowRenderer
 		virtual ~MeshRenderer();
 
 
-		void Render(const Resource::ShaderProgram* shader, const Maths::Mat4& viewProj) const;
+		void Render(const Maths::Mat4& viewProj) const;
 
 		void Start() override;
 		void Update() override;

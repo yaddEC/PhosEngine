@@ -60,83 +60,15 @@ void Resource::Material::Save()
 
 void Resource::Material::GUIUpdate()
 {
-	/*using namespace Wrapper;
-
-	std::vector<std::string> textureList;
-	textureList.push_back("Color");
-	for (Texture* tex : ResourceManager::GetInstance().GetResourceList<Texture>())
+	std::string shaderName = m_shader->GetName();
+	if (GUI::Combo("##shader", ResourceManager::GetInstance().GetResourceNameList<ShaderProgram>(), shaderName))
 	{
-		textureList.push_back(tex->GetName());
+		m_shader = ResourceManager::GetInstance().GetResource<ShaderProgram>(shaderName);
 	}
-
-
-	GUI::BeginGroup();
-
-	GUI::DisplayText("Abledo : ");
-	GUI::SameLine();
-
-	std::string selectedAlb = m_albedo.useTexture ? m_albedo.texture->GetName() : "Color";
-	if (GUI::Combo("##texture alb", textureList, selectedAlb))
-	{
-		if (selectedAlb == "Color")
-		{
-			m_albedo.texture = nullptr;
-			m_albedo.useTexture = false;
-		}
-		else
-		{
-			m_albedo.texture = ResourceManager::GetInstance().GetResource<Texture>(selectedAlb);
-			m_albedo.useTexture = true;
-		}
-	}
-
-	GUI::EndGroup();
-
-	if (Resource::Texture** texture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
-	{
-		m_albedo.texture = *texture;
-		m_albedo.useTexture = true;
-	}
-	if (!m_albedo.useTexture)
-		GUI::EditColorRGB("##color alb", m_albedo.color);
-
-	
-
-	
-	GUI::BeginGroup();
-
-	GUI::DisplayText("Specular : ");
-	GUI::SameLine();
-
-	std::string selectedSpec = m_specular.useTexture ? m_specular.texture->GetName() : "Color";
-	if (GUI::Combo("##texture spec", textureList, selectedSpec))
-	{
-		if (selectedSpec == "Color")
-		{
-			m_specular.texture = nullptr;
-			m_specular.useTexture = false;
-		}
-		else
-		{
-			m_specular.texture = ResourceManager::GetInstance().GetResource<Texture>(selectedSpec);
-			m_specular.useTexture = true;
-		}
-	}
-
-	GUI::EndGroup();
-	
-	if (Resource::Texture** texture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
-	{
-		m_specular.texture = *texture;
-		m_specular.useTexture = true;
-	}
-	if (!m_specular.useTexture)
-		GUI::EditColorRGB("##color spec", m_specular.color);*/
 
 	m_albedo.GUIUpdate("Albedo : ");
 	m_specular.GUIUpdate("Specular : ");
 	
-
 	GUI::DisplayText("Shininess : "); GUI::SameLine();
 	GUI::EditFloat("##Shininess", m_shininess, 0.01f, 0);
 
@@ -271,7 +203,7 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 	GUI::SameLine();
 
 	std::string selectedSpec = useTexture ? texture->GetName() : "Color";
-	if (GUI::Combo("##" + label, textureList, selectedSpec))
+	if (GUI::Combo("##tex" + label, textureList, selectedSpec))
 	{
 		if (selectedSpec == "Color")
 		{
@@ -293,5 +225,5 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 		useTexture = true;
 	}
 	if (!useTexture)
-		GUI::EditColorRGB("##color spec", color);
+		GUI::EditColorRGB("##color" + label, color);
 }
