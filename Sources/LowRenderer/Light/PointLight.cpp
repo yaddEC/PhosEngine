@@ -22,10 +22,10 @@
 
 LowRenderer::PointLight::PointLight() 
 {
-	color = Maths::Vec3(1, 1, 1);
-	linearAttenuation = 0.09f;
-	constantAttenuation = 1.0f;
-	quadraticAttenuation = 0.032f;
+	p_color = Maths::Vec3(1, 1, 1);
+	m_linearAttenuation = 0.09f;
+	m_constantAttenuation = 1.0f;
+	m_quadraticAttenuation = 0.032f;
 }
 
 LowRenderer::PointLight::~PointLight() {}
@@ -35,11 +35,11 @@ void LowRenderer::PointLight::Render(const Resource::ShaderProgram& shaderProg, 
 	if (isActive)
 	{
 		shaderProg.SetUniformVec3("pointLights[" + std::to_string(number) + "].position", transform->position);
-		shaderProg.SetUniformVec3("pointLights[" + std::to_string(number) + "].color", color);
-		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].intensity", intensity);
-		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].constant", constantAttenuation);
-		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].linear", linearAttenuation);
-		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].quadratic", quadraticAttenuation);
+		shaderProg.SetUniformVec3("pointLights[" + std::to_string(number) + "].color", p_color);
+		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].intensity", p_intensity);
+		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].constant", m_constantAttenuation);
+		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].linear", m_linearAttenuation);
+		shaderProg.SetUniformFloat("pointLights[" + std::to_string(number) + "].quadratic", m_quadraticAttenuation);
 	}
 }
 
@@ -58,12 +58,12 @@ void LowRenderer::PointLight::GUIUpdate()
 	if (Wrapper::GUI::CollapsingHeader("Spot Light"))
 	{
 		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditColorRGB("##Color", color);
+		Wrapper::GUI::EditColorRGB("##Color", p_color);
 		Wrapper::GUI::DisplayText("Intensity: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Intensity", intensity, 0.001f, 0.f, 3.0f);
+		Wrapper::GUI::EditFloat("##Intensity", p_intensity, 0.001f, 0.f, 3.0f);
 		Wrapper::GUI::DisplayText("Linear Attenuation: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Linear", linearAttenuation, 0.001f, 0.f, 1.0f);
+		Wrapper::GUI::EditFloat("##Linear", m_linearAttenuation, 0.001f, 0.f, 1.0f);
 		Wrapper::GUI::DisplayText("Quadratic Attenuation: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Quadratic", quadraticAttenuation, 0.001f, 0.f, 1.0f);
+		Wrapper::GUI::EditFloat("##Quadratic", m_quadraticAttenuation, 0.001f, 0.f, 1.0f);
 	}
 }
