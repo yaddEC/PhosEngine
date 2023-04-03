@@ -22,8 +22,8 @@ namespace LowRenderer
 		void GUIUpdate() override;
 		void OnDestroy() override;
 	private:
-		float linearAttenuation, constantAttenuation, quadraticAttenuation;
-		float angle;
+		float m_linearAttenuation, m_constantAttenuation, m_quadraticAttenuation;
+		float m_angle;
 	};
 
 }
