@@ -21,6 +21,12 @@
 using namespace Core;
 using namespace Wrapper;
 
+Editor::Editor(GLFWwindow* window, Maths::Vec2& windowSize)
+    : m_window(window), m_windowSize(windowSize)
+{}
+Editor::~Editor()
+{}
+
 bool Editor::Init()
 {
     /*typedef std::chrono::high_resolution_clock Time;
@@ -30,17 +36,6 @@ bool Editor::Init()
     
 
     CreateGuiIni();
-
-    m_window = Wrapper::RHI::InitWindow(1440, 920, "Phos Engine");
-    if (!m_window) return false;
-    
-    if (!Wrapper::RHI::InitGlew()) return false;
-    
-
-    if (!GUI::InitGUI(m_window)) return false;
-
-    Wrapper::RHI::EnableCulling();
-    Wrapper::RHI::EnableDepthTest();
 
     // INIT SCENE TEST
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
@@ -94,7 +89,6 @@ void Editor::Run()
 
 void Editor::Destroy()
 {
-    GUI::DestroyGUI();
 
     delete m_sceneGUI;
     delete m_mainScene;
@@ -103,21 +97,6 @@ void Editor::Destroy()
     delete m_MenuBar;
     delete m_RendererGUI;
 
-    RHI::DestroyWindow(m_window);
-}
-
-
-bool Core::Editor::InitImGui()
-{
-    (void)m_io;
-    m_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-    m_io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     //  Enable Gamepad Controls
-    m_io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;          //  Enable Docking
-    m_io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;        //  Enable Multi-Viewport / Platform Windows
-
-    ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-    ImGui_ImplOpenGL3_Init();
-    return true;
 }
 
 bool Core::Editor::InitEditorGUI()

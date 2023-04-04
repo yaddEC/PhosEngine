@@ -1,19 +1,21 @@
 #include <iostream>
-#include "Core/Editor.hpp"
-#include "Core/ProjectManager.hpp"
+#include "Core/App.hpp"
 
 int main(int argc, char** argv)
 {
-	Core::Editor editor;
-	Core::ProjectManager PManager;
+	Core::App app;
 
-	PManager.Init();
-	PManager.Run();
-	PManager.Destroy();
+	app.InitApp();
 
-	editor.Init();
-	editor.Run();
-	editor.Destroy();
+	app.InitProjectManager();
+	app.RunProjectManager();
+	app.DestroyProjectManager();
+
+	app.InitEditor();
+	app.RunEditor();
+	app.DestroyEditor();
+
+	app.DestroyApp();
 
 	return 0;
 }

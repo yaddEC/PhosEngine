@@ -1,15 +1,10 @@
 #pragma once
 
-#include "imgui.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-
 #include "Maths/Maths.hpp"
 #include "Engine/Scene.hpp"
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 //#include "Window.hpp"
 
@@ -25,26 +20,20 @@ namespace EditorGUI
 }
 
 
-
 namespace Core
 {
 	class Editor
 	{
 	public:
 
-		Editor()
-			:m_io(GetIO())
-		{}
+		Editor(GLFWwindow* window, Maths::Vec2& windowSize);
+		~Editor();
 
 		bool Init();
 		void Run();
 		void Destroy();
 
-		GLFWwindow* GetWindow() { return m_window; }
-
 	private:
-
-		bool InitImGui();
 		bool InitEditorGUI();
 		void UpdateEditorGUI();
 
@@ -63,18 +52,9 @@ namespace Core
 
 		Engine::Scene* m_mainScene; // TEMP
 
-		ImGuiIO& m_io;
-
 		GLFWwindow* m_window;
-		Maths::Vec2 m_windowSize;
+		Maths::Vec2& m_windowSize;
 
-
-		ImGuiIO& GetIO()
-		{
-			IMGUI_CHECKVERSION();
-			ImGui::CreateContext();
-			return ImGui::GetIO();
-		}
 	};
 }
 

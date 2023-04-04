@@ -8,8 +8,9 @@ namespace Core
 		ProjectManager();
 		~ProjectManager();
 
-		void Init();
+		bool Init();
 		void Run();
 		void Destroy();
+	private:
 	};
 }
