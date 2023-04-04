@@ -69,6 +69,8 @@ namespace Wrapper
 		static void DetachTextureToFrameBuffer(unsigned int frameBufferKey);
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
+		static void BindCubeMap(unsigned int cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
+
 	private:
 		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);
 	};

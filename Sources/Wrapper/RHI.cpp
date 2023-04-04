@@ -309,6 +309,28 @@ void Wrapper::RHI::UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int*
 	glDeleteBuffers(1, renderBufferKey);
 }
 
+void Wrapper::RHI::BindCubeMap(unsigned int cubeMapKey, unsigned char* data[], Resource::Texture* faces[])
+{
+	glGenTextures(1, &cubeMapKey);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapKey);
+
+	for (unsigned int i = 0; i < 6; i++)
+	{
+		if (data[i])
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]
+			);
+		}
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+}
+
 int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& shaderSource)
 {
 	//compile shader

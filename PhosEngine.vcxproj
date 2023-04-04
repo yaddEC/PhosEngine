@@ -412,6 +412,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\LowRenderer\Renderer.hpp" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
+    <ClInclude Include="Headers\Resource\CubeMap.hpp" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
     <ClInclude Include="Headers\Resource\Material.hpp" />
     <ClInclude Include="Headers\Resource\Mesh.hpp" />
@@ -430,6 +431,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGUI\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Resource\CubeMap.cpp" />
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Engine\GameObject.cpp" />
     <ClCompile Include="Sources\Engine\Input.cpp" />
