@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <typeindex>
 #include "Maths/Maths.hpp"
 
 #ifdef GAMEOBJECT_EXPORTS
@@ -55,7 +56,7 @@ namespace Engine
 			T* res = nullptr;
 			for (MonoBehaviour* component : components)
 			{
-				if (typeid(*component) == typeid(T))
+				if (std::type_index(typeid(*component)) == std::type_index(typeid(T)))
 				{
 					res = (T*)component;
 					if (index == 0)
@@ -68,7 +69,7 @@ namespace Engine
 		}
 
 		template <class T>
-		inline T* GetComponentInChildren(unsigned int index = 0);
+		T* GetComponentInChildren(unsigned int index = 0);
 
 	private:
 		std::vector<MonoBehaviour*> components;
