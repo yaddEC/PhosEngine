@@ -9,6 +9,7 @@
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/SubMesh.hpp"
+#include "Resource/CubeMap.hpp"
 
 #define RHI_EXPORTS
 #include "Wrapper/RHI.hpp"
@@ -210,6 +211,12 @@ void Wrapper::RHI::ActivateTexture(const Resource::Texture& texture, int value)
 	glBindTexture(GL_TEXTURE_2D, texture.GetTextureKey());
 }
 
+void Wrapper::RHI::ActivateCubeMap(const Resource::CubeMap& cubeMap, int value)
+{
+	glActiveTexture(GL_TEXTURE0 + value);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetKey());
+}
+
 void Wrapper::RHI::RenderSubMesh(const unsigned int& VAO, const std::vector<unsigned int> indices)
 {
 	glBindVertexArray(VAO);
@@ -309,14 +316,14 @@ void Wrapper::RHI::UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int*
 	glDeleteBuffers(1, renderBufferKey);
 }
 
-void Wrapper::RHI::BindCubeMap(unsigned int cubeMapKey, unsigned char* data[], Resource::Texture* faces[])
+void Wrapper::RHI::BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[])
 {
-	glGenTextures(1, &cubeMapKey);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapKey);
+	glGenTextures(1, cubeMapKey);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, *cubeMapKey);
 
 	for (unsigned int i = 0; i < 6; i++)
 	{
-		if (data[i])
+		if (data[i] && faces[i])
 		{
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 				0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]

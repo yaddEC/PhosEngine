@@ -22,6 +22,9 @@ using namespace LowRenderer;
 
 void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
 {
+
+
+
 	std::vector<Resource::ShaderProgram*> shaderList;
 	for (MeshRenderer* rend : m_meshRenderers)
 	{
@@ -71,11 +74,11 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 		for (Camera* cam : m_cameras)
 		{
 			if (cam == mainCamera) continue;
-			cam->Render(m_meshRenderers, viewportSize);
+			cam->Render(m_meshRenderers, viewportSize, m_skybox);
 		}
 	}
 
-	mainCamera->Render(m_meshRenderers, viewportSize);
+	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	
 }
 

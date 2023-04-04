@@ -40,7 +40,7 @@ void ShaderProgram::Load(const std::string& filepath)
 			if (type == "vert") info.shaderType = GL_VERTEX_SHADER;
 			if (type == "frag") info.shaderType = GL_FRAGMENT_SHADER;
 
-			string sourcePath = p_directory + '\\' + line.substr(5);
+			string sourcePath = line.substr(5);
 			fstream file;
 			file.open(sourcePath.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 			if (file)
@@ -103,6 +103,12 @@ void Resource::ShaderProgram::SetUniformFloat(const std::string& uniformName, fl
 void ShaderProgram::SetTexture(const std::string& uniformName, int value, const Texture& texture) const
 {
 	Wrapper::RHI::ActivateTexture(texture, value);
+	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
+}
+
+void Resource::ShaderProgram::SetCubeMap(const std::string& uniformName, int value, const CubeMap& texture) const
+{
+	Wrapper::RHI::ActivateCubeMap(texture, value);
 	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
 }
 

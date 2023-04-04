@@ -13,8 +13,10 @@
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Engine/Transform.hpp"
 #include "Resource/Material.hpp"
+#include "Resource/CubeMap.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
+#include "Wrapper/GUI.hpp"
 
 #define CAMERA_EXPORTS
 #include "LowRenderer/Camera.hpp"
@@ -29,7 +31,6 @@ using namespace Maths;
 Camera::Camera()
     : m_framebuffer(FrameBuffer(10, 10))
     , m_renderTexture(Texture())
-    , rm(ResourceManager::GetInstance())
 {
 
     transform = new Transform;
@@ -46,19 +47,35 @@ Camera::~Camera()
     delete transform;
 }
 
-void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& viewportSize)
+void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& viewportSize, const Resource::CubeMap* skybox)
 {
 
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotation.x, transform->rotation.y);
-
+    Mat4 skyBoxView = Mat4::CreateViewMatrix(Maths::Vec3(), transform->rotation.x, transform->rotation.y);
     Mat4 viewProj = view * proj;
 
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
-    m_framebuffer.Clear(Maths::Vec4(0, 0.1f, 0.2f, 1));
+    m_framebuffer.Clear(m_backgroundColor);
 
+    if (skybox && m_backgroundMode == BackGround::BG_Skybox) // Skybox
+    {
+        Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+        rm.skyboxShader->Use();
 
+        glCullFace(GL_BACK);
+        glDepthFunc(GL_LEQUAL);
+        glDepthMask(GL_FALSE);
+
+        rm.skyboxShader->SetCubeMap("skybox", 0, *skybox);
+        rm.skyboxShader->SetUniformMatrix("ViewProj", (skyBoxView * proj));
+
+        Wrapper::RHI::RenderSubMesh(rm.cube->GetSubMesh(0).GetVAO(), rm.cube->GetSubMesh(0).indices);
+    }
+
+    
     glCullFace(GL_FRONT);
+    glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     
 
@@ -79,12 +96,24 @@ Resource::Texture& LowRenderer::Camera::GetRenderTexture()
 
 void Camera::OnGUI()
 {
-    /*if (ImGui::CollapsingHeader("Scene Camera"))
+    using namespace Wrapper;
+    if (GUI::CollapsingHeader("Camera"))
     {
         transform->OnGUI();
-        ImGui::DragFloat("fov", &fov, 0.1f, 0.1f, 89);
+        GUI::EditFloat("Field of View : ", fov, 0.1f, 1, 180);
 
-    }*/
+
+        static std::vector<std::string> bgModeName = { "Skybox", "Solid Color" };
+        std::string selected = bgModeName[(int)m_backgroundMode];
+        if (GUI::Combo("Background : ", bgModeName, selected))
+        {
+            if (selected == "Skybox") m_backgroundMode = BackGround::BG_Skybox;
+            if (selected == "Solid Color") m_backgroundMode = BackGround::BG_Color;
+        }
+        if((int)m_backgroundMode)
+            GUI::EditColorRGBA("Background Color : ", m_backgroundColor);
+
+    }
 }
 
 Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const Resource::Material& material, float fov)

@@ -42,6 +42,8 @@ namespace Resource
 		void Unload();
 
 		void SetUpSubMesh();
+
+		unsigned int GetVAO() { return m_VAO; }
 	private:
 		unsigned int m_VAO, m_VBO, m_EBO;
 

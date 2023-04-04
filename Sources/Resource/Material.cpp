@@ -61,7 +61,7 @@ void Resource::Material::Save()
 void Resource::Material::GUIUpdate()
 {
 	std::string shaderName = m_shader->GetName();
-	if (GUI::Combo("##shader", ResourceManager::GetInstance().GetResourceNameList<ShaderProgram>(), shaderName))
+	if (GUI::Combo("Shader : ", ResourceManager::GetInstance().GetResourceNameList<ShaderProgram>(), shaderName))
 	{
 		m_shader = ResourceManager::GetInstance().GetResource<ShaderProgram>(shaderName);
 	}
@@ -69,8 +69,7 @@ void Resource::Material::GUIUpdate()
 	m_albedo.GUIUpdate("Albedo : ");
 	m_specular.GUIUpdate("Specular : ");
 	
-	GUI::DisplayText("Shininess : "); GUI::SameLine();
-	GUI::EditFloat("##Shininess", m_shininess, 0.01f, 0);
+	GUI::EditFloat("Shininess : ", m_shininess, 0.01f, 0);
 
 }
 
@@ -194,16 +193,12 @@ std::vector<std::string> Resource::Material::split(const char* str, char c)
 
 void Resource::ColorMap::GUIUpdate(const std::string& label)
 {
-	std::vector<std::string> textureList = Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>();
-	textureList.insert(textureList.begin(), "Color");
 
 	GUI::BeginGroup();
 
-	GUI::DisplayText(label.c_str());
-	GUI::SameLine();
 
 	std::string selectedSpec = useTexture ? texture->GetName() : "Color";
-	if (GUI::Combo("##tex" + label, textureList, selectedSpec))
+	if (GUI::Combo(label, Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>(), selectedSpec, "Color"))
 	{
 		if (selectedSpec == "Color")
 		{

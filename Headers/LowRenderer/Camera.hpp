@@ -16,8 +16,8 @@ namespace Resource
 {
 	class ShaderProgram;
 	class Mesh;
-	class ResourceManager;
 	class Material;
+	class CubeMap;
 }
 
 namespace LowRenderer
@@ -41,7 +41,7 @@ namespace LowRenderer
 		Engine::Transform* transform;
 
 		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
-			const Maths::Vec2& viewportSize);
+			const Maths::Vec2& viewportSize, const Resource::CubeMap* skybox);
 
 		Resource::Texture& GetRenderTexture();
 		Resource::ShaderProgram& GetShaderProg();
@@ -54,8 +54,15 @@ namespace LowRenderer
 
 		LowRenderer::FrameBuffer m_framebuffer;
 		Resource::Texture m_renderTexture;
-		Resource::ResourceManager& rm;
 
+		enum class BackGround
+		{
+			BG_Skybox,
+			BG_Color
+		};
+
+		BackGround m_backgroundMode;
+		Maths::Vec4 m_backgroundColor;
 
 		float fov = 50.f;
 	};

@@ -8,6 +8,7 @@
 #include "Resource/Mesh.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/Material.hpp"
+#include "Resource/CubeMap.hpp"
 #include "Wrapper/GUI.hpp"
 
 #define RESOURCEMANAGER_EXPORTS
@@ -54,6 +55,10 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			{
 				CreateResource<Material>(GetRelativePath(entry, rootAseetsPath));
 			}
+			else if (GetExtension(entry) == "phcm" || GetExtension(entry) == "PHCM")
+			{
+				CreateResource<CubeMap>(GetRelativePath(entry, rootAseetsPath));
+			}
 		}
 	}	
 }
@@ -77,6 +82,14 @@ void Resource::ResourceManager::Save()
 		resource.second->Save();
 	}
 }
+
+void Resource::ResourceManager::SetStaticResource()
+{
+	cube = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCube.obj");
+	skyboxShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\SkyboxShader.prog");
+}
+
+
 
 
 

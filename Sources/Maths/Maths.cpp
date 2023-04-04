@@ -864,6 +864,19 @@ Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _
 
 }
 
+Maths::Mat4 Maths::Mat4::GetTranspose() const
+{
+	Mat4 result;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			result.data_4_4[i][j] = data_4_4[j][i];
+		}
+	}
+	return result;
+}
+
 //ASSINGMENT AND EQUALITY OPERATIONS :
 
 Maths::Mat4 Maths::Mat4::operator=(float _data[16])

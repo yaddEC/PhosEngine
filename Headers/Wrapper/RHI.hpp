@@ -16,6 +16,7 @@
 namespace Resource 
 {
 	class Texture;
+	class CubeMap;
 	struct Vertex;
 	struct ShaderInfo;
 }
@@ -57,6 +58,7 @@ namespace Wrapper
 		static void UnloadShader(const unsigned int* programKey);
 
 		static void ActivateTexture(const Resource::Texture& texture, int value);
+		static void ActivateCubeMap(const Resource::CubeMap& texture, int value);
 		static void RenderSubMesh(const unsigned int& VAO, std::vector<unsigned int> indices);
 		static void SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned int& EBO, const std::vector<Resource::Vertex> &vertices, const std::vector<unsigned int> &indices);
 		static void UnloadSubMesh(const unsigned int& VAO, const unsigned int& VBO, const unsigned int& EBO);
@@ -69,7 +71,7 @@ namespace Wrapper
 		static void DetachTextureToFrameBuffer(unsigned int frameBufferKey);
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
-		static void BindCubeMap(unsigned int cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
+		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
 
 	private:
 		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);

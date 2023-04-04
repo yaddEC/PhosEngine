@@ -15,6 +15,7 @@
 
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
+#include "Wrapper/GUI.hpp"
 
 #define CUBEMAP_EXPORTS
 #include "Resource/CubeMap.hpp"
@@ -28,15 +29,50 @@ void Resource::CubeMap::Load(const std::string& filepath)
 
 void Resource::CubeMap::Bind()
 {
-	Wrapper::RHI::BindCubeMap(m_cubeMapKey, m_datas, m_faces);
+	Wrapper::RHI::BindCubeMap(&m_cubeMapKey, m_datas, m_faces);
 	for (int i = 0; i < 6; i++)
 	{
+		if(!m_faces[i]) continue;
 		stbi_image_free(m_datas[i]);
 	}
 }
 
 void Resource::CubeMap::Unload()
 {
+}
+
+void Resource::CubeMap::Save()
+{
+	std::fstream progFile;
+	progFile.open((p_directory + "\\" + p_name).c_str(), std::fstream::out | std::fstream::trunc);
+
+	if (progFile)
+	{
+		for (size_t i = 0; i < 6; i++)
+		{
+			progFile << i << ' ' << (m_faces[i] ? m_faces[i]->GetFilePath() : "NULL") << '\n';
+		}
+	}
+}
+
+void Resource::CubeMap::GUIUpdate()
+{
+	using namespace Wrapper;
+	std::string faceName[6] = {"Right : ", "Left :  ", "Down :  ", "Up :    ", "Front : ", "Back :  "};
+	for (size_t i = 0; i < 6; i++)
+	{
+		GUI::DisplayText(faceName[i]);
+		GUI::SameLine();
+		if (m_faces[i])
+		{
+			GUI::Image(*m_faces[i], Maths::Vec2(100, 100));
+		}
+		else
+		{
+			GUI::DisplayText("NULL");
+		}
+	}
+
 }
 
 Resource::Texture* Resource::CubeMap::GenerateFileIcon()
@@ -70,8 +106,11 @@ void Resource::CubeMap::LoadData()
 {
 	for (int i = 0; i < 6; i++)
 	{
+		if (!m_faces[i]) continue;
+
 		std::string path = m_faces[i]->GetFilePath();
-		m_datas[i] = stbi_load(path.c_str(), nullptr, nullptr, nullptr, 0);
+		int x, y, comp;
+		m_datas[i] = stbi_load(path.c_str(), &x, &y, &comp, 0);
 
 		if(!m_datas[i])
 		{
