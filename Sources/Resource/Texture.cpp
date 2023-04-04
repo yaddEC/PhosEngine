@@ -33,8 +33,6 @@ void Texture::Load(const std::string& filepath)
 
 	stbi_set_flip_vertically_on_load(true);
 	m_data = stbi_load(filepath.c_str(), &m_width, &m_height, &m_nrChannels, STBI_rgb_alpha);
-	/*if (nrChannels == 3) nrChannels = 4;
-	if (nrChannels == 4) nrChannels = 3;*/
 }
 
 void Texture::SetData(unsigned char* _data, int _width, int _height, int _nrChannel)

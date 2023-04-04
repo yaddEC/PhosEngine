@@ -35,7 +35,6 @@ Camera::Camera()
     transform = new Transform;
     transform->position = Vec3(0, 0, -10);
 
-    m_shaderProgram = ResourceManager::GetInstance().GetResource<ShaderProgram>("Assets\\Shader\\MainShader.prog");
 
 
     m_renderTexture.Bind();
@@ -58,7 +57,6 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
     m_framebuffer.Clear(Maths::Vec4(0, 0.1f, 0.2f, 1));
 
-    m_shaderProgram->Use();
 
     glCullFace(GL_FRONT);
     glDepthFunc(GL_LEQUAL);
@@ -66,7 +64,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 
     for (MeshRenderer* rend : rendList)
     {
-        rend->Render(m_shaderProgram, viewProj);
+        rend->Render(viewProj);
     }
 
     // unbind the framebuffer
@@ -78,10 +76,6 @@ Resource::Texture& LowRenderer::Camera::GetRenderTexture()
     return m_renderTexture;
 }
 
-Resource::ShaderProgram& LowRenderer::Camera::GetShaderProg()
-{
-    return *m_shaderProgram;
-}
 
 void Camera::OnGUI()
 {

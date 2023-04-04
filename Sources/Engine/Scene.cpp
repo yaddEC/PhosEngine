@@ -33,30 +33,34 @@ Scene::Scene()
 
 	Mesh* boo = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\cube.obj");
+	Mesh* blaziken = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\blaziken.obj");
 
-	Material* mat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Model\\boo_mat.001.phmat");
+	Material* booMat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\boo_mat.001.phmat");
+	Material* blazikenMat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\Blaziken.phmat");
+	Material* basicMat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\Material.phmat");
 
 	GameObject* go = new GameObject();
 	go->name = "Boo 1";
 	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
 	rend->SetMesh(boo);
-	rend->SetMaterial(mat);
+	rend->SetMaterial(booMat);
 	
 
 	GameObject* go2 = new GameObject();
-	go2->name = "Boo 2";
+	go2->name = "Blaziken";
 	MeshRenderer* rend2 = go2->AddComponent<MeshRenderer>();
-	rend2->SetMesh(boo);
-	rend2->SetMaterial(mat);
+	rend2->SetMesh(blaziken);
+	rend2->SetMaterial(blazikenMat);
 	go2->transform->SetParent(go->transform);
-	go2->transform->position.x = 5;
+	go2->transform->position.x = 10;
+	go2->transform->rotation.y = Maths::M_PI;
 	go2->transform->scale = Maths::Vec3(0.5f, 0.5f, 0.5f);
 
 	GameObject* go3 = new GameObject();
 	go3->name = "Ground";
 	MeshRenderer* rend3 = go3->AddComponent<MeshRenderer>();
 	rend3->SetMesh(ground);
-	rend3->SetMaterial(mat);
+	rend3->SetMaterial(basicMat);
 	go3->transform->position.y = -3;
 	go3->transform->scale = Maths::Vec3(100, 1, 100);
 

@@ -40,7 +40,8 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 
 	for (Resource::ShaderProgram* shader : shaderList)
 	{
-		shader->SetUniformVec4("ambientColor", ambient);
+		shader->Use();
+		shader->SetUniformVec3("ambientColor", ambient);
 		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
 
 		shader->SetUniformInt("lenghtDirLight", m_directionalLights.size());
@@ -131,7 +132,7 @@ std::vector<MeshRenderer*> LowRenderer::Renderer::GetMeshRenderers()
 	return m_meshRenderers;
 }
 
-Maths::Vec4 LowRenderer::Renderer::GetAmbient() const
+Maths::Vec3 LowRenderer::Renderer::GetAmbient() const
 {
 	return ambient;
 }
