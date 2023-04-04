@@ -1,0 +1,4 @@
+c_alb 0.657069 0.803922 0.0906382
+c_spec 0.318627 0.318627 0.318627
+shiny 5.31
+shader Assets\Shader\MainShader.prog

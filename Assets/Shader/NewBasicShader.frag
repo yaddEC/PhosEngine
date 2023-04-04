@@ -7,7 +7,7 @@ in vec3 FragPos;
 
 
 uniform vec3 viewPos;
-uniform vec4 ambientColor;
+uniform vec3 ambientColor;
 
 uniform int lenghtDirLight;
 uniform int lenghtPointLight;
@@ -185,9 +185,6 @@ void main()
         result += CalcSpotLight(spotLights[i], norm, viewDir);
     }
 
-    //result += vec3(ambientColor) * ambientColor.w;
-    result = result * GetColorMapColor(material.albedo);
+    result += vec3(ambientColor) * GetColorMapColor(material.albedo);
     FragColor = vec4(result, 1.0);
-    //FragColor = texture(Atexture, texCoord);
-    // FragColor = TextureColor;
 }

@@ -57,9 +57,6 @@ namespace LowRenderer
 		Resource::ResourceManager& rm;
 
 
-		// For testing
-		Resource::ShaderProgram* m_shaderProgram;
-
 		float fov = 50.f;
 	};
 }

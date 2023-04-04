@@ -9,7 +9,7 @@
 
 namespace LowRenderer
 {
-	class SpotLight : public ILight
+	class SPOTLIGHT_API SpotLight : public ILight
 	{
 	public:
 		SpotLight();
