@@ -10,9 +10,9 @@ Core::ProjectManager::~ProjectManager()
 
 }
 
-void Core::ProjectManager::Init()
+bool Core::ProjectManager::Init()
 {
-
+	return true;
 }
 void Core::ProjectManager::Destroy()
 {
