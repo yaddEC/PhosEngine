@@ -21,6 +21,7 @@ namespace EditorGUI
 	class HierarchyGUI;
 	class InspectorGUI;
 	class MenuBar;
+	class RendererGUI;
 }
 
 
@@ -58,6 +59,7 @@ namespace Core
 		EditorGUI::HierarchyGUI* m_Hierarchy;
 		EditorGUI::InspectorGUI* m_Inspector;
 		EditorGUI::MenuBar* m_MenuBar;
+		EditorGUI::RendererGUI* m_RendererGUI;
 
 		Engine::Scene* m_mainScene; // TEMP
 

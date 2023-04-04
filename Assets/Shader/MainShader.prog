@@ -1,2 +1,2 @@
-frag NewBasicShader.frag
-vert BasicShader.vert
+frag Assets\Shader\NewBasicShader.frag
+vert Assets\Shader\BasicShader.vert

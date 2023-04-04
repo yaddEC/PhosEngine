@@ -4,9 +4,14 @@
 #include <filesystem>
 #include <unordered_map>
 
+#include "Resource/CubeMap.hpp"
+#include "Resource/Material.hpp"
+#include "Resource/Mesh.hpp"
+#include "Resource/ShaderProgram.hpp"
+#include "Resource/Texture.hpp"
+
 namespace Resource
 {
-	class Texture;
 	class IResource;
 }
 
@@ -40,6 +45,7 @@ namespace EditorGUI
 
 		void DisplayFile(const std::string& file);
 		void DisplayFolder(const std::string& folder);
+		void NewResource();
 
 		std::string m_selectedFile;
 		bool m_selectedClicked = false;

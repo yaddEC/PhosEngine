@@ -1,12 +1,14 @@
 #include "Core/Editor.hpp"
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 #include "EditorGUI/SceneGUI.hpp"
 #include "EditorGUI/AssetExplorer.hpp"
 #include "EditorGUI/HierarchyGUI.hpp"
 #include "EditorGUI/InspectorGUI.hpp"
 #include "EditorGUI/MenuBar.hpp"
+#include "EditorGUI/RendererGUI.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
@@ -21,6 +23,12 @@ using namespace Wrapper;
 
 bool Editor::Init()
 {
+    /*typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::milliseconds ms;
+    typedef std::chrono::duration<float> fsec;
+    auto t0 = Time::now();*/
+    
+
     CreateGuiIni();
 
     m_window = Wrapper::RHI::InitWindow(1440, 920, "Phos Engine");
@@ -38,12 +46,23 @@ bool Editor::Init()
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
     rm.Init("Assets");
     rm.Init("DefaultAssets");
+    rm.SetStaticResource();
+    
+
     rm.Reload();
+
+    /*auto t1 = Time::now();
+    fsec fs = t1 - t0;
+    ms d = std::chrono::duration_cast<ms>(fs);
+    std::cout << fs.count() << "s\n";
+    std::cout << d.count() << "ms\n";*/
+
     Engine::Input::GetInstance().Init(m_window);
     InitEditorGUI();
     m_mainScene = new Engine::Scene();
     m_sceneGUI->SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
+    m_RendererGUI->SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
     
 
@@ -82,6 +101,7 @@ void Editor::Destroy()
     delete m_AssetExplorer;
     delete m_Hierarchy;
     delete m_MenuBar;
+    delete m_RendererGUI;
 
     RHI::DestroyWindow(m_window);
 }
@@ -107,6 +127,7 @@ bool Core::Editor::InitEditorGUI()
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     m_Inspector = new EditorGUI::InspectorGUI();
     m_MenuBar = new EditorGUI::MenuBar();
+    m_RendererGUI = new EditorGUI::RendererGUI();
     return true;
 }
 
@@ -153,5 +174,6 @@ void Core::Editor::UpdateEditorGUI()
     } 
     m_Inspector->Update();
     m_MenuBar->Update();
+    m_RendererGUI->Update();
 }
 

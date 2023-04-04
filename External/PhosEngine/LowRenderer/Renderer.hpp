@@ -8,6 +8,11 @@
 #define RENDERER_API __declspec(dllimport)
 #endif
 
+namespace Resource
+{
+	class CubeMap;
+}
+
 namespace LowRenderer
 {
 	class Camera;
@@ -33,10 +38,12 @@ namespace LowRenderer
 		void DeletePointLight(PointLight* point);
 
 		void AddSpotLight(SpotLight* spot) { m_spotLights.push_back(spot); }
-		void DeleteSpotLight(SpotLight* dir);
+		void DeleteSpotLight(SpotLight* spto);
 
 		std::vector<MeshRenderer*> GetMeshRenderers();
 		Maths::Vec3 GetAmbient() const;
+		Resource::CubeMap* GetSkybox() const { return m_skybox; }
+		void SetSkybox(Resource::CubeMap* cubeMap) { m_skybox = cubeMap; }
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
@@ -45,6 +52,7 @@ namespace LowRenderer
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;
 		Maths::Vec3 ambient = Maths::Vec3(0.3f, 0.3f, 0.3f);
+		Resource::CubeMap* m_skybox = nullptr;
 	};
 
 

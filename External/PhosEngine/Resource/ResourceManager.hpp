@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 
+
 #include "IResource.hpp"
 
 
@@ -19,6 +20,7 @@ namespace Resource
 	class Texture;
 	class ShaderProgram;
 	class Mesh;
+	class CubeMap;
 
 	class RESOURCEMANAGER_API ResourceManager
 	{
@@ -28,6 +30,8 @@ namespace Resource
 		void Init(const std::string& rootAseetsPath);
 		void Reload();
 		void Save();
+
+		void SetStaticResource();
 
 		static ResourceManager& GetInstance()
 		{
@@ -73,26 +77,27 @@ namespace Resource
 
 			if (typeid(T) == typeid(Material))
 			{
-				m_materialList.push_back((Material*)newResource);
 				m_materialNameList.push_back(((Material*)newResource)->GetName());
 			}
 
 			if (typeid(T) == typeid(Mesh))
 			{
-				m_meshList.push_back((Mesh*)newResource);
 				m_meshNameList.push_back(((Mesh*)newResource)->GetName());
 			}
 
 			if (typeid(T) == typeid(Texture))
 			{
-				m_textureList.push_back((Texture*)newResource);
 				m_textureNameList.push_back(((Texture*)newResource)->GetName());
 			}
 
 			if (typeid(T) == typeid(ShaderProgram))
 			{
-				m_shaderProgramList.push_back((ShaderProgram*)newResource);
 				m_shaderPorgramNameList.push_back(((ShaderProgram*)newResource)->GetName());
+			}
+
+			if (typeid(T) == typeid(CubeMap))
+			{
+				m_cubeMapNameList.push_back(((CubeMap*)newResource)->GetName());
 			}
 
 			return newResource;
@@ -104,18 +109,6 @@ namespace Resource
 			IResource* resource = GetInstance().m_resourceMap[filepath];
 			if (resource)
 				resource->Unload();
-		}
-
-	/*	template<class T>
-		T* ResourceListGUI(T* selected);*/
-
-		template<class T>
-		std::vector<T*> GetResourceList();
-
-		template<>
-		inline std::vector<Texture*> GetResourceList()
-		{
-			return m_textureList;
 		}
 
 		template<class T>
@@ -133,18 +126,26 @@ namespace Resource
 			return m_shaderPorgramNameList;
 		}
 
+		template<>
+		inline std::vector<std::string> GetResourceNameList<CubeMap>()
+		{
+			return m_cubeMapNameList;
+		}
+
+
+		// Static resource
+
+		ShaderProgram* skyboxShader;
+		Mesh* cube;
+
 	private:
 
 		ResourceManager() {}
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
+		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList, m_shaderPorgramNameList, m_cubeMapNameList;
 
-		std::vector<Material*> m_materialList;
-		std::vector<Mesh*> m_meshList;
-		std::vector<ShaderProgram*> m_shaderProgramList;
-		std::vector<Texture*> m_textureList;
-
-		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList, m_shaderPorgramNameList;
+		
 	};
 	
 	

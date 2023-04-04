@@ -38,6 +38,8 @@ namespace Resource
 
 		Texture* GenerateFileIcon() override;
 
+		SubMesh& GetSubMesh(int index) { return m_subMeshes[index]; }
+
 	private:
 		std::vector<SubMesh> m_subMeshes;
 		Maths::Vec3 m_boundingBoxMin, m_boundingBoxMax;

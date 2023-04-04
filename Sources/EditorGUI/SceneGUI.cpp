@@ -55,5 +55,6 @@ void SceneGUI::DoUpdate()
 		
 
 		Wrapper::GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
+		m_sceneCamera.OnGUI();
 
 }

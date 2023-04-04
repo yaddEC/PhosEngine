@@ -12,6 +12,9 @@
 
 namespace Resource
 {
+	class CubeMap;
+	class Texture;
+
 	struct ShaderInfo
 	{
 		std::string source;
@@ -32,7 +35,7 @@ namespace Resource
 		void Unload() override;
 		std::string GetTypeName() { return "ShaderProgram"; }
 
-		class Texture* GenerateFileIcon() override;
+		Texture* GenerateFileIcon() override;
 
 		void Use();
 
@@ -43,7 +46,7 @@ namespace Resource
 		void SetUniformBool(const std::string& uniformName, bool value) const;
 		void SetUniformFloat(const std::string& uniformName, float value) const;
 		void SetTexture(const std::string& uniformName, int value, const Texture& texture) const;
-
+		void SetCubeMap(const std::string& uniformName, int value, const CubeMap& texture) const;
 
 	private:
 		unsigned int m_programKey;

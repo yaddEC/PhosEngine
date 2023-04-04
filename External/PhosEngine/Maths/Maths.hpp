@@ -352,6 +352,8 @@ namespace Maths
 
 		static Mat4 CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio);
 
+		Mat4 GetTranspose() const;
+
 		//ASSINGMENT AND EQUALITY OPERATIONS :
 
 		Mat4 operator=(float p_newData[16]);
