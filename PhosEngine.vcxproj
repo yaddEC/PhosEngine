@@ -267,6 +267,7 @@ xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
+xcopy /y /d "$(ProjectDir)Headers\Physic\" "$(SolutionDir)External\PhosEngine\Physic\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
@@ -415,8 +416,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Resource\CubeMap.hpp" />
     <ClInclude Include="Headers\Physic\Collider.hpp" />
-    <ClInclude Include="Headers\Physic\PhysXManager.hpp" />
-    <ClInclude Include="Headers\Physic\PhysXWrapper.hpp" />
+    <ClInclude Include="Headers\Physic\PhysicsManager.hpp" />
     <ClInclude Include="Headers\Physic\Rigidbody.hpp" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
     <ClInclude Include="Headers\Resource\Material.hpp" />
@@ -426,6 +426,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
     <ClInclude Include="Headers\Wrapper\GUI.hpp" />
+    <ClInclude Include="Headers\Wrapper\PhysicsWrapper.hpp" />
     <ClInclude Include="Headers\Wrapper\RHI.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -463,8 +464,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Sources\Physic\Collider.cpp" />
-    <ClCompile Include="Sources\Physic\PhysXManager.cpp" />
-    <ClCompile Include="Sources\Physic\PhysXWrapper.cpp" />
+    <ClCompile Include="Sources\Physic\PhysicsManager.cpp" />
     <ClCompile Include="Sources\Physic\Rigidbody.cpp" />
     <ClCompile Include="Sources\Resource\IResource.cpp" />
     <ClCompile Include="Sources\Resource\Material.cpp" />
@@ -474,6 +474,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
     <ClCompile Include="Sources\Wrapper\GUI.cpp" />
+    <ClCompile Include="Sources\Wrapper\PhysicsWrapper.cpp" />
     <ClCompile Include="Sources\Wrapper\RHI.cpp" />
   </ItemGroup>
   <ItemGroup>

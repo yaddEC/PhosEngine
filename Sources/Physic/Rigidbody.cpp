@@ -3,46 +3,39 @@
 #include <limits>
 #include "pch.h"
 //----------------
-#include <Physic/Collider.hpp>
-#include <Engine/Transform.hpp>
+#include "Physic/Collider.hpp"
+
+#include "Engine/Transform.hpp"
+#include "Engine/GameObject.hpp"
+
+#include "Wrapper/PhysicsWrapper.hpp"
+
 #define RIGIDBODY_EXPORTS
 #include <Physic/Rigidbody.hpp>
 
 Physic::Rigidbody::Rigidbody()
 {
+	physicsRigidbody->setMaterialType(Wrapper::ROCK);
+}
+
+Physic::Rigidbody::Rigidbody(Wrapper::MaterialType type)
+{
+	physicsRigidbody->setMaterialType(type);
 }
 
 void Physic::Rigidbody::Init()
 {
-	
+	physicsRigidbody->rigidbody = this;
 	Collider* c = gameobject->GetComponent<Collider>();
 	if (c)
 		c->rb = this;
+
 }
 
 void Physic::Rigidbody::Update()
 {
 	
-	if (PhysxActor)
-	{
-		if (!isStatic && PhysxActor && PhysxActor->is<PxRigidDynamic>())
-		{
-			PxRigidDynamic* dynamicActor = PhysxActor->is<PxRigidDynamic>();
-
-			// Set the updated velocity
-			PxVec3 force = PxVec3(velocity.x, velocity.y, velocity.z) * mass;
-
-			// Apply the force to the dynamic actor
-			dynamicActor->addForce(force);
-
-			// Update the GameObject's transform
-			PxTransform updatedTransform = dynamicActor->getGlobalPose();
-			Vec3 newPosition = Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
-			gameobject->transform->position = newPosition;
-
-		}
-
-	}
+	physicsRigidbody->Update();
 	//velocity += AppState::deltatime * gravity;
 }
 

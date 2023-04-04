@@ -30,7 +30,7 @@ void Engine::GameObject::Start()
 }
 
 template <class T>
-inline T* Engine::GameObject::GetComponentInChildren(unsigned int index )
+T* Engine::GameObject::GetComponentInChildren(unsigned int index )
 {
 	T* res = nullptr;
 	for (Transform child : transform->m_children)

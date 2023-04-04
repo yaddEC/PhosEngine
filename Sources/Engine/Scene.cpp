@@ -17,6 +17,7 @@
 #include "Resource/Mesh.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
+#include "Physic/PhysicsManager.hpp"
 
 
 #define SCENE_EXPORTS
