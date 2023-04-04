@@ -1,10 +1,6 @@
 #pragma once
 #include <Maths/Maths.hpp>
 #include <Engine/MonoBehaviour.hpp>
-#include <Engine/GameObject.hpp>
-#include <Physic/PhysXManager.hpp>
-#include <Physic/Rigidbody.hpp>
-#include <vector>
 
 #ifdef COLLIDER_EXPORTS
 #define COLLIDER_API __declspec(dllexport)
@@ -13,23 +9,27 @@
 #endif
 
 
-using namespace Maths;
-using namespace Engine;
+namespace Wrapper
+{
+	class PhysicsCollider;
+}
+
+
 
 namespace Physic
 {
-	class Collider : public MonoBehaviour
+	class Rigidbody;
+
+	class COLLIDER_API Collider : public Engine::MonoBehaviour
 	{
 	public:
 		bool show = false;
 		bool isTrigger = false;
 		bool collide = false;
-		Vec3 center;
+		Maths::Vec3 center;
 		Rigidbody* rb;
-		PxShape* shape;
-
-		virtual void setShape(PxMaterial& material) = 0;
-		void Init(PxPhysics& physics, PxMaterial& material, PxScene& scene);
+		Wrapper::PhysicsCollider* physicsCollider;
+		void Init();
 		void Update() override;
 
 	};
@@ -37,36 +37,29 @@ namespace Physic
 	class BoxCollider : public Collider
 	{
 	public:
-		BoxCollider(Vec3 _size = Vec3(1, 1, 1));
-		void setShape(PxMaterial& material) override;
-		Vec3 size;
-		std::vector<Vec3> vertices;
-		PxBoxGeometry geometry;
+		BoxCollider(Maths::Vec3 _size = Maths::Vec3(1, 1, 1));
+		Maths::Vec3 size;
 	};
 
-	class SphereCollider : public Collider
+	class COLLIDER_API SphereCollider : public Collider
 	{
 	public:
 		SphereCollider(float _radius = 1);
-		void setShape(PxMaterial& material) override;
 		float radius;
 		float scaledRadius;
-		PxSphereGeometry geometry;
 	};
 
-	class CapsuleCollider : public Collider
+	class COLLIDER_API CapsuleCollider : public Collider
 	{
 	public:
 		CapsuleCollider(float _radius = 1, float _height = 1);
-		void setShape(PxMaterial& material) override;
 		float radius;
 		float height;
 
 		float scale = 0;
 		float hScale = 0;
-		Vec3 worldScale = Vec3(1, 1, 1);
+		Maths::Vec3 worldScale = Maths::Vec3(1, 1, 1);
 
-		PxCapsuleGeometry geometry;
 	};
 }
 

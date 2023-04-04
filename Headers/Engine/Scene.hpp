@@ -3,6 +3,7 @@
 #include <string>
 #include "LowRenderer/Camera.hpp"
 #include "Maths/Maths.hpp"
+#include "Physic/PhysicsManager.hpp"
 
 #ifdef SCENE_EXPORTS
 #define SCENE_API __declspec(dllexport)
@@ -16,7 +17,6 @@ namespace LowRenderer
 	class MeshRenderer;
 	class Renderer;
 }
-
 
 
 
@@ -34,7 +34,11 @@ namespace Engine
 		
 		GameObject* Instantiate(GameObject* newGameObject);
 
+		Physic::PhysicsManager* GetPhysicsManager() { return m_physicsManager; }
+
 		LowRenderer::Renderer* GetRenderer() { return renderer; }
+
+
 
 		bool GetIsGameMode() { return m_IsGameMode; }
 
@@ -42,6 +46,8 @@ namespace Engine
 
 
 	private:
+
+		Physic::PhysicsManager* m_physicsManager;
 		std::vector<GameObject*> m_gameObjects;
 		std::vector<GameObject*> m_gameObjectBuffer;
 
