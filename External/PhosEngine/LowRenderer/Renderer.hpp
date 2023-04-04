@@ -36,7 +36,7 @@ namespace LowRenderer
 		void DeleteSpotLight(SpotLight* dir);
 
 		std::vector<MeshRenderer*> GetMeshRenderers();
-		Maths::Vec4 GetAmbient() const;
+		Maths::Vec3 GetAmbient() const;
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
@@ -44,7 +44,7 @@ namespace LowRenderer
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;
-		Maths::Vec4 ambient = Maths::Vec4(1);
+		Maths::Vec3 ambient = Maths::Vec3(0.3f, 0.3f, 0.3f);
 	};
 
 

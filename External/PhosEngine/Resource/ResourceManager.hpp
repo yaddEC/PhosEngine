@@ -127,6 +127,12 @@ namespace Resource
 			return m_textureNameList;
 		}
 
+		template<>
+		inline std::vector<std::string> GetResourceNameList<ShaderProgram>()
+		{
+			return m_shaderPorgramNameList;
+		}
+
 	private:
 
 		ResourceManager() {}
