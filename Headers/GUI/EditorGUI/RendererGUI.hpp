@@ -1,13 +1,13 @@
 #pragma once
-#include "EditorGUI/IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 #include "Engine/Scene.hpp"
 
 namespace EditorGUI
 {
-	class RendererGUI : public IEditorGUI
+	class RendererGUI : public APPGUI::IGUI
 	{
 	public:
-		RendererGUI() : IEditorGUI("Renderer", true){}
+		RendererGUI() : IGUI("Renderer", true){}
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
 
