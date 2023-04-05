@@ -8,6 +8,8 @@
 #include "GUI/EditorGUI/HierarchyGUI.hpp"
 #include "GUI/EditorGUI/InspectorGUI.hpp"
 #include "GUI/EditorGUI/MenuBar.hpp"
+#include "GUI/EditorGUI/RendererGUI.hpp"
+
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"

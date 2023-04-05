@@ -1,10 +1,11 @@
 #pragma once
-//#include "IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 
 namespace ProjectManagerGUI
 {
-	class ProjectManagerGUI
+	class ProjectManagerGUI : public APPGUI::IGUI
 	{
-		
+	public:
+		ProjectManagerGUI();
 	};
 }

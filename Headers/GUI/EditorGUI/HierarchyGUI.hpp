@@ -5,7 +5,7 @@
 
 namespace EditorGUI
 {
-	class HierarchyGUI : public IGUI
+	class HierarchyGUI : public APPGUI::IGUI
 	{
 	public:
 		HierarchyGUI();

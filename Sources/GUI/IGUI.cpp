@@ -2,9 +2,8 @@
 
 
 using namespace Wrapper;
-using namespace EditorGUI;
 
-void IGUI::Update() 
+void APPGUI::IGUI::Update()
 {
 	if (isOpen)
 	{

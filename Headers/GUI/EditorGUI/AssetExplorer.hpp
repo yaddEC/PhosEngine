@@ -17,7 +17,7 @@ namespace Resource
 
 namespace EditorGUI
 {
-	class AssetExplorer : public IGUI
+	class AssetExplorer : public APPGUI::IGUI
 	{
 	public:
 		AssetExplorer(const std::string& rootDirectory);

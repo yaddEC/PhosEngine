@@ -8,7 +8,7 @@
 
 #include "Wrapper/GUI.hpp"
 
-namespace EditorGUI
+namespace APPGUI
 {
 	class IGUI
 	{

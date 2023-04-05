@@ -5,7 +5,7 @@
 
 namespace EditorGUI
 {
-	class SceneGUI : public IGUI
+	class SceneGUI : public APPGUI::IGUI
 	{
 	public:
 		SceneGUI();

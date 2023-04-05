@@ -5,7 +5,7 @@
 
 namespace EditorGUI
 {
-	class InspectorGUI : public IGUI
+	class InspectorGUI : public APPGUI::IGUI
 	{
 	public:
 		InspectorGUI();
