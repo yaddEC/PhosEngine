@@ -5,6 +5,7 @@
 //----------------
 
 #include <math.h>
+#include <iostream>
 
 #define MATHS_EXPORTS
 #include "Maths/Maths.hpp"
@@ -998,3 +999,247 @@ Maths::Mat4 Maths::Mat4::operator*=(Mat4 _Mat)
 }
 
 #pragma endregion Mat4
+
+/**************************\
+ *-------QUATERNION-------*
+\**************************/
+#pragma region Quaternion
+//CONSTRUCTORS :
+
+Maths::Quaternion::Quaternion(float _a, float _b, float _c, float _d)
+{
+	a = _a;
+	b = _b;
+	c = _c;
+	d = _d;
+}
+
+Maths::Quaternion::Quaternion(const Quaternion& copied)
+{
+	*this = copied;
+}
+
+
+//DESTRUCTOR :
+
+Maths::Quaternion::~Quaternion() {}
+
+//UTILS :
+
+void Maths::Quaternion::Print() const
+{
+	std::cout << " real : " << a << " Img : " << b << " , " << c << " , " << d << std::endl;
+}
+
+void Maths::Quaternion::Normalize()
+{
+	float norm = Lenght();
+	a /= norm;
+	b /= norm;
+	c /= norm;
+	d /= norm;
+}
+
+Maths::Quaternion Maths::Quaternion::GetNormalized() const
+{
+	Quaternion tmp = Quaternion(a, b, c, d);
+	tmp.Normalize();
+	return tmp;
+}
+
+void Maths::Quaternion::Conjugate()
+{
+	b = -b;
+	c = -c;
+	d = -d;
+}
+
+float Maths::Quaternion::DotProduct(const Quaternion& quat2) const
+{
+	return a * quat2.a + b * quat2.b + c * quat2.c + d * quat2.d;
+}
+
+Maths::Quaternion Maths::Quaternion::GetConjugate() const
+{
+	Quaternion tmp = Quaternion(a, b, c, d);
+	tmp.Conjugate();
+	return tmp;
+}
+
+float Maths::Quaternion::Lenght() const
+{
+	return sqrt((a * a) + (b * b) + (c * c) + (d * d));
+}
+
+
+Maths::Quaternion Maths::Quaternion::Negated() const
+{
+	return { -a, -b, -c, -d };
+}
+
+Maths::Quaternion Slerp(Maths::Quaternion q1, Maths::Quaternion q2, float time)
+{
+	float dot = q1.DotProduct(q2);
+
+	if (dot < 0.0f)
+	{
+		q2 = q2 * -1;
+		dot = -dot;
+	}
+
+	if (dot > 0.9995)
+	{
+		Maths::Quaternion result = q1 + (q2 - q1) * time;
+		result.Normalize();
+		return result;
+	}
+
+
+	double theta_0 = acos(dot);
+	double theta = theta_0 * time;
+
+
+	Maths::Quaternion qperp = q2 - q1 * dot;
+	qperp.Normalize();
+
+
+	Maths::Quaternion result = q1 * cos(theta) + qperp * sin(theta);
+	return result.GetNormalized();
+}
+
+
+//OPERATOR : 
+
+
+void Maths::Quaternion::operator=(const Quaternion& v)
+{
+	a = v.a;
+	b = v.b;
+	c = v.c;
+	d = v.d;
+}
+
+bool Maths::Quaternion::operator==(const Quaternion& v)
+{
+	return a == v.a && b == v.b && c == v.c && d == v.d;
+}
+
+Maths::Quaternion Maths::Quaternion::operator+(const Quaternion& v)
+{
+	return Quaternion(a + v.a, b + v.b, c + v.c, d + v.d);
+}
+
+Maths::Quaternion Maths::Quaternion::operator+=(const Quaternion& v)
+{
+	*this = *this + v;
+	return *this;
+}
+
+Maths::Quaternion Maths::Quaternion::operator-(const Quaternion& v)
+{
+	return Quaternion(a - v.a, b - v.b, c - v.c, d - v.d);
+}
+
+Maths::Quaternion Maths::Quaternion::operator-=(const Quaternion& v)
+{
+	*this = *this - v;
+	return *this;
+}
+
+Maths::Quaternion Maths::Quaternion::operator*(const Quaternion& v)
+{
+	float _a = a * v.a - b * v.b - c * v.c - d * v.d;
+	float _b = b * v.a + a * v.b + c * v.d - d * v.c;
+	float _c = a * v.c - b * v.d + c * v.a + d * v.b;
+	float _d = a * v.d + b * v.c - c * v.b + d * v.a;
+	return Quaternion(_a, _b, _c, _d);
+}
+
+Maths::Quaternion Maths::Quaternion::operator*=(const Quaternion& v)
+{
+	*this = *this * v;
+	return *this;
+}
+
+Maths::Quaternion Maths::Quaternion::operator*(const float v)
+{
+	return Quaternion(a * v, b * v, c * v, d * v);
+}
+
+Maths::Quaternion Maths::Quaternion::operator*=(const float v)
+{
+	*this = *this * v;
+	return *this;
+}
+
+Maths::Quaternion Maths::Quaternion::operator/(const float v)
+{
+	if (v == 0)
+	{
+		// Error  can't divide by 0
+		std::cout << "Error  can't divide by 0" << std::endl;
+		return *this;
+	}
+	return Quaternion(a / v, b / v, c / v, d / v);
+}
+
+Maths::Quaternion Maths::Quaternion::operator/=(const float v)
+{
+	*this = *this / v;
+	return *this;
+}
+
+//CONVERSION
+
+Maths::Vec3 Maths::Quaternion::ToEulerAngles()
+{
+	Vec3 angles;
+
+	// roll (x-axis rotation)
+	double sinr_cosp = 2 * (a * b + c * d);
+	double cosr_cosp = 1 - 2 * (b * b + c * c);
+	angles.x = std::atan2(sinr_cosp, cosr_cosp);
+
+	// pitch (y-axis rotation)
+	double sinp = std::sqrt(1 + 2 * (a * c - b * d));
+	double cosp = std::sqrt(1 - 2 * (a * c - b * d));
+	angles.y = 2 * std::atan2(sinp, cosp) - M_PI / 2;
+
+	// yaw (z-axis rotation)
+	double siny_cosp = 2 * (a * d + b * c);
+	double cosy_cosp = 1 - 2 * (c * c + d * d);
+	angles.z = std::atan2(siny_cosp, cosy_cosp);
+
+	return angles;
+}
+
+Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)
+{
+
+	double cr = cos(eulerAngle.x * 0.5);
+	double sr = sin(eulerAngle.x * 0.5);
+	double cp = cos(eulerAngle.y * 0.5);
+	double sp = sin(eulerAngle.y * 0.5);
+	double cy = cos(eulerAngle.z * 0.5);
+	double sy = sin(eulerAngle.z * 0.5);
+
+	Quaternion q;
+	q.a = cr * cp * cy + sr * sp * sy;
+	q.b = sr * cp * cy - cr * sp * sy;
+	q.c = cr * sp * cy + sr * cp * sy;
+	q.d = cr * cp * sy - sr * sp * cy;
+
+	return q;
+}
+
+Maths::Mat4 Maths::Quaternion::ToMatrixRot()
+{
+	float res[16] = {	2.f * (a * a + b * b) - 1.f, 2.f * (b * c - d * a), 2.f * (b * d + c * a), 0,
+						2.f * (b * c + d * a), 2.f * (a * a + c * c) - 1.f, 2.f * (c * d - b * a), 0,
+						2.f * (b * d - c * a), 2.f * (c * d + b * a), 2.f * (a * a + d * d) - 1.f, 0,
+						0, 0, 0, 1.f };
+	return Mat4(res);
+}
+
+
+#pragma endregion Quaternion
