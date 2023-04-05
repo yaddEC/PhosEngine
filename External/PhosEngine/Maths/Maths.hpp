@@ -373,4 +373,61 @@ namespace Maths
 		Mat4 operator*=(Mat4 _Mat);
 	};
 
+	class MATHS_API Quaternion
+	{
+	public:
+		
+		//MEMBRES
+		union
+		{
+			struct
+			{
+				float a, b, c, d;
+			};
+			float abcd[4];
+		};
+
+		//CONSTRUCTORS :
+
+		// _a is real part / _b, _c, _d is imaginary  part
+		Quaternion(float _a = 1, float _b = 0, float _c = 0, float _d = 0);
+		Quaternion(const Quaternion& copied);
+
+		//DESTRUCTOR :
+
+		~Quaternion();
+
+		//UTILS :
+
+		void Print() const;
+		void Normalize();
+		void Conjugate();
+		float DotProduct(const Quaternion& quat2) const;
+		float Lenght() const;
+		Quaternion GetNormalized() const;
+		Quaternion GetConjugate() const;
+		Quaternion Negated() const;
+		Quaternion Slerp(Quaternion q1, Quaternion q2, float time);
+
+		//OPERATOR
+
+		void		operator= (const Quaternion& v);
+		bool		operator==(const Quaternion& v);
+		Quaternion	operator+ (const Quaternion& v);
+		Quaternion	operator+=(const Quaternion& v);
+		Quaternion	operator- (const Quaternion& v);
+		Quaternion	operator-=(const Quaternion& v);
+		Quaternion	operator* (const Quaternion& v);
+		Quaternion	operator*=(const Quaternion& v);
+		Quaternion	operator* (const float v);
+		Quaternion	operator*=(const float v);		
+		Quaternion	operator/ (const float v);
+		Quaternion	operator/=(const float v);
+
+		//CONVERSION
+
+		Vec3 ToEulerAngles();
+		Mat4 ToMatrixRot();
+		static Quaternion ToQuaternion(const Vec3& eulerAngle);
+	};
 }
