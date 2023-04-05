@@ -67,8 +67,6 @@ namespace Resource
 
 
 		void SetProperties(const std::string& filepath);
-
-		std::vector<std::string> split(const char* str, char c = ' ');
 		
 	};
 }

@@ -14,12 +14,13 @@ namespace EditorGUI
 
 		void DoUpdate() override;
 		Engine::GameObject* GetSelected();
+		bool selectedClicked = false;
 
 	private:
 		Engine::Scene* m_currentScene;
 		Engine::GameObject* m_selected;
-		bool m_selectedClicked = false;
 
 		void DisplayHierarchy(Engine::GameObject* current);
+		void AddObjectPopup(Engine::GameObject* current);
 	};
 }

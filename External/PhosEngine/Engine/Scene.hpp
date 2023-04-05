@@ -38,7 +38,7 @@ namespace Engine
 
 		LowRenderer::Renderer* GetRenderer() { return renderer; }
 
-
+		void DeleteGameObjectFromList(GameObject* go);
 
 		bool GetIsGameMode() { return m_IsGameMode; }
 

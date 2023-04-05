@@ -143,7 +143,7 @@ void Core::Editor::UpdateEditorGUI()
     m_sceneGUI->Update();
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
-    if (m_Hierarchy->GetSelected())
+    if (m_Hierarchy->selectedClicked)
     {
         m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());
     }

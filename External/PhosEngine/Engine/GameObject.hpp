@@ -35,7 +35,7 @@ namespace Engine
 
 		void Start();
 		void Update(); 
-		void OnDestroy();
+		void Destroy();
 
 		Scene* GetScene() { return scene; }
 		void SetScene(Scene* _scene) { scene = _scene; }
@@ -50,6 +50,7 @@ namespace Engine
 			componentsBuffer.push_back(newComponent);
 			return newComponent;
 		}
+
 		template <class T>
 		inline T* GetComponent(unsigned int index = 0)
 		{
@@ -71,11 +72,15 @@ namespace Engine
 		template <class T>
 		T* GetComponentInChildren(unsigned int index = 0);
 
+		unsigned int GetID() { return m_ID; }
+		void SetID(unsigned int id) { m_ID = id; }
+
 	private:
 		std::vector<MonoBehaviour*> components;
 		std::vector<MonoBehaviour*> componentsBuffer;
 		Scene* scene = nullptr;
 
+		unsigned int m_ID;
 
 	};
 }

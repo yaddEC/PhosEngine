@@ -59,11 +59,11 @@ namespace Wrapper
 		static Maths::Vec2 CalcTextSize(const std::string& text);
 		static bool TruncTextBySize(std::string& text, float maxLength);
 
-		static bool EditFloat(const std::string& label, float& value, float speed = 1.f, float min = 0, float max = 0);
-		static bool EditVec2(const std::string& label, Maths::Vec2& value, float speed = 1.f, float min = 0, float max = 0);
-		static bool EditVec3(const std::string& label, Maths::Vec3& value, float speed = 1.f, float min = 0, float max = 0);
-		static bool EditColorRGB(const std::string& label, Maths::Vec3& value);
-		static bool EditColorRGBA(const std::string& label, Maths::Vec4& value);
+		static bool EditFloat(const std::string& label, float& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec2(const std::string& label, Maths::Vec2& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec3(const std::string& label, Maths::Vec3& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditColorRGB(const std::string& label, Maths::Vec3& value, bool text = true);
+		static bool EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text = true);
 
 		static void DisplayText(const std::string& text);
 		static void DisplayFloat(const std::string& label, float value);
@@ -73,7 +73,7 @@ namespace Wrapper
 		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool CheckBox(const std::string& label, bool* isChecked);
 		static bool Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
-		static bool Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, const std::string& first = "");
+		static bool Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, bool text = false, const std::string& first = "");
 
 		static bool IsItemClicked(int mouseButton);
 		static bool IsItemDoubleClicked(int mouseButton);
