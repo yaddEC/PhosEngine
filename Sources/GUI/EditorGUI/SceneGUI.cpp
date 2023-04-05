@@ -1,4 +1,4 @@
-#include "EditorGUI/SceneGUI.hpp"
+#include "GUI/EditorGUI/SceneGUI.hpp"
 #include "Engine/Transform.hpp"
 #include "Engine/Input.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -10,7 +10,7 @@ using namespace Wrapper;
 using namespace EditorGUI;
 using namespace Engine;
 
-SceneGUI::SceneGUI() : IEditorGUI("Scene",true)
+SceneGUI::SceneGUI() : IGUI("Scene",true)
 {
 
 }

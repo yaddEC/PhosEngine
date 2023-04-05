@@ -1,11 +1,11 @@
 #pragma once
-#include "EditorGUI/IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 #include "Engine/GameObject.hpp"
 #include "Resource/IResource.hpp"
 
 namespace EditorGUI
 {
-	class InspectorGUI : public IEditorGUI
+	class InspectorGUI : public IGUI
 	{
 	public:
 		InspectorGUI();

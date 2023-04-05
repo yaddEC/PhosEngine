@@ -1,11 +1,11 @@
 #pragma once
-#include "EditorGUI/IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 #include "LowRenderer/Camera.hpp"
 #include "Engine/Scene.hpp"
 
 namespace EditorGUI
 {
-	class SceneGUI : public IEditorGUI
+	class SceneGUI : public IGUI
 	{
 	public:
 		SceneGUI();

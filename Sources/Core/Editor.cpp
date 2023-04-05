@@ -3,12 +3,11 @@
 #include <fstream>
 #include <chrono>
 
-#include "EditorGUI/SceneGUI.hpp"
-#include "EditorGUI/AssetExplorer.hpp"
-#include "EditorGUI/HierarchyGUI.hpp"
-#include "EditorGUI/InspectorGUI.hpp"
-#include "EditorGUI/MenuBar.hpp"
-#include "EditorGUI/RendererGUI.hpp"
+#include "GUI/EditorGUI/SceneGUI.hpp"
+#include "GUI/EditorGUI/AssetExplorer.hpp"
+#include "GUI/EditorGUI/HierarchyGUI.hpp"
+#include "GUI/EditorGUI/InspectorGUI.hpp"
+#include "GUI/EditorGUI/MenuBar.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"

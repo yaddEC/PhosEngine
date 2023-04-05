@@ -10,10 +10,10 @@
 
 namespace EditorGUI
 {
-	class IEditorGUI
+	class IGUI
 	{
 	public:
-		IEditorGUI(const std::string& windowName, bool startOpen = true)
+		IGUI(const std::string& windowName, bool startOpen = true)
 			: name(windowName), isOpen(startOpen)
 		{
 		}

@@ -1,10 +1,10 @@
-#include "EditorGUI/IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 
 
 using namespace Wrapper;
 using namespace EditorGUI;
 
-void IEditorGUI::Update() 
+void IGUI::Update() 
 {
 	if (isOpen)
 	{

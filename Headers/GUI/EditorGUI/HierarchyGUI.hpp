@@ -1,11 +1,11 @@
 #pragma once
-#include "EditorGUI/IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 #include "Engine/Scene.hpp"
 #include "Engine/GameObject.hpp"
 
 namespace EditorGUI
 {
-	class HierarchyGUI : public IEditorGUI
+	class HierarchyGUI : public IGUI
 	{
 	public:
 		HierarchyGUI();

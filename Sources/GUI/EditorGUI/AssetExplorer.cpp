@@ -1,4 +1,4 @@
-#include "EditorGUI/AssetExplorer.hpp"
+#include "GUI/EditorGUI/AssetExplorer.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/IResource.hpp"
@@ -13,7 +13,7 @@ using namespace Wrapper;
 using namespace EditorGUI;
 
 AssetExplorer::AssetExplorer(const std::string& rootDirectory)
-	: IEditorGUI("Assets", true), m_assetsRootDirectory(rootDirectory), m_currentDirectory(rootDirectory)
+	: IGUI("Assets", true), m_assetsRootDirectory(rootDirectory), m_currentDirectory(rootDirectory)
 {
 
 }
