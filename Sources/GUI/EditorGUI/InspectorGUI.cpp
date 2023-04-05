@@ -1,4 +1,4 @@
-#include "EditorGUI/InspectorGUI.hpp"
+#include "GUI/EditorGUI/InspectorGUI.hpp"
 #include "Engine/Transform.hpp"
 #include "Wrapper/GUI.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -9,7 +9,7 @@
 
 using namespace Wrapper;
 
-EditorGUI::InspectorGUI::InspectorGUI() : IEditorGUI("Inspector", true)
+EditorGUI::InspectorGUI::InspectorGUI() : IGUI("Inspector", true)
 {
 
 }

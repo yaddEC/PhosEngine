@@ -1,4 +1,4 @@
-#include "EditorGUI/HierarchyGUI.hpp"
+#include "GUI/EditorGUI/HierarchyGUI.hpp"
 #include "Wrapper/GUI.hpp"
 #include "Engine/Transform.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
@@ -17,7 +17,7 @@
 
 using namespace Wrapper;
 
-EditorGUI::HierarchyGUI::HierarchyGUI() : IEditorGUI("Hierarchy", true)
+EditorGUI::HierarchyGUI::HierarchyGUI() : IGUI("Hierarchy", true)
 {
 
 }

@@ -32,3 +32,8 @@ This project is a Game Engine made for the second year at ISART digital, we have
     >**Solution:** The error is normal it is due to PhosCore trying to execute its dll. Ignore it and the project should start normally.
     - I modified the Core but my project have not changed.
     >**Solution:** This probleme is due to Visual Studio rebuilding only PhosCore but not PhosEngine because it was not modified. Just go in [Build > Rebuild Solution], it will rebuild all project.
+
+## PhysX Repository
+This is another repository used to test physX functions and implement basics architecture before adding it to our engine:
+
+ https://gitlabstudents.isartintra.com/y.dechaux/physx_test

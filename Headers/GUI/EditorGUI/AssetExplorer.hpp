@@ -1,5 +1,5 @@
 #pragma once
-#include "IEditorGUI.hpp"
+#include "GUI/IGUI.hpp"
 #include <string>
 #include <filesystem>
 #include <unordered_map>
@@ -17,7 +17,7 @@ namespace Resource
 
 namespace EditorGUI
 {
-	class AssetExplorer : public IEditorGUI
+	class AssetExplorer : public APPGUI::IGUI
 	{
 	public:
 		AssetExplorer(const std::string& rootDirectory);
