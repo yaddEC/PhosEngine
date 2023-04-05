@@ -12,10 +12,8 @@
 #include "Resource/ShaderProgram.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Engine/Transform.hpp"
-#include "Resource/Material.hpp"
-#include "Resource/CubeMap.hpp"
+#include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
-#include "Resource/Mesh.hpp"
 #include "Wrapper/GUI.hpp"
 
 #define CAMERA_EXPORTS
@@ -52,8 +50,8 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotation.x, transform->rotation.y);
-    Mat4 skyBoxView = Mat4::CreateViewMatrix(Maths::Vec3(), transform->rotation.x, transform->rotation.y);
     Mat4 viewProj = view * proj;
+   
 
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
     m_framebuffer.Clear(m_backgroundColor);
@@ -66,6 +64,11 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
         glCullFace(GL_BACK);
         glDepthFunc(GL_LEQUAL);
         glDepthMask(GL_FALSE);
+
+        Mat4 skyBoxView = view;
+        skyBoxView.data4V[0].w = 0;
+        skyBoxView.data4V[1].w = 0;
+        skyBoxView.data4V[2].w = 0;
 
         rm.skyboxShader->SetCubeMap("skybox", 0, *skybox);
         rm.skyboxShader->SetUniformMatrix("ViewProj", (skyBoxView * proj));

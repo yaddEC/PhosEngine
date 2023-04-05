@@ -112,4 +112,9 @@ GameObject* Engine::Scene::Instantiate(GameObject* newGameObject)
 	return newGameObject;
 }
 
+void Engine::Scene::DeleteGameObjectFromList(GameObject* go)
+{
+	m_gameObjects.erase(std::remove(m_gameObjects.begin(), m_gameObjects.end(), go), m_gameObjects.end());
+}
+
 

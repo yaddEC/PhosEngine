@@ -11,6 +11,7 @@
 #include "Resource/Texture.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/ResourceManager.hpp"
+#include "Resource/Parser.hpp"
 #include "Wrapper/GUI.hpp"
 
 #define MATERIAL_EXPORTS
@@ -117,14 +118,14 @@ void Resource::Material::SetProperties(const std::string& filepath)
 
 			if (prefix == "c_alb")
 			{
-				std::vector<std::string> values = split(line.substr(offset + 1).c_str(), ' ');
+				std::vector<std::string> values = Parser::Tokenize(line.substr(offset + 1).c_str(), ' ');
 
 				m_albedo.color = Maths::Vec3(std::stof(values[0]), std::stof(values[1]), std::stof(values[2]));
 				m_albedo.useTexture = false;
 			}
 			else if (prefix == "c_spec")
 			{
-				std::vector<std::string> values = split(line.substr(offset + 1).c_str(), ' ');
+				std::vector<std::string> values = Parser::Tokenize(line.substr(offset + 1).c_str(), ' ');
 
 				m_specular.color = Maths::Vec3(std::stof(values[0]), std::stof(values[1]), std::stof(values[2]));
 				m_specular.useTexture = false;
@@ -175,21 +176,6 @@ Resource::Material Resource::Material::DefaultMaterial()
 	return mat;
 }
 
-std::vector<std::string> Resource::Material::split(const char* str, char c)
-{
-	std::vector<std::string> result;
-	do
-	{
-		const char* begin = str;
-
-		while (*str != c && *str)
-			str++;
-
-		result.push_back(std::string(begin, str));
-	} while (0 != *str++);
-
-	return result;
-}
 
 void Resource::ColorMap::GUIUpdate(const std::string& label)
 {
@@ -198,7 +184,7 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 
 
 	std::string selectedSpec = useTexture ? texture->GetName() : "Color";
-	if (GUI::Combo(label, Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>(), selectedSpec, "Color"))
+	if (GUI::Combo(label, Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>(), selectedSpec, true, "Color"))
 	{
 		if (selectedSpec == "Color")
 		{
@@ -220,5 +206,5 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 		useTexture = true;
 	}
 	if (!useTexture)
-		GUI::EditColorRGB("##color" + label, color);
+		GUI::EditColorRGB(label, color, false);
 }

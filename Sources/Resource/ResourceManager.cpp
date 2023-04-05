@@ -4,11 +4,7 @@
 #include "pch.h"
 //----------------
 
-#include "Resource/ShaderProgram.hpp"
-#include "Resource/Mesh.hpp"
-#include "Resource/Texture.hpp"
-#include "Resource/Material.hpp"
-#include "Resource/CubeMap.hpp"
+#include "Resource/ResourceIncludes.hpp"
 #include "Wrapper/GUI.hpp"
 
 #define RESOURCEMANAGER_EXPORTS
@@ -38,26 +34,31 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 	{
 		if (!fs::is_directory(entry))
 		{
+			std::string extension = GetExtension(entry);
 
-			if (GetExtension(entry) == "png" || GetExtension(entry) == "PNG" || GetExtension(entry) == "jpg" || GetExtension(entry) == "JPG" || GetExtension(entry) == "rgba")
+			if (extension == "png" || extension == "PNG" || extension == "jpg" || extension == "JPG" || extension == "rgba")
 			{
 				CreateResource<Texture>(GetRelativePath(entry, rootAseetsPath));
 			}
-			else if (GetExtension(entry) == "obj" || GetExtension(entry) == "OBJ" || GetExtension(entry) == "fbx" || GetExtension(entry) == "FBX")
+			else if (extension == "obj" || extension == "OBJ" || extension == "fbx" || extension == "FBX")
 			{
 				CreateResource<Mesh>(GetRelativePath(entry, rootAseetsPath));
 			}
-			else if (GetExtension(entry) == "prog" || GetExtension(entry) == "PROG")
+			else if (extension == "prog" || extension == "PROG")
 			{
 				CreateResource<ShaderProgram>(GetRelativePath(entry, rootAseetsPath));
 			}
-			else if (GetExtension(entry) == "phmat" || GetExtension(entry) == "PHMAT")
+			else if (extension == "phmat" || extension == "PHMAT")
 			{
 				CreateResource<Material>(GetRelativePath(entry, rootAseetsPath));
 			}
-			else if (GetExtension(entry) == "phcm" || GetExtension(entry) == "PHCM")
+			else if (extension == "phcm" || extension == "PHCM")
 			{
 				CreateResource<CubeMap>(GetRelativePath(entry, rootAseetsPath));
+			}
+			else if (extension == "phprefab" || extension == "PHPREFAB")
+			{
+				CreateResource<Prefab>(GetRelativePath(entry, rootAseetsPath));
 			}
 		}
 	}	

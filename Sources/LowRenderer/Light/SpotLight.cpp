@@ -63,7 +63,7 @@ void LowRenderer::SpotLight::Update()
 
 void LowRenderer::SpotLight::GUIUpdate()
 {
-	if (Wrapper::GUI::CollapsingHeader("Point Light"))
+	if (Wrapper::GUI::CollapsingHeader("Spot Light"))
 	{
 		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
 		Wrapper::GUI::EditColorRGB("##Color", p_color);

@@ -163,33 +163,53 @@ bool Wrapper::GUI::TruncTextBySize(std::string& text, float maxLength)
 	return trunced;
 }
 
-bool Wrapper::GUI::EditFloat(const std::string& label, float& value, float speed, float min, float max)
+bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
 {
-	ImGui::Text(label.c_str()); ImGui::SameLine();
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
 	return ImGui::DragFloat(("##" + label).c_str(), &value, speed, min, max);
 }
 
-bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, float speed, float min, float max)
+bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool text, float speed, float min, float max)
 {
-	ImGui::Text(label.c_str()); ImGui::SameLine();
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
 	return ImGui::DragFloat2(("##" + label).c_str(), &value.x, speed, min, max);
 }
 
-bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, float speed, float min, float max)
+bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, bool text, float speed, float min, float max)
 {
-	ImGui::Text(label.c_str()); ImGui::SameLine();
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
 	return ImGui::DragFloat3(("##" + label).c_str(), &value.x, speed, min, max);
 }
 
-bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3& value)
+bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3& value, bool text)
 {
-	ImGui::Text(label.c_str()); ImGui::SameLine();
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
 	return ImGui::ColorEdit3(("##" + label).c_str(), &value.x);
 }
 
-bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value)
+bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text)
 {
-	ImGui::Text(label.c_str()); ImGui::SameLine();
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value.x);
 }
 
@@ -228,9 +248,13 @@ bool Wrapper::GUI::Selectable(const std::string& label, bool isSelected, const M
 	return ImGui::Selectable(label.c_str(), &isSelected, 0, ImVec2(size.x, size.y));
 }
 
-bool Wrapper::GUI::Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, const std::string& first)
+bool Wrapper::GUI::Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, bool text, const std::string& first)
 {
-	ImGui::Text(label.c_str()); ImGui::SameLine();
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
 	if (ImGui::BeginCombo(("##" + label).c_str(), selected.c_str()))
 	{
 		if (first != "")

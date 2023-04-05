@@ -69,7 +69,7 @@ void Engine::GameObject::Update()
 	}
 }
 
-void Engine::GameObject::OnDestroy()
+void Engine::GameObject::Destroy()
 {
 	for (MonoBehaviour* comp : components)
 	{
@@ -77,5 +77,6 @@ void Engine::GameObject::OnDestroy()
 			comp->OnDestroy();
 	}
 	transform->Destroy();
+	scene->DeleteGameObjectFromList(this);
 }
 

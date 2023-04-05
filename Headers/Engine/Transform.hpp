@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Maths/Maths.hpp"
+#include <string>
 
 #ifdef TRANSFORM_EXPORTS
 #define TRANSFORM_API __declspec(dllexport)
@@ -29,6 +30,7 @@ namespace Engine
 		void AddChild(Transform* child) { m_children.push_back(child); child->m_parent = this; }
 		std::vector<Transform*> GetChildren() const { return m_children; }
 		Transform* GetParent() { return m_parent; }
+		// child duplication is possible
 		void SetParent(Transform* _parent) { m_parent = _parent; m_parent->AddChild(this); }
 
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
@@ -38,6 +40,8 @@ namespace Engine
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 
 		void OnGUI();
+
+		void Parse(const std::vector<std::string>& fileData, size_t& lineIndex);
 
 	private:
 		Maths::Mat4 m_globalMatrix;
