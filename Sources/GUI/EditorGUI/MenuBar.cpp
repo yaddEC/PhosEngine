@@ -1,4 +1,4 @@
-#include "EditorGUI/MenuBar.hpp"
+#include "GUI/EditorGUI/MenuBar.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
 

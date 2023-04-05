@@ -1,4 +1,4 @@
-#include "EditorGUI/RendererGUI.hpp"
+#include "GUI/EditorGUI/RendererGUI.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/CubeMap.hpp"

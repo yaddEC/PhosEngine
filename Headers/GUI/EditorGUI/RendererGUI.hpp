@@ -1,23 +1,19 @@
 #pragma once
-#include "EditorGUI/IEditorGUI.hpp"
-#include "LowRenderer/Camera.hpp"
+#include "GUI/IGUI.hpp"
 #include "Engine/Scene.hpp"
 
 namespace EditorGUI
 {
-	class SceneGUI : public IEditorGUI
+	class RendererGUI : public APPGUI::IGUI
 	{
 	public:
-		SceneGUI();
+		RendererGUI() : IGUI("Renderer", true){}
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
 
 		void DoUpdate() override;
 	private:
-		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
 
 	};
 }
-
-
