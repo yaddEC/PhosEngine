@@ -17,7 +17,6 @@
 #include "Resource/ShaderProgram.hpp"
 
 #include "Wrapper/RHI.hpp"
-#include "Wrapper/GUI.hpp"
 
 using namespace Core;
 using namespace Wrapper;
