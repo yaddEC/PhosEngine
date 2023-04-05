@@ -2,7 +2,6 @@
 #include "Engine/Transform.hpp"
 #include "Engine/Input.hpp"
 #include "Resource/ResourceManager.hpp"
-#include "Wrapper/GUI.hpp"
 #include "LowRenderer/Renderer.hpp"
 
 using namespace Maths; 
