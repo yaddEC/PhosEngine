@@ -1193,24 +1193,33 @@ Maths::Quaternion Maths::Quaternion::operator/=(const float v)
 
 Maths::Vec3 Maths::Quaternion::ToEulerAngles()
 {
-	Vec3 angles;
+	Quaternion normalizedQuat = GetNormalized();
+	normalizedQuat.Print();
+	Vec3 euler;
 
-	// roll (x-axis rotation)
-	double sinr_cosp = 2 * (a * b + c * d);
-	double cosr_cosp = 1 - 2 * (b * b + c * c);
-	angles.x = std::atan2(sinr_cosp, cosr_cosp);
+	double sqw = normalizedQuat.a * normalizedQuat.a;
+	double sqx = normalizedQuat.b * normalizedQuat.b;
+	double sqy = normalizedQuat.c * normalizedQuat.c;
+	double sqz = normalizedQuat.d * normalizedQuat.d;
+	double unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+	double test = normalizedQuat.b * normalizedQuat.c + normalizedQuat.d * normalizedQuat.a;
+	if (test > 0.499 * unit) { // singularity at north pole
+		euler.y = static_cast<float>(2.0 * atan2(normalizedQuat.b, normalizedQuat.a));
+		euler.z = static_cast<float>(M_PI / 2.0);
+		euler.x = static_cast<float>(0.0);
+		return euler * RAD2DEG;
+	}
+	if (test < -0.499 * unit) { // singularity at south pole
+		euler.y = static_cast<float>(-2.0 * atan2(normalizedQuat.b, normalizedQuat.a));
+		euler.z = static_cast<float>(-M_PI / 2.0);
+		euler.x = static_cast<float>(0.0);
+		return euler * RAD2DEG;
+	}
+	euler.y = static_cast<float>(atan2(2.0 * normalizedQuat.c * normalizedQuat.a - 2.0 * normalizedQuat.b * normalizedQuat.d, sqx - sqy - sqz + sqw));
+	euler.z = static_cast<float>(asin(2.0 * test / unit));
+	euler.x = static_cast<float>(atan2(2.0 * normalizedQuat.b * normalizedQuat.a - 2.0 * normalizedQuat.c * normalizedQuat.d, -sqx + sqy - sqz + sqw));
 
-	// pitch (y-axis rotation)
-	double sinp = std::sqrt(1 + 2 * (a * c - b * d));
-	double cosp = std::sqrt(1 - 2 * (a * c - b * d));
-	angles.y = 2 * std::atan2(sinp, cosp) - M_PI / 2;
-
-	// yaw (z-axis rotation)
-	double siny_cosp = 2 * (a * d + b * c);
-	double cosy_cosp = 1 - 2 * (c * c + d * d);
-	angles.z = std::atan2(siny_cosp, cosy_cosp);
-
-	return angles;
+	return euler * RAD2DEG;
 }
 
 Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)
@@ -1218,10 +1227,10 @@ Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)
 
 	double cr = cos(eulerAngle.x * 0.5);
 	double sr = sin(eulerAngle.x * 0.5);
-	double cp = cos(eulerAngle.y * 0.5);
-	double sp = sin(eulerAngle.y * 0.5);
-	double cy = cos(eulerAngle.z * 0.5);
-	double sy = sin(eulerAngle.z * 0.5);
+	double cp = cos(eulerAngle.z * 0.5);
+	double sp = sin(eulerAngle.z * 0.5);
+	double cy = cos(eulerAngle.y * 0.5);
+	double sy = sin(eulerAngle.y * 0.5);
 
 	Quaternion q;
 	q.a = cr * cp * cy + sr * sp * sy;
@@ -1234,9 +1243,10 @@ Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)
 
 Maths::Mat4 Maths::Quaternion::ToMatrixRot()
 {
-	float res[16] = {	2.f * (a * a + b * b) - 1.f, 2.f * (b * c - d * a), 2.f * (b * d + c * a), 0,
-						2.f * (b * c + d * a), 2.f * (a * a + c * c) - 1.f, 2.f * (c * d - b * a), 0,
-						2.f * (b * d - c * a), 2.f * (c * d + b * a), 2.f * (a * a + d * d) - 1.f, 0,
+	Quaternion q = GetNormalized();
+	float res[16] = {	2.f * (q.a * q.a + q.b * q.b) - 1.f, 2.f * (q.b * q.c - q.d * q.a), 2.f * (q.b * q.d + q.c * q.a), 0,
+						2.f * (q.b * q.c + q.d * q.a), 2.f * (q.a * q.a + q.c * q.c) - 1.f, 2.f * (q.c * q.d - q.b * q.a), 0,
+						2.f * (q.b * q.d - q.c * q.a), 2.f * (q.c * q.d + q.b * q.a), 2.f * (q.a * q.a + q.d * d) - 1.f, 0,
 						0, 0, 0, 1.f };
 	return Mat4(res);
 }
