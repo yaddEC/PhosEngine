@@ -5,11 +5,7 @@
 #include "LowRenderer/Framebuffer.hpp"
 #include "Resource/Texture.hpp"
 
-#ifdef CAMERA_EXPORTS
-#define CAMERA_API __declspec(dllexport)
-#else
-#define CAMERA_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 namespace Resource
@@ -32,7 +28,7 @@ namespace Engine
 
 namespace LowRenderer
 {
-	class CAMERA_API Camera
+	class PHOSENGINE_API Camera
 	{
 	public:
 		Camera();

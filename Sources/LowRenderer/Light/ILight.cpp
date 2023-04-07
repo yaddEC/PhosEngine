@@ -12,3 +12,5 @@ using namespace LowRenderer;
 ILight::ILight() : Engine::MonoBehaviour(true)
 {
 }
+
+

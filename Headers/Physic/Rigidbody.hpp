@@ -2,11 +2,7 @@
 #include <Maths/Maths.hpp>
 #include <Engine/MonoBehaviour.hpp>
 
-#ifdef RIGIDBODY_EXPORTS
-#define RIGIDBODY_API __declspec(dllexport)
-#else
-#define RIGIDBODY_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Wrapper
 {
@@ -16,7 +12,7 @@ namespace Wrapper
 
 namespace Physic
 {
-	class RIGIDBODY_API Rigidbody : public Engine::MonoBehaviour
+	class PHOSENGINE_API Rigidbody : public Engine::MonoBehaviour
 	{
 	public:
 		Rigidbody();

@@ -50,14 +50,30 @@ void LowRenderer::DirectionalLight::GUIUpdate()
 {
 	if (Wrapper::GUI::CollapsingHeader("Directionnal Light"))
 	{
-		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditColorRGB("##Color", p_color);
-		Wrapper::GUI::DisplayText("Intensity: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Intensity", p_intensity, 0.001f, 0.f, 3.0f);
+		Wrapper::GUI::EditColorRGB("Color", p_color);
+		Wrapper::GUI::EditFloat("Intensity", p_intensity, true, 0.001f, 0.f, 3.0f);
 	}
 }
 
 void LowRenderer::DirectionalLight::OnDestroy()
 {
 	gameobject->GetScene()->GetRenderer()->DeleteDirLight(this);
+}
+
+Reflection::ClassMetaData& LowRenderer::DirectionalLight::GetMetaData()
+{
+	using namespace Reflection;
+
+	static bool computed = false;
+	static ClassMetaData result;
+	if (!computed)
+	{
+		result.name = "Directional Light";
+		result.memberList =
+		{
+			ClassMemberInfo("Color", offsetof(DirectionalLight, DirectionalLight::p_color), MemberType::T_VEC3),
+			ClassMemberInfo("Intensity", offsetof(DirectionalLight, DirectionalLight::p_intensity), MemberType::T_FLOAT)
+		};
+	}
+	return result;
 }

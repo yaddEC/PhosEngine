@@ -80,3 +80,21 @@ void LowRenderer::MeshRenderer::OnDestroy()
 	gameobject->GetScene()->GetRenderer()->DeleteMeshRenderer(this);
 }
 
+Reflection::ClassMetaData& LowRenderer::MeshRenderer::GetMetaData()
+{
+	using namespace Reflection;
+
+	static bool computed = false;
+	static ClassMetaData result;
+	if (!computed)
+	{
+		result.name = "Mesh Renderer";
+		result.memberList = 
+		{
+			ClassMemberInfo("Mesh", offsetof(MeshRenderer, MeshRenderer::m_mesh), MemberType::T_MESH),
+			ClassMemberInfo("Material", offsetof(MeshRenderer, MeshRenderer::m_material), MemberType::T_MATERIAL) 
+		};
+	}
+	return result;
+}
+

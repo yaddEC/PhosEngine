@@ -3,16 +3,12 @@
 #include <string>
 #include "Maths/Maths.hpp"
 
-#ifdef PARSER_EXPORTS
-#define PARSER_API __declspec(dllexport)
-#else
-#define PARSER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 namespace Resource
 {
-	class PARSER_API Parser
+	class PHOSENGINE_API Parser
 	{
 	public:
 		static std::vector<std::string> ConvertFileToStringArray(const std::string& filepath);

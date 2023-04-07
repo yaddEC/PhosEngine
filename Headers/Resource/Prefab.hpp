@@ -1,12 +1,7 @@
 #pragma once
 #include "IResource.hpp"
 #include <vector>
-
-#ifdef PREFAB_EXPORTS
-#define PREFAB_API __declspec(dllexport)
-#else
-#define PREFAB_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Engine
 {
@@ -16,7 +11,7 @@ namespace Engine
 namespace Resource
 {
 
-	class PREFAB_API Prefab : public IResource
+	class PHOSENGINE_API Prefab : public IResource
 	{
 	public:
 

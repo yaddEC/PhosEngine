@@ -65,20 +65,36 @@ void LowRenderer::SpotLight::GUIUpdate()
 {
 	if (Wrapper::GUI::CollapsingHeader("Spot Light"))
 	{
-		Wrapper::GUI::DisplayText("Color: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditColorRGB("##Color", p_color);
-		Wrapper::GUI::DisplayText("Intensity: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Intensity", p_intensity, 0.01f, 0.f, 3.0f);
-		Wrapper::GUI::DisplayText("Angle: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Angle", m_angle, 0.1f, 0.f, 360.0f);
-		Wrapper::GUI::DisplayText("Linear Attenuation: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Linear", m_linearAttenuation, 0.001f, 0.f, 1.0f);
-		Wrapper::GUI::DisplayText("Quadratic Attenuation: "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::EditFloat("##Quadratic", m_quadraticAttenuation, 0.001f, 0.f, 1.0f);
+		Wrapper::GUI::EditColorRGB("Color", p_color);
+		Wrapper::GUI::EditFloat("Intensity", p_intensity, true, 0.01f, 0.f, 3.0f);
+		Wrapper::GUI::EditFloat("Angle", m_angle, true, 0.1f, 0.f, 360.0f);
+		Wrapper::GUI::EditFloat("Linear", m_linearAttenuation, true, 0.001f, 0.f, 1.0f);
+		Wrapper::GUI::EditFloat("Quadratic", m_quadraticAttenuation, true, 0.001f, 0.f, 1.0f);
 	}
 }
 
 void LowRenderer::SpotLight::OnDestroy()
 {
 	gameobject->GetScene()->GetRenderer()->DeleteSpotLight(this);
+}
+
+Reflection::ClassMetaData& LowRenderer::SpotLight::GetMetaData()
+{
+	using namespace Reflection;
+
+	static bool computed = false;
+	static ClassMetaData result;
+	if (!computed)
+	{
+		result.name = "Spot Light";
+		result.memberList =
+		{
+			ClassMemberInfo("Color", offsetof(SpotLight, SpotLight::p_color), MemberType::T_VEC3),
+			ClassMemberInfo("Intensity", offsetof(SpotLight, SpotLight::p_intensity), MemberType::T_FLOAT),
+			ClassMemberInfo("Angle", offsetof(SpotLight, SpotLight::m_angle), MemberType::T_FLOAT),
+			ClassMemberInfo("Linear Attenuation", offsetof(SpotLight, SpotLight::m_linearAttenuation), MemberType::T_FLOAT),
+			ClassMemberInfo("Quadratic Attenuation", offsetof(SpotLight, SpotLight::m_quadraticAttenuation), MemberType::T_FLOAT)
+		};
+	}
+	return result;
 }

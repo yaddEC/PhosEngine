@@ -3,17 +3,13 @@
 #include "Maths/Maths.hpp"
 #include <string>
 
-#ifdef TRANSFORM_EXPORTS
-#define TRANSFORM_API __declspec(dllexport)
-#else
-#define TRANSFORM_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Engine
 {
 	class GameObject;
 
-	class TRANSFORM_API Transform
+	class PHOSENGINE_API Transform
 	{
 	public:
 		Transform(Maths::Vec3 _position = Maths::Vec3(),

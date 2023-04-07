@@ -243,7 +243,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosCore\"</Co
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;PHOSCORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;PHOSENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -266,6 +266,8 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\Reflection\" "$(SolutionDir)External\PhosEngine\Reflection\"
+xcopy /y /d "$(ProjectDir)Headers\dllInclude.hpp" "$(SolutionDir)External\PhosEngine\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Physic\" "$(SolutionDir)External\PhosEngine\Physic\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
@@ -398,6 +400,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Externals\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGUI\Header\imstb_truetype.h" />
     <ClInclude Include="Externals\STB_Image\stb_image.h" />
+    <ClInclude Include="Headers\dllInclude.hpp" />
     <ClInclude Include="Headers\Engine\GameObject.hpp" />
     <ClInclude Include="Headers\Engine\Input.hpp" />
     <ClInclude Include="Headers\Engine\MonoBehaviour.hpp" />
@@ -414,6 +417,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\LowRenderer\Renderer.hpp" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
+    <ClInclude Include="Headers\Reflection\ClassMetaData.hpp" />
     <ClInclude Include="Headers\Resource\CubeMap.hpp" />
     <ClInclude Include="Headers\Physic\Collider.hpp" />
     <ClInclude Include="Headers\Physic\PhysicsManager.hpp" />
@@ -440,6 +444,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGUI\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Reflection\ClassMetaData.cpp" />
     <ClCompile Include="Sources\Resource\CubeMap.cpp" />
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Engine\GameObject.cpp" />

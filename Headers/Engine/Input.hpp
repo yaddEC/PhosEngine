@@ -4,15 +4,11 @@
 
 #include "Maths/Maths.hpp"
 
-#ifdef INPUT_EXPORTS
-#define INPUT_API __declspec(dllexport)
-#else
-#define INPUT_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Engine
 {
-	class INPUT_API Input
+	class PHOSENGINE_API Input
 	{
 	public:
 
