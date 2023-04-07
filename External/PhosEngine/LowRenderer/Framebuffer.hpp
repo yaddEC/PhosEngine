@@ -1,11 +1,7 @@
 #pragma once
 #include "Maths/Maths.hpp"
 
-#ifdef FRAMEBUFFER_EXPORTS
-#define FRAMEBUFFER_API __declspec(dllexport)
-#else
-#define FRAMEBUFFER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 namespace Resource
@@ -15,7 +11,7 @@ namespace Resource
 
 namespace LowRenderer
 {
-	class FRAMEBUFFER_API FrameBuffer
+	class PHOSENGINE_API FrameBuffer
 	{
 	public:
 		FrameBuffer(int _width, int _height);

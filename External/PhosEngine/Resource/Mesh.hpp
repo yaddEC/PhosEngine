@@ -8,17 +8,13 @@
 
 #include "Resource/SubMesh.hpp"
 
-#ifdef MESH_EXPORTS
-#define MESH_API __declspec(dllexport)
-#else
-#define MESH_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
 	class Material;
 
-	class MESH_API Mesh : public IResource
+	class PHOSENGINE_API Mesh : public IResource
 	{
 	public:
 		Mesh() : IResource()

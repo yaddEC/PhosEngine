@@ -5,11 +5,7 @@
 #include "Maths/Maths.hpp"
 #include "Physic/PhysicsManager.hpp"
 
-#ifdef SCENE_EXPORTS
-#define SCENE_API __declspec(dllexport)
-#else
-#define SCENE_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 namespace LowRenderer
@@ -24,7 +20,7 @@ namespace Engine
 {
 	class GameObject;
 
-	class SCENE_API Scene
+	class PHOSENGINE_API Scene
 	{
 	public:
 

@@ -206,6 +206,7 @@
     <ClInclude Include="External\ImGUI\Header\imstb_rectpack.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_textedit.h" />
     <ClInclude Include="External\ImGUI\Header\imstb_truetype.h" />
+    <ClInclude Include="External\PhosEngine\dllInclude.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\GameObject.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Input.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\MonoBehaviour.hpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="External\PhosEngine\LowRenderer\MeshRenderer.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Renderer.hpp" />
     <ClInclude Include="External\PhosEngine\Maths\Maths.hpp" />
+    <ClInclude Include="External\PhosEngine\Reflection\ClassMetaData.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\CubeMap.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\IResource.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Material.hpp" />

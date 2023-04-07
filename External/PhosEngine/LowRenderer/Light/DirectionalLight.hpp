@@ -1,15 +1,11 @@
 #pragma once
 #include "LowRenderer/Light/ILight.hpp"
 
-#ifdef DIRECTIONALLIGHT_EXPORTS
-#define DIRECTIONALLIGHT_API __declspec(dllexport)
-#else
-#define DIRECTIONALLIGHT_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace LowRenderer
 {
-	class DIRECTIONALLIGHT_API DirectionalLight : public ILight
+	class PHOSENGINE_API DirectionalLight : public ILight
 	{
 	public:
 		DirectionalLight();
@@ -21,6 +17,7 @@ namespace LowRenderer
 		void Update() override;
 		void GUIUpdate() override;
 		void OnDestroy() override;
+		Reflection::ClassMetaData& GetMetaData() override;
 
 	private:
 

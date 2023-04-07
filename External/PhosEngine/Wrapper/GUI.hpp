@@ -6,11 +6,7 @@
 
 #include "Maths/Maths.hpp"
 
-#ifdef GUI_EXPORTS
-#define GUI_API __declspec(dllexport)
-#else
-#define GUI_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
@@ -19,7 +15,7 @@ namespace Resource
 
 namespace Wrapper
 {
-	class GUI_API GUI
+	class PHOSENGINE_API GUI
 	{
 	public:
 		static bool InitGUI(GLFWwindow* window);

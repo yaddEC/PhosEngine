@@ -1,12 +1,7 @@
 #pragma once
 #include <Physx/PxPhysicsAPI.h>
 
-
-#ifdef PHYSICSWRAPPER_EXPORTS
-#define  PHYSICSWRAPPER_API __declspec(dllexport)
-#else
-#define  PHYSICSWRAPPER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Physic
 {
@@ -36,7 +31,7 @@ namespace Wrapper
         CAPSULE
     };
 
-	class PHYSICSWRAPPER_API Physics //class to change in case we use other physics library
+	class PHOSENGINE_API Physics //class to change in case we use other physics library
 	{
     public:
         Physics();
@@ -63,7 +58,7 @@ namespace Wrapper
 
 	};
 
-    class PHYSICSWRAPPER_API PhysicsCollider
+    class PHOSENGINE_API PhysicsCollider
     {
     public:
         void Init();
@@ -89,7 +84,7 @@ namespace Wrapper
 
     };
 
-    class PHYSICSWRAPPER_API PhysicsRigidbody
+    class PHOSENGINE_API PhysicsRigidbody
     {
     public:
 

@@ -8,11 +8,7 @@
 #include "IResource.hpp"
 
 
-#ifdef RESOURCEMANAGER_EXPORTS
-#define RESOURCEMANAGER_API __declspec(dllexport)
-#else
-#define RESOURCEMANAGER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource 
 {
@@ -22,7 +18,7 @@ namespace Resource
 	class Mesh;
 	class CubeMap;
 
-	class RESOURCEMANAGER_API ResourceManager
+	class PHOSENGINE_API ResourceManager
 	{
 	public:
 		ResourceManager(const ResourceManager&) = delete;

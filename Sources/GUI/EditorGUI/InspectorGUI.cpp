@@ -31,6 +31,14 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 {
 	if (!m_gameobject) return;
 
+	if (GUI::Button("Display class info"))
+	{
+		for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
+		{
+			component->GetMetaData().DisplayClassInfo(component);
+		}
+	}
+
 
 	Wrapper::GUI::DisplayText(m_gameobject->name);
 	Wrapper::GUI::Separator();

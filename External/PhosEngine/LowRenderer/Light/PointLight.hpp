@@ -1,15 +1,11 @@
 #pragma once
 #include "LowRenderer/Light/ILight.hpp"
 
-#ifdef POINTLIGHT_EXPORTS
-#define POINTLIGHT_API __declspec(dllexport)
-#else
-#define POINTLIGHT_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace LowRenderer
 {
-	class POINTLIGHT_API PointLight : public ILight
+	class PHOSENGINE_API PointLight : public ILight
 	{
 	public:
 		PointLight();
@@ -21,8 +17,9 @@ namespace LowRenderer
 		void Update() override {};
 		void GUIUpdate() override;
 		void OnDestroy() override;
+		Reflection::ClassMetaData& GetMetaData() override;
 	private:
-		float m_linearAttenuation, m_constantAttenuation, m_quadraticAttenuation;
+		float m_linearAttenuation, m_quadraticAttenuation;
 
 	};
 }

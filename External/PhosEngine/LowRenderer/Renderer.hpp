@@ -2,11 +2,7 @@
 #include "Maths/Maths.hpp"
 #include <vector>
 
-#ifdef RENDERER_EXPORTS
-#define RENDERER_API __declspec(dllexport)
-#else
-#define RENDERER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
@@ -21,7 +17,7 @@ namespace LowRenderer
 	class PointLight;
 	class SpotLight;
 
-	class RENDERER_API Renderer
+	class PHOSENGINE_API Renderer
 	{
 	public:
 		

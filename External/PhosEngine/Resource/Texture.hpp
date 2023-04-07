@@ -1,15 +1,12 @@
 #pragma once
 #include "IResource.hpp"
 
-#ifdef TEXTURE_EXPORTS
-#define TEXTURE_API __declspec(dllexport)
-#else
-#define TEXTURE_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
+
 
 namespace Resource
 {
-	class TEXTURE_API Texture : public IResource
+	class PHOSENGINE_API Texture : public IResource
 	{
 	public:
 

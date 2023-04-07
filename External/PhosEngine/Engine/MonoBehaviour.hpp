@@ -1,17 +1,15 @@
 #pragma once
 
-#ifdef MONOBEHAVIOUR_EXPORTS
-#define MONOBEHAVIOUR_API __declspec(dllexport)
-#else
-#define MONOBEHAVIOUR_API __declspec(dllimport)
-#endif
+#include "Reflection/ClassMetaData.hpp"
+
+#include "dllInclude.hpp"
 
 namespace Engine
 {
 	class GameObject;
 	class Transform;
 
-	class MONOBEHAVIOUR_API MonoBehaviour
+	class PHOSENGINE_API MonoBehaviour
 	{
 	public:
 
@@ -28,5 +26,7 @@ namespace Engine
 		virtual void GUIUpdate() = 0;
 		virtual void OnDestroy() = 0;
 		const bool renderingComponent = false;
+
+		virtual Reflection::ClassMetaData& GetMetaData() = 0;
 	};
 }
