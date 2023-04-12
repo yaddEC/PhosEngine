@@ -11,12 +11,25 @@
 using namespace Maths;
 using namespace Engine;
 
+#include <iostream>
 
-void Input::Init(GLFWwindow* _window) {
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	Input::GetInstance().ScrollBackDoor(yoffset);
+}
+
+void Input::Init(GLFWwindow* _window)
+{
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
 		keyMap[i] = 0;
 	}
+	glfwSetScrollCallback(window, scroll_callback);
+}
+
+void Input::ScrollBackDoor(int value)
+{
+	scrollDelta = value;
 }
 
 float Input::GetHorizontalAxis() {
@@ -50,8 +63,6 @@ void Input::Update() {
 	mousePosition.x = mousePosX;
 	mousePosition.y = mousePosY;
 
-
-
 	//DisplayGUI();
 	anyKeyDown = false;
 	for (size_t i = 0; i < 348; i++) {
@@ -82,6 +93,12 @@ bool Input::IsMouseButtonPressed(int mouseButton) {
 	return glfwGetMouseButton(window, mouseButton);
 }
 
+int Input::GetScrollDelta()
+{
+	int temp = scrollDelta;
+	scrollDelta = 0;
+	return temp;
+}
 
 void Input::DisplayGUI() {
 	/*ImGui::Begin("Input");
