@@ -5,5 +5,3 @@ x64/
 Release/
 Debug/
 /*.ini
-/DLL/PhosEngine.dll
-/Libs/PhosEngine.lib
