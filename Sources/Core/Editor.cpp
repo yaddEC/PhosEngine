@@ -119,17 +119,19 @@ void Core::Editor::CreateGuiIni()
     std::fstream file("imgui.ini", std::ios_base::out);
 
     
-    file << "[Window][DockSpaceViewport_11111111]\nPos=0,0\nSize=1440,920\nCollapsed=0\n\n";
+    file << "[Window][DockSpaceViewport_11111111]\nPos=0,38\nSize=1440,882\nCollapsed=0\n\n";
 
-    file << "[Window][Scene]\nPos=185,0\nSize=985,600\nCollapsed=0\nDockId=0x00000006,0\n\n";
+    file << "[Window][Scene]\nPos=185,38\nSize=985,562\nCollapsed=0\nDockId=0x00000006,0\n\n";
 
     file << "[Window][Debug##Default]\nPos=60,60\nSize=400,400\nCollapsed=0\n\n";
 
-    file << "[Window][Hierarchy]\nPos=0,0\nSize=183,600\nCollapsed=0\nDockId=0x00000005,0\n\n";
+    file << "[Window][Hierarchy]\nPos=0,38\nSize=183,562\nCollapsed=0\nDockId=0x00000005,0\n\n";
 
     file << "[Window][Assets]\nPos=0,602\nSize=1170,318\nCollapsed=0\nDockId=0x00000002,0\n\n";
 
-    file << "[Window][Inspector]\nPos=1172,0\nSize=268,920\nCollapsed=0\nDockId=0x00000004,0\n\n";
+    file << "[Window][Inspector]\nPos=1172,38\nSize=268,882\nCollapsed=0\nDockId=0x00000004,0\n\n";
+
+    file << "[Window][Renderer]\nPos=1172,38\nSize=268,882\nCollapsed=0\nDockId=0x00000004,1\n\n";
 
     file << "[Docking][Data]\nDockSpace       ID=0x8B93E3BD Window=0xA787BDB4 Pos=60,83 Size=1440,920 Split=X Selected=0xE192E354\n  DockNode      ID=0x00000003 Parent=0x8B93E3BD SizeRef=1170,920 Split=Y\n    DockNode    ID=0x00000001 Parent=0x00000003 SizeRef=1440,600 Split=X Selected=0xE192E354\n      DockNode  ID=0x00000005 Parent=0x00000001 SizeRef=183,600 Selected=0x29EABFBD\n      DockNode  ID=0x00000006 Parent=0x00000001 SizeRef=985,600 CentralNode=1 Selected=0xE192E354\n    DockNode    ID=0x00000002 Parent=0x00000003 SizeRef=1440,318 Selected=0x26CE0345\n  DockNode      ID=0x00000004 Parent=0x8B93E3BD SizeRef=268,920 Selected=0xE7039252\n";
 
@@ -138,6 +140,8 @@ void Core::Editor::CreateGuiIni()
 
 void Core::Editor::UpdateEditorGUI()
 {
+    //---/!\--update_last_what's_supposed_to_be_on_the_screen--/!\---
+
     GUI::DockingSpace();
 
     m_sceneGUI->Update();
@@ -151,8 +155,8 @@ void Core::Editor::UpdateEditorGUI()
     {
         m_Inspector->SetResourceToDisplay(m_AssetExplorer->GetSelected());
     } 
+    m_RendererGUI->Update();
     m_Inspector->Update();
     m_MenuBar->Update();
-    m_RendererGUI->Update();
 }
 
