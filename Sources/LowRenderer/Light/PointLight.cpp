@@ -75,11 +75,12 @@ Reflection::ClassMetaData& LowRenderer::PointLight::GetMetaData()
 		result.name = "Point Light";
 		result.memberList =
 		{
-			ClassMemberInfo("Color", offsetof(PointLight, PointLight::p_color), MemberType::T_VEC3),
+			ClassMemberInfo("Color", offsetof(PointLight, PointLight::p_color), MemberType::T_COLOR),
 			ClassMemberInfo("Intensity", offsetof(PointLight, PointLight::p_intensity), MemberType::T_FLOAT),
-			ClassMemberInfo("Linear Attenuation", offsetof(PointLight, PointLight::m_linearAttenuation), MemberType::T_FLOAT),
-			ClassMemberInfo("Quadratic Attenuation", offsetof(PointLight, PointLight::m_quadraticAttenuation), MemberType::T_FLOAT)
+			ClassMemberInfo("Linear Attenuation", offsetof(PointLight, PointLight::m_linearAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1),
+			ClassMemberInfo("Quadratic Attenuation", offsetof(PointLight, PointLight::m_quadraticAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1)
 		};
+		computed = true;
 	}
 	return result;
 }

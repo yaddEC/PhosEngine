@@ -71,9 +71,10 @@ Reflection::ClassMetaData& LowRenderer::DirectionalLight::GetMetaData()
 		result.name = "Directional Light";
 		result.memberList =
 		{
-			ClassMemberInfo("Color", offsetof(DirectionalLight, DirectionalLight::p_color), MemberType::T_VEC3),
-			ClassMemberInfo("Intensity", offsetof(DirectionalLight, DirectionalLight::p_intensity), MemberType::T_FLOAT)
+			ClassMemberInfo("Color", offsetof(DirectionalLight, DirectionalLight::p_color), MemberType::T_COLOR),
+			ClassMemberInfo("Intensity", offsetof(DirectionalLight, DirectionalLight::p_intensity), MemberType::T_FLOAT, 0.1f, 0, 10)
 		};
+		computed = true;
 	}
 	return result;
 }

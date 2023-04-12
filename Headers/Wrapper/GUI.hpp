@@ -10,7 +10,9 @@
 
 namespace Resource
 {
-	class Texture;
+	class Texture; 
+	class Mesh;
+	class Material;
 }
 
 namespace Wrapper
@@ -60,6 +62,15 @@ namespace Wrapper
 		static bool EditVec3(const std::string& label, Maths::Vec3& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditColorRGB(const std::string& label, Maths::Vec3& value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text = true);
+
+		static bool EditFloat(const std::string& label, float* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec2(const std::string& label, Maths::Vec2* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec3(const std::string& label, Maths::Vec3* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditColorRGB(const std::string& label, Maths::Vec3* value, bool text = true);
+		static bool EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text = true);
+
+		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
+		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
 
 		static void DisplayText(const std::string& text);
 		static void DisplayFloat(const std::string& label, float value);

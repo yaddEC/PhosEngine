@@ -89,12 +89,13 @@ Reflection::ClassMetaData& LowRenderer::SpotLight::GetMetaData()
 		result.name = "Spot Light";
 		result.memberList =
 		{
-			ClassMemberInfo("Color", offsetof(SpotLight, SpotLight::p_color), MemberType::T_VEC3),
-			ClassMemberInfo("Intensity", offsetof(SpotLight, SpotLight::p_intensity), MemberType::T_FLOAT),
-			ClassMemberInfo("Angle", offsetof(SpotLight, SpotLight::m_angle), MemberType::T_FLOAT),
-			ClassMemberInfo("Linear Attenuation", offsetof(SpotLight, SpotLight::m_linearAttenuation), MemberType::T_FLOAT),
-			ClassMemberInfo("Quadratic Attenuation", offsetof(SpotLight, SpotLight::m_quadraticAttenuation), MemberType::T_FLOAT)
+			ClassMemberInfo("Color", offsetof(SpotLight, SpotLight::p_color), MemberType::T_COLOR),
+			ClassMemberInfo("Intensity", offsetof(SpotLight, SpotLight::p_intensity), MemberType::T_FLOAT, 0.1f, 0, 10),
+			ClassMemberInfo("Angle", offsetof(SpotLight, SpotLight::m_angle), MemberType::T_FLOAT, 0.01f, 0, 90),
+			ClassMemberInfo("Linear Attenuation", offsetof(SpotLight, SpotLight::m_linearAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1),
+			ClassMemberInfo("Quadratic Attenuation", offsetof(SpotLight, SpotLight::m_quadraticAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1)
 		};
+		computed = true;
 	}
 	return result;
 }

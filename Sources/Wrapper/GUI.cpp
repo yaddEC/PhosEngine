@@ -12,7 +12,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "Resource/Texture.hpp"
+#include "Resource/ResourceIncludes.hpp"
+#include "Resource/ResourceManager.hpp"
 
 #include "LowRenderer/Framebuffer.hpp"
 
@@ -211,6 +212,122 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value, b
 		ImGui::SameLine();
 	}
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value.x);
+}
+
+bool Wrapper::GUI::EditFloat(const std::string& label, float* value, bool text, float speed, float min, float max)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::DragFloat(("##" + label).c_str(), value, speed, min, max);
+}
+
+bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2* value, bool text, float speed, float min, float max)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::DragFloat2(("##" + label).c_str(), &value->x, speed, min, max);
+}
+
+bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3* value, bool text, float speed, float min, float max)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::DragFloat3(("##" + label).c_str(), &value->x, speed, min, max);
+}
+
+bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3* value, bool text)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::ColorEdit3(("##" + label).c_str(), &value->x);
+}
+
+bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::ColorEdit4(("##" + label).c_str(), &value->x);
+}
+
+bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, bool text)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Mesh>();
+	std::string currentMeshName = (*mesh)->GetName();
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
+	{
+		if (ImGui::Selectable("None", !mesh))
+		{
+			*mesh = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto str : meshNameList)
+		{
+			if (ImGui::Selectable(str.c_str(), str == currentMeshName))
+			{
+				*mesh = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>(str);
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+	}
+	return false;
+}
+
+bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** material, bool text)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Material>();
+	std::string currentMeshName = (*material)->GetName();
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
+	{
+		if (ImGui::Selectable("None", !material))
+		{
+			*material = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto str : meshNameList)
+		{
+			if (ImGui::Selectable(str.c_str(), str == currentMeshName))
+			{
+				*material = Resource::ResourceManager::GetInstance().GetResource<Resource::Material>(str);
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+	}
+	return false;
 }
 
 void Wrapper::GUI::DisplayText(const std::string& text)
