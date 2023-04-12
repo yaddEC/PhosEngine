@@ -27,7 +27,3 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
-
-# Engine Spe
-DLL/PhosEngine.dll merge=theirs
-Libs/PhosEngine.lib merge=theirs
