@@ -128,6 +128,18 @@ namespace Resource
 			return m_cubeMapNameList;
 		}
 
+		template<>
+		inline std::vector<std::string> GetResourceNameList<Mesh>()
+		{
+			return m_meshNameList;
+		}
+
+		template<>
+		inline std::vector<std::string> GetResourceNameList<Material>()
+		{
+			return m_materialNameList;
+		}
+
 
 		// Static resource
 

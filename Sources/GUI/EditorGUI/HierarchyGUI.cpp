@@ -6,11 +6,7 @@
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/ResourceManager.hpp"
-#include "Resource/Material.hpp"
-#include "Resource/Mesh.hpp"
-#include "Resource/CubeMap.hpp"
-#include "Resource/ShaderProgram.hpp"
-#include "Resource/Texture.hpp"
+#include "Resource/ResourceIncludes.hpp"
 
 
 
@@ -41,7 +37,6 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 			DisplayHierarchy(go);
 		}
 	}
-
 }
 
 Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
@@ -172,8 +167,6 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 
 			}
 		}
-		
-
 		GUI::EndPopup();
 	}
 }

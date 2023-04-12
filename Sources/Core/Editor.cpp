@@ -152,8 +152,8 @@ void Core::Editor::UpdateEditorGUI()
     {
         m_Inspector->SetResourceToDisplay(m_AssetExplorer->GetSelected());
     } 
+    m_RendererGUI->Update();
     m_Inspector->Update();
     m_MenuBar->Update();
-    m_RendererGUI->Update();
 }
 

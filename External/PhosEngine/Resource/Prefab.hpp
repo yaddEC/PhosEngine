@@ -1,6 +1,7 @@
 #pragma once
 #include "IResource.hpp"
 #include <vector>
+#include <fstream>
 #include "dllInclude.hpp"
 
 namespace Engine
@@ -26,6 +27,8 @@ namespace Resource
 		Texture* GenerateFileIcon() override;
 		std::vector<Engine::GameObject*> gameObjectList;
 
+		// in progress
+		static void SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file);
 	private:
 
 		Engine::GameObject* ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex);
