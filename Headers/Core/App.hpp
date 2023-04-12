@@ -34,4 +34,4 @@ namespace Core
 		GLFWwindow* m_window;
 		Maths::Vec2 m_windowSize;
 	};
-}
+}               

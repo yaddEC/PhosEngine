@@ -7,9 +7,9 @@ int main(int argc, char** argv)
 
 	app.InitApp();
 
-	app.InitProjectManager();
+	/*app.InitProjectManager();
 	app.RunProjectManager();
-	app.DestroyProjectManager();
+	app.DestroyProjectManager();*/
 
 	app.InitEditor();
 	app.RunEditor();

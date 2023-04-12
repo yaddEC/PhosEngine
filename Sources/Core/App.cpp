@@ -22,7 +22,7 @@ bool Core::App::InitApp()
 	Wrapper::RHI::EnableCulling();
 	Wrapper::RHI::EnableDepthTest();
 
-	m_PManager = new Core::ProjectManager();
+	m_PManager = new Core::ProjectManager(m_window);
 	m_editor = new Core::Editor(m_window, m_windowSize);
 }
 
