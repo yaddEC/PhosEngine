@@ -4,11 +4,12 @@ out vec4 FragColor;
 in vec2 texCoord;
 in vec3 Normal;
 in vec3 FragPos;
-
+in mat3 TBN;
+in vec3 TangentViewPos;
+in vec3 TangentFragPos;
 
 uniform vec3 viewPos;
 uniform vec3 ambientColor;
-
 uniform int lenghtDirLight;
 uniform int lenghtPointLight;
 uniform int lenghtSpotLight;
@@ -67,6 +68,7 @@ struct Material{
     ColorMap specular;
     ColorMap albedo;
     float shininess;
+    ColorMap normalMap;
 };
 
 uniform Material material;
@@ -87,33 +89,26 @@ vec3 GetColorMapColor(ColorMap map)
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
-    vec3 lightDir = normalize(-light.direction);
+    vec3 tangentLightPos = TBN * (FragPos - light.direction);
+    vec3 lightDir = normalize(tangentLightPos - TangentFragPos);
 
     float diff = max(dot(normal, lightDir), 0.0);
     vec3 diffuse = light.color * light.intensity * diff;
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0);
     vec3 specular = light.color * light.intensity * spec;
-    //vec3 specular = vec3(0, 0, 0);
     return vec3(diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular));
 }  
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir)
 {
-    vec3 lightDir = normalize(light.position - FragPos);
+    vec3 tangentLightPos = TBN * light.position;
+    vec3 lightDir = normalize(tangentLightPos - TangentFragPos);
 
     float diff = max(dot(normal, lightDir), 0.0);
     vec3 diffuse = light.color * light.intensity * diff;
-
-    // vec3 h = (viewDir + lightDir)/length(viewDir + lightDir);
-    // float spec = pow(max(dot(h, normal), 0.0), 32);
-
-    // float distance = length(light.position - fragPos);
-    // float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-
-
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
@@ -131,9 +126,10 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir)
 
 vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 viewDir)
 {
-    
-    vec3 lightDir = normalize(spotLight.position - FragPos);
-    
+    vec3 tangentLightPos = TBN * spotLight.position;
+    vec3 lightDir = normalize(tangentLightPos - TangentFragPos);
+    vec3 lightDirTest = normalize(spotLight.position - FragPos); 
+
     float theta = dot(lightDir, normalize(-spotLight.direction)); 
     float epsilon = spotLight.cutOff - spotLight.outerCutOff;
     float intensity = clamp((theta - spotLight.outerCutOff) / epsilon, 0.0, 1.0);
@@ -142,7 +138,7 @@ vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 viewDir)
     {
         float diff = max(dot(normal, lightDir), 0.0);
 
-        vec3 h = (viewDir + lightDir)/length(viewDir + lightDir);
+        vec3 h = (viewDir + lightDirTest)/length(viewDir + lightDirTest);
         float spec = pow(max(dot(h, normal), 0.0), material.shininess);
 
         float distance = length(spotLight.position - FragPos);
@@ -156,33 +152,37 @@ vec3 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 viewDir)
         return (diffuse * GetColorMapColor(material.albedo) + specular * GetColorMapColor(material.specular)) * attenuation; 
     }
     return vec3(0);
+
 }
 
 // Main
 
 void main()
 {
-    vec3 norm = normalize(Normal);
-    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 normal = GetColorMapColor(material.normalMap); 
+    // normal = normalize(normal * 2.0 - 1.0);
+
+    vec3 viewDir = normalize(TangentViewPos - TangentFragPos);
+    vec3 viewDirtest = normalize(viewPos - FragPos);
 
     vec3 result = vec3(0.0, 0.0, 0.0);
 
     //directional light
     for(int i = 0; i < lenghtDirLight; i++)
     {
-        result += CalcDirLight(dirLights[i], norm, viewDir);
+        result += CalcDirLight(dirLights[i], normal, viewDir);
     }
 
     //point lights
     for(int i = 0; i < lenghtPointLight; i++)
     {
-        result += CalcPointLight(pointLights[i], norm, viewDir);
+        result += CalcPointLight(pointLights[i], normal, viewDir);
     }
 
     //spot light
     for(int i = 0; i < lenghtSpotLight; i++)
     {
-        result += CalcSpotLight(spotLights[i], norm, viewDir);
+        result += CalcSpotLight(spotLights[i], normal, viewDir);
     }
 
     result += vec3(ambientColor) * GetColorMapColor(material.albedo);

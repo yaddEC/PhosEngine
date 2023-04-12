@@ -1,5 +1,4 @@
 #include "GUI/EditorGUI/HierarchyGUI.hpp"
-#include "Wrapper/GUI.hpp"
 #include "Engine/Transform.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"

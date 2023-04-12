@@ -3,7 +3,6 @@
 #include "Resource/ResourceManager.hpp"
 #include "Resource/IResource.hpp"
 #include "Resource/CubeMap.hpp"
-#include "Wrapper/GUI.hpp"
 
 #include <fstream>
 

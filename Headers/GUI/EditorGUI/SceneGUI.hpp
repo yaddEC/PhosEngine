@@ -14,9 +14,11 @@ namespace EditorGUI
 
 		void DoUpdate() override;
 	private:
+		void UpdateCamera();
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
 
+		float speedModifier;
 	};
 }
 

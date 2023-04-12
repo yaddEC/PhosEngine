@@ -7,5 +7,6 @@ namespace ProjectManagerGUI
 	{
 	public:
 		ProjectManagerGUI();
+		void DoUpdate() override;
 	};
 }

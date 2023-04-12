@@ -1,6 +1,5 @@
 #include "GUI/EditorGUI/InspectorGUI.hpp"
 #include "Engine/Transform.hpp"
-#include "Wrapper/GUI.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
 #include "Engine/MonoBehaviour.hpp"
