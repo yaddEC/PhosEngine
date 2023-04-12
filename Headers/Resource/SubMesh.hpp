@@ -13,6 +13,8 @@ namespace Resource
 		Maths::Vec3 position;
 		Maths::Vec3 normal;
 		Maths::Vec2 UVCoords;
+		Maths::Vec3 tangents;
+		Maths::Vec3 bitangents;
 	};
 
 	class PHOSENGINE_API SubMesh

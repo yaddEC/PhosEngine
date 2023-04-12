@@ -57,6 +57,8 @@ namespace Resource
 
 	private:
 		ShaderProgram* m_shader = nullptr;
+		
+		Texture* m_normalMap;
 
 		ColorMap m_albedo;
 		ColorMap m_specular;
@@ -64,6 +66,5 @@ namespace Resource
 
 
 		void SetProperties(const std::string& filepath);
-		
 	};
 }

@@ -56,6 +56,7 @@ void Resource::Material::Save()
 
 		progFile << "shiny " << m_shininess << '\n';
 		progFile << "shader " << m_shader->GetFilePath() << '\n';
+		progFile << "t_norm " << m_normalMap->GetFilePath() << '\n';
 	}
 }
 
@@ -69,8 +70,21 @@ void Resource::Material::GUIUpdate()
 
 	m_albedo.GUIUpdate("Albedo : ");
 	m_specular.GUIUpdate("Specular : ");
-	
-	GUI::EditFloat("Shininess : ", m_shininess, 0.01f, 0);
+
+	std::string normalMap = m_normalMap ? m_normalMap->GetName() : "None";;
+	if (GUI::Combo("Normal map : ", ResourceManager::GetInstance().GetResourceNameList<Texture>(), normalMap, true, "None"))
+	{
+		if (normalMap == "None")
+		{
+			m_normalMap = nullptr;
+		}
+		else
+		{
+			m_normalMap = ResourceManager::GetInstance().GetResource<Texture>(normalMap);
+		}
+	}
+
+	GUI::EditFloat("Shininess : ", m_shininess, true, 0.01f, 0, 64);
 
 }
 
@@ -95,6 +109,17 @@ void Resource::Material::SendDataToShader() const
 	m_shader->SetUniformBool("material.specular.useTexture", m_specular.useTexture);
 
 	m_shader->SetUniformFloat("material.shininess", m_shininess);
+
+	if (m_normalMap)
+	{
+		m_shader->SetTexture("material.normalMap.texture", 2, *m_normalMap);
+		m_shader->SetUniformBool("material.normalMap.useTexture", true);
+	}
+	else
+	{
+		m_shader->SetUniformVec3("material.normalMap.color", Maths::Vec3(0, 0, 1));
+		m_shader->SetUniformBool("material.normalMap.useTexture", false);
+	}
 }
 
 void Resource::Material::SetProperties(const std::string& filepath)
@@ -150,6 +175,10 @@ void Resource::Material::SetProperties(const std::string& filepath)
 			else if (prefix == "shader")
 			{
 				m_shader = Resource::ResourceManager::GetInstance().GetResource<Resource::ShaderProgram>(line.substr(7));
+			}
+			else if (prefix == "t_norm")
+			{
+				m_normalMap = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(7));
 			}
 		}
 	}
