@@ -112,6 +112,8 @@ SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string&
         // process vertex positions, normals and texture coordinates
         vertex.position = Vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
         vertex.normal = Vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
+        vertex.tangents = Vec3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+        vertex.bitangents = Vec3(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z);
 
         if (mesh->mTextureCoords[0])
         {
