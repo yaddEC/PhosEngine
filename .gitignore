@@ -4,6 +4,6 @@
 x64/
 Release/
 Debug/
-*.ini
-DLL/PhosEngine.dll
-Libs/PhosEngine.lib
+/*.ini
+/DLL/PhosEngine.dll
+/Libs/PhosEngine.lib
