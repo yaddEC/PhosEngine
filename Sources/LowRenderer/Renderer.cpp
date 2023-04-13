@@ -43,6 +43,7 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 
 	for (Resource::ShaderProgram* shader : shaderList)
 	{
+		if (!shader)continue;
 		shader->Use();
 		shader->SetUniformVec3("ambientColor", ambient);
 		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
