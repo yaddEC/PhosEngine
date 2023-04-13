@@ -132,6 +132,7 @@ void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int widt
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	if (channel == 3)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
 }
 
 void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList)
@@ -282,8 +283,7 @@ void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int ren
 	glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
 
 	glViewport(0, 0, width, height);
-	if(updateSize)
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	
 }
 
 void Wrapper::RHI::UnbindFrameBuffer()

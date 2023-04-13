@@ -35,8 +35,8 @@ void FrameBuffer::Bind(int _width, int _height)
         if (m_bindedTexture)
         {
             m_bindedTexture->ResizeAndReset(_width, _height);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height);
         }
-        
         m_width = _width;
         m_height = _height;
     }
