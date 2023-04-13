@@ -2,7 +2,7 @@
 out vec4 FragColor;
 
 in vec2 texCoord;
-in vec3 Normal;
+// in vec3 Normal;
 in vec3 FragPos;
 in mat3 TBN;
 in vec3 TangentViewPos;
