@@ -28,7 +28,7 @@ namespace Resource
 		std::vector<Engine::GameObject*> gameObjectList;
 
 		// in progress
-		static void SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file);
+		static void SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth = 0);
 	private:
 
 		Engine::GameObject* ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex);

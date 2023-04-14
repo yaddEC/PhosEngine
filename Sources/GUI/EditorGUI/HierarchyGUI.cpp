@@ -22,20 +22,30 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 	selectedClicked = false;
 
 	AddObjectPopup(nullptr);
-	if (GUI::Button("New Object"))
-	{
-		GUI::OpenPopup("GameObject Popup null");
-	}
-	GUI::Separator();
+	bool opened = (GUI::TreeNode("Scene Root", false));
 
-	std::vector<Engine::GameObject*> goList = m_currentScene->GetGameObjects();
-	for (Engine::GameObject* go : goList)
+	if (GUI::IsItemClicked(1))
+		GUI::OpenPopup("GameObject Popup null");
+
+	if(opened)
 	{
-		if (go->transform->GetParent() == nullptr)
+		std::vector<Engine::GameObject*> goList = m_currentScene->GetGameObjects();
+		for (Engine::GameObject* go : goList)
 		{
-			DisplayHierarchy(go);
+			if (go->transform->GetParent() == nullptr)
+			{
+				DisplayHierarchy(go);
+			}
 		}
+		GUI::TreePop();
 	}
+
+
+	for (auto objectPair : objectToParentBuffer)
+	{
+		objectPair.first->transform->AddChild(objectPair.second->transform);
+	}
+	objectToParentBuffer.clear();
 }
 
 Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
@@ -49,7 +59,7 @@ Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
 void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 {
 	std::vector<Engine::Transform*> children = current->transform->GetChildren();
-	bool opened = Wrapper::GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
+	bool opened = GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
 			
 	AddObjectPopup(current);
 
@@ -59,8 +69,13 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 		selectedClicked = true;
 	}
 	if (GUI::IsItemClicked(1))
-	{
 		GUI::OpenPopup("GameObject Popup " + current->name);
+
+	GUI::DragDropSource("GameObject", current->name, &current);
+
+	if (Engine::GameObject** newChild = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
+	{
+		objectToParentBuffer.push_back(std::pair(current, *newChild));
 	}
 
 	if (opened)

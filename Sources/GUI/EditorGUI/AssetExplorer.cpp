@@ -1,8 +1,7 @@
 #include "GUI/EditorGUI/AssetExplorer.hpp"
-#include "Resource/Texture.hpp"
+#include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
-#include "Resource/IResource.hpp"
-#include "Resource/CubeMap.hpp"
+#include "Engine/GameObject.hpp"
 
 #include <fstream>
 
@@ -141,8 +140,7 @@ void AssetExplorer::DisplayFile(const string& file)
 	Resource::IResource* resource = rm.GetResource<Resource::IResource>(file);
 	if (resource)
 	{
-		void** item = new void* (resource);
-		GUI::DragDropSource(resource->GetTypeName(), displayfilename, item);
+		GUI::DragDropSource(resource->GetTypeName(), displayfilename, &resource);
 	}
 }
 
@@ -193,5 +191,13 @@ void EditorGUI::AssetExplorer::NewResource()
 	if (GUI::Button("New Resource"))
 	{
 		GUI::OpenPopup("New Resource Popup");
+	}
+
+	if (Engine::GameObject** go = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
+	{
+		std::fstream progFile;
+		progFile.open((m_currentDirectory + "\\" + (*go)->name + ".phprefab").c_str(), std::fstream::out | std::fstream::trunc);
+		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
+		pr->SaveGameObjectAsPrefab(*go, progFile);
 	}
 }
