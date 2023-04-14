@@ -14,6 +14,7 @@
 #include "Resource/ShaderProgram.hpp"
 
 #include "Engine/Transform.hpp"
+#include "Resource/ResourceManager.hpp"
 
 #define RENDERER_EXPORTS
 #include "LowRenderer/Renderer.hpp"
@@ -81,6 +82,14 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 
 	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	
+}
+void Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize)
+{
+	
+		Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+		rm.pickingShader->Use();
+
+		mainCamera->IdPickerRender(m_meshRenderers, viewportSize);
 }
 
 void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
