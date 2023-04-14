@@ -94,14 +94,38 @@ Scene::Scene()
 	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 }
 
-void Scene::Update()
+void Scene::GameObjectFromBuffer()
 {
-	//m_physicsManager->Update();
-	for (GameObject* go : m_gameObjectBuffer)
+	for (unsigned int i = 0; i < m_gameObjects.size() + m_gameObjectBuffer.size(); i++)
 	{
-		m_gameObjects.push_back(go);
+		if (i > m_gameObjects.size() - 1 || m_gameObjects.size() == 0)
+		{
+			m_gameObjects.push_back(m_gameObjectBuffer[0]);
+			m_gameObjects[i]->SetID(i + 1);
+			m_gameObjectBuffer.erase(m_gameObjectBuffer.begin());
+		}
+		else if (i + 1 != m_gameObjects[i]->GetID() && m_gameObjectBuffer.size() > 0)
+		{
+			m_gameObjects.insert(m_gameObjects.begin() + i, m_gameObjectBuffer[0]);
+			m_gameObjects[i]->SetID(i + 1);
+			m_gameObjectBuffer.erase(m_gameObjectBuffer.begin());
+		}
 	}
 	m_gameObjectBuffer.clear();
+}
+
+void Scene::Update()
+{
+	/*for (GameObject* go : m_gameObjectBuffer)
+	{
+		m_gameObjects.push_back(go);
+	}*/
+
+	if(m_gameObjectBuffer.size() != 0)
+	{
+		GameObjectFromBuffer();
+	}
+
 
 	for (GameObject* go : m_gameObjects)
 	{

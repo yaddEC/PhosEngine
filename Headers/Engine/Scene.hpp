@@ -42,6 +42,7 @@ namespace Engine
 
 
 	private:
+		void GameObjectFromBuffer();
 
 		Physic::PhysicsManager* m_physicsManager;
 		std::vector<GameObject*> m_gameObjects;

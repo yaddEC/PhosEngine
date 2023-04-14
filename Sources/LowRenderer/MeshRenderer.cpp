@@ -12,6 +12,8 @@
 #include "Engine/Scene.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "Wrapper/GUI.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Wrapper/RHI.hpp"
 
 #include <iostream>
 
@@ -45,6 +47,24 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 
 	m_mesh->Render(*m_material->GetShader(), *m_material);
 
+}
+void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
+{
+	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	rm.pickingShader->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
+
+	int r = (gameobject->GetID() & 0x000000FF) >> 0;
+	int g = (gameobject->GetID() & 0x0000FF00) >> 8;
+	int b = (gameobject->GetID() & 0x00FF0000) >> 16;
+
+	rm.pickingShader->SetUniformVec4("PickingColor", { r / 255.0f, g / 255.0f, b / 255.0f, 1.0f });
+	
+	m_mesh->Render(*m_material->GetShader(), *m_material);
+
+	for (SubMesh mesh : m_mesh->GetSubMeshes())
+    {
+		Wrapper::RHI::RenderSubMesh(mesh.GetVAO(), mesh.indices);
+    }
 }
 
 void LowRenderer::MeshRenderer::Start()

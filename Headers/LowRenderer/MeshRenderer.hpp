@@ -27,6 +27,7 @@ namespace LowRenderer
 
 
 		void Render(const Maths::Mat4& viewProj) const;
+		void IdPickerRender(const Maths::Mat4& viewProj) const;
 
 		void Start() override;
 		void Update() override;
