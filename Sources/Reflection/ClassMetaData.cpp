@@ -101,6 +101,9 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr, int depth)
 	case MemberType::T_VEC3: result += *(float*)(classPtr + ptr) + ' ' + *(float*)(classPtr + ptr + 4)
 		+ ' ' + *(float*)(classPtr + ptr + 8); break;
 
+	case MemberType::T_COLOR: result += *(float*)(classPtr + ptr) + ' ' + *(float*)(classPtr + ptr + 4)
+		+ ' ' + *(float*)(classPtr + ptr + 8); break;
+
 	case MemberType::T_MESH: result += (*(Resource::Mesh**)(classPtr + ptr))->GetFilePath(); break;
 
 	case MemberType::T_MATERIAL: result += (*(Resource::Material**)(classPtr + ptr))->GetFilePath(); break;
@@ -127,11 +130,38 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 		*(float*)(classPtr + ptr + 4) = std::stof(tokens[2]);
 		*(float*)(classPtr + ptr + 8) = std::stof(tokens[3]); break;
 
+	case MemberType::T_COLOR: *(float*)(classPtr + ptr) = std::stof(tokens[1]);
+		*(float*)(classPtr + ptr + 4) = std::stof(tokens[2]);
+		*(float*)(classPtr + ptr + 8) = std::stof(tokens[3]); break;
+
 	case MemberType::T_MESH: (*(Resource::Mesh**)(classPtr + ptr))
 		= Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>(tokens[1]); break;
 
 	case MemberType::T_MATERIAL: (*(Resource::Material**)(classPtr + ptr))
 		= Resource::ResourceManager::GetInstance().GetResource<Resource::Material>(tokens[1]); break;
+
+	case MemberType::T_MATERIAL_LIST:
+		break;
+
+	default: break;
+	}
+}
+
+void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
+{
+	switch (type)
+	{
+	case MemberType::T_INT: break;
+
+	case MemberType::T_FLOAT: *(float*)(target + ptr) = *(float*)(source + ptr);  break;
+
+	case MemberType::T_BOOL: break;
+
+	case MemberType::T_VEC3: *(Maths::Vec3*)(target + ptr) = *(Maths::Vec3*)(source + ptr); break;
+
+	case MemberType::T_MESH: *(Resource::Mesh**)(target + ptr) = *(Resource::Mesh**)(source + ptr); break;
+
+	case MemberType::T_MATERIAL: *(Resource::Material**)(target + ptr) = *(Resource::Material**)(source + ptr); break;
 
 	case MemberType::T_MATERIAL_LIST:
 		break;
@@ -199,6 +229,14 @@ void Reflection::ClassMetaData::Parse(const std::vector<std::string>& fileData, 
 	}
 }
 
+void Reflection::ClassMetaData::Copy(void* source, void* target)
+{
+	for (auto member : memberList)
+	{
+		member.Copy((size_t)source, (size_t)target);
+	}
+}
+
 Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string componentName, Engine::GameObject* gameObject)
 {
 	if (componentName == "Mesh Renderer")
@@ -208,5 +246,13 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Point Light")
 	{
 		return gameObject->AddComponent<LowRenderer::PointLight>();
+	}
+	if (componentName == "RigidBody")
+	{
+		return nullptr;
+	}
+	if (componentName == "Collider")
+	{
+		return nullptr;
 	}
 }

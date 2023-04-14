@@ -18,17 +18,21 @@
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
 #include "Physic/PhysicsManager.hpp"
-
+#include "Physic/Collider.hpp"
+#include "Physic/Rigidbody.hpp"
+#include "Wrapper/PhysicsWrapper.hpp"
+#define SCENE_EXPORTS
 #include "Engine/Scene.hpp"
 
 using namespace Engine;
 using namespace LowRenderer;
 using namespace Resource;
-
+using namespace Physic;
 Scene::Scene()
 {
 	renderer = new Renderer();
-
+	m_physicsManager = new PhysicsManager();
+	m_physicsManager->Init();
 	Mesh* boo = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\cube.obj");
 	Mesh* blaziken = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\blaziken.obj");
@@ -42,6 +46,11 @@ Scene::Scene()
 	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
 	rend->SetMesh(boo);
 	rend->SetMaterial(booMat);
+	
+	Rigidbody* rb = go->AddComponent<Rigidbody>();
+	SphereCollider* col = go->AddComponent<SphereCollider>();
+	
+
 	
 
 	GameObject* go2 = new GameObject();
@@ -66,30 +75,57 @@ Scene::Scene()
 	//DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
 	//light->name = "DirLight";
 
-	GameObject* light1 = new GameObject();
-	PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
-	light1->name = "pointLight";	
+	//GameObject* light1 = new GameObject();
+	//PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
+	//light1->name = "pointLight";	
 
-	//GameObject* light2 = new GameObject();
-	//SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
-	//light2->name = "SpotLight";
-	//light2->transform->position.y = 6;
+	GameObject* light2 = new GameObject();
+	SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
+	light2->name = "SpotLight";
+	light2->transform->position.y = 6;
 
 	Instantiate(go);
 	Instantiate(go2);
 	Instantiate(go3);
 	//Instantiate(light);
-	Instantiate(light1);
-	//Instantiate(light2);
+	//Instantiate(light1);
+	Instantiate(light2);
+
+	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
+}
+
+void Scene::GameObjectFromBuffer()
+{
+	for (unsigned int i = 0; i < m_gameObjects.size() + m_gameObjectBuffer.size(); i++)
+	{
+		if (i > m_gameObjects.size() - 1 || m_gameObjects.size() == 0)
+		{
+			m_gameObjects.push_back(m_gameObjectBuffer[0]);
+			m_gameObjects[i]->SetID(i + 1);
+			m_gameObjectBuffer.erase(m_gameObjectBuffer.begin());
+		}
+		else if (i + 1 != m_gameObjects[i]->GetID() && m_gameObjectBuffer.size() > 0)
+		{
+			m_gameObjects.insert(m_gameObjects.begin() + i, m_gameObjectBuffer[0]);
+			m_gameObjects[i]->SetID(i + 1);
+			m_gameObjectBuffer.erase(m_gameObjectBuffer.begin());
+		}
+	}
+	m_gameObjectBuffer.clear();
 }
 
 void Scene::Update()
 {
-	for (GameObject* go : m_gameObjectBuffer)
+	/*for (GameObject* go : m_gameObjectBuffer)
 	{
 		m_gameObjects.push_back(go);
+	}*/
+
+	if(m_gameObjectBuffer.size() != 0)
+	{
+		GameObjectFromBuffer();
 	}
-	m_gameObjectBuffer.clear();
+
 
 	for (GameObject* go : m_gameObjects)
 	{

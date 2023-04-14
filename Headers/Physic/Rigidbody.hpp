@@ -7,7 +7,6 @@
 namespace Wrapper
 {
 	class PhysicsRigidbody;
-	enum MaterialType;
 }
 
 namespace Physic
@@ -16,14 +15,16 @@ namespace Physic
 	{
 	public:
 		Rigidbody();
-		Rigidbody(Wrapper::MaterialType type);
 		~Rigidbody() {};
 		void Init();
 		void Update() override;
+		void Start() override {};
+		void GUIUpdate() override {};
+		void OnDestroy() override {};
+		Reflection::ClassMetaData& GetMetaData() override;
 
 		Maths::Vec3 gravity = Maths::Vec3(0, -20, 0);
 		Maths::Vec3 velocity;
-		bool isStatic = false;
 		float mass = 1;
 		bool reset = false;
 

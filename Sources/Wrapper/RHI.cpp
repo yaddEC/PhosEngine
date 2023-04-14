@@ -132,6 +132,7 @@ void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int widt
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	if (channel == 3)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
 }
 
 void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList)
@@ -248,6 +249,12 @@ void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned
 	// vertex texture coords
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Resource::Vertex), (void*)offsetof(Resource::Vertex, UVCoords));
+	// vertex tangents
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Resource::Vertex), (void*)offsetof(Resource::Vertex, tangents));
+	// vertex bitangents
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Resource::Vertex), (void*)offsetof(Resource::Vertex, bitangents));
 
 	glBindVertexArray(0);
 }
@@ -282,8 +289,7 @@ void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int ren
 	glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
 
 	glViewport(0, 0, width, height);
-	if(updateSize)
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	
 }
 
 void Wrapper::RHI::UnbindFrameBuffer()

@@ -56,7 +56,7 @@ void Resource::Material::Save()
 
 		progFile << "shiny " << m_shininess << '\n';
 		progFile << "shader " << m_shader->GetFilePath() << '\n';
-		if(m_normalMap)
+		if (m_normalMap)
 			progFile << "t_norm " << m_normalMap->GetFilePath() << '\n';
 	}
 }

@@ -61,17 +61,34 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy()
 	std::vector<GameObject*> result;
 	for (GameObject* go : gameObjectList)
 	{
-		GameObject* newGameObject = new GameObject();
-		gameObjectList.push_back(newGameObject);
+		GameObject* newGameObject = new GameObject(*go);
+		result.push_back(newGameObject);
+		
 	}
 
 	for (size_t i = 0; i < result.size(); i++)
 	{
-		result[i]->name = gameObjectList[i]->name;
-		result[i]->SetID(gameObjectList[i]->GetID());
 		*result[i]->transform = Transform(*gameObjectList[i]->transform);
+		for (auto child : gameObjectList[i]->transform->GetChildren())
+		{
+			for (GameObject* go : result)
+			{
+				if (go->GetID() == child->GetGameObject()->GetID())
+				{
+					result[i]->transform->AddChild(go->transform);
+				}
+			}
+		}
 
+		for (auto comp : gameObjectList[i]->GetComponents())
+		{
+			// TODO PROPER COPY
+			Engine::MonoBehaviour* newComp = Reflection::ClassMetaData::AddComponent(comp->GetMetaData().name, result[i]);
+			newComp->GetMetaData().Copy(comp, newComp);
+		}
 	}
+
+	return result;
 }
 
 Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex)
@@ -100,7 +117,8 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		else if (tokens[0] == "component")
 		{
 			Engine::MonoBehaviour* comp = Reflection::ClassMetaData::AddComponent(tokens[1], newGameObject);
-			comp->GetMetaData().Parse(fileData, ++lineIndex, comp);
+			if(comp)
+				comp->GetMetaData().Parse(fileData, ++lineIndex, comp);
 		}
 		else if (tokens[0] == "child")
 		{

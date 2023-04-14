@@ -15,20 +15,12 @@
 
 Physic::Rigidbody::Rigidbody()
 {
-	physicsRigidbody->setMaterialType(Wrapper::ROCK);
+	physicsRigidbody = new Wrapper::PhysicsRigidbody();
 }
 
-Physic::Rigidbody::Rigidbody(Wrapper::MaterialType type)
-{
-	physicsRigidbody->setMaterialType(type);
-}
 
 void Physic::Rigidbody::Init()
 {
-	physicsRigidbody->rigidbody = this;
-	Collider* c = gameobject->GetComponent<Collider>();
-	if (c)
-		c->rb = this;
 
 }
 
@@ -37,5 +29,22 @@ void Physic::Rigidbody::Update()
 	
 	physicsRigidbody->Update();
 	//velocity += AppState::deltatime * gravity;
+}
+
+Reflection::ClassMetaData& Physic::Rigidbody::GetMetaData()
+{
+	using namespace Reflection;
+
+	static bool computed = false;
+	static ClassMetaData result;
+	if (!computed)
+	{
+		result.name = "RigidBody";
+		result.memberList =
+		{
+		};
+		computed = true;
+	}
+	return result;
 }
 
