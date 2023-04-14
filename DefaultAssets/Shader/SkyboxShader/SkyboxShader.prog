@@ -1,0 +1,2 @@
+vert DefaultAssets\Shader\SkyboxShader\SkyboxShader.vert
+frag DefaultAssets\Shader\SkyboxShader\SkyboxShader.frag

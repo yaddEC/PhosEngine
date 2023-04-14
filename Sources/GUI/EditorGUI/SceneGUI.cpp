@@ -1,6 +1,5 @@
 #include "GUI/EditorGUI/SceneGUI.hpp"
 #include "Engine/Transform.hpp"
-#include "Engine/Input.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
 
@@ -13,7 +12,7 @@ SceneGUI::SceneGUI() : IGUI("Scene",true), speedModifier(1.000f)
 {
 
 }
-void SceneGUI::UpdateCamera()
+void SceneGUI::UpdateCamera(Input& input)
 {
 	Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotation.y * DEG2RAD), 0);
 	Vec3 forward = Vec3(direction.x, 0, direction.y);
@@ -22,7 +21,6 @@ void SceneGUI::UpdateCamera()
 
 	float speed = 0.4f;
 
-	Input& input = Input::GetInstance();
 	int scroDel = input.GetScrollDelta();
 
 	if (!input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
@@ -69,10 +67,16 @@ void SceneGUI::DoUpdate()
 	printf("DE CHU SUDU YU QIJIN JO BI BING CHILLING !");*/
 
 	// TEMP Camera Input 
+	Input& input = Input::GetInstance();
+
 	if (isOnFocus)
 	{
-		UpdateCamera();
+		UpdateCamera(input);
 	}
+
+	if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+		m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35));
+	//	std::cout << "OK\n";
 
 	if (m_currentScene)
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
