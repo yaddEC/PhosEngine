@@ -1,0 +1,2 @@
+vert DefaultAssets\Shader\PickingShader\PickingShader.vert
+frag DefaultAssets\Shader\PickingShader\PickingShader.frag

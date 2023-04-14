@@ -144,6 +144,7 @@ namespace Resource
 		// Static resource
 
 		ShaderProgram* skyboxShader;
+		ShaderProgram* pickingShader;
 		Mesh* cube;
 
 	private:

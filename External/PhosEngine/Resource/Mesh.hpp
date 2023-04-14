@@ -35,6 +35,7 @@ namespace Resource
 		Texture* GenerateFileIcon() override;
 
 		SubMesh& GetSubMesh(int index) { return m_subMeshes[index]; }
+		std::vector<SubMesh>& GetSubMeshes() { return m_subMeshes; }
 
 	private:
 		std::vector<SubMesh> m_subMeshes;

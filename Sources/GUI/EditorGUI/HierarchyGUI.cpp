@@ -22,7 +22,7 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 	selectedClicked = false;
 
 	AddObjectPopup(nullptr);
-	bool opened = (GUI::TreeNode("Scene Root", false));
+	bool opened = GUI::TreeNode("Scene Root", false);
 
 	if (GUI::IsItemClicked(1))
 		GUI::OpenPopup("GameObject Popup null");
@@ -76,6 +76,11 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 	if (Engine::GameObject** newChild = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
 	{
 		objectToParentBuffer.push_back(std::pair(current, *newChild));
+	}
+
+	if (Resource::Prefab** newChild = (Resource::Prefab**)GUI::DragDropTarget("Prefab"))
+	{
+		objectToParentBuffer.push_back(std::pair(current, (*newChild)->GetCopy()[0]));
 	}
 
 	if (opened)
