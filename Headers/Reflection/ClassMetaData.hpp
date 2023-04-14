@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-
+#include "Engine/GameObject.hpp"
 #include "dllInclude.hpp"
 
 
@@ -37,6 +37,7 @@ namespace Reflection
 		void DisplayMemberInfo(size_t classPtr);
 		void GUIUpdate(size_t classPtr);
 		std::string Save(size_t classPtr, int depth);
+		void Parse(const std::vector<std::string>& tokens, size_t classPtr);
 	};
 
 
@@ -50,6 +51,8 @@ namespace Reflection
 		void GUIUpdate(void* classPtr);
 
 		std::string Save(void* classPtr, int depth);
-		void Parse(const std::vector<std::string>& fileData, size_t& lineIndex);
+		void Parse(const std::vector<std::string>& fileData, size_t& lineIndex, void* classPtr);
+
+		static Engine::MonoBehaviour* AddComponent(const std::string componentName, Engine::GameObject* gameObject);
 	};
 }

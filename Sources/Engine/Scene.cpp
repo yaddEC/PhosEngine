@@ -19,8 +19,6 @@
 #include "Engine/Transform.hpp"
 #include "Physic/PhysicsManager.hpp"
 
-
-#define SCENE_EXPORTS
 #include "Engine/Scene.hpp"
 
 using namespace Engine;
@@ -110,6 +108,11 @@ GameObject* Engine::Scene::Instantiate(GameObject* newGameObject)
 	newGameObject->SetScene(this);
 	m_gameObjectBuffer.push_back(newGameObject);
 	return newGameObject;
+}
+
+GameObject* Engine::Scene::Instantiate(Resource::Prefab* prefab)
+{
+	return nullptr;
 }
 
 void Engine::Scene::DeleteGameObjectFromList(GameObject* go)

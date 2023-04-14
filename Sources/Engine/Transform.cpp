@@ -24,7 +24,7 @@ void Transform::Destroy(bool destroyChildren)
 	m_isDestroyed = true;
 
 	if (m_parent) // delete self from parent if has one
-		m_parent->m_children.erase(std::remove(m_parent->m_children.begin(), m_parent->m_children.end(), this), m_parent->m_children.end());
+		m_parent->RemoveChild(this);
 
 	if (destroyChildren)
 	{
@@ -55,6 +55,27 @@ void Transform::OnGUI()
 	Wrapper::GUI::EditVec3("Position", position, true, 0.05f);
 	Wrapper::GUI::EditVec3("Rotation", rotation, true, 0.01f);
 	Wrapper::GUI::EditVec3("Scale", scale, true, 0.05f);
+}
+
+void Transform::SetParent(Transform* _parent)
+{
+	if (m_parent)
+		m_parent->RemoveChild(this);
+	m_parent = _parent; 
+	m_parent->AddChild(this);
+}
+
+void Engine::Transform::RemoveChild(Transform* child)
+{
+	m_children.erase(std::remove(m_children.begin(), m_children.end(), child), m_children.end());
+}
+
+void Engine::Transform::AddChild(Transform* child)
+{
+	if(child->GetParent())
+		child->GetParent()->RemoveChild(child);
+	m_children.push_back(child);
+	child->m_parent = this;
 }
 
 void Engine::Transform::Parse(const std::vector<std::string>& fileData, size_t& lineIndex)

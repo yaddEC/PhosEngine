@@ -5,8 +5,14 @@
 #include "Maths/Maths.hpp"
 #include "Physic/PhysicsManager.hpp"
 
+
 #include "dllInclude.hpp"
 
+
+namespace Resource
+{
+	class Prefab;
+}
 
 namespace LowRenderer
 {
@@ -29,6 +35,7 @@ namespace Engine
 		void Update();
 		
 		GameObject* Instantiate(GameObject* newGameObject);
+		GameObject* Instantiate(Resource::Prefab* prefab);
 
 		Physic::PhysicsManager* GetPhysicsManager() { return m_physicsManager; }
 

@@ -54,6 +54,26 @@ Texture* Resource::Prefab::GenerateFileIcon()
 	return nullptr;
 }
 
+std::vector<Engine::GameObject*> Resource::Prefab::GetCopy()
+{
+	using namespace Engine;
+
+	std::vector<GameObject*> result;
+	for (GameObject* go : gameObjectList)
+	{
+		GameObject* newGameObject = new GameObject();
+		gameObjectList.push_back(newGameObject);
+	}
+
+	for (size_t i = 0; i < result.size(); i++)
+	{
+		result[i]->name = gameObjectList[i]->name;
+		result[i]->SetID(gameObjectList[i]->GetID());
+		*result[i]->transform = Transform(*gameObjectList[i]->transform);
+
+	}
+}
+
 Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex)
 {
 	using namespace Engine;
@@ -71,11 +91,16 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		{
 			newGameObject->SetID(std::stof(tokens[1]));
 		}
-		else if (tokens[0] == "trans")
+		else if (tokens[0] == "transform")
 		{
 			newGameObject->transform->position = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
 			newGameObject->transform->rotation = Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6]));
 			newGameObject->transform->scale = Maths::Vec3(std::stof(tokens[7]), std::stof(tokens[8]), std::stof(tokens[9]));
+		}
+		else if (tokens[0] == "component")
+		{
+			Engine::MonoBehaviour* comp = Reflection::ClassMetaData::AddComponent(tokens[1], newGameObject);
+			comp->GetMetaData().Parse(fileData, ++lineIndex, comp);
 		}
 		else if (tokens[0] == "child")
 		{
@@ -86,26 +111,28 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 			return newGameObject;
 		}
 	}
-	
 }
 
-void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file)
-{
 
-	std::cout << "name " << gameObject->name << '\n'
-		<< "id " << gameObject->GetID() << '\n'
-		<< "trans " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z 
+
+void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth)
+{
+	std::string tab = std::string(depth, '\t');
+
+	file << tab << "name \"" << gameObject->name << "\"\n"
+		<< tab << "id " << gameObject->GetID() << '\n'
+		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z 
 		<< ' ' << gameObject->transform->rotation.x << ' ' << gameObject->transform->rotation.y << ' ' << gameObject->transform->rotation.z
 		<< ' ' << gameObject->transform->scale.x << ' ' << gameObject->transform->scale.y << ' ' << gameObject->transform->scale.z << '\n';
 	for (auto comp : gameObject->GetComponents())
 	{
-		std::cout << comp->GetMetaData().Save(comp, 0);
+		file << comp->GetMetaData().Save(comp, depth + 1);
 	}
 	for (auto child : gameObject->transform->GetChildren())
 	{
-		std::cout << "child\n";
-		SaveGameObjectAsPrefab(child->GetGameObject(), file);
-		std::cout << "end\n";
+		file << "child\n";
+		SaveGameObjectAsPrefab(child->GetGameObject(), file, depth + 1);
 	}
+	file << tab << "end\n";
 }
 

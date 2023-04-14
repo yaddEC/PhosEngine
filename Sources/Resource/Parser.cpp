@@ -43,7 +43,11 @@ std::vector<std::string> Resource::Parser::Tokenize(const std::string& text, cha
 	bool isInQuote = false;
 	for (char c : text)
 	{
-		if (c == '\"') isInQuote = !isInQuote;
+		if (c == '\"')
+		{
+			isInQuote = !isInQuote;
+			continue;
+		}
 		if (c == separator && !isInQuote)
 		{
 			if (!token.empty())

@@ -7,7 +7,11 @@
 #include "Wrapper/GUI.hpp"
 #include "Resource/Mesh.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
+#include "LowRenderer/Light/PointLight.hpp"
 #include "Resource/Material.hpp"
+#include "LowRenderer/MeshRenderer.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Resource/Parser.hpp"
 #include <iostream>
 #include "Reflection/ClassMetaData.hpp"
 
@@ -109,12 +113,38 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr, int depth)
 	return result + '\n';
 }
 
+void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, size_t classPtr)
+{
+	switch (type)
+	{
+	case MemberType::T_INT: break;
+
+	case MemberType::T_FLOAT: *(float*)(classPtr + ptr) = std::stof(tokens[1]);  break;
+
+	case MemberType::T_BOOL: break;
+
+	case MemberType::T_VEC3: *(float*)(classPtr + ptr) = std::stof(tokens[1]);
+		*(float*)(classPtr + ptr + 4) = std::stof(tokens[2]);
+		*(float*)(classPtr + ptr + 8) = std::stof(tokens[3]); break;
+
+	case MemberType::T_MESH: (*(Resource::Mesh**)(classPtr + ptr))
+		= Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>(tokens[1]); break;
+
+	case MemberType::T_MATERIAL: (*(Resource::Material**)(classPtr + ptr))
+		= Resource::ResourceManager::GetInstance().GetResource<Resource::Material>(tokens[1]); break;
+
+	case MemberType::T_MATERIAL_LIST:
+		break;
+
+	default: break;
+	}
+}
+
 void Reflection::ClassMetaData::DisplayClassInfo(void* classPtr)
 {
 	std::cout << "class " << name << std::endl;
 	for (auto member : memberList)
 	{
-		std::cout << '\t';
 		member.DisplayMemberInfo((size_t)classPtr);
 	}
 }
@@ -134,15 +164,49 @@ std::string Reflection::ClassMetaData::Save(void* classPtr, int depth)
 {
 	std::string result;
 
-	for (int i = 0; i < depth; i++)
-		result += 't';
 
-	result += "comp " + name + '\n';
+	for (int i = 0; i < depth - 1; i++)
+		result += '\t';
+	result += "component \"" + name + "\"\n";
 
 	for (auto member : memberList)
 	{
+		for (int i = 0; i < depth; i++)
+			result += '\t';
 		result += member.Save((size_t)classPtr, depth);
 	}
-
+	for (int i = 0; i < depth; i++)
+		result += '\t';
 	return result + "end\n";
+}
+
+void Reflection::ClassMetaData::Parse(const std::vector<std::string>& fileData, size_t& lineIndex, void* classPtr)
+{
+	for (; lineIndex < fileData.size(); lineIndex++)
+	{
+		std::vector<std::string> tokens = Resource::Parser::Tokenize(fileData[lineIndex], ' ', '\t');
+
+		if (tokens[0] == "end")
+			return;
+
+		for (auto member : memberList)
+		{
+			if (member.name == tokens[0])
+			{
+				member.Parse(tokens, (size_t)classPtr);
+			}
+		}
+	}
+}
+
+Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string componentName, Engine::GameObject* gameObject)
+{
+	if (componentName == "Mesh Renderer")
+	{
+		return gameObject->AddComponent<LowRenderer::MeshRenderer>();
+	}
+	if (componentName == "Point Light")
+	{
+		return gameObject->AddComponent<LowRenderer::PointLight>();
+	}
 }

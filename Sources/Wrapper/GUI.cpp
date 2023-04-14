@@ -294,6 +294,11 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 		}
 		ImGui::EndCombo();
 	}
+	if (Resource::Mesh** newmesh = (Resource::Mesh**)DragDropTarget("Material"))
+	{
+		*mesh = *newmesh;
+	}
+
 	return false;
 }
 
@@ -327,6 +332,12 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 		}
 		ImGui::EndCombo();
 	}
+
+	if (Resource::Material** mat = (Resource::Material**)DragDropTarget("Material"))
+	{
+		*material = *mat;
+	}
+
 	return false;
 }
 
