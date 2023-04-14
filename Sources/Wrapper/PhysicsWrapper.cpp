@@ -14,12 +14,107 @@
 #define PHYSICSWRAPPER_EXPORTS
 #include "Wrapper/PhysicsWrapper.hpp"
 
+
+
+MySimulationEventCallback::MySimulationEventCallback()
+{
+}
+
+MySimulationEventCallback::~MySimulationEventCallback()
+{
+}
+
+PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
+    PxFilterObjectAttributes attributes1, PxFilterData filterData1,
+    PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+{
+    bool isTrigger0 = PxFilterObjectIsTrigger(attributes0);
+    bool isTrigger1 = PxFilterObjectIsTrigger(attributes1);
+    if (isTrigger0 || isTrigger1)
+    {
+        pairFlags = PxPairFlag::eDETECT_DISCRETE_CONTACT | PxPairFlag::eDETECT_CCD_CONTACT;
+        if (isTrigger0 && isTrigger1)
+        {
+            return PxFilterFlag::eSUPPRESS;
+        }
+        else
+        {
+            pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
+
+        }
+    }
+    else
+    {
+        pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+    }
+    pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+    pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+    return PxFilterFlag::eDEFAULT;
+}
+
+void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
+{
+
+    for (PxU32 i = 0; i < nbPairs; i++)
+    {
+        const PxContactPair& cp = pairs[i];
+
+        //printf("STAY COLLISION\n");
+
+        // only interested in contacts found with the shapes of the collider
+        if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
+        {
+            printf("\n");
+        }
+
+        // only interested in contacts lost with the shapes of the collider
+        if (cp.events & PxPairFlag::eNOTIFY_TOUCH_LOST)
+        {
+            printf("\n");
+        }
+
+
+
+
+    }
+}
+void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
+{
+    for (PxU32 i = 0; i < count; i++)
+    {
+        PxTriggerPair& pair = pairs[i];
+        PxShape* triggerShape = pair.triggerShape;
+
+        // check if the other shape is a trigger or not
+        bool isOtherTrigger = pair.otherShape->getFlags() & PxShapeFlag::eTRIGGER_SHAPE;
+
+        // ENTER
+        if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND && !isOtherTrigger)
+        {
+            printf("ENTER TRIGGER\n");
+        }
+
+        // EXIT
+        if (pair.status == PxPairFlag::eNOTIFY_TOUCH_LOST && !isOtherTrigger)
+        {
+            printf("EXIT TRIGGER\n");
+        }
+
+
+        //printf("STAY TRIGGER\n");
+
+    }
+
+}
+
 namespace Wrapper
 {
 
     
     PxDefaultErrorCallback Physics::gDefaultErrorCallback;
     PxDefaultAllocator Physics::gDefaultAllocatorCallback;
+
+
 
     Physics::Physics()
         : mFoundation(nullptr),
@@ -131,8 +226,11 @@ namespace Wrapper
 
     void Physics::CreateScene()
     {
+        MySimulationEventCallback* mySimulationEventCallback = new MySimulationEventCallback();
         PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+        sceneDesc.filterShader = CustomFilterShader;
+        sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
         sceneDesc.filterShader = PxDefaultSimulationFilterShader;
         mScene = mPhysics->createScene(sceneDesc);
@@ -150,52 +248,89 @@ namespace Wrapper
     }
 
 
-  
-
     void PhysicsCollider::Init()
     {
        
         
         PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
         
-        if (collider->rb->isStatic) {
-            collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidStatic(pose);
+        if (collider->rb) {
+            PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidDynamic(pose);
+            PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
+            collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
         }
         else {
-            collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidDynamic(pose);
-            collider->rb->physicsRigidbody->getRigidActor()->is<PxRigidDynamic>()->setMass(collider->rb->mass);
+            PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidStatic(pose);
         }
-        
-        PxMaterial* material = createMaterialByType(collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics(), collider->rb->physicsRigidbody->getMaterialType());
+        Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix();
+        PxMaterial* material = createMaterialByType(collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics(), PhysxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
-            geometry.box = PxBoxGeometry(collider->gameobject->transform->scale.x * boxCollider->size.x * 0.5f, collider->gameobject->transform->scale.y * boxCollider->size.y * 0.5f, collider->gameobject->transform->scale.z * boxCollider->size.z * 0.5f);
-            shape = PxRigidActorExt::createExclusiveShape(*collider->rb->physicsRigidbody->getRigidActor(), geometry.box, *material);
+            geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x * 0.5f, worldModel.data_4_4[1][1] * boxCollider->size.y * 0.5f, worldModel.data_4_4[2][2] * boxCollider->size.z * 0.5f);
+            shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.box, *material);
         }
         else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
         {
             geometry.sphere = PxSphereGeometry(collider->gameobject->transform->scale.x * sphereCollider->radius);
-            shape = PxRigidActorExt::createExclusiveShape(*collider->rb->physicsRigidbody->getRigidActor(), geometry.sphere, *material);
+            shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.sphere, *material);
         }
         else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
         {
-            geometry.capsule = PxCapsuleGeometry(collider->gameobject->transform->scale.x * capsuleCollider->radius, collider->gameobject->transform->scale.y * capsuleCollider->height * 0.5f * 0.5f);
-            shape = PxRigidActorExt::createExclusiveShape(*collider->rb->physicsRigidbody->getRigidActor(), geometry.capsule, *material);
+            geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->radius, worldModel.data_4_4[1][1] * capsuleCollider->height * 0.5f * 0.5f);
+            shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.capsule, *material);
         }
         
         if (collider->isTrigger)
+        {
+            shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
             shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
 
-        collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getScene()->addActor(*collider->rb->physicsRigidbody->getRigidActor());
+        collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getScene()->addActor(*PhysxActor);
 
     }
+
+
+    void PhysicsCollider::Update()
+    {
+        if (!collider->rb)
+        {
+            Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
+            PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            PxTransform pose(position);
+            PhysxActor->setGlobalPose(pose);
+        }
+    }
+
+ 
+    void PhysicsCollider::Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material)
+    {
+
+        if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
+        {
+            boxCollider->size = size;
+        }
+        else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
+        {
+            sphereCollider->radius = size.x;
+        }
+        else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
+        {
+            capsuleCollider->radius = size.x;
+            capsuleCollider->height = size.y;
+
+        }
+        collider->center = center;
+        collider->isTrigger = trigger;
+    }
+
 
 
     void PhysicsRigidbody::Update()
     {
         if (PhysxActor)
         {
-            if (!rigidbody->isStatic && PhysxActor && PhysxActor->is<PxRigidDynamic>())
+            if ( PhysxActor && PhysxActor->is<PxRigidDynamic>())
             {
                 PxRigidDynamic* dynamicActor = PhysxActor->is<PxRigidDynamic>();
 

@@ -55,7 +55,9 @@ void Engine::GameObject::Update()
 	for (MonoBehaviour* comp : componentsBuffer)
 	{
 		components.push_back(comp);
-
+	}
+	for (MonoBehaviour* comp : componentsBuffer)
+	{
 		if (scene->GetIsGameMode() || comp->renderingComponent)
 			comp->Start();
 	}

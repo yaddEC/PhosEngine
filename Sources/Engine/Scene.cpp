@@ -18,19 +18,21 @@
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
 #include "Physic/PhysicsManager.hpp"
-
-
+#include "Physic/Collider.hpp"
+#include "Physic/Rigidbody.hpp"
+#include "Wrapper/PhysicsWrapper.hpp"
 #define SCENE_EXPORTS
 #include "Engine/Scene.hpp"
 
 using namespace Engine;
 using namespace LowRenderer;
 using namespace Resource;
-
+using namespace Physic;
 Scene::Scene()
 {
 	renderer = new Renderer();
-
+	m_physicsManager = new PhysicsManager();
+	m_physicsManager->Init();
 	Mesh* boo = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\cube.obj");
 	Mesh* blaziken = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\blaziken.obj");
@@ -44,6 +46,11 @@ Scene::Scene()
 	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
 	rend->SetMesh(boo);
 	rend->SetMaterial(booMat);
+	
+	Rigidbody* rb = go->AddComponent<Rigidbody>();
+	SphereCollider* col = go->AddComponent<SphereCollider>();
+	
+
 	
 
 	GameObject* go2 = new GameObject();
@@ -83,10 +90,13 @@ Scene::Scene()
 	//Instantiate(light);
 	//Instantiate(light1);
 	Instantiate(light2);
+
+	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 }
 
 void Scene::Update()
 {
+	//m_physicsManager->Update();
 	for (GameObject* go : m_gameObjectBuffer)
 	{
 		m_gameObjects.push_back(go);
