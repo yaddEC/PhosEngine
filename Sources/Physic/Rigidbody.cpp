@@ -14,8 +14,10 @@
 #include <Physic/Rigidbody.hpp>
 
 Physic::Rigidbody::Rigidbody()
+	: MonoBehaviour(true)
 {
 	physicsRigidbody = new Wrapper::PhysicsRigidbody();
+	physicsRigidbody->rigidbody = this;
 }
 
 

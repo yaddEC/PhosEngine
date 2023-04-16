@@ -12,6 +12,15 @@ using namespace Maths;
 using namespace Engine;
 
 #include <iostream>
+#include <chrono>
+
+float Input::deltaTime = 0.0f;
+
+static std::chrono::high_resolution_clock::time_point GetTime()
+{
+	return std::chrono::high_resolution_clock::now();
+}
+
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
@@ -55,6 +64,16 @@ Vec2 Input::GetMouseDelta() {
 }
 
 void Input::Update() {
+
+	//deltaTime 
+
+	static auto lastFrameTime = GetTime();
+	auto currentFrameTime = GetTime();
+
+	// Calculate the deltaTime
+	deltaTime = std::chrono::duration<float>(currentFrameTime - lastFrameTime).count();
+	lastFrameTime = currentFrameTime;
+
 	double mousePosX, mousePosY;
 	glfwGetCursorPos(window, &mousePosX, &mousePosY);
 	mouseDelta.x = mousePosX - mousePosition.x;

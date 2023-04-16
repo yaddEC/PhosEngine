@@ -5,17 +5,17 @@
 //----------------
 
 #include "Resource/Texture.hpp"
-#include "Engine/Transform.hpp"
-#include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/Material.hpp"
 #include "Resource/ResourceManager.hpp"
+#include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
+#include "Engine/Input.hpp"
 #include "Physic/PhysicsManager.hpp"
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
@@ -46,7 +46,9 @@ Scene::Scene()
 	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
 	rend->SetMesh(boo);
 	rend->SetMaterial(booMat);
-	
+	go->transform->position.y = 10;
+
+
 	Rigidbody* rb = go->AddComponent<Rigidbody>();
 	SphereCollider* col = go->AddComponent<SphereCollider>();
 	
@@ -58,10 +60,12 @@ Scene::Scene()
 	MeshRenderer* rend2 = go2->AddComponent<MeshRenderer>();
 	rend2->SetMesh(blaziken);
 	rend2->SetMaterial(blazikenMat);
-	go2->transform->SetParent(go->transform);
+	//go2->transform->SetParent(go->transform);
 	go2->transform->position.x = 10;
 	go2->transform->rotation.y = Maths::M_PI;
 	go2->transform->scale = Maths::Vec3(0.5f, 0.5f, 0.5f);
+
+	
 
 	GameObject* go3 = new GameObject();
 	go3->name = "Ground";
@@ -69,7 +73,8 @@ Scene::Scene()
 	rend3->SetMesh(ground);
 	rend3->SetMaterial(basicMat);
 	go3->transform->position.y = -3;
-	go3->transform->scale = Maths::Vec3(100, 1, 100);
+	go3->transform->scale = Maths::Vec3(50, 1, 100);
+	BoxCollider* col2 = go3->AddComponent<BoxCollider>();
 
 	//GameObject* light = new GameObject();
 	//DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
@@ -91,7 +96,8 @@ Scene::Scene()
 	//Instantiate(light1);
 	Instantiate(light2);
 
-	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
+	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2.5, 2.5, 2.5), false, Wrapper::BOUNCY_BALL);
+	col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 }
 
 void Scene::GameObjectFromBuffer()
@@ -135,7 +141,9 @@ void Scene::Update()
 	{
 		m_gameObjects.push_back(go);
 	}*/
-
+	m_physicsManager->Update(Input::deltaTime);
+	
+	//printf("%d\n", Wrapper::countRigidActors(m_physicsManager->getPhysics()->getScene()));
 	if(m_gameObjectBuffer.size() != 0)
 	{
 		GameObjectFromBuffer();

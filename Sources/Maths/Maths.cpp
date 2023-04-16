@@ -1207,19 +1207,19 @@ Maths::Vec3 Maths::Quaternion::ToEulerAngles()
 		euler.y = static_cast<float>(2.0 * atan2(normalizedQuat.b, normalizedQuat.a));
 		euler.z = static_cast<float>(M_PI / 2.0);
 		euler.x = static_cast<float>(0.0);
-		return euler * RAD2DEG;
+		return euler ;
 	}
 	if (test < -0.499 * unit) { // singularity at south pole
 		euler.y = static_cast<float>(-2.0 * atan2(normalizedQuat.b, normalizedQuat.a));
 		euler.z = static_cast<float>(-M_PI / 2.0);
 		euler.x = static_cast<float>(0.0);
-		return euler * RAD2DEG;
+		return euler ;
 	}
 	euler.y = static_cast<float>(atan2(2.0 * normalizedQuat.c * normalizedQuat.a - 2.0 * normalizedQuat.b * normalizedQuat.d, sqx - sqy - sqz + sqw));
 	euler.z = static_cast<float>(asin(2.0 * test / unit));
 	euler.x = static_cast<float>(atan2(2.0 * normalizedQuat.b * normalizedQuat.a - 2.0 * normalizedQuat.c * normalizedQuat.d, -sqx + sqy - sqz + sqw));
 
-	return euler * RAD2DEG;
+	return euler;
 }
 
 Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)

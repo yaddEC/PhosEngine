@@ -4,6 +4,8 @@
 #include "pch.h"
 //----------------
 #include <iostream>
+#include <algorithm>
+#include <array>
 #include "Engine/Transform.hpp"
 #include "Engine/Scene.hpp"
 #include "Physx/PxPhysicsAPI.h"
@@ -251,15 +253,18 @@ namespace Wrapper
     void PhysicsCollider::Init()
     {
        
-        
-        PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
+
         
         if (collider->rb) {
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
             PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidDynamic(pose);
             PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
         }
         else {
+            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotation;
+            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.a, rotationQuat.b, rotationQuat.c, rotationQuat.d));
             PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidStatic(pose);
         }
         Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix();
@@ -290,17 +295,31 @@ namespace Wrapper
 
     }
 
+    int countRigidActors(PxScene* scene) {
+        // The maximum number of actors that we can retrieve with getActors()
+        const PxU32 maxActors = 1000;
 
-    void PhysicsCollider::Update()
-    {
-        if (!collider->rb)
-        {
-            Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
-            PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
-            PxTransform pose(position);
-            PhysxActor->setGlobalPose(pose);
+        // Array to store the retrieved actors
+        PxActor* actors[maxActors];
+
+        // Retrieve all actors in the scene
+        PxU32 numActors = scene->getActors(PxActorTypeFlag::eRIGID_STATIC | PxActorTypeFlag::eRIGID_DYNAMIC, actors, maxActors);
+
+        // Counter for rigid actors
+        int rigidActorCount = 0;
+
+        // Loop through the actors and count the rigid actors
+        for (PxU32 i = 0; i < numActors; ++i) {
+            PxActor* actor = actors[i];
+
+            // Check if the actor is a rigid static or rigid dynamic
+            if (actor->getConcreteType() == PxConcreteType::eRIGID_STATIC || actor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
+                ++rigidActorCount;
+            }
         }
+        return rigidActorCount;
     }
+
 
  
     void PhysicsCollider::Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material)
@@ -325,6 +344,63 @@ namespace Wrapper
     }
 
 
+    void PhysicsCollider::Update()
+    {
+        if (!collider->rb)
+        {
+            Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
+            PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotation;
+            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
+            PxQuat pxRotation(-rotationQuat.a, -rotationQuat.c, rotationQuat.d, rotationQuat.b);
+
+ 
+          
+
+            PxTransform pose(position, pxRotation);
+            PhysxActor->setGlobalPose(pose);
+
+            //change scale in runtime
+            /*
+            PxShape* shape;
+            PhysxActor->getShapes(&shape, 1);
+            PxGeometryHolder geometryHolder = shape->getGeometry();
+
+            switch (geometryHolder.getType())
+            {
+            case PxGeometryType::eBOX:
+            {
+                PxBoxGeometry boxGeometry = geometryHolder.box();
+                boxGeometry.halfExtents = PxVec3(boxGeometry.halfExtents.x * collider->gameobject->transform->scale.x, boxGeometry.halfExtents.y * collider->gameobject->transform->scale.y, boxGeometry.halfExtents.z * collider->gameobject->transform->scale.z);
+                shape->setGeometry(boxGeometry);
+                break;
+            }
+            case PxGeometryType::eSPHERE:
+            {
+                PxSphereGeometry sphereGeometry = geometryHolder.sphere();
+                std::array<float, 3> scaleValues = { collider->gameobject->transform->scale.x,collider->gameobject->transform->scale.y, collider->gameobject->transform->scale.z };
+                float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
+
+                sphereGeometry.radius *= max_scale;
+                shape->setGeometry(sphereGeometry);
+                break;
+            }
+            case PxGeometryType::eCAPSULE:
+            {
+                PxCapsuleGeometry capsuleGeometry = geometryHolder.capsule();
+                std::array<float, 2> scaleValues = { collider->gameobject->transform->scale.x, collider->gameobject->transform->scale.y };
+                float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
+                capsuleGeometry.radius *= max_scale;
+                capsuleGeometry.halfHeight *= worldModel.data_4_4[2][2];
+                shape->setGeometry(capsuleGeometry);
+                break;
+            }
+            default:
+                break;
+            }*/
+        
+        }
+    }
 
     void PhysicsRigidbody::Update()
     {
@@ -344,6 +420,14 @@ namespace Wrapper
                 PxTransform updatedTransform = dynamicActor->getGlobalPose();
                 Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
                 rigidbody->gameobject->transform->position = newPosition;
+                PxQuat updatedRotation = updatedTransform.q;
+                
+                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z);
+                
+                Maths::Vec3 eulerRotation = newRotation.ToEulerAngles();
+             
+
+                rigidbody->gameobject->transform->rotation = eulerRotation;
 
             }
 
