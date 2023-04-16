@@ -2,11 +2,7 @@
 #include "Maths/Maths.hpp"
 #include <vector>
 
-#ifdef RENDERER_EXPORTS
-#define RENDERER_API __declspec(dllexport)
-#else
-#define RENDERER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
@@ -21,12 +17,13 @@ namespace LowRenderer
 	class PointLight;
 	class SpotLight;
 
-	class RENDERER_API Renderer
+	class PHOSENGINE_API Renderer
 	{
 	public:
 		
 		void ComputeShadowMap() {}; // Empty for now
-		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras); 
+		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras);
+		void IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize);
 
 		void AddMeshRenderer(MeshRenderer* rend) { m_meshRenderers.push_back(rend); }
 		void DeleteMeshRenderer(MeshRenderer* rend);

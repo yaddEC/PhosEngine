@@ -6,20 +6,18 @@
 
 #include "Maths/Maths.hpp"
 
-#ifdef GUI_EXPORTS
-#define GUI_API __declspec(dllexport)
-#else
-#define GUI_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
-	class Texture;
+	class Texture; 
+	class Mesh;
+	class Material;
 }
 
 namespace Wrapper
 {
-	class GUI_API GUI
+	class PHOSENGINE_API GUI
 	{
 	public:
 		static bool InitGUI(GLFWwindow* window);
@@ -45,6 +43,9 @@ namespace Wrapper
 
 		static bool CollapsingHeader(const std::string& label);
 
+		static void PushID(int ID);
+		static void PopID();
+
 		static Maths::Vec2 GetWindowSize();
 		static bool IsWondowFocused();
 
@@ -64,6 +65,15 @@ namespace Wrapper
 		static bool EditVec3(const std::string& label, Maths::Vec3& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditColorRGB(const std::string& label, Maths::Vec3& value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text = true);
+
+		static bool EditFloat(const std::string& label, float* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec2(const std::string& label, Maths::Vec2* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditVec3(const std::string& label, Maths::Vec3* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
+		static bool EditColorRGB(const std::string& label, Maths::Vec3* value, bool text = true);
+		static bool EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text = true);
+
+		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
+		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
 
 		static void DisplayText(const std::string& text);
 		static void DisplayFloat(const std::string& label, float value);

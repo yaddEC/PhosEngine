@@ -2,31 +2,22 @@
 #include "Maths/Maths.hpp"
 #include <vector>
 
-#ifdef VERTEX_EXPORTS
-#define VERTEX_API __declspec(dllexport)
-#else
-#define VERTEX_API __declspec(dllimport)
-#endif
-
-
-#ifdef SUBMESH_EXPORTS
-#define SUBMESH_API __declspec(dllexport)
-#else
-#define SUBMESH_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
 	class Material;
 
-	struct VERTEX_API Vertex
+	struct PHOSENGINE_API Vertex
 	{
 		Maths::Vec3 position;
 		Maths::Vec3 normal;
 		Maths::Vec2 UVCoords;
+		Maths::Vec3 tangents;
+		Maths::Vec3 bitangents;
 	};
 
-	class SUBMESH_API SubMesh
+	class PHOSENGINE_API SubMesh
 	{
 	public:
 		SubMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, class Texture* _texture);

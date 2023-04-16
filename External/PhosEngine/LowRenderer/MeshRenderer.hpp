@@ -2,11 +2,7 @@
 #include "Maths/Maths.hpp"
 #include "Engine/MonoBehaviour.hpp"
 
-#ifdef MESHRENDERER_EXPORTS
-#define MESHRENDERER_API __declspec(dllexport)
-#else
-#define MESHRENDERER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
@@ -22,7 +18,7 @@ namespace Engine
 
 namespace LowRenderer
 {
-	class MESHRENDERER_API MeshRenderer : public Engine::MonoBehaviour
+	class PHOSENGINE_API MeshRenderer : public Engine::MonoBehaviour
 	{
 	public:
 
@@ -31,11 +27,13 @@ namespace LowRenderer
 
 
 		void Render(const Maths::Mat4& viewProj) const;
+		void IdPickerRender(const Maths::Mat4& viewProj) const;
 
 		void Start() override;
 		void Update() override;
 		void GUIUpdate() override;
 		void OnDestroy() override;
+		Reflection::ClassMetaData& GetMetaData() override;
 
 		void SetMesh(Resource::Mesh* _mesh) { m_mesh = _mesh; }
 		Resource::Mesh* GetMesh() { return m_mesh; }

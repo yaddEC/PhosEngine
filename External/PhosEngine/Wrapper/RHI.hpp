@@ -7,11 +7,7 @@
 
 #include "Maths/Maths.hpp"
 
-#ifdef RHI_EXPORTS
-#define RHI_API __declspec(dllexport)
-#else
-#define RHI_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource 
 {
@@ -24,7 +20,7 @@ namespace Resource
 
 namespace Wrapper 
 {
-	class RHI_API RHI
+	class PHOSENGINE_API RHI
 	{
 	public:
 		static GLFWwindow* InitWindow(int width, int height, const char* windowName);

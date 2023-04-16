@@ -5,11 +5,8 @@
 #include <string>
 
 
-#ifdef MATERIAL_EXPORTS
-#define MATERIAL_API __declspec(dllexport)
-#else
-#define MATERIAL_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
+
 
 namespace Resource
 {
@@ -32,7 +29,7 @@ namespace Resource
 		void GUIUpdate(const std::string& label);
 	};
 
-	class MATERIAL_API Material : public IResource
+	class PHOSENGINE_API Material : public IResource
 	{
 	public:
 
@@ -60,6 +57,8 @@ namespace Resource
 
 	private:
 		ShaderProgram* m_shader = nullptr;
+		
+		Texture* m_normalMap;
 
 		ColorMap m_albedo;
 		ColorMap m_specular;
@@ -67,6 +66,5 @@ namespace Resource
 
 
 		void SetProperties(const std::string& filepath);
-		
 	};
 }

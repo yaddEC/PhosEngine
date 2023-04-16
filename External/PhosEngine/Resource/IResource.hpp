@@ -1,15 +1,11 @@
 #pragma once
 #include <string>
 
-#ifdef IRESOURCE_EXPORTS
-#define IRESOURCE_API __declspec(dllexport)
-#else
-#define IRESOURCE_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
-	class IRESOURCE_API IResource
+	class PHOSENGINE_API IResource
 	{
 	public:
 

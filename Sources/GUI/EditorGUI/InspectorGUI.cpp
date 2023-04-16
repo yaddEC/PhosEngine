@@ -1,6 +1,5 @@
 #include "GUI/EditorGUI/InspectorGUI.hpp"
 #include "Engine/Transform.hpp"
-#include "Wrapper/GUI.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
 #include "Engine/MonoBehaviour.hpp"
@@ -31,8 +30,16 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 {
 	if (!m_gameobject) return;
 
+	/*if (GUI::Button("Display class info"))
+	{
+		for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
+		{
+			component->GetMetaData().DisplayClassInfo(component);
+		}
+	}*/
 
-	Wrapper::GUI::DisplayText(m_gameobject->name);
+
+	Wrapper::GUI::DisplayText(m_gameobject->name + " id: " + std::to_string(m_gameobject->GetID()));
 	Wrapper::GUI::Separator();
 	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{
@@ -41,7 +48,8 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 
 	for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
 	{
-		component->GUIUpdate();
+		//component->GUIUpdate();
+		component->GetMetaData().GUIUpdate(component);
 	}
 }
 

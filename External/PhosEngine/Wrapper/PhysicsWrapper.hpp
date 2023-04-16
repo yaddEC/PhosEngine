@@ -1,12 +1,8 @@
 #pragma once
 #include <Physx/PxPhysicsAPI.h>
+#include <Maths/Maths.hpp>
 
-
-#ifdef PHYSICSWRAPPER_EXPORTS
-#define  PHYSICSWRAPPER_API __declspec(dllexport)
-#else
-#define  PHYSICSWRAPPER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Physic
 {
@@ -16,6 +12,27 @@ namespace Physic
 
 using namespace physx;
 using namespace Physic;
+
+class MySimulationEventCallback : public PxSimulationEventCallback
+{
+public:
+
+    MySimulationEventCallback();
+
+    ~MySimulationEventCallback();
+
+    void onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs) override;
+
+    void onTrigger(PxTriggerPair* pairs, PxU32 count) override;
+
+    void onConstraintBreak(PxConstraintInfo* constraints, PxU32 count)override {};
+    void onAdvance(const PxRigidBody* const* bodyBuffer, const PxTransform* poseBuffer, const PxU32 count)override {};
+    void onWake(PxActor** actors, PxU32 count) override {};
+    void onSleep(PxActor** actors, PxU32 count)override {};
+
+
+
+};
 
 namespace Wrapper
 {
@@ -36,7 +53,7 @@ namespace Wrapper
         CAPSULE
     };
 
-	class PHYSICSWRAPPER_API Physics //class to change in case we use other physics library
+	class PHOSENGINE_API Physics //class to change in case we use other physics library
 	{
     public:
         Physics();
@@ -63,13 +80,14 @@ namespace Wrapper
 
 	};
 
-    class PHYSICSWRAPPER_API PhysicsCollider
+    class PHOSENGINE_API PhysicsCollider
     {
     public:
+        PhysicsCollider() { };
+        ~PhysicsCollider();
         void Init();
-        void InitCube();
-        void InitSphere();
-        void InitCapsule();
+        void Update();
+        void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
 
         Collider* collider;
 
@@ -81,28 +99,30 @@ namespace Wrapper
             PxBoxGeometry box;
             PxSphereGeometry sphere;
             PxCapsuleGeometry capsule;
+            Geometry() {}
 
         } geometry;
 
         PxShape* shape;
-
+        PxRigidActor* PhysxActor;
+        MaterialType PhysxMaterial;
 
     };
 
-    class PHYSICSWRAPPER_API PhysicsRigidbody
+    class PHOSENGINE_API PhysicsRigidbody
     {
     public:
-
+        PhysicsRigidbody() {};
+        ~PhysicsRigidbody();
         void Update();
 
         Rigidbody* rigidbody;
 
         PxRigidActor* getRigidActor() { return PhysxActor; }
-        MaterialType getMaterialType() { return PhysxMaterial; }
-        void setMaterialType(MaterialType type) { PhysxMaterial = type; }
+        void setRigidActor(PxRigidActor* actor) { PhysxActor = actor; }
     private:
         PxRigidActor* PhysxActor;
-        MaterialType PhysxMaterial;
+    
 
     };
 

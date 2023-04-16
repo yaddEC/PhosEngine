@@ -4,11 +4,7 @@
 #include <typeindex>
 #include "Maths/Maths.hpp"
 
-#ifdef GAMEOBJECT_EXPORTS
-#define GAMEOBJECT_API __declspec(dllexport)
-#else
-#define GAMEOBJECT_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace LowRenderer
 {
@@ -23,7 +19,7 @@ namespace Engine
 	class MonoBehaviour;
 	class Scene;
 
-	class GAMEOBJECT_API GameObject
+	class PHOSENGINE_API GameObject
 	{
 	public:
 
@@ -40,6 +36,7 @@ namespace Engine
 		Scene* GetScene() { return scene; }
 		void SetScene(Scene* _scene) { scene = _scene; }
 		std::vector<MonoBehaviour*> GetComponents() { return components; }
+		std::vector<MonoBehaviour*> GetComponentBuffer() { return componentsBuffer; }
 
 		template <typename T>
 		T* AddComponent()

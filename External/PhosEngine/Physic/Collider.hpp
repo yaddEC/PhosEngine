@@ -2,16 +2,13 @@
 #include <Maths/Maths.hpp>
 #include <Engine/MonoBehaviour.hpp>
 
-#ifdef COLLIDER_EXPORTS
-#define COLLIDER_API __declspec(dllexport)
-#else
-#define COLLIDER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 namespace Wrapper
 {
 	class PhysicsCollider;
+	enum MaterialType;
 }
 
 
@@ -20,9 +17,10 @@ namespace Physic
 {
 	class Rigidbody;
 
-	class COLLIDER_API Collider : public Engine::MonoBehaviour
+	class PHOSENGINE_API Collider : public Engine::MonoBehaviour
 	{
 	public:
+		Collider();
 		bool show = false;
 		bool isTrigger = false;
 		bool collide = false;
@@ -31,6 +29,11 @@ namespace Physic
 		Wrapper::PhysicsCollider* physicsCollider;
 		void Init();
 		void Update() override;
+		void Start() override;
+		void GUIUpdate() override {};
+		void OnDestroy() override {};
+		void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
+		Reflection::ClassMetaData & GetMetaData() override ;
 
 	};
 
@@ -41,15 +44,14 @@ namespace Physic
 		Maths::Vec3 size;
 	};
 
-	class COLLIDER_API SphereCollider : public Collider
+	class PHOSENGINE_API SphereCollider : public Collider
 	{
 	public:
 		SphereCollider(float _radius = 1);
 		float radius;
-		float scaledRadius;
 	};
 
-	class COLLIDER_API CapsuleCollider : public Collider
+	class PHOSENGINE_API CapsuleCollider : public Collider
 	{
 	public:
 		CapsuleCollider(float _radius = 1, float _height = 1);

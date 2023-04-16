@@ -1,12 +1,8 @@
 #pragma once
 #include "IResource.hpp"
 #include <vector>
-
-#ifdef PREFAB_EXPORTS
-#define PREFAB_API __declspec(dllexport)
-#else
-#define PREFAB_API __declspec(dllimport)
-#endif
+#include <fstream>
+#include "dllInclude.hpp"
 
 namespace Engine
 {
@@ -16,7 +12,7 @@ namespace Engine
 namespace Resource
 {
 
-	class PREFAB_API Prefab : public IResource
+	class PHOSENGINE_API Prefab : public IResource
 	{
 	public:
 
@@ -28,11 +24,16 @@ namespace Resource
 		void Unload() override;
 		void Save() override;
 		void GUIUpdate() override;
+		std::string GetTypeName() { return "Prefab"; }
 		Texture* GenerateFileIcon() override;
-		std::vector<Engine::GameObject*> gameObjectList;
 
+		std::vector<Engine::GameObject*> GetCopy() const;
+
+
+		static void SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth = 0);
 	private:
 
+		std::vector<Engine::GameObject*> gameObjectList;
 		Engine::GameObject* ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex);
 	};
 }

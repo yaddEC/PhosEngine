@@ -1,17 +1,13 @@
 #pragma once
 #include "IResource.hpp"
 
-#ifdef CUBEMAP_EXPORTS
-#define CUBEMAP_API __declspec(dllexport)
-#else
-#define CUBEMAP_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
 	class Texture;
 
-	class CUBEMAP_API CubeMap : public IResource
+	class PHOSENGINE_API CubeMap : public IResource
 	{
 	public:
 

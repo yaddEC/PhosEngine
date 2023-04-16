@@ -4,11 +4,7 @@
 #include "Maths/Maths.hpp"
 #include "IResource.hpp"
 
-#ifdef SHADERPROGRAM_EXPORTS
-#define SHADERPROGRAM_API __declspec(dllexport)
-#else
-#define SHADERPROGRAM_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
@@ -22,7 +18,7 @@ namespace Resource
 		unsigned int key;
 	};
 
-	class SHADERPROGRAM_API ShaderProgram : public IResource
+	class PHOSENGINE_API ShaderProgram : public IResource
 	{
 	public:
 

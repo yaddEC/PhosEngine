@@ -5,11 +5,7 @@
 #include "LowRenderer/Framebuffer.hpp"
 #include "Resource/Texture.hpp"
 
-#ifdef CAMERA_EXPORTS
-#define CAMERA_API __declspec(dllexport)
-#else
-#define CAMERA_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 namespace Resource
@@ -32,7 +28,7 @@ namespace Engine
 
 namespace LowRenderer
 {
-	class CAMERA_API Camera
+	class PHOSENGINE_API Camera
 	{
 	public:
 		Camera();
@@ -42,6 +38,7 @@ namespace LowRenderer
 
 		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
 			const Maths::Vec2& viewportSize, const Resource::CubeMap* skybox);
+		void IdPickerRender(const std::vector<LowRenderer::MeshRenderer*>& rendList, const Maths::Vec2& viewportSize);
 
 		Resource::Texture& GetRenderTexture();
 		Resource::ShaderProgram& GetShaderProg();

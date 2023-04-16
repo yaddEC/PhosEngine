@@ -2,6 +2,8 @@
 #include "GUI/IGUI.hpp"
 #include "LowRenderer/Camera.hpp"
 #include "Engine/Scene.hpp"
+#include "Engine/Input.hpp"
+
 
 namespace EditorGUI
 {
@@ -14,9 +16,11 @@ namespace EditorGUI
 
 		void DoUpdate() override;
 	private:
+		void UpdateCamera(Engine::Input& input);
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
 
+		float speedModifier;
 	};
 }
 

@@ -8,17 +8,13 @@
 
 #include "Resource/SubMesh.hpp"
 
-#ifdef MESH_EXPORTS
-#define MESH_API __declspec(dllexport)
-#else
-#define MESH_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Resource
 {
 	class Material;
 
-	class MESH_API Mesh : public IResource
+	class PHOSENGINE_API Mesh : public IResource
 	{
 	public:
 		Mesh() : IResource()
@@ -39,6 +35,7 @@ namespace Resource
 		Texture* GenerateFileIcon() override;
 
 		SubMesh& GetSubMesh(int index) { return m_subMeshes[index]; }
+		std::vector<SubMesh>& GetSubMeshes() { return m_subMeshes; }
 
 	private:
 		std::vector<SubMesh> m_subMeshes;

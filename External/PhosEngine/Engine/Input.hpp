@@ -4,15 +4,11 @@
 
 #include "Maths/Maths.hpp"
 
-#ifdef INPUT_EXPORTS
-#define INPUT_API __declspec(dllexport)
-#else
-#define INPUT_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Engine
 {
-	class INPUT_API Input
+	class PHOSENGINE_API Input
 	{
 	public:
 
@@ -27,6 +23,8 @@ namespace Engine
 		void Update();
 
 		void Init(GLFWwindow* _window);
+		
+		void ScrollBackDoor(int value);
 
 		float GetHorizontalAxis();
 		float GetVerticalAxis();
@@ -38,6 +36,7 @@ namespace Engine
 		bool IsMouseButtonPressed(int mouseButton);
 
 		Maths::Vec2 GetMouseDelta();
+		int GetScrollDelta();
 
 	private:
 		Input() {}
@@ -45,6 +44,7 @@ namespace Engine
 		GLFWwindow* window;
 		Maths::Vec2 mousePosition;
 		Maths::Vec2 mouseDelta;
+		int scrollDelta;
 
 		int keyMap[348];
 		bool anyKeyDown;

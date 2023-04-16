@@ -1,10 +1,6 @@
 #pragma once
 
-#ifdef PHYSICSMANAGER_EXPORTS
-#define PHYSICSMANAGER_API __declspec(dllexport)
-#else
-#define PHYSICSMANAGER_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 namespace Wrapper
 {

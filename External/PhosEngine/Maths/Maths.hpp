@@ -2,11 +2,7 @@
 
 
 
-#ifdef MATHS_EXPORTS
-#define MATHS_API __declspec(dllexport)
-#else
-#define MATHS_API __declspec(dllimport)
-#endif
+#include "dllInclude.hpp"
 
 
 
@@ -14,6 +10,7 @@ namespace Maths
 {
 	constexpr float M_PI = 3.14159265358979323846f;
 	constexpr float DEG2RAD = M_PI / 180.f;
+	constexpr float RAD2DEG = 180.f / M_PI;
 
 	template <typename T>
 	void Swap(T& a, T& b)
@@ -41,7 +38,7 @@ namespace Maths
 		return value < min ? min : value > max ? max : value;
 	}
 
-	class MATHS_API Vec2
+	class PHOSENGINE_API Vec2
 	{
 	public:
 		//MEMBERS :
@@ -111,7 +108,7 @@ namespace Maths
 		Vec2 operator /= (float _Sca);
 	};
 
-	class MATHS_API Vec3
+	class PHOSENGINE_API Vec3
 	{
 	public:
 		//MEMBERS :
@@ -189,7 +186,7 @@ namespace Maths
 		Vec3 operator /= (float _Sca);
 	};
 
-	class MATHS_API Vec4
+	class PHOSENGINE_API Vec4
 	{
 	public:
 		//MEMBERS :
@@ -265,7 +262,7 @@ namespace Maths
 		Vec4 operator /= (float _Sca);
 	};
 
-	class MATHS_API Mat3
+	class PHOSENGINE_API Mat3
 	{
 	public:
 		//MEMBERS :
@@ -310,7 +307,7 @@ namespace Maths
 
 	};
 
-	class MATHS_API Mat4
+	class PHOSENGINE_API Mat4
 	{
 	public:
 		//MEMBERS :
@@ -373,7 +370,7 @@ namespace Maths
 		Mat4 operator*=(Mat4 _Mat);
 	};
 
-	class MATHS_API Quaternion
+	class PHOSENGINE_API Quaternion
 	{
 	public:
 		
