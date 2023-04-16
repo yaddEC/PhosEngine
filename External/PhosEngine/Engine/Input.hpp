@@ -38,6 +38,7 @@ namespace Engine
 		Maths::Vec2 GetMouseDelta();
 		int GetScrollDelta();
 
+		static float deltaTime;
 	private:
 		Input() {}
 
