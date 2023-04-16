@@ -27,7 +27,7 @@ namespace Resource
 		std::string GetTypeName() { return "Prefab"; }
 		Texture* GenerateFileIcon() override;
 
-		std::vector<Engine::GameObject*> GetCopy();
+		std::vector<Engine::GameObject*> GetCopy() const;
 
 
 		static void SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth = 0);

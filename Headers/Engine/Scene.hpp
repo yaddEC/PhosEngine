@@ -35,7 +35,7 @@ namespace Engine
 		void Update();
 		
 		GameObject* Instantiate(GameObject* newGameObject);
-		GameObject* Instantiate(Resource::Prefab* prefab);
+		GameObject* InstantiatePrefab(const Resource::Prefab& prefab);
 
 		Physic::PhysicsManager* GetPhysicsManager() { return m_physicsManager; }
 

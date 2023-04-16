@@ -54,14 +54,16 @@ Texture* Resource::Prefab::GenerateFileIcon()
 	return nullptr;
 }
 
-std::vector<Engine::GameObject*> Resource::Prefab::GetCopy()
+std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 {
 	using namespace Engine;
 
 	std::vector<GameObject*> result;
 	for (GameObject* go : gameObjectList)
 	{
-		GameObject* newGameObject = new GameObject(*go);
+		GameObject* newGameObject = new GameObject();
+		newGameObject->name = go->name;
+		newGameObject->SetID(go->GetID());
 		result.push_back(newGameObject);
 		
 	}
@@ -80,7 +82,7 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy()
 			}
 		}
 
-		for (auto comp : gameObjectList[i]->GetComponents())
+		for (auto comp : gameObjectList[i]->GetComponentBuffer())
 		{
 			// TODO PROPER COPY
 			Engine::MonoBehaviour* newComp = Reflection::ClassMetaData::AddComponent(comp->GetMetaData().name, result[i]);

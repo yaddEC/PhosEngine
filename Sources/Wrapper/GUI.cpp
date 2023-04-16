@@ -430,6 +430,16 @@ bool Wrapper::GUI::CollapsingHeader(const std::string& label)
 	return ImGui::CollapsingHeader(label.c_str());
 }
 
+void Wrapper::GUI::PushID(int ID)
+{
+	ImGui::PushID(ID);
+}
+
+void Wrapper::GUI::PopID()
+{
+	ImGui::PopID();
+}
+
 bool Wrapper::GUI::IsItemClicked(int mouseButton)
 {
 	return ImGui::IsItemClicked(mouseButton);

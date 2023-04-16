@@ -7,14 +7,13 @@
 #include "Resource/Texture.hpp"
 #include "Engine/Transform.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
-#include "Resource/Mesh.hpp"
+#include "Resource/ResourceIncludes.hpp"
 #include "Resource/Material.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
-#include "Resource/Mesh.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Transform.hpp"
 #include "Physic/PhysicsManager.hpp"
@@ -28,6 +27,7 @@ using namespace Engine;
 using namespace LowRenderer;
 using namespace Resource;
 using namespace Physic;
+
 Scene::Scene()
 {
 	renderer = new Renderer();
@@ -96,7 +96,7 @@ Scene::Scene()
 
 void Scene::GameObjectFromBuffer()
 {
-	for (unsigned int i = 0; i < m_gameObjects.size() + m_gameObjectBuffer.size(); i++)
+	/*for (unsigned int i = 0; i < m_gameObjects.size() + m_gameObjectBuffer.size(); i++)
 	{
 		if (i > m_gameObjects.size() - 1 || m_gameObjects.size() == 0)
 		{
@@ -110,6 +110,21 @@ void Scene::GameObjectFromBuffer()
 			m_gameObjects[i]->SetID(i + 1);
 			m_gameObjectBuffer.erase(m_gameObjectBuffer.begin());
 		}
+	}
+	m_gameObjectBuffer.clear();*/
+
+	for (Engine::GameObject* newGo : m_gameObjectBuffer)
+	{
+		int id = 1;
+		for (Engine::GameObject* go : m_gameObjects)
+		{
+			if (go->GetID() > id)
+				break;
+
+			id++;
+		}
+		newGo->SetID(id);
+		m_gameObjects.insert(m_gameObjects.begin() + (id - 1), newGo);
 	}
 	m_gameObjectBuffer.clear();
 }
@@ -146,9 +161,14 @@ GameObject* Engine::Scene::Instantiate(GameObject* newGameObject)
 	return newGameObject;
 }
 
-GameObject* Engine::Scene::Instantiate(Resource::Prefab* prefab)
+GameObject* Engine::Scene::InstantiatePrefab(const Resource::Prefab& prefab)
 {
-	return nullptr;
+	std::vector<Engine::GameObject*> goList = prefab.GetCopy();
+	for (auto go : goList)
+	{
+		Instantiate(go);
+	}
+	return goList[0];
 }
 
 void Engine::Scene::DeleteGameObjectFromList(GameObject* go)
