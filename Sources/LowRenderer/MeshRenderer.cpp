@@ -59,7 +59,6 @@ void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
 
 	rm.pickingShader->SetUniformVec4("PickingColor", { r / 255.0f, g / 255.0f, b / 255.0f, 1.0f });
 	
-	m_mesh->Render(*m_material->GetShader(), *m_material);
 
 	for (SubMesh mesh : m_mesh->GetSubMeshes())
     {

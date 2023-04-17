@@ -96,7 +96,7 @@ Scene::Scene()
 	//Instantiate(light1);
 	Instantiate(light2);
 
-	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2.5, 2.5, 2.5), false, Wrapper::BOUNCY_BALL);
+	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2, 2, 2), false, Wrapper::BOUNCY_BALL);
 	col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 }
 

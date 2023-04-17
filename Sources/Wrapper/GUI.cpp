@@ -115,6 +115,12 @@ Maths::Vec2 Wrapper::GUI::GetWindowSize()
 {
 	return Maths::Vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
 }
+Maths::Vec2 Wrapper::GUI::GetWindowPos(GLFWwindow* window)
+{
+	int PosX, PosY;
+	glfwGetWindowPos(window, &PosX, &PosY);
+	return Maths::Vec2(PosX - ImGui::GetWindowPos().x, PosY - ImGui::GetWindowPos().y);
+}
 
 bool Wrapper::GUI::IsWondowFocused()
 {

@@ -12,14 +12,11 @@ using namespace Maths;
 using namespace Engine;
 
 #include <iostream>
-#include <chrono>
+#include "Wrapper/RHI.hpp"
 
 float Input::deltaTime = 0.0f;
 
-static std::chrono::high_resolution_clock::time_point GetTime()
-{
-	return std::chrono::high_resolution_clock::now();
-}
+
 
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -29,6 +26,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void Input::Init(GLFWwindow* _window)
 {
+	timeStep = 1/60.f ;
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
 		keyMap[i] = 0;
@@ -67,11 +65,23 @@ void Input::Update() {
 
 	//deltaTime 
 
-	static auto lastFrameTime = GetTime();
-	auto currentFrameTime = GetTime();
 
-	// Calculate the deltaTime
-	deltaTime = std::chrono::duration<float>(currentFrameTime - lastFrameTime).count();
+		auto currentFrameTime = Wrapper::RHI::GetTime();
+		static auto lastFrameTime = Wrapper::RHI::GetTime();
+		float temp = currentFrameTime - lastFrameTime;
+		printf("delta :%f\ntimestep :%f\n\n", temp,timeStep);
+
+		if (temp> timeStep)//
+		{
+			deltaTime = timeStep;
+		}
+		else
+		{
+			deltaTime = temp;
+		}
+		
+
+
 	lastFrameTime = currentFrameTime;
 
 	double mousePosX, mousePosY;
