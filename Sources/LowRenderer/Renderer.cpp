@@ -16,6 +16,8 @@
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
 
+#include "Wrapper/RHI.hpp"
+
 #define RENDERER_EXPORTS
 #include "LowRenderer/Renderer.hpp"
 
@@ -83,13 +85,21 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	
 }
-void Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize)
+int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
 	
-		Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-		rm.pickingShader->Use();
+	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	rm.pickingShader->Use();
 
-		mainCamera->IdPickerRender(m_meshRenderers, viewportSize);
+	mainCamera->IdPickerRender(m_meshRenderers, viewportSize);
+
+	unsigned char* pixelColor = Wrapper::RHI::GetPixelColor(viewportSize, TabPos);
+	int pickedID =
+		pixelColor[0] +
+		pixelColor[1] * 256 +
+		pixelColor[2] * 256 * 256;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	return pickedID;
 }
 
 void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
