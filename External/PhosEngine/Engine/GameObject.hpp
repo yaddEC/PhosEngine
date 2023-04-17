@@ -36,6 +36,7 @@ namespace Engine
 		Scene* GetScene() { return scene; }
 		void SetScene(Scene* _scene) { scene = _scene; }
 		std::vector<MonoBehaviour*> GetComponents() { return components; }
+		std::vector<MonoBehaviour*> GetComponentBuffer() { return componentsBuffer; }
 
 		template <typename T>
 		T* AddComponent()

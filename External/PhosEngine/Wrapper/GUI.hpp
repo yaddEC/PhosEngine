@@ -43,6 +43,9 @@ namespace Wrapper
 
 		static bool CollapsingHeader(const std::string& label);
 
+		static void PushID(int ID);
+		static void PopID();
+
 		static Maths::Vec2 GetWindowSize();
 		static bool IsWondowFocused();
 

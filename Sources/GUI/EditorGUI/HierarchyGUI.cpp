@@ -27,12 +27,17 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 	if (GUI::IsItemClicked(1))
 		GUI::OpenPopup("GameObject Popup null");
 
+	if (Resource::Prefab** newChild = (Resource::Prefab**)GUI::DragDropTarget("Prefab"))
+	{
+		Engine::GameObject* go = m_currentScene->InstantiatePrefab(**newChild);
+	}
+
 	if(opened)
 	{
 		std::vector<Engine::GameObject*> goList = m_currentScene->GetGameObjects();
 		for (Engine::GameObject* go : goList)
 		{
-			if (go->transform->GetParent() == nullptr)
+			if (!go->transform->GetParent())
 			{
 				DisplayHierarchy(go);
 			}
@@ -59,6 +64,7 @@ Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
 void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 {
 	std::vector<Engine::Transform*> children = current->transform->GetChildren();
+	GUI::PushID(current->GetID());
 	bool opened = GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
 			
 	AddObjectPopup(current);
@@ -80,9 +86,11 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 
 	if (Resource::Prefab** newChild = (Resource::Prefab**)GUI::DragDropTarget("Prefab"))
 	{
-		objectToParentBuffer.push_back(std::pair(current, (*newChild)->GetCopy()[0]));
+		Engine::GameObject* go = m_currentScene->InstantiatePrefab(**newChild);
+		objectToParentBuffer.push_back(std::pair(current, go));
 	}
 
+	GUI::PopID();
 	if (opened)
 	{
 		for (auto child : children)

@@ -36,6 +36,7 @@ public:
 
 namespace Wrapper
 {
+    int countRigidActors(PxScene* scene);
     enum MaterialType 
     {
         ROCK,

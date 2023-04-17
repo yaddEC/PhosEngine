@@ -24,7 +24,7 @@ namespace Wrapper
 	{
 	public:
 		static GLFWwindow* InitWindow(int width, int height, const char* windowName);
-		static bool  InitGlew();
+		static bool InitGlew();
 
 		static bool WindowShouldClose(GLFWwindow* window);
 		static void SwapBuffer(GLFWwindow* window);
