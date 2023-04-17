@@ -98,7 +98,7 @@ void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Ve
     Mat4 viewProj = view * proj;
 
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
-    m_framebuffer.Clear(m_backgroundColor);
+    m_framebuffer.Clear({0,0,0,255});
 
     glCullFace(GL_FRONT);
     glDepthMask(GL_TRUE);
@@ -111,7 +111,6 @@ void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Ve
     }
 
     // unbind the framebuffer
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 Resource::Texture& LowRenderer::Camera::GetRenderTexture()
