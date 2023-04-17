@@ -48,6 +48,7 @@ namespace Engine
 		int scrollDelta;
 
 		int keyMap[348];
+		float timeStep ;
 		bool anyKeyDown;
 
 		void DisplayGUI();

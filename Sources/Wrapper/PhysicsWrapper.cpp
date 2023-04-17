@@ -233,6 +233,7 @@ namespace Wrapper
         sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
         sceneDesc.filterShader = CustomFilterShader;
         sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
+        sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
         sceneDesc.filterShader = PxDefaultSimulationFilterShader;
         mScene = mPhysics->createScene(sceneDesc);
@@ -271,7 +272,7 @@ namespace Wrapper
         PxMaterial* material = createMaterialByType(collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics(), PhysxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
-            geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x * 0.5f, worldModel.data_4_4[1][1] * boxCollider->size.y * 0.5f, worldModel.data_4_4[2][2] * boxCollider->size.z * 0.5f);
+            geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x , worldModel.data_4_4[1][1] * boxCollider->size.y , worldModel.data_4_4[2][2] * boxCollider->size.z );
             shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.box, *material);
         }
         else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
@@ -281,7 +282,7 @@ namespace Wrapper
         }
         else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
         {
-            geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->radius, worldModel.data_4_4[1][1] * capsuleCollider->height * 0.5f * 0.5f);
+            geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->radius, worldModel.data_4_4[1][1] * capsuleCollider->height  * 0.5f);
             shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.capsule, *material);
         }
         

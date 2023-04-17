@@ -29,6 +29,8 @@ namespace Wrapper
 		static bool WindowShouldClose(GLFWwindow* window);
 		static void SwapBuffer(GLFWwindow* window);
 		static void PollEvents();
+		static void SwapInterval(bool active);
+		static double GetTime();
 
 		static Maths::Vec2 GetWindowSize(GLFWwindow* window);
 

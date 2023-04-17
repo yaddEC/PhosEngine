@@ -96,7 +96,7 @@ Scene::Scene()
 	//Instantiate(light1);
 	Instantiate(light2);
 
-	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2.5, 2.5, 2.5), false, Wrapper::BOUNCY_BALL);
+	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2, 2, 2), false, Wrapper::BOUNCY_BALL);
 	col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 }
 
@@ -141,9 +141,10 @@ void Scene::Update()
 	{
 		m_gameObjects.push_back(go);
 	}*/
+
 	m_physicsManager->Update(Input::deltaTime);
 	
-	//printf("%d\n", Wrapper::countRigidActors(m_physicsManager->getPhysics()->getScene()));
+
 	if(m_gameObjectBuffer.size() != 0)
 	{
 		GameObjectFromBuffer();

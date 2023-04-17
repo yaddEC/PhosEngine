@@ -71,6 +71,16 @@ void RHI::PollEvents()
 	glfwPollEvents();
 }
 
+double RHI::GetTime()
+{
+	return glfwGetTime();
+}
+
+void Wrapper::RHI::SwapInterval(bool active)
+{
+	glfwSwapInterval(active);
+}
+
 void RHI::DestroyWindow(GLFWwindow* window)
 {
 	glfwDestroyWindow(window);
