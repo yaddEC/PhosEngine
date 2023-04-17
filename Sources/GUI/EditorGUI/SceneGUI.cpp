@@ -2,7 +2,7 @@
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
-
+#include "Wrapper/RHI.hpp"
 using namespace Maths; 
 using namespace Wrapper;
 using namespace EditorGUI;
@@ -72,10 +72,13 @@ void SceneGUI::DoUpdate()
 	if (isOnFocus)
 	{
 		UpdateCamera(input);
+		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+		{
+			int id = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35), Wrapper::GUI::GetWindowPos(Wrapper::RHI::GetCurrentContext()));
+			std::cout << id << "\n";
+		}
 	}
 
-	if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-		m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35));
 	//	std::cout << "OK\n";
 
 	if (m_currentScene)

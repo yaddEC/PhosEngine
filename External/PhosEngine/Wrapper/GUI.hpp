@@ -47,6 +47,7 @@ namespace Wrapper
 		static void PopID();
 
 		static Maths::Vec2 GetWindowSize();
+		static Maths::Vec2 GetWindowPos(GLFWwindow* window);
 		static bool IsWondowFocused();
 
 		static Maths::Vec2 GetCursorPos();

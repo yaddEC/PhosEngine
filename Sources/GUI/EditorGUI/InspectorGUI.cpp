@@ -39,9 +39,9 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 	}*/
 
 
-	Wrapper::GUI::DisplayText(m_gameobject->name + std::string(" id: ") + std::to_string(m_gameobject->GetID()));
+	Wrapper::GUI::DisplayText(m_gameobject->name + " id: " + std::to_string(m_gameobject->GetID()));
 	Wrapper::GUI::Separator();
-	if (Wrapper::GUI::CollapsingHeader("transform"))
+	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{
 		m_gameobject->transform->OnGUI();
 	}

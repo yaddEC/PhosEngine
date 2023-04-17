@@ -29,6 +29,8 @@ namespace Wrapper
 		static bool WindowShouldClose(GLFWwindow* window);
 		static void SwapBuffer(GLFWwindow* window);
 		static void PollEvents();
+		static void SwapInterval(bool active);
+		static double GetTime();
 
 		static Maths::Vec2 GetWindowSize(GLFWwindow* window);
 
@@ -68,6 +70,8 @@ namespace Wrapper
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
 		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
+
+		static unsigned char* GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 
 	private:
 		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);
