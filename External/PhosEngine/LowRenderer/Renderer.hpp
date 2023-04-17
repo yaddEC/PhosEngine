@@ -23,7 +23,7 @@ namespace LowRenderer
 		
 		void ComputeShadowMap() {}; // Empty for now
 		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras);
-		void IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize);
+		int IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 
 		void AddMeshRenderer(MeshRenderer* rend) { m_meshRenderers.push_back(rend); }
 		void DeleteMeshRenderer(MeshRenderer* rend);
