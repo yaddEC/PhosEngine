@@ -435,6 +435,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Wrapper\GUI.hpp" />
     <ClInclude Include="Headers\Wrapper\PhysicsWrapper.hpp" />
     <ClInclude Include="Headers\Wrapper\RHI.hpp" />
+    <ClInclude Include="Headers\Wrapper\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Externals\ImGUI\Source\imgui.cpp" />
@@ -486,6 +487,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Wrapper\GUI.cpp" />
     <ClCompile Include="Sources\Wrapper\PhysicsWrapper.cpp" />
     <ClCompile Include="Sources\Wrapper\RHI.cpp" />
+    <ClCompile Include="Sources\Wrapper\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\assimp-vc142-mt.lib" />

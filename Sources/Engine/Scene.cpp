@@ -137,13 +137,8 @@ void Scene::GameObjectFromBuffer()
 
 void Scene::Update()
 {
-	/*for (GameObject* go : m_gameObjectBuffer)
-	{
-		m_gameObjects.push_back(go);
-	}*/
 	m_physicsManager->Update(Input::deltaTime);
 	
-	//printf("%d\n", Wrapper::countRigidActors(m_physicsManager->getPhysics()->getScene()));
 	if(m_gameObjectBuffer.size() != 0)
 	{
 		GameObjectFromBuffer();
