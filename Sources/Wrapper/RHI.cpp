@@ -11,6 +11,8 @@
 #include "Resource/SubMesh.hpp"
 #include "Resource/CubeMap.hpp"
 
+#include "Engine/Input.hpp"
+
 #define RHI_EXPORTS
 #include "Wrapper/RHI.hpp"
 
@@ -383,4 +385,24 @@ int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& 
 	}
 
 	return shaderID;
+}
+
+unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
+{
+	glFlush();
+	glFinish();
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	
+	Engine::Input& input = Engine::Input::GetInstance();
+	Maths::Vec2 MPos = input.GetMousePos() + TabPos - Maths::Vec2(8,27);//offset added
+	
+	Maths::Vec2 WindowS = Wrapper::RHI::GetWindowSize(Wrapper::RHI::GetCurrentContext());
+
+	MPos.y = -MPos.y + viewportSize.y;
+
+	unsigned char data[4];
+	glReadPixels(MPos.x, MPos.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	return data;
 }
