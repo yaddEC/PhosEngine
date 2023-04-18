@@ -49,6 +49,7 @@ namespace Wrapper
 		static Maths::Vec2 GetWindowSize();
 		static Maths::Vec2 GetWindowPos(GLFWwindow* window);
 		static bool IsWondowFocused();
+		static bool IsWindowHovered();
 
 		static Maths::Vec2 GetCursorPos();
 		static void SetCursorPos(const Maths::Vec2& pos);

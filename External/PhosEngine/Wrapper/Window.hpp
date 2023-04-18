@@ -16,7 +16,7 @@ namespace Wrapper
 	class PHOSENGINE_API Window
 	{
 	public:
-		static int InitGLFW();
+		static bool InitGLFW();
 		static void TernimateGLFW();
 		static bool InitGlew();
 
