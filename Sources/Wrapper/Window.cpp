@@ -5,6 +5,10 @@
 
 #include "Wrapper/Window.hpp"
 
+using namespace Wrapper;
+
+std::unordered_map<WindowAPIType*, Window*> Wrapper::Window::windowMap;
+
 bool Wrapper::Window::InitGLFW()
 {
 	if (!glfwInit())
@@ -12,6 +16,7 @@ bool Wrapper::Window::InitGLFW()
 		std::cout << "FAILED TO INITIALIZE GLFW" << std::endl;
 		return false;
 	}
+	
 	return true;
 }
 
@@ -42,37 +47,63 @@ bool Wrapper::Window::Init(const Maths::Vec2& size, const std::string& name)
 		return false;
 	}
 	MakeCurrentContext();
+	windowMap.emplace(window, this);
 	return true;
 }
 
 void Wrapper::Window::Destroy()
 {
 	glfwDestroyWindow(window);
+	windowMap.erase(window);
 }
 
-Maths::Vec2 Wrapper::Window::GetSize()
+Maths::Vec2 Wrapper::Window::GetSize() const
 {
 	return Maths::Vec2();
 }
 
-bool Wrapper::Window::ShouldClose()
+bool Wrapper::Window::ShouldClose() const
 {
-	return false;
+	return glfwWindowShouldClose(window);
 }
 
 void Wrapper::Window::SwapBuffer()
 {
+	glfwSwapBuffers(window);
 }
 
 void Wrapper::Window::PollEvents()
 {
+	glfwPollEvents();
+}
+
+Maths::Vec2 Wrapper::Window::GetPos() const
+{
+	int x, y;
+	glfwGetWindowPos(window, &x, &y);
+	return Maths::Vec2(x, y);
 }
 
 void Wrapper::Window::MakeCurrentContext()
 {
+	glfwMakeContextCurrent(window);
 }
 
 Wrapper::Window* Wrapper::Window::GetCurrentContext()
 {
-	return nullptr;
+	WindowAPIType* w = glfwGetCurrentContext();
+	if (windowMap.count(w))
+	{
+		return windowMap[w];
+	}
+}
+
+double Wrapper::Window::GetTime()
+{
+	return glfwGetTime();
+}
+
+void Wrapper::Window::SetSwapInterval(bool active)
+{
+	glfwSwapInterval(active);
 }
