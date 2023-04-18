@@ -3,6 +3,7 @@
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "Wrapper/RHI.hpp"
+#include "Engine/GameObject.hpp"
 using namespace Maths; 
 using namespace Wrapper;
 using namespace EditorGUI;
@@ -58,6 +59,22 @@ void SceneGUI::UpdateCamera(Input& input)
 	if (input.IsKeyPressed(GLFW_KEY_Q))
 		m_sceneCamera.transform->position.y += -1 * speed;
 }
+
+Engine::GameObject* SceneGUI::GetSelected()
+{
+	if (m_selectedId == 0) return nullptr;
+	std::vector<Engine::GameObject*> GObject = m_currentScene->GetGameObjects();
+	for (int i = 0; i < GObject.size(); i++)
+	{
+		if (GObject[i]->GetID() == m_selectedId)
+		{
+			//m_selectedId = 0;
+			return GObject[i];
+		}
+	}
+	return nullptr;
+}
+
 void SceneGUI::DoUpdate()
 {
 
@@ -67,15 +84,18 @@ void SceneGUI::DoUpdate()
 	printf("DE CHU SUDU YU QIJIN JO BI BING CHILLING !");*/
 
 	// TEMP Camera Input 
+	selectedClicked = false;
+
 	Input& input = Input::GetInstance();
 
 	if (isOnFocus)
 	{
 		UpdateCamera(input);
-		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && Wrapper::GUI::IsWindowHovered())
 		{
-			int id = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35), Wrapper::GUI::GetWindowPos(Wrapper::RHI::GetCurrentContext()));
-			std::cout << id << "\n";
+			m_selectedId = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35), Wrapper::GUI::GetWindowPos(Wrapper::RHI::GetCurrentContext()));
+			std::cout << m_selectedId << "\n";
+			selectedClicked = true;
 		}
 	}
 
