@@ -3,6 +3,8 @@
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "Wrapper/RHI.hpp"
+#include "Wrapper/Window.hpp"
+
 using namespace Maths; 
 using namespace Wrapper;
 using namespace EditorGUI;
@@ -58,15 +60,10 @@ void SceneGUI::UpdateCamera(Input& input)
 	if (input.IsKeyPressed(GLFW_KEY_Q))
 		m_sceneCamera.transform->position.y += -1 * speed;
 }
+
 void SceneGUI::DoUpdate()
 {
 
-	/*printf("ZA CHE AN ZONG WO");
-	printf("XIN ZAI WO YOU BING CHILLING");
-	printf("WO RHEN SHI RHUEN BING CHILLING");
-	printf("DE CHU SUDU YU QIJIN JO BI BING CHILLING !");*/
-
-	// TEMP Camera Input 
 	Input& input = Input::GetInstance();
 
 	if (isOnFocus)
@@ -74,12 +71,11 @@ void SceneGUI::DoUpdate()
 		UpdateCamera(input);
 		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
 		{
-			int id = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35), Wrapper::GUI::GetWindowPos(Wrapper::RHI::GetCurrentContext()));
+			int id = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35), Wrapper::GUI::GetWindowPos(*Wrapper::Window::GetCurrentContext()));
 			std::cout << id << "\n";
 		}
 	}
 
-	//	std::cout << "OK\n";
 
 	if (m_currentScene)
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);

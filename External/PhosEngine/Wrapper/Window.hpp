@@ -16,23 +16,26 @@ namespace Wrapper
 	class PHOSENGINE_API Window
 	{
 	public:
-		static int InitGLFW();
+		static bool InitGLFW();
 		static void TernimateGLFW();
 		static bool InitGlew();
 
 		bool Init(const Maths::Vec2& size, const std::string& name);
 		void Destroy();
-		Maths::Vec2 GetSize();
-		bool ShouldClose();
+		Maths::Vec2 GetSize() const;
+		bool ShouldClose() const;
 		void SwapBuffer();
-		void PollEvents();
-
+		static void PollEvents();
+		WindowAPIType* GetWindow() const { return window; }
+		Maths::Vec2 GetPos() const;
 		void MakeCurrentContext();
 		static Window* GetCurrentContext();
+		static double GetTime();
+		static void SetSwapInterval(bool active);
 
 	private:
 		WindowAPIType* window;
 
-		static std::unordered_map<WindowAPIType*, Window> windowMap;
+		static std::unordered_map<WindowAPIType*, Window*> windowMap;
 	};
 }

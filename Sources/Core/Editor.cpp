@@ -21,9 +21,10 @@
 using namespace Core;
 using namespace Wrapper;
 
-Editor::Editor(GLFWwindow* window, Maths::Vec2& windowSize)
-    : m_window(window), m_windowSize(windowSize)
+Editor::Editor(Wrapper::Window& window )
+    : m_window(window)
 {}
+
 Editor::~Editor()
 {}
 
@@ -52,7 +53,7 @@ bool Editor::Init()
     std::cout << fs.count() << "s\n";
     std::cout << d.count() << "ms\n";*/
 
-    Engine::Input::GetInstance().Init(m_window);
+    Engine::Input::GetInstance().Init(m_window.GetWindow());
     InitEditorGUI();
     m_mainScene = new Engine::Scene();
     m_sceneGUI->SetCurrentScene(m_mainScene);
@@ -67,12 +68,11 @@ bool Editor::Init()
 void Editor::Run()
 {
     /* Loop until the user closes the window */
-    while (!Wrapper::RHI::WindowShouldClose(m_window))
+    while (!m_window.ShouldClose())
     {
-        m_windowSize = Wrapper::RHI::GetWindowSize(m_window);
 
         /* Poll for and process events */
-        Wrapper::RHI::PollEvents();
+        m_window.PollEvents();
 
         GUI::NewFrame();
         
@@ -80,10 +80,10 @@ void Editor::Run()
         m_mainScene->Update();
         UpdateEditorGUI();
 
-        GUI::RenderFrame(m_window);
+        GUI::RenderFrame(m_window.GetWindow());
         
         /* Swap front and back buffers */
-        Wrapper::RHI::SwapBuffer(m_window);
+        m_window.SwapBuffer();
     }
 }
 
