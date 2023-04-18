@@ -127,6 +127,11 @@ bool Wrapper::GUI::IsWondowFocused()
 	return ImGui::IsWindowFocused();
 }
 
+bool Wrapper::GUI::IsWindowHovered()
+{
+	return ImGui::IsWindowHovered();
+}
+
 Maths::Vec2 Wrapper::GUI::GetCursorPos()
 {
 	ImVec2 pos = ImGui::GetCursorPos();
