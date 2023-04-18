@@ -13,14 +13,18 @@ namespace EditorGUI
 		SceneGUI();
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
+		Engine::GameObject* GetSelected();
 
 		void DoUpdate() override;
+
+		bool selectedClicked;
 	private:
 		void UpdateCamera(Engine::Input& input);
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
 
 		float speedModifier;
+		unsigned int m_selectedId;
 	};
 }
 

@@ -154,7 +154,12 @@ void Core::Editor::UpdateEditorGUI()
     else if (m_AssetExplorer->GetSelected())
     {
         m_Inspector->SetResourceToDisplay(m_AssetExplorer->GetSelected());
-    } 
+    }
+    else if (m_sceneGUI->selectedClicked)
+    {
+        m_Inspector->SetGameObjectToDisplay(m_sceneGUI->GetSelected());
+    }
+    
     m_RendererGUI->Update();
     m_Inspector->Update();
     m_MenuBar->Update();
