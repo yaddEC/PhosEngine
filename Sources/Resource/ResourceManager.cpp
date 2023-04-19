@@ -7,7 +7,6 @@
 #include "Resource/ResourceIncludes.hpp"
 #include "Wrapper/GUI.hpp"
 
-#define RESOURCEMANAGER_EXPORTS
 #include "Resource/ResourceManager.hpp"
 
 using namespace Resource;

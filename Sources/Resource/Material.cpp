@@ -56,8 +56,19 @@ void Resource::Material::Save()
 
 		progFile << "shiny " << m_shininess << '\n';
 		progFile << "shader " << m_shader->GetFilePath() << '\n';
+
 		if (m_normalMap)
 			progFile << "t_norm " << m_normalMap->GetFilePath() << '\n';
+
+		if (m_metallic.useTexture)
+			progFile << "t_meta " << m_metallic.texture->GetFilePath() << '\n';
+		else
+			progFile << "v_meta " << m_metallic.value << '\n';
+
+		if (m_roughness.useTexture)
+			progFile << "t_rough " << m_roughness.texture->GetFilePath() << '\n';
+		else
+			progFile << "v_rough " << m_roughness.value << '\n';
 	}
 }
 
@@ -71,6 +82,8 @@ void Resource::Material::GUIUpdate()
 
 	m_albedo.GUIUpdate("Albedo : ");
 	m_specular.GUIUpdate("Specular : ");
+	m_roughness.GUIUpdate("Roughness : ");
+	m_metallic.GUIUpdate("Metallic : ");
 
 	std::string normalMap = m_normalMap ? m_normalMap->GetName() : "None";;
 	if (GUI::Combo("Normal map : ", ResourceManager::GetInstance().GetResourceNameList<Texture>(), normalMap, true, "None"))
@@ -118,9 +131,23 @@ void Resource::Material::SendDataToShader() const
 	}
 	else
 	{
-		m_shader->SetUniformVec3("material.normalMap.color", Maths::Vec3(0, 0, 1));
+		m_shader->SetUniformVec3("material.normalMap.color", Maths::Vec3(0.5f, 0.5f, 1));
 		m_shader->SetUniformBool("material.normalMap.useTexture", false);
 	}
+
+
+	if (m_roughness.useTexture)
+		m_shader->SetTexture("material.roughness.texture", 3, *m_roughness.texture);
+	else
+		m_shader->SetUniformVec3("material.roughness.color", Maths::Vec3(m_roughness.value, 0, 0));
+	m_shader->SetUniformBool("material.roughness.useTexture", m_roughness.useTexture);
+
+
+	if (m_metallic.useTexture)
+		m_shader->SetTexture("material.metallic.texture", 4, *m_metallic.texture);
+	else
+		m_shader->SetUniformVec3("material.metallic.color", Maths::Vec3(m_metallic.value, 0, 0));
+	m_shader->SetUniformBool("material.metallic.useTexture", m_metallic.useTexture);
 }
 
 void Resource::Material::SetProperties(const std::string& filepath)
@@ -139,47 +166,57 @@ void Resource::Material::SetProperties(const std::string& filepath)
 		std::string line;
 		while (std::getline(progFile, line))
 		{
-			size_t offset = line.find(' ');
-			std::string prefix = line.substr(0, offset);
+			std::vector<std::string> tokens = Parser::Tokenize(line, ' ');
 
-			if (prefix == "c_alb")
+			if (tokens[0] == "c_alb")
 			{
-				std::vector<std::string> values = Parser::Tokenize(line.substr(offset + 1).c_str(), ' ');
-
-				m_albedo.color = Maths::Vec3(std::stof(values[0]), std::stof(values[1]), std::stof(values[2]));
+				m_albedo.color = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
 				m_albedo.useTexture = false;
 			}
-			else if (prefix == "c_spec")
+			else if (tokens[0] == "c_spec")
 			{
-				std::vector<std::string> values = Parser::Tokenize(line.substr(offset + 1).c_str(), ' ');
-
-				m_specular.color = Maths::Vec3(std::stof(values[0]), std::stof(values[1]), std::stof(values[2]));
+				m_specular.color = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
 				m_specular.useTexture = false;
 			}
-			else if (prefix == "shiny")
+			else if (tokens[0] == "shiny")
 			{
-				std::string sh = line.substr(offset);
-
-				m_shininess = std::stof(sh) ;
-				
+				m_shininess = std::stof(tokens[1]) ;
 			}
-			else if (prefix == "t_alb")
+			else if (tokens[0] == "t_alb")
 			{
-				m_albedo.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(6));
+				m_albedo.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
 				m_albedo.useTexture = true;
 			}
-			else if (prefix == "t_spec")
+			else if (tokens[0] == "t_spec")
 			{
-				m_specular.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(7));
+				m_specular.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
 				m_specular.useTexture = true;
 			}
-			else if (prefix == "shader")
+			else if (tokens[0] == "shader")
 			{
-				m_shader = Resource::ResourceManager::GetInstance().GetResource<Resource::ShaderProgram>(line.substr(7));
+				m_shader = Resource::ResourceManager::GetInstance().GetResource<Resource::ShaderProgram>(tokens[1]);
 			}
-			else if (prefix == "t_norm")
+			else if (tokens[0] == "t_norm")
 			{
-				m_normalMap = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(line.substr(7));
+				m_normalMap = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
+			}
+			else if (tokens[0] == "t_meta")
+			{
+				m_metallic.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
+				m_metallic.useTexture = true;
+			}
+			else if (tokens[0] == "v_meta")
+			{
+				m_metallic.value = std::stof(tokens[1]);
+			}
+			else if (tokens[0] == "t_rough")
+			{
+				m_roughness.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
+				m_roughness.useTexture = true;
+			}
+			else if (tokens[0] == "v_rough")
+			{
+				m_roughness.value = std::stof(tokens[1]);
 			}
 		}
 	}
@@ -198,10 +235,21 @@ Resource::Material Resource::Material::DefaultMaterial()
 	Material mat;
 	mat.m_albedo.color = Maths::Vec3(1, 1, 1);
 	mat.m_albedo.useTexture = false;
+
 	mat.m_specular.color = Maths::Vec3(1, 1, 1);
 	mat.m_specular.useTexture = false;
+
 	mat.m_shininess = 1;
+
 	mat.m_shader = nullptr;
+
+	mat.m_normalMap = nullptr;
+
+	mat.m_roughness.value = 0.5f;
+	mat.m_roughness.useTexture = false;
+
+	mat.m_metallic.value = 0.f;
+	mat.m_metallic.useTexture = false;
 
 	return mat;
 }
@@ -237,4 +285,35 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 	}
 	if (!useTexture)
 		GUI::EditColorRGB(label, color, false);
+}
+
+void Resource::ValueMap::GUIUpdate(const std::string& label)
+{
+	GUI::BeginGroup();
+
+
+	std::string selectedSpec = useTexture ? texture->GetName() : "Value";
+	if (GUI::Combo(label, Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>(), selectedSpec, true, "Value"))
+	{
+		if (selectedSpec == "Value")
+		{
+			texture = nullptr;
+			useTexture = false;
+		}
+		else
+		{
+			texture = ResourceManager::GetInstance().GetResource<Texture>(selectedSpec);
+			useTexture = true;
+		}
+	}
+
+	GUI::EndGroup();
+
+	if (Resource::Texture** newtexture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
+	{
+		texture = *newtexture;
+		useTexture = true;
+	}
+	if (!useTexture)
+		GUI::EditFloat("value" + label, value, false, 0.001f, 0.f, 1.0f);
 }

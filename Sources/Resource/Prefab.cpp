@@ -70,7 +70,10 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 
 	for (size_t i = 0; i < result.size(); i++)
 	{
-		*result[i]->transform = Transform(*gameObjectList[i]->transform);
+		result[i]->transform->position = gameObjectList[i]->transform->position;
+		result[i]->transform->rotation = gameObjectList[i]->transform->rotation;
+		result[i]->transform->scale = gameObjectList[i]->transform->scale;
+
 		for (auto child : gameObjectList[i]->transform->GetChildren())
 		{
 			for (GameObject* go : result)
@@ -151,7 +154,7 @@ void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, st
 	}
 	for (auto child : gameObject->transform->GetChildren())
 	{
-		file << "child\n";
+		file << tab << "child\n";
 		SaveGameObjectAsPrefab(child->GetGameObject(), file, depth + 1);
 	}
 	file << tab << "end\n";

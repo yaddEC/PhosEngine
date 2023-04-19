@@ -37,6 +37,7 @@ namespace Engine
 
 		Maths::Vec2 GetMouseDelta();
 		int GetScrollDelta();
+		Maths::Vec2 GetMousePos() { return mousePosition; }
 
 		static float deltaTime;
 	private:

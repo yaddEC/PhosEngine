@@ -12,7 +12,7 @@ using namespace Maths;
 using namespace Engine;
 
 #include <iostream>
-#include "Wrapper/RHI.hpp"
+#include "Wrapper/Window.hpp"
 
 float Input::deltaTime = 0.0f;
 
@@ -66,8 +66,8 @@ void Input::Update() {
 	//deltaTime 
 
 
-		auto currentFrameTime = Wrapper::RHI::GetTime();
-		static auto lastFrameTime = Wrapper::RHI::GetTime();
+		auto currentFrameTime = Wrapper::Window::GetTime();
+		static auto lastFrameTime = Wrapper::Window::GetTime();
 		float temp = currentFrameTime - lastFrameTime;
 
 		if (temp> timeStep)//
