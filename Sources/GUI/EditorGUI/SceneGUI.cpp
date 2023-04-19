@@ -14,7 +14,8 @@ SceneGUI::SceneGUI() : IGUI("Scene",true), speedModifier(1.000f)
 }
 void SceneGUI::UpdateCamera(Input& input)
 {
-	Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotation.y * DEG2RAD), 0);
+	
+	Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotationEuler.y * DEG2RAD), 0);
 	Vec3 forward = Vec3(direction.x, 0, direction.y);
 	Vec3 left = Vec3(forward.z, 0, -forward.x);
 
@@ -27,7 +28,8 @@ void SceneGUI::UpdateCamera(Input& input)
 	{
 		return;
 	}
-	m_sceneCamera.transform->rotation += Vec3(input.GetMouseDelta().y, input.GetMouseDelta().x, 0) * 0.4f;
+	 m_sceneCamera.transform->rotationEuler += (Vec3(input.GetMouseDelta().y, input.GetMouseDelta().x, 0) * speed) ;
+	 m_sceneCamera.transform->rotation = m_sceneCamera.transform->rotation.ToQuaternion(m_sceneCamera.transform->rotationEuler * DEG2RAD);
 
 	if (input.IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
 		speed *= 2;
