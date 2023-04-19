@@ -57,7 +57,7 @@ namespace Resource
 		void Bind() override;
 		void Unload() override;
 		void Save() override;
-		void GUIUpdate();
+		void GUIUpdate() override;
 
 		std::string GetTypeName() { return "Material"; }
 

@@ -51,8 +51,8 @@ Scene::Scene()
 	go->transform->position.y = 10;
 
 
-	Rigidbody* rb = go->AddComponent<Rigidbody>();
-	SphereCollider* col = go->AddComponent<SphereCollider>();
+	//Rigidbody* rb = go->AddComponent<Rigidbody>();
+	//SphereCollider* col = go->AddComponent<SphereCollider>();
 	
 
 	
@@ -76,7 +76,7 @@ Scene::Scene()
 	rend3->SetMaterial(basicMat);
 	go3->transform->position.y = -3;
 	go3->transform->scale = Maths::Vec3(50, 1, 100);
-	BoxCollider* col2 = go3->AddComponent<BoxCollider>();
+	//BoxCollider* col2 = go3->AddComponent<BoxCollider>();
 
 	GameObject* go4 = new GameObject();
 	go4->name = "testMat";
@@ -92,6 +92,7 @@ Scene::Scene()
 	//GameObject* light1 = new GameObject();
 	//PointLight* pointLight = light1->AddComponent<LowRenderer::PointLight>();
 	//light1->name = "pointLight";	
+	//light1->transform->position.y = 5;
 
 	GameObject* light2 = new GameObject();
 	SpotLight* spotLight = light2->AddComponent<LowRenderer::SpotLight>();
@@ -106,8 +107,8 @@ Scene::Scene()
 	//Instantiate(light1);
 	Instantiate(light2);
 
-	col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2, 2, 2), false, Wrapper::BOUNCY_BALL);
-	col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
+	//col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2, 2, 2), false, Wrapper::BOUNCY_BALL);
+	//col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 }
 
 void Scene::GameObjectFromBuffer()
