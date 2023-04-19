@@ -23,21 +23,6 @@ namespace Wrapper
 	class PHOSENGINE_API RHI
 	{
 	public:
-		static GLFWwindow* InitWindow(int width, int height, const char* windowName);
-		static bool  InitGlew();
-
-		static bool WindowShouldClose(GLFWwindow* window);
-		static void SwapBuffer(GLFWwindow* window);
-		static void PollEvents();
-		static void SwapInterval(bool active);
-		static double GetTime();
-
-		static Maths::Vec2 GetWindowSize(GLFWwindow* window);
-
-		static void DestroyWindow(GLFWwindow* window);
-
-		static GLFWwindow* GetCurrentContext();
-		static void SetCurrentContext(GLFWwindow* window);
 
 		static void EnableCulling(); // TEMP
 		static void EnableDepthTest(); // TEMP
@@ -70,6 +55,8 @@ namespace Wrapper
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
 		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
+
+		static unsigned char* GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 
 	private:
 		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);

@@ -36,7 +36,7 @@ namespace Reflection
 
 		void DisplayMemberInfo(size_t classPtr);
 		void GUIUpdate(size_t classPtr);
-		std::string Save(size_t classPtr, int depth);
+		std::string Save(size_t classPtr);
 		void Parse(const std::vector<std::string>& tokens, size_t classPtr);
 		void Copy(size_t source, size_t target);
 	};

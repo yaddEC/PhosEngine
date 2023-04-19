@@ -26,6 +26,23 @@ namespace Resource
 
 		bool useTexture = false;
 
+
+		void GUIUpdate(const std::string& label);
+	};
+
+	struct ValueMap
+	{
+		ValueMap() {}
+		~ValueMap() {}
+
+		union
+		{
+			Texture* texture;
+			float value;
+		};
+
+		bool useTexture = false;
+
 		void GUIUpdate(const std::string& label);
 	};
 
@@ -40,7 +57,7 @@ namespace Resource
 		void Bind() override;
 		void Unload() override;
 		void Save() override;
-		void GUIUpdate();
+		void GUIUpdate() override;
 
 		std::string GetTypeName() { return "Material"; }
 
@@ -64,6 +81,8 @@ namespace Resource
 		ColorMap m_specular;
 		float m_shininess = 1;
 
+		ValueMap m_roughness;
+		ValueMap m_metallic;
 
 		void SetProperties(const std::string& filepath);
 	};

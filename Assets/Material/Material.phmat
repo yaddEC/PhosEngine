@@ -1,5 +1,6 @@
-c_alb 0.106618 0.426471 0.398248
+c_alb 0.995098 0.995098 0.995098
 t_spec Assets\Texture\container2_specular.png
-shiny 0.35
-shader Assets\Shader\MainShader.prog
-t_norm Assets\Texture\brickwallNormalMap.jpg
+shiny 15.04
+shader Assets\Shader\PBRShader.prog
+v_meta 0
+v_rough 0
