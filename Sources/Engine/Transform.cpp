@@ -16,7 +16,7 @@ using namespace Engine;
 
 
 // Initializer
-Transform::Transform(Vec3 _position, Vec3 _rotation, Vec3 _scale)
+Transform::Transform(Vec3 _position, Quaternion _rotation, Vec3 _scale)
 	: position(_position), rotation(_rotation), scale(_scale) {}
 
 void Transform::Destroy(bool destroyChildren)
@@ -42,9 +42,26 @@ void Transform::Destroy(bool destroyChildren)
 	}
 }
 
+void Engine::Transform::SetRotation(Maths::Vec3 rotation)
+{
+	this->rotation = this->rotation.ToQuaternion(rotation*DEG2RAD);
+	rotationEuler = rotation;
+}
+
+void Engine::Transform::SetRotation(Maths::Quaternion quaternion)
+{
+	rotation = quaternion;
+}
+
+void Engine::Transform::AddRotation(Maths::Quaternion quaternion)
+{
+	rotation *= quaternion;
+}
+
+
 void Transform::ComputeGlobalMatrix(const Mat4& parentMatrix)
 {
-	Mat4 localMatrix = Mat4::CreateTransformMatrix(position, rotation, scale);
+	Mat4 localMatrix = Mat4::CreateTransformMatrix(position, rotation.ToEulerAngles(), scale);
 	m_globalMatrix = localMatrix * parentMatrix;
 	for (Transform* child : m_children)
 		child->ComputeGlobalMatrix(m_globalMatrix);
@@ -52,9 +69,14 @@ void Transform::ComputeGlobalMatrix(const Mat4& parentMatrix)
 
 void Transform::OnGUI()
 {
+
+	Vec3 tempRot = rotationEuler * RAD2DEG;
 	Wrapper::GUI::EditVec3("Position", position, true, 0.05f);
-	Wrapper::GUI::EditVec3("Rotation", rotation, true, 0.01f);
+	Wrapper::GUI::EditVec3("Rotation", tempRot, true, 0.01f);
 	Wrapper::GUI::EditVec3("Scale", scale, true, 0.05f);
+	Quaternion newQuat =  this->rotation.ToQuaternion(tempRot*DEG2RAD) ;
+	rotationEuler = tempRot * DEG2RAD;
+	SetRotation(newQuat);
 }
 
 void Transform::SetParent(Transform* _parent)
@@ -90,7 +112,7 @@ void Engine::Transform::Parse(const std::vector<std::string>& fileData, size_t& 
 		}
 		else if (tokens[0] == "rot")
 		{
-			rotation = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
+			rotation = rotation.ToQuaternion(Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3])));
 		}
 		else if (tokens[0] == "scale")
 		{

@@ -13,12 +13,13 @@ namespace Engine
 	{
 	public:
 		Transform(Maths::Vec3 _position = Maths::Vec3(),
-			Maths::Vec3 _rotation = Maths::Vec3(),
+			Maths::Quaternion _rotation = Maths::Quaternion(),
 			Maths::Vec3 _scale = Maths::Vec3(1, 1, 1));
 
 		Maths::Vec3 position;
-		Maths::Vec3 rotation;
+		Maths::Quaternion rotation;
 		Maths::Vec3 scale;
+		Maths::Vec3 rotationEuler;
 
 		void Destroy(bool destroyChildren = true);
 
@@ -33,6 +34,12 @@ namespace Engine
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
 		GameObject* GetGameObject() const { return gameObject; }
 		void SetGameObject(GameObject* _gameobject) { gameObject = _gameobject; }
+
+		void SetRotation(Maths::Vec3 rotation);
+
+		void SetRotation(Maths::Quaternion quaternion);
+
+		void AddRotation(Maths::Quaternion quaternion);
 
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 

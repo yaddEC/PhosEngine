@@ -113,7 +113,7 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		else if (tokens[0] == "transform")
 		{
 			newGameObject->transform->position = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
-			newGameObject->transform->rotation = Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6]));
+			newGameObject->transform->rotation = newGameObject->transform->rotation.ToQuaternion(Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6])));
 			newGameObject->transform->scale = Maths::Vec3(std::stof(tokens[7]), std::stof(tokens[8]), std::stof(tokens[9]));
 		}
 		else if (tokens[0] == "component")
@@ -137,12 +137,13 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 
 void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth)
 {
-	std::string tab = std::string(depth, '\t');
 
+	std::string tab = std::string(depth, '\t');
+	Maths::Vec3 transformRot = gameObject->transform->rotation.ToEulerAngles();
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
-		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z 
-		<< ' ' << gameObject->transform->rotation.x << ' ' << gameObject->transform->rotation.y << ' ' << gameObject->transform->rotation.z
+		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z
+		<< ' ' << transformRot.x << ' ' << transformRot.y << ' ' << transformRot.z
 		<< ' ' << gameObject->transform->scale.x << ' ' << gameObject->transform->scale.y << ' ' << gameObject->transform->scale.z << '\n';
 	for (auto comp : gameObject->GetComponents())
 	{

@@ -49,7 +49,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 {
 
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
-    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotation.x, transform->rotation.y);
+    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x , transform->rotationEuler.y);
     Mat4 viewProj = view * proj;
    
 
@@ -94,7 +94,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
 void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Vec2& viewportSize)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
-    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotation.x, transform->rotation.y);
+    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
     Mat4 viewProj = view * proj;
 
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
@@ -145,7 +145,7 @@ void Camera::OnGUI()
 Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const Resource::Material& material, float fov)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 200, 1);
-    Mat4 view = Mat4::CreateViewMatrix(camTransform.position, camTransform.rotation.x, camTransform.rotation.y);
+    Mat4 view = Mat4::CreateViewMatrix(camTransform.position, camTransform.rotationEuler.x, camTransform.rotationEuler.y);
 
 
     Mat4 model = meshTransform.GetGlobalMatrix();

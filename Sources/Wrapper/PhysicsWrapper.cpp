@@ -74,10 +74,6 @@ void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader,
         {
             printf("\n");
         }
-
-
-
-
     }
 }
 void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
@@ -101,10 +97,7 @@ void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
         {
             printf("EXIT TRIGGER\n");
         }
-
-
         //printf("STAY TRIGGER\n");
-
     }
 
 }
@@ -253,9 +246,6 @@ namespace Wrapper
 
     void PhysicsCollider::Init()
     {
-       
-
-        
         if (collider->rb) {
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
             PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidDynamic(pose);
@@ -263,9 +253,7 @@ namespace Wrapper
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
         }
         else {
-            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotation;
-            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.a, rotationQuat.b, rotationQuat.c, rotationQuat.d));
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(collider->gameobject->transform->rotation.a, collider->gameobject->transform->rotation.b, collider->gameobject->transform->rotation.c, collider->gameobject->transform->rotation.d));
             PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidStatic(pose);
         }
         Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix();
@@ -297,23 +285,18 @@ namespace Wrapper
     }
 
     int countRigidActors(PxScene* scene) {
-        // The maximum number of actors that we can retrieve with getActors()
         const PxU32 maxActors = 1000;
 
-        // Array to store the retrieved actors
         PxActor* actors[maxActors];
 
-        // Retrieve all actors in the scene
         PxU32 numActors = scene->getActors(PxActorTypeFlag::eRIGID_STATIC | PxActorTypeFlag::eRIGID_DYNAMIC, actors, maxActors);
 
-        // Counter for rigid actors
+ 
         int rigidActorCount = 0;
 
-        // Loop through the actors and count the rigid actors
         for (PxU32 i = 0; i < numActors; ++i) {
             PxActor* actor = actors[i];
 
-            // Check if the actor is a rigid static or rigid dynamic
             if (actor->getConcreteType() == PxConcreteType::eRIGID_STATIC || actor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
                 ++rigidActorCount;
             }
@@ -351,9 +334,7 @@ namespace Wrapper
         {
             Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
             PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
-            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotation;
-            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxQuat pxRotation(-rotationQuat.a, -rotationQuat.c, rotationQuat.d, rotationQuat.b);
+            PxQuat pxRotation(-collider->gameobject->transform->rotation.a, collider->gameobject->transform->rotation.d, -collider->gameobject->transform->rotation.c, collider->gameobject->transform->rotation.b);
 
  
           
@@ -411,24 +392,16 @@ namespace Wrapper
             {
                 PxRigidDynamic* dynamicActor = PhysxActor->is<PxRigidDynamic>();
 
-                // Set the updated velocity
                 PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
 
-                // Apply the force to the dynamic actor
                 dynamicActor->addForce(force);
 
-                // Update the GameObject's transform
                 PxTransform updatedTransform = dynamicActor->getGlobalPose();
-                Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
+                Maths::Vec3 newPosition = Maths::Vec3(-updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
                 rigidbody->gameobject->transform->position = newPosition;
                 PxQuat updatedRotation = updatedTransform.q;
-                
-                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z);
-                
-                Maths::Vec3 eulerRotation = newRotation.ToEulerAngles();
-             
 
-                rigidbody->gameobject->transform->rotation = eulerRotation;
+                rigidbody->gameobject->transform->rotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, -updatedRotation.y, -updatedRotation.z) ;
 
             }
 

@@ -62,7 +62,7 @@ Scene::Scene()
 	rend2->SetMaterial(blazikenMat);
 	//go2->transform->SetParent(go->transform);
 	go2->transform->position.x = 10;
-	go2->transform->rotation.y = Maths::M_PI;
+	go2->transform->SetRotation(Maths::Vec3(0, 180, 0));
 	go2->transform->scale = Maths::Vec3(0.5f, 0.5f, 0.5f);
 
 	

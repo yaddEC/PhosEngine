@@ -69,7 +69,6 @@ void Input::Update() {
 		auto currentFrameTime = Wrapper::RHI::GetTime();
 		static auto lastFrameTime = Wrapper::RHI::GetTime();
 		float temp = currentFrameTime - lastFrameTime;
-		printf("delta :%f\ntimestep :%f\n\n", temp,timeStep);
 
 		if (temp> timeStep)//
 		{
