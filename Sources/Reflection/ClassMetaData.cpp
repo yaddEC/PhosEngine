@@ -8,6 +8,9 @@
 #include "Resource/Mesh.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
+#include "LowRenderer/Light/DirectionalLight.hpp"
+#include "Physic/Collider.hpp"
+#include "Physic/Rigidbody.hpp"
 #include "Resource/Material.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -85,24 +88,26 @@ void Reflection::ClassMemberInfo::GUIUpdate(size_t classPtr)
 	}
 }
 
-std::string Reflection::ClassMemberInfo::Save(size_t classPtr, int depth)
+std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 {
 	std::string result;
 	result += name + ' ';
 
 	switch (type)
 	{
-	case MemberType::T_INT: result += *(int*)(classPtr + ptr); break;
+	case MemberType::T_INT: result += std::to_string(*(int*)(classPtr + ptr)); break;
 
-	case MemberType::T_FLOAT: result += *(float*)(classPtr + ptr); break;
+	case MemberType::T_FLOAT: result += std::to_string(*(float*)(classPtr + ptr)); break;
 
 	case MemberType::T_BOOL: result += *(bool*)(classPtr + ptr); break;
 
-	case MemberType::T_VEC3: result += *(float*)(classPtr + ptr) + ' ' + *(float*)(classPtr + ptr + 4)
-		+ ' ' + *(float*)(classPtr + ptr + 8); break;
+	case MemberType::T_VEC3: result += std::to_string(*(float*)(classPtr + ptr)) 
+		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 4))
+		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 8)); break;
 
-	case MemberType::T_COLOR: result += *(float*)(classPtr + ptr) + ' ' + *(float*)(classPtr + ptr + 4)
-		+ ' ' + *(float*)(classPtr + ptr + 8); break;
+	case MemberType::T_COLOR: result += std::to_string(*(float*)(classPtr + ptr))
+		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 4))
+		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 8)); break;
 
 	case MemberType::T_MESH: result += (*(Resource::Mesh**)(classPtr + ptr))->GetFilePath(); break;
 
@@ -193,20 +198,17 @@ void Reflection::ClassMetaData::GUIUpdate(void* classPtr)
 std::string Reflection::ClassMetaData::Save(void* classPtr, int depth)
 {
 	std::string result;
+	std::string tab = std::string(depth, '\t');
 
-
-	for (int i = 0; i < depth - 1; i++)
-		result += '\t';
+	result += tab;
 	result += "component \"" + name + "\"\n";
 
 	for (auto member : memberList)
 	{
-		for (int i = 0; i < depth; i++)
-			result += '\t';
-		result += member.Save((size_t)classPtr, depth);
+		result += tab;
+		result += member.Save((size_t)classPtr);
 	}
-	for (int i = 0; i < depth; i++)
-		result += '\t';
+	result += tab;
 	return result + "end\n";
 }
 
@@ -247,12 +249,20 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	{
 		return gameObject->AddComponent<LowRenderer::PointLight>();
 	}
+	if (componentName == "Spot Light")
+	{
+		return gameObject->AddComponent<LowRenderer::SpotLight>();
+	}
+	if (componentName == "Directional Light")
+	{
+		return gameObject->AddComponent<LowRenderer::DirectionalLight>();
+	}
 	if (componentName == "RigidBody")
 	{
-		return nullptr;
+		return gameObject->AddComponent<Physic::Rigidbody>();
 	}
 	if (componentName == "Collider")
 	{
-		return nullptr;
+		return gameObject->AddComponent<Physic::Collider>();
 	}
 }

@@ -14,7 +14,7 @@
 
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
-
+#include "Wrapper/Window.hpp"
 #include "LowRenderer/Framebuffer.hpp"
 
 #define GUI_EXPORTS
@@ -93,6 +93,7 @@ void Wrapper::GUI::BeginGroup()
 {
 	ImGui::BeginGroup();
 }
+
 void Wrapper::GUI::BeginGroupCentered(Maths::Vec2 sizeOfGroup)
 {
 	Maths::Vec2 r = (Maths::Vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y) - sizeOfGroup) * 0.5f;
@@ -116,9 +117,20 @@ Maths::Vec2 Wrapper::GUI::GetWindowSize()
 	return Maths::Vec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y);
 }
 
+Maths::Vec2 Wrapper::GUI::GetWindowPos(const Wrapper::Window& window)
+{
+	Maths::Vec2 pos = window.GetPos();
+	return Maths::Vec2(pos.x - ImGui::GetWindowPos().x, pos.y - ImGui::GetWindowPos().y);
+}
+
 bool Wrapper::GUI::IsWondowFocused()
 {
 	return ImGui::IsWindowFocused();
+}
+
+bool Wrapper::GUI::IsWindowHovered()
+{
+	return ImGui::IsWindowHovered();
 }
 
 Maths::Vec2 Wrapper::GUI::GetCursorPos()
