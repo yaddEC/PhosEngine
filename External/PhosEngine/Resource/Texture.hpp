@@ -18,6 +18,8 @@ namespace Resource
 
 		void Bind() override;
 		void Unload() override;
+		void GUIUpdate() override;
+
 
 		std::string GetTypeName() { return "Texture"; }
 
