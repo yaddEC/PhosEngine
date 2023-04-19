@@ -1,4 +1,6 @@
 t_alb Assets\Texture\BlazikenTexture.png
 t_spec Assets\Texture\BlazikenTexture.png
-shiny 50
-shader Assets\Shader\MainShader.prog
+shiny 0.2
+shader Assets\Shader\PBRShader.prog
+v_meta 0
+v_rough 0

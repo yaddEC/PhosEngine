@@ -1,4 +1,7 @@
 t_alb Assets\Texture\container2.png
 t_spec Assets\Texture\container2_specular.png
 shiny 15.04
-shader Assets\Shader\MainShader.prog
+shader Assets\Shader\PBRShader.prog
+t_norm Assets\Texture\brickwallNormalMap.jpg
+v_meta 0
+v_rough 0

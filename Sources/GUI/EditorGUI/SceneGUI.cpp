@@ -38,7 +38,7 @@ void SceneGUI::UpdateCamera(Input& input)
 
 	if (scroDel != 0)
 	{
-		if (speedModifier + scroDel/10.f <= 0.0001f)
+		if (speedModifier + scroDel / 10.f <= 0.0001f)
 			speedModifier /= 10;
 		else if (speedModifier < 0.1f)
 			speedModifier *= 10;
@@ -99,9 +99,8 @@ void SceneGUI::DoUpdate()
 
 	if (m_currentScene)
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
-		//m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
+	//m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
 
 	Wrapper::GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
 	m_sceneCamera.OnGUI();
-
 }
