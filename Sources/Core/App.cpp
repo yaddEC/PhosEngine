@@ -5,8 +5,7 @@
 
 Core::App::App() :
 	m_PManager(nullptr),
-	m_editor(nullptr),
-	m_window(nullptr)
+	m_editor(nullptr)
 {}
 
 Core::App::~App()
@@ -14,48 +13,52 @@ Core::App::~App()
 
 bool Core::App::InitApp()
 {
-	m_window = Wrapper::RHI::InitWindow(1440, 920, "Phos Engine");
-	if (!m_window) return false;
-	if (!Wrapper::RHI::InitGlew()) return false;
-	if (!Wrapper::GUI::InitGUI(m_window)) return false;
+	if (!Wrapper::Window::InitGLFW()) return false;
+	m_window.Init(Maths::Vec2(1920, 1080), "Phos Editor");
+	if (!Wrapper::Window::InitGlew()) return false;
+	if (!Wrapper::GUI::InitGUI(m_window.GetWindow())) return false;
 
 	Wrapper::RHI::EnableCulling();
 	Wrapper::RHI::EnableDepthTest();
+	//Wrapper::RHI::SwapInterval(false);
 
-	m_PManager = new Core::ProjectManager(m_window);
-	m_editor = new Core::Editor(m_window, m_windowSize);
+	//m_PManager = new Core::ProjectManager(m_window);
+	m_editor = new Core::Editor(m_window);
 }
 
 void Core::App::DestroyApp()
 {
 	Wrapper::GUI::DestroyGUI();
-	Wrapper::RHI::DestroyWindow(m_window);
-
+	m_window.Destroy();
 }
 
 
-bool Core::App::InitProjectManager()
-{
-	return m_PManager->Init();
-}
-void Core::App::RunProjectManager()
-{
-	m_PManager->Run();
-}
-void Core::App::DestroyProjectManager()
-{
-	m_PManager->Destroy();
-	delete(m_PManager);
-}
+//bool Core::App::InitProjectManager()
+//{
+//	/eturn m_PManager->Init();
+//}
+//
+//void Core::App::RunProjectManager()
+//{
+//	m_PManager->Run();
+//}
+//
+//void Core::App::DestroyProjectManager()
+//{
+//	m_PManager->Destroy();
+//	delete(m_PManager);
+//}
 
 bool Core::App::InitEditor()
 {
 	return m_editor->Init();
 }
+
 void Core::App::RunEditor()
 {
 	m_editor->Run();
 }
+
 void Core::App::DestroyEditor()
 {
 	m_editor->Destroy();

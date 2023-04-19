@@ -1,4 +1,4 @@
-name "Boo 1"
+name "Boobool"
 id 1
 transform 0 0 0 0 0 0 1 1 1
 component "Mesh Renderer"
@@ -6,7 +6,7 @@ component "Mesh Renderer"
 	Material Assets\Material\boo_mat.001.phmat
 	end
 child
-	name "Blaziken"
+	name "Brasegali"
 	id 2
 	transform 10 0 0 0 3.14159 0 0.5 0.5 0.5
 	component "Mesh Renderer"

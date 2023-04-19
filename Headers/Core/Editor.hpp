@@ -2,6 +2,7 @@
 
 #include "Maths/Maths.hpp"
 #include "Engine/Scene.hpp"
+#include "Wrapper/Window.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -26,7 +27,7 @@ namespace Core
 	{
 	public:
 
-		Editor(GLFWwindow* window, Maths::Vec2& windowSize);
+		Editor(Wrapper::Window& window );
 		~Editor();
 
 		bool Init();
@@ -52,8 +53,7 @@ namespace Core
 
 		Engine::Scene* m_mainScene; // TEMP
 
-		GLFWwindow* m_window;
-		Maths::Vec2& m_windowSize;
+		Wrapper::Window& m_window;
 
 	};
 }

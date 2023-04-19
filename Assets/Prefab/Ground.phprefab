@@ -1,0 +1,10 @@
+name "Ground"
+id 3
+transform 0 -3 0 0 0 0 50 1 100
+	component "Mesh Renderer"
+	Mesh Assets\Model\cube.obj
+	Material Assets\Material\Material.phmat
+	end
+	component "Collider"
+	end
+end
