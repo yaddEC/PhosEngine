@@ -23,21 +23,6 @@ namespace Wrapper
 	class PHOSENGINE_API RHI
 	{
 	public:
-		//static GLFWwindow* InitWindow(int width, int height, const char* windowName);
-		//static bool InitGlew();
-
-		//static bool WindowShouldClose(GLFWwindow* window);
-		//static void SwapBuffer(GLFWwindow* window);
-		//static void PollEvents();
-		//static void SwapInterval(bool active);
-		//static double GetTime();
-
-		//static Maths::Vec2 GetWindowSize(GLFWwindow* window);
-
-		//static void DestroyWindow(GLFWwindow* window);
-
-		//static GLFWwindow* GetCurrentContext();
-		//static void SetCurrentContext(GLFWwindow* window);
 
 		static void EnableCulling(); // TEMP
 		static void EnableDepthTest(); // TEMP

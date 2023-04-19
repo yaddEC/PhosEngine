@@ -2,6 +2,7 @@
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
+#include "Engine/GameObject.hpp"
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/Window.hpp"
 
@@ -12,8 +13,9 @@ using namespace Engine;
 
 SceneGUI::SceneGUI() : IGUI("Scene",true), speedModifier(1.000f)
 {
-
+	
 }
+
 void SceneGUI::UpdateCamera(Input& input)
 {
 	Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotation.y * DEG2RAD), 0);
@@ -61,19 +63,37 @@ void SceneGUI::UpdateCamera(Input& input)
 		m_sceneCamera.transform->position.y += -1 * speed;
 }
 
+Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
+{
+	if (m_selectedId == 0) return nullptr;
+	std::vector<Engine::GameObject*> GObject = m_currentScene->GetGameObjects();
+	for (int i = 0; i < GObject.size(); i++)
+	{
+		if (GObject[i]->GetID() == m_selectedId)
+		{
+			//m_selectedId = 0;
+			return GObject[i];
+		}
+	}
+	return nullptr;
+
+}
+
 void SceneGUI::DoUpdate()
 {
-
+	selectedClicked = false;
 	Input& input = Input::GetInstance();
 
 	if (isOnFocus)
 	{
 		UpdateCamera(input);
-		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && Wrapper::GUI::IsWindowHovered())
 		{
-			int id = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35), Wrapper::GUI::GetWindowPos(*Wrapper::Window::GetCurrentContext()));
-			std::cout << id << "\n";
+			m_selectedId = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35),
+				Wrapper::GUI::GetWindowPos(*Wrapper::Window::GetCurrentContext()));
+			selectedClicked = true;
 		}
+
 	}
 
 
