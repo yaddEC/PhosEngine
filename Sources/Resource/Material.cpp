@@ -131,7 +131,7 @@ void Resource::Material::SendDataToShader() const
 	}
 	else
 	{
-		m_shader->SetUniformVec3("material.normalMap.color", Maths::Vec3(0, 0, 1));
+		m_shader->SetUniformVec3("material.normalMap.color", Maths::Vec3(0.5f, 0.5f, 1));
 		m_shader->SetUniformBool("material.normalMap.useTexture", false);
 	}
 

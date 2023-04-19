@@ -32,7 +32,7 @@ void Texture::Load(const std::string& filepath)
 	SetFileInfo(filepath);
 
 	stbi_set_flip_vertically_on_load(true);
-	m_data = stbi_load(filepath.c_str(), &m_width, &m_height, &m_nrChannels, STBI_rgb_alpha);
+	m_data = stbi_load(filepath.c_str(), &m_width, &m_height, &m_nrChannels, STBI_default);
 }
 
 void Texture::SetData(unsigned char* _data, int _width, int _height, int _nrChannel)
@@ -56,6 +56,14 @@ void Texture::Bind()
 void Texture::Unload()
 {
 	glDeleteTextures(1, &m_textureKey);
+}
+
+void Resource::Texture::GUIUpdate()
+{
+	Wrapper::GUI::DisplayFloat("Texture Key : ", m_textureKey);
+	Wrapper::GUI::DisplayVec2("Width and Height :", Maths::Vec2(m_width, m_height));
+	Wrapper::GUI::DisplayFloat("Channels : ", m_nrChannels);
+	Wrapper::GUI::Image(*this, Maths::Vec2(150, 150));
 }
 
 void Texture::ResizeAndReset(int _width, int _height)
