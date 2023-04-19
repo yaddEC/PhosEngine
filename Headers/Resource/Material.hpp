@@ -26,6 +26,23 @@ namespace Resource
 
 		bool useTexture = false;
 
+
+		void GUIUpdate(const std::string& label);
+	};
+
+	struct ValueMap
+	{
+		ValueMap() {}
+		~ValueMap() {}
+
+		union
+		{
+			Texture* texture;
+			float value;
+		};
+
+		bool useTexture = false;
+
 		void GUIUpdate(const std::string& label);
 	};
 
@@ -64,6 +81,8 @@ namespace Resource
 		ColorMap m_specular;
 		float m_shininess = 1;
 
+		ValueMap m_roughness;
+		ValueMap m_metallic;
 
 		void SetProperties(const std::string& filepath);
 	};

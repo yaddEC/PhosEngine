@@ -36,10 +36,12 @@ Scene::Scene()
 	Mesh* boo = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\cube.obj");
 	Mesh* blaziken = Resource::ResourceManager::GetInstance().GetResource<Mesh>("Assets\\Model\\blaziken.obj");
+	Mesh* sphere = Resource::ResourceManager::GetInstance().GetResource<Mesh>("DefaultAssets\\Model\\primitiveSphere.obj");
 
 	Material* booMat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\boo_mat.001.phmat");
 	Material* blazikenMat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\Blaziken.phmat");
 	Material* basicMat = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\Material.phmat");
+	Material* metalGrid = Resource::ResourceManager::GetInstance().GetResource<Material>("Assets\\Material\\MetalGrid.phmat");
 
 	GameObject* go = new GameObject();
 	go->name = "Boo 1";
@@ -76,6 +78,13 @@ Scene::Scene()
 	go3->transform->scale = Maths::Vec3(50, 1, 100);
 	BoxCollider* col2 = go3->AddComponent<BoxCollider>();
 
+	GameObject* go4 = new GameObject();
+	go4->name = "testMat";
+	MeshRenderer* rend4 = go4->AddComponent<MeshRenderer>();
+	rend4->SetMesh(sphere);
+	rend4->SetMaterial(metalGrid);
+
+
 	//GameObject* light = new GameObject();
 	//DirectionalLight* dirLight = light->AddComponent<LowRenderer::DirectionalLight>();
 	//light->name = "DirLight";
@@ -92,6 +101,7 @@ Scene::Scene()
 	Instantiate(go);
 	Instantiate(go2);
 	Instantiate(go3);
+	Instantiate(go4);
 	//Instantiate(light);
 	//Instantiate(light1);
 	Instantiate(light2);
