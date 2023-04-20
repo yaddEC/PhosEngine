@@ -346,7 +346,9 @@ namespace Maths
 
 
 		static Mat4 CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale);
-
+#if 0
+		static Mat4 CreateTransformMatrix(const Vec3& translation, const Quaternion& quaternion, const Vec3& scale);
+#endif
 		static Mat4 CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio);
 
 		Mat4 GetTranspose() const;
@@ -404,8 +406,7 @@ namespace Maths
 		Quaternion GetNormalized() const;
 		Quaternion GetConjugate() const;
 		Quaternion Negated() const;
-		Quaternion Slerp(Quaternion q1, Quaternion q2, float time);
-
+		static Quaternion Slerp(Quaternion q1, Quaternion q2, float time);
 		//OPERATOR
 
 		void		operator= (const Quaternion& v);
@@ -416,15 +417,16 @@ namespace Maths
 		Quaternion	operator-=(const Quaternion& v);
 		Quaternion	operator* (const Quaternion& v);
 		Quaternion	operator*=(const Quaternion& v);
+		bool		operator!=(const Quaternion& v);
 		Quaternion	operator* (const float v);
 		Quaternion	operator*=(const float v);		
 		Quaternion	operator/ (const float v);
 		Quaternion	operator/=(const float v);
 
 		//CONVERSION
-
-		Vec3 ToEulerAngles();
-		Mat4 ToMatrixRot();
+		Mat4 ToRotationMatrix()  const;
+		Vec3 ToEulerAngles()  const;
 		static Quaternion ToQuaternion(const Vec3& eulerAngle);
+		static Quaternion fromAngleAxis(float angle, const Vec3& axis);
 	};
 }
