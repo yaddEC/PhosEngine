@@ -144,8 +144,7 @@ void Camera::OnGUI()
 Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const Resource::Material& material, float fov)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 200, 1);
-    Mat4 view = Mat4::CreateViewMatrix(camTransform.position, camTransform.rotationEuler.x * Maths::DEG2RAD,
-        camTransform.rotationEuler.y * Maths::DEG2RAD);
+    Mat4 view = Mat4::CreateViewMatrix(camTransform.position, camTransform.rotationEuler.x, camTransform.rotationEuler.y);
 
 
     Mat4 model = meshTransform.GetGlobalMatrix();

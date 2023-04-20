@@ -140,8 +140,9 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 
 void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth)
 {
-	std::string tab = std::string(depth, '\t');
 
+	std::string tab = std::string(depth, '\t');
+	Maths::Vec3 transformRot = gameObject->transform->rotation.ToEulerAngles();
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
 		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z 

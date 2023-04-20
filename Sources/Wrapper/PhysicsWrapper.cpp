@@ -74,10 +74,6 @@ void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader,
         {
             printf("\n");
         }
-
-
-
-
     }
 }
 void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
@@ -101,10 +97,7 @@ void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
         {
             printf("EXIT TRIGGER\n");
         }
-
-
         //printf("STAY TRIGGER\n");
-
     }
 
 }
@@ -253,9 +246,6 @@ namespace Wrapper
 
     void PhysicsCollider::Init()
     {
-       
-
-        
         if (collider->rb) {
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
             PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidDynamic(pose);
@@ -297,23 +287,18 @@ namespace Wrapper
     }
 
     int countRigidActors(PxScene* scene) {
-        // The maximum number of actors that we can retrieve with getActors()
         const PxU32 maxActors = 1000;
 
-        // Array to store the retrieved actors
         PxActor* actors[maxActors];
 
-        // Retrieve all actors in the scene
         PxU32 numActors = scene->getActors(PxActorTypeFlag::eRIGID_STATIC | PxActorTypeFlag::eRIGID_DYNAMIC, actors, maxActors);
 
-        // Counter for rigid actors
+ 
         int rigidActorCount = 0;
 
-        // Loop through the actors and count the rigid actors
         for (PxU32 i = 0; i < numActors; ++i) {
             PxActor* actor = actors[i];
 
-            // Check if the actor is a rigid static or rigid dynamic
             if (actor->getConcreteType() == PxConcreteType::eRIGID_STATIC || actor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
                 ++rigidActorCount;
             }
@@ -411,15 +396,12 @@ namespace Wrapper
             {
                 PxRigidDynamic* dynamicActor = PhysxActor->is<PxRigidDynamic>();
 
-                // Set the updated velocity
                 PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
 
-                // Apply the force to the dynamic actor
                 dynamicActor->addForce(force);
 
-                // Update the GameObject's transform
                 PxTransform updatedTransform = dynamicActor->getGlobalPose();
-                Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
+                Maths::Vec3 newPosition = Maths::Vec3(-updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
                 rigidbody->gameobject->transform->position = newPosition;
                 PxQuat updatedRotation = updatedTransform.q;
                 

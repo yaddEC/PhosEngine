@@ -840,17 +840,23 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 		zaxis.x, zaxis.y, zaxis.z, -(Maths::Vec3::DotProduct(zaxis, position)),
 		0, 0, 0, 1
 	};
-
+	
 	return Mat4{ view };
 }
 
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
-	
-	return  CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) 
-		* CreateYRotationMatrix(rotation.y)
-		* CreateZRotationMatrix(rotation.z) *  CreateTranslationMatrix(translation);
+	return  { CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y) *
+									CreateZRotationMatrix(rotation.z) * CreateTranslationMatrix(translation) };
 }
+
+#if 0
+Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Quaternion& quaternion, const Vec3& scale)
+{
+	Vec3 euler = quaternion.ToEulerAngles();
+	return CreateTransformMatrix(translation, euler , scale);
+}
+#endif
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)
 {
@@ -1079,6 +1085,56 @@ Maths::Quaternion Maths::Quaternion::Negated() const
 	return { -a, -b, -c, -d };
 }
 
+Maths::Quaternion Maths::Quaternion::Slerp(Quaternion q1, Quaternion q2, float time)
+{
+	Quaternion p = q1.GetNormalized();
+	Quaternion q = q2.GetNormalized();
+
+	
+	float cosTheta = p.a * q.a + p.b * q.b + p.c * q.c + p.d * q.d;
+
+	if (cosTheta < 0.0f) {
+		q = q*-1;
+		cosTheta = -cosTheta;
+	}
+
+
+	if (cosTheta > 0.95f) {
+		Quaternion result = (q - p)* p + time;
+		return result.GetNormalized();
+	}
+
+	// Essential Math: Slerp
+	float theta = acosf(cosTheta);  // angle between input quaternions
+	float sinTheta = sinf(theta);   // compute this value only once
+	float weight0 = sinf((1.0f - time) * theta) / sinTheta;
+	float weight1 = sinf(time * theta) / sinTheta;
+	Quaternion result = p*weight0  + q* weight1 ;
+	return result;
+}
+
+
+
+Maths::Mat4 Maths::Quaternion::ToRotationMatrix() const
+{
+	Maths::Mat4 rotationMatrix = Maths::Mat4();
+	rotationMatrix.data_4_4[0][0] = (2*((a*a)+(b*b)))-1 ;
+	rotationMatrix.data_4_4[0][1] = (2*b*c)-(2*d*a);
+	rotationMatrix.data_4_4[0][2] = (2*b*d)+(2*c*a);
+
+	rotationMatrix.data_4_4[1][0] = (2*b*c)+(2*d*a);
+	rotationMatrix.data_4_4[1][1] = (2*((a*a)+(c*c)))-1;
+	rotationMatrix.data_4_4[1][2] = (2*c*d)-(2*b*a);
+
+	rotationMatrix.data_4_4[2][0] = (2*b*d)-(2*c*a);
+	rotationMatrix.data_4_4[2][1] = (2*c*d)+(2*b*a);
+	rotationMatrix.data_4_4[2][2] = (2*((a*a)+(d*d)))-1;
+
+	rotationMatrix.data_4_4[3][3] = 1;
+
+	return rotationMatrix;
+}
+
 Maths::Quaternion Slerp(Maths::Quaternion q1, Maths::Quaternion q2, float time)
 {
 	float dot = q1.DotProduct(q2);
@@ -1163,6 +1219,12 @@ Maths::Quaternion Maths::Quaternion::operator*=(const Quaternion& v)
 	return *this;
 }
 
+bool Maths::Quaternion::operator!=(const Quaternion& v)
+{
+
+	return (a == v.a && b == v.b && c ==v.c && d == v.d);
+}
+
 Maths::Quaternion Maths::Quaternion::operator*(const float v)
 {
 	return Quaternion(a * v, b * v, c * v, d * v);
@@ -1193,7 +1255,7 @@ Maths::Quaternion Maths::Quaternion::operator/=(const float v)
 
 //CONVERSION
 
-Maths::Vec3 Maths::Quaternion::ToEulerAngles()
+Maths::Vec3 Maths::Quaternion::ToEulerAngles() const
 {
 	Quaternion normalizedQuat = GetNormalized();
 	Vec3 euler;
@@ -1226,31 +1288,37 @@ Maths::Vec3 Maths::Quaternion::ToEulerAngles()
 Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)
 {
 
-	double cr = cos(eulerAngle.x * 0.5);
-	double sr = sin(eulerAngle.x * 0.5);
-	double cp = cos(eulerAngle.z * 0.5);
-	double sp = sin(eulerAngle.z * 0.5);
-	double cy = cos(eulerAngle.y * 0.5);
-	double sy = sin(eulerAngle.y * 0.5);
+	double c1 = cos(eulerAngle.z * 0.5);
+	double c2 = cos(eulerAngle.y * 0.5);
+	double c3 = cos(eulerAngle.x * 0.5);
+	double s1 = sin(eulerAngle.z * 0.5);
+	double s2 = sin(eulerAngle.y * 0.5);
+	double s3 = sin(eulerAngle.x * 0.5);
 
 	Quaternion q;
-	q.a = cr * cp * cy + sr * sp * sy;
-	q.b = sr * cp * cy - cr * sp * sy;
-	q.c = cr * sp * cy + sr * cp * sy;
-	q.d = cr * cp * sy - sr * sp * cy;
+	q.a = c1 * c2 * c3 + s1 * s2 * s3;
+	q.b = c1 * c2 * s3 - s1 * s2 * c3;
+	q.c = c1 * s2 * c3 + s1 * c2 * s3;
+	q.d = s1 * c2 * c3 - c1 * s2 * s3;
 
 	return q;
 }
 
-Maths::Mat4 Maths::Quaternion::ToMatrixRot()
+Maths::Quaternion Maths::Quaternion::fromAngleAxis(float angle, const Vec3& axis)
 {
-	Quaternion q = GetNormalized();
-	float res[16] = {	2.f * (q.a * q.a + q.b * q.b) - 1.f, 2.f * (q.b * q.c - q.d * q.a), 2.f * (q.b * q.d + q.c * q.a), 0,
-						2.f * (q.b * q.c + q.d * q.a), 2.f * (q.a * q.a + q.c * q.c) - 1.f, 2.f * (q.c * q.d - q.b * q.a), 0,
-						2.f * (q.b * q.d - q.c * q.a), 2.f * (q.c * q.d + q.b * q.a), 2.f * (q.a * q.a + q.d * d) - 1.f, 0,
-						0, 0, 0, 1.f };
-	return Mat4(res);
+	float halfAngle = angle * 0.5f;
+	float s = sin(halfAngle);
+
+	Quaternion result;
+	result.a = cos(halfAngle);
+	result.b = axis.x * s;
+	result.c = axis.y * s;
+	result.d = axis.z * s;
+
+	return result;
 }
+
+
 
 
 #pragma endregion Quaternion

@@ -149,7 +149,7 @@ void Engine::Scene::Load(const std::string& filepath)
 	rend3->SetMaterial(basicMat);
 	go3->transform->position.y = -3;
 	go3->transform->scale = Maths::Vec3(50, 1, 100);
-	//BoxCollider* col2 = go3->AddComponent<BoxCollider>();
+	BoxCollider* col2 = go3->AddComponent<BoxCollider>();
 
 	GameObject* go4 = new GameObject();
 	go4->name = "testMat";
