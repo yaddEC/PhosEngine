@@ -5,3 +5,4 @@
 #include "Resource/Prefab.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Texture.hpp"
+#include "Engine/Scene.hpp"

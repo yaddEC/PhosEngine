@@ -16,7 +16,6 @@
 #include <sstream>
 #include <filesystem>
 
-#define PREFAB_EXPORTS
 #include "Resource/Prefab.hpp"
 
 
@@ -24,6 +23,7 @@ using namespace Resource;
 
 void Resource::Prefab::Load(const std::string& filepath)
 {
+	m_gameObjectList.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(filepath);
 	size_t lineIndex = 0;
 	ParseGameObject(fileData, lineIndex);
@@ -59,7 +59,7 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 	using namespace Engine;
 
 	std::vector<GameObject*> result;
-	for (GameObject* go : gameObjectList)
+	for (GameObject* go : m_gameObjectList)
 	{
 		GameObject* newGameObject = new GameObject();
 		newGameObject->name = go->name;
@@ -70,11 +70,11 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 
 	for (size_t i = 0; i < result.size(); i++)
 	{
-		result[i]->transform->position = gameObjectList[i]->transform->position;
-		result[i]->transform->rotation = gameObjectList[i]->transform->rotation;
-		result[i]->transform->scale = gameObjectList[i]->transform->scale;
+		result[i]->transform->position = m_gameObjectList[i]->transform->position;
+		result[i]->transform->rotation = m_gameObjectList[i]->transform->rotation;
+		result[i]->transform->scale = m_gameObjectList[i]->transform->scale;
 
-		for (auto child : gameObjectList[i]->transform->GetChildren())
+		for (auto child : m_gameObjectList[i]->transform->GetChildren())
 		{
 			for (GameObject* go : result)
 			{
@@ -85,7 +85,7 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 			}
 		}
 
-		for (auto comp : gameObjectList[i]->GetComponentBuffer())
+		for (auto comp : m_gameObjectList[i]->GetComponentBuffer())
 		{
 			// TODO PROPER COPY
 			Engine::MonoBehaviour* newComp = Reflection::ClassMetaData::AddComponent(comp->GetMetaData().name, result[i]);
@@ -100,7 +100,7 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 {
 	using namespace Engine;
 	GameObject* newGameObject = new GameObject();
-	gameObjectList.push_back(newGameObject);
+	m_gameObjectList.push_back(newGameObject);
 	for (; lineIndex < fileData.size(); lineIndex++)
 	{
 		std::vector<std::string> tokens = Parser::Tokenize(fileData[lineIndex], ' ', '\t');
@@ -116,7 +116,7 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		else if (tokens[0] == "transform")
 		{
 			newGameObject->transform->position = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
-			newGameObject->transform->rotation = Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6]));
+			newGameObject->transform->rotationEuler = Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6]));
 			newGameObject->transform->scale = Maths::Vec3(std::stof(tokens[7]), std::stof(tokens[8]), std::stof(tokens[9]));
 		}
 		else if (tokens[0] == "component")
@@ -145,7 +145,7 @@ void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, st
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
 		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z 
-		<< ' ' << gameObject->transform->rotation.x << ' ' << gameObject->transform->rotation.y << ' ' << gameObject->transform->rotation.z
+		<< ' ' << gameObject->transform->rotationEuler.x << ' ' << gameObject->transform->rotationEuler.y << ' ' << gameObject->transform->rotationEuler.z
 		<< ' ' << gameObject->transform->scale.x << ' ' << gameObject->transform->scale.y << ' ' << gameObject->transform->scale.z << '\n';
 	for (auto comp : gameObject->GetComponents())
 	{

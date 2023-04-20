@@ -41,7 +41,6 @@ namespace LowRenderer
 		void IdPickerRender(const std::vector<LowRenderer::MeshRenderer*>& rendList, const Maths::Vec2& viewportSize);
 
 		Resource::Texture& GetRenderTexture();
-		Resource::ShaderProgram& GetShaderProg();
 		void OnGUI();
 
 		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform,

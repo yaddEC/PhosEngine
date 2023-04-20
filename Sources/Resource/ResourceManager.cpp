@@ -59,6 +59,10 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			{
 				CreateResource<Prefab>(GetRelativePath(entry, rootAseetsPath));
 			}
+			else if (extension == "phscene" || extension == "PHSCENE")
+			{
+				CreateResource<Engine::Scene>(GetRelativePath(entry, rootAseetsPath));
+			}
 		}
 	}	
 }

@@ -821,8 +821,8 @@ Maths::Mat4 Maths::Mat4::CreateZRotationMatrix(float z)
 
 Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, float yaw)
 {
-	float p = pitch * Maths::DEG2RAD;
-	float y = yaw * Maths::DEG2RAD;
+	float p = pitch;
+	float y = yaw;
 
 	float cosPitch = cos(p);
 	float sinPitch = sin(p);
@@ -846,7 +846,9 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
-	return  CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y)
+	
+	return  CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) 
+		* CreateYRotationMatrix(rotation.y)
 		* CreateZRotationMatrix(rotation.z) *  CreateTranslationMatrix(translation);
 }
 
@@ -1194,7 +1196,6 @@ Maths::Quaternion Maths::Quaternion::operator/=(const float v)
 Maths::Vec3 Maths::Quaternion::ToEulerAngles()
 {
 	Quaternion normalizedQuat = GetNormalized();
-	normalizedQuat.Print();
 	Vec3 euler;
 
 	double sqw = normalizedQuat.a * normalizedQuat.a;

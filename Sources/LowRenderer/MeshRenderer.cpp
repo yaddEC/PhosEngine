@@ -115,7 +115,6 @@ Reflection::ClassMetaData& LowRenderer::MeshRenderer::GetMetaData()
 			ClassMemberInfo("Mesh", offsetof(MeshRenderer, MeshRenderer::m_mesh), MemberType::T_MESH),
 			ClassMemberInfo("Material", offsetof(MeshRenderer, MeshRenderer::m_material), MemberType::T_MATERIAL) 
 		};
-		std::cout << "mesh renderer meta data computed" << std::endl;
 		computed = true;
 	}
 	return result;

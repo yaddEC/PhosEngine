@@ -263,7 +263,7 @@ namespace Wrapper
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
         }
         else {
-            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotation;
+            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.a, rotationQuat.b, rotationQuat.c, rotationQuat.d));
             PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidStatic(pose);
@@ -351,7 +351,7 @@ namespace Wrapper
         {
             Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
             PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
-            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotation;
+            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
             PxQuat pxRotation(-rotationQuat.a, -rotationQuat.c, rotationQuat.d, rotationQuat.b);
 
@@ -428,7 +428,7 @@ namespace Wrapper
                 Maths::Vec3 eulerRotation = newRotation.ToEulerAngles();
              
 
-                rigidbody->gameobject->transform->rotation = eulerRotation;
+                rigidbody->gameobject->transform->rotationEuler = eulerRotation;
 
             }
 

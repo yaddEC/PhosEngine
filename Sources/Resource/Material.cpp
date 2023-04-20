@@ -8,14 +8,11 @@
 #include <sstream>
 #include <filesystem>
 
-#include "Resource/Texture.hpp"
-#include "Resource/ShaderProgram.hpp"
-#include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
 #include "Wrapper/GUI.hpp"
 
-#define MATERIAL_EXPORTS
-#include "Resource/Material.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Resource/ResourceIncludes.hpp"
 
 using namespace Wrapper;
 

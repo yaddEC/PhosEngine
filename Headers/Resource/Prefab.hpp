@@ -33,7 +33,7 @@ namespace Resource
 		static void SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth = 0);
 	private:
 
-		std::vector<Engine::GameObject*> gameObjectList;
+		std::vector<Engine::GameObject*> m_gameObjectList;
 		Engine::GameObject* ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex);
 	};
 }

@@ -5,15 +5,9 @@
 
 #include <iostream>
 
-#include "Resource/Texture.hpp"
 #include "Resource/SubMesh.hpp"
 #include "Resource/ResourceManager.hpp"
-#include "Resource/ShaderProgram.hpp"
-#include "Resource/Material.hpp"
-#include "Resource/CubeMap.hpp"
-
-#define MESH_EXPORTS
-#include "Resource/Mesh.hpp"
+#include "Resource/ResourceIncludes.hpp"
 
 using namespace Maths;
 using namespace Resource;
