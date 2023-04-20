@@ -2,5 +2,5 @@ t_alb Assets\Texture\boo.png
 c_spec 0.352941 0.352941 0.352941
 shiny 24.03
 shader Assets\Shader\PBRShader.prog
-v_meta 0
-v_rough 0
+v_meta 0.342
+v_rough 0.205

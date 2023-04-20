@@ -211,6 +211,7 @@
     <ClInclude Include="External\PhosEngine\Engine\Input.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\MonoBehaviour.hpp" />
     <ClInclude Include="External\PhosEngine\Engine\Scene.hpp" />
+    <ClInclude Include="External\PhosEngine\Engine\Transform.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Camera.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\Framebuffer.hpp" />
     <ClInclude Include="External\PhosEngine\LowRenderer\MeshRenderer.hpp" />

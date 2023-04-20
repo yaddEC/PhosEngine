@@ -17,7 +17,7 @@ namespace Engine
 			Maths::Vec3 _scale = Maths::Vec3(1, 1, 1));
 
 		Transform(const Transform& _transform)
-			: position(_transform.position), rotation(_transform.rotation), scale(_transform.scale){}
+			: position(_transform.position), rotation(_transform.rotation), scale(_transform.scale) {}
 
 		Maths::Vec3 position;
 		Maths::Quaternion rotation;
@@ -27,12 +27,11 @@ namespace Engine
 		void Destroy(bool destroyChildren = true);
 
 
-		void AddChild(Transform* child); 
-		void SetParent(Transform* _parent); 
+		void AddChild(Transform* child);
+		void SetParent(Transform* _parent);
 
 		std::vector<Transform*> GetChildren() const { return m_children; }
 		Transform* GetParent() { return m_parent; }
-		// child duplication is possible
 
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
 		GameObject* GetGameObject() const { return gameObject; }
@@ -48,8 +47,6 @@ namespace Engine
 
 		void OnGUI();
 
-		void Parse(const std::vector<std::string>& fileData, size_t& lineIndex);
-
 	private:
 		Maths::Mat4 m_globalMatrix;
 
@@ -59,7 +56,6 @@ namespace Engine
 		std::vector<Transform*> m_children;
 		GameObject* gameObject;
 
-		void RemoveChild(Transform* child); 
+		void RemoveChild(Transform* child);
 	};
 }
-

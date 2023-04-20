@@ -10,6 +10,11 @@
 
 #include "dllInclude.hpp"
 
+namespace Engine
+{
+	class Scene;
+}
+
 namespace Resource 
 {
 	class Material;
@@ -17,6 +22,7 @@ namespace Resource
 	class ShaderProgram;
 	class Mesh;
 	class CubeMap;
+	class Prefab;
 
 	class PHOSENGINE_API ResourceManager
 	{
@@ -96,6 +102,16 @@ namespace Resource
 				m_cubeMapNameList.push_back(((CubeMap*)newResource)->GetName());
 			}
 
+			if (typeid(T) == typeid(Engine::Scene))
+			{
+				m_sceneNameList.push_back(((Engine::Scene*)newResource)->GetName());
+			}
+
+			if (typeid(T) == typeid(Prefab))
+			{
+				m_prefabList.push_back(((Prefab*)newResource)->GetName());
+			}
+
 			return newResource;
 
 		}
@@ -152,7 +168,8 @@ namespace Resource
 		ResourceManager() {}
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
-		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList, m_shaderPorgramNameList, m_cubeMapNameList;
+		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
+			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList;
 
 		
 	};

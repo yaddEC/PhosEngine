@@ -3,4 +3,4 @@ t_spec Assets\Texture\BlazikenTexture.png
 shiny 0.2
 shader Assets\Shader\PBRShader.prog
 v_meta 0
-v_rough 0
+v_rough 1

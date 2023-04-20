@@ -19,7 +19,7 @@ SceneGUI::SceneGUI() : IGUI("Scene",true), speedModifier(1.000f)
 void SceneGUI::UpdateCamera(Input& input)
 {
 	
-	Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotationEuler.y * DEG2RAD), 0);
+	Vec3 direction = Vec3(Vec2(0, 1).GetRotated(Vec2(), -m_sceneCamera.transform->rotationEuler.y), 0);
 	Vec3 forward = Vec3(direction.x, 0, direction.y);
 	Vec3 left = Vec3(forward.z, 0, -forward.x);
 
@@ -32,7 +32,7 @@ void SceneGUI::UpdateCamera(Input& input)
 	{
 		return;
 	}
-	 m_sceneCamera.transform->rotationEuler += (Vec3(input.GetMouseDelta().y, input.GetMouseDelta().x, 0) * speed) ;
+	 m_sceneCamera.transform->rotationEuler += (Vec3(input.GetMouseDelta().y, input.GetMouseDelta().x, 0) * speed * 0.05f) ;
 	 m_sceneCamera.transform->rotation = m_sceneCamera.transform->rotation.ToQuaternion(m_sceneCamera.transform->rotationEuler * DEG2RAD);
 
 	if (input.IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
@@ -101,7 +101,6 @@ void SceneGUI::DoUpdate()
 
 	if (m_currentScene)
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
-	//m_sceneCamera.Render(m_currentScene->GetRenderer()->GetMeshRenderers(), size - Vec2(10, 35));
 
 	Wrapper::GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
 	m_sceneCamera.OnGUI();
