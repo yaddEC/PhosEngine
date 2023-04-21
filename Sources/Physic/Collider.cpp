@@ -24,7 +24,7 @@ void Physic::Collider::Start()
 }
 
 Physic::Collider::Collider()
-	: MonoBehaviour(true)
+	: MonoBehaviour(false)
 {
 }
 
