@@ -39,7 +39,6 @@ namespace Engine
 		GameObject* Instantiate(GameObject* newGameObject);
 		GameObject* InstantiatePrefab(const Resource::Prefab& prefab);
 
-		Physic::PhysicsManager* GetPhysicsManager() { return m_physicsManager; }
 
 		void DeleteGameObjectFromList(GameObject* go);
 
@@ -64,7 +63,6 @@ namespace Engine
 		void SaveGameObject(Engine::GameObject* gameObject, std::fstream& file, int depth = 0);
 		GameObject* ParseGameObject(const std::vector<std::string>& fileData, size_t& lineIndex);
 
-		Physic::PhysicsManager* m_physicsManager;
 		std::vector<GameObject*> m_gameObjects;
 		std::vector<GameObject*> m_gameObjectBuffer;
 

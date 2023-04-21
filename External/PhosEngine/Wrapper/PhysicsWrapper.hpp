@@ -57,7 +57,7 @@ namespace Wrapper
 	class PHOSENGINE_API Physics //class to change in case we use other physics library
 	{
     public:
-        Physics();
+        Physics() {};
         ~Physics();
         void Init();
         void Update(float deltaTime);
@@ -69,10 +69,10 @@ namespace Wrapper
         static PxDefaultErrorCallback gDefaultErrorCallback;
         static PxDefaultAllocator gDefaultAllocatorCallback;
 
-        PxFoundation* mFoundation;
-        PxPhysics* mPhysics;
-        PxScene* mScene;
-        PxPvd* mPvd;
+        PxFoundation* mFoundation = nullptr;
+        PxPhysics* mPhysics = nullptr;
+        PxScene* mScene = nullptr;
+        PxPvd* mPvd = nullptr;
 
         void CreateFoundation();
         void CreatePhysics();
@@ -84,7 +84,7 @@ namespace Wrapper
     class PHOSENGINE_API PhysicsCollider
     {
     public:
-        PhysicsCollider() { };
+        PhysicsCollider() {};
         ~PhysicsCollider();
         void Init();
         void Update();
@@ -104,8 +104,8 @@ namespace Wrapper
 
         } geometry;
 
-        PxShape* shape;
-        PxRigidActor* PhysxActor;
+        PxShape* shape = nullptr;
+        PxRigidActor* PhysxActor = nullptr;
         MaterialType PhysxMaterial;
 
     };
@@ -114,7 +114,7 @@ namespace Wrapper
     {
     public:
         PhysicsRigidbody() {};
-        ~PhysicsRigidbody();
+        ~PhysicsRigidbody() {};
         void Update();
 
         Rigidbody* rigidbody;
@@ -122,7 +122,7 @@ namespace Wrapper
         PxRigidActor* getRigidActor() { return PhysxActor; }
         void setRigidActor(PxRigidActor* actor) { PhysxActor = actor; }
     private:
-        PxRigidActor* PhysxActor;
+        PxRigidActor* PhysxActor = nullptr;
     
 
     };
