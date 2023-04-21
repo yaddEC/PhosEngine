@@ -83,25 +83,43 @@ Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 
 void SceneGUI::DoUpdate()
 {
+	using namespace Wrapper;
 	selectedClicked = false;
 	Input& input = Input::GetInstance();
 
 	if (isOnFocus)
 	{
 		UpdateCamera(input);
-		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && Wrapper::GUI::IsWindowHovered())
+		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
 		{
 			m_selectedId = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35),
-				Wrapper::GUI::GetWindowPos(*Wrapper::Window::GetCurrentContext()));
+				GUI::GetWindowPos(*Window::GetCurrentContext()));
 			selectedClicked = true;
 		}
 
 	}
 
+	Maths::Vec2 cursorPos = GUI::GetCursorPos();
 
 	if (m_currentScene)
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
 
-	Wrapper::GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
+	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
 	m_sceneCamera.OnGUI();
+
+	GUI::SetCursorPos(cursorPos + Maths::Vec2(size.x / 2 - 10, 0));
+	if (m_currentScene->GetIsGameMode())
+	{
+		if (GUI::Button("Stop"))
+		{
+			m_currentScene->StopGameMode();
+		}
+	}
+	else
+	{
+		if (GUI::Button("Play"))
+		{
+			m_currentScene->StartGameMode();
+		}
+	}
 }
