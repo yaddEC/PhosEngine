@@ -111,14 +111,6 @@ namespace Wrapper
 
 
 
-    Physics::Physics()
-        : mFoundation(nullptr),
-        mPhysics(nullptr),
-        mScene(nullptr),
-        mPvd(nullptr)
-    {
-    }
-
     Physics::~Physics()
     {
         Cleanup();
@@ -246,9 +238,10 @@ namespace Wrapper
 
     void PhysicsCollider::Init()
     {
+        
         if (collider->rb) {
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
-            PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidDynamic(pose);
+            PhysxActor= Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidDynamic(pose);
             PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
         }
@@ -256,10 +249,10 @@ namespace Wrapper
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.a, rotationQuat.b, rotationQuat.c, rotationQuat.d));
-            PhysxActor = collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics()->createRigidStatic(pose);
+            PhysxActor = Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidStatic(pose);
         }
         Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix();
-        PxMaterial* material = createMaterialByType(collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getPhysics(), PhysxMaterial);
+        PxMaterial* material = createMaterialByType(Physic::PhysicsManager::GetInstance().getPhysics().getPhysics(), PhysxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
             geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x , worldModel.data_4_4[1][1] * boxCollider->size.y , worldModel.data_4_4[2][2] * boxCollider->size.z );
@@ -282,7 +275,7 @@ namespace Wrapper
             shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
         }
 
-        collider->gameobject->GetScene()->GetPhysicsManager()->getPhysics()->getScene()->addActor(*PhysxActor);
+        Physic::PhysicsManager::GetInstance().getPhysics().getScene()->addActor(*PhysxActor);
 
     }
 

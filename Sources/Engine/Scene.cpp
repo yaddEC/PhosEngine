@@ -34,7 +34,7 @@ Scene::Scene()
 
 Engine::Scene::~Scene()
 {
-	delete m_physicsManager;
+	//Physic::PhysicsManager::GetInstance().Cleanup();
 	delete m_renderer;
 }
 
@@ -59,7 +59,7 @@ void Scene::GameObjectFromBuffer()
 
 void Scene::Update()
 {
-	m_physicsManager->Update(Input::deltaTime);
+	Physic::PhysicsManager::GetInstance().Update(Input::deltaTime);
 	
 	if(m_gameObjectBuffer.size() != 0)
 	{
@@ -105,9 +105,8 @@ void Engine::Scene::DeleteGameObjectFromList(GameObject* go)
 void Engine::Scene::Load(const std::string& filepath)
 {
 	m_renderer = new Renderer();
-	m_physicsManager = new PhysicsManager();
-	m_physicsManager->Init();
-	/*Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	Physic::PhysicsManager::GetInstance().Init();
+	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 	Mesh* boo = rm.GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = rm.GetResource<Mesh>("Assets\\Model\\cube.obj");
 	Mesh* blaziken = rm.GetResource<Mesh>("Assets\\Model\\blaziken.obj");
@@ -126,8 +125,8 @@ void Engine::Scene::Load(const std::string& filepath)
 	go->transform->position.y = 10;
 
 
-	//Rigidbody* rb = go->AddComponent<Rigidbody>();
-	//SphereCollider* col = go->AddComponent<SphereCollider>();
+	Rigidbody* rb = go->AddComponent<Rigidbody>();
+	SphereCollider* col = go->AddComponent<SphereCollider>();
 
 
 	GameObject* go2 = new GameObject();
@@ -181,9 +180,9 @@ void Engine::Scene::Load(const std::string& filepath)
 	Instantiate(light2);
 
 	//col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2, 2, 2), false, Wrapper::BOUNCY_BALL);
-	//col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);*/
+	//col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
 
-	m_gameObjects.clear();
+	/*m_gameObjects.clear();
 	m_gameObjectBuffer.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(filepath);
 	size_t lineIndex = 0;
@@ -191,7 +190,7 @@ void Engine::Scene::Load(const std::string& filepath)
 	{
 		ParseGameObject(fileData, lineIndex);
 		lineIndex++;
-	}
+	}*/
 }
 
 void Engine::Scene::Unload()

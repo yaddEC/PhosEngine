@@ -1,28 +1,36 @@
 #pragma once
 
 #include "dllInclude.hpp"
+#include <Wrapper/PhysicsWrapper.hpp>
 
-namespace Wrapper
-{
-    class Physics;
-}
 
 namespace Physic
 {
    class PhysicsManager
     {
     public:
-        PhysicsManager();
-        ~PhysicsManager();
+
 
         void Init();
         void Update(float deltaTime);
         void Cleanup();
 
-        Wrapper::Physics* getPhysics() { return physics; }
+        PhysicsManager(const PhysicsManager&) = delete;
+        PhysicsManager& operator=(const PhysicsManager&) = delete;
+
+        static PhysicsManager& GetInstance()
+        {
+            static PhysicsManager instance;
+            return instance;
+        }
+
+
+        Wrapper::Physics& getPhysics() { return physics; }
 
     private:
-        Wrapper::Physics* physics;
+        PhysicsManager() {};
+        ~PhysicsManager() ;
+        Wrapper::Physics physics;
 
     };
 }
