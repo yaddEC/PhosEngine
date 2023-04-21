@@ -48,11 +48,15 @@ namespace Engine
 
 		std::vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 
+		void StartGameMode();
+		void StopGameMode();
+
 		void Load(const std::string& filepath) override;
 		void Bind() override {}
 		void Unload() override;
 		void Save() override;
 		void GUIUpdate() override {}
+
 		std::string GetTypeName() { return "Scene"; }
 		Resource::Texture* GenerateFileIcon() override { return nullptr; }
 

@@ -102,6 +102,21 @@ void Engine::Scene::DeleteGameObjectFromList(GameObject* go)
 }
 
 
+void Engine::Scene::StartGameMode()
+{
+	Save();
+	Unload();
+	m_IsGameMode = true;
+	Load(p_directory + "\\" + p_name);
+}
+
+void Engine::Scene::StopGameMode()
+{
+	Unload();
+	m_IsGameMode = false;
+	Load(p_directory + "\\" + p_name);
+}
+
 void Engine::Scene::Load(const std::string& filepath)
 {
 	m_renderer = new Renderer();
@@ -195,7 +210,14 @@ void Engine::Scene::Load(const std::string& filepath)
 
 void Engine::Scene::Unload()
 {
-
+	for (GameObject* go : m_gameObjects)
+	{
+		if (!go->transform->GetParent())
+			go->Destroy();
+	}
+	delete m_renderer;
+	//m_physicsManager->Cleanup();
+	Physic::PhysicsManager::GetInstance().Cleanup();
 }
 
 void Engine::Scene::Save()
