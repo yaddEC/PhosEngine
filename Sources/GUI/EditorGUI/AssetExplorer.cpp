@@ -70,6 +70,7 @@ void AssetExplorer::DoUpdate()
 	cursorPos.x = 15;
 	GUI::SetCursorPos(cursorPos);
 	m_selectedClicked = false;
+	m_selectedScene = nullptr;
 
 	for (const auto& entry : fs::directory_iterator(m_currentDirectory))
 	{
@@ -92,10 +93,6 @@ void AssetExplorer::DoUpdate()
 		}
 		GUI::SetCursorPos(cursorPos);
 	}
-
-
-	
-
 }
 
 
@@ -129,15 +126,25 @@ void AssetExplorer::DisplayFile(const string& file)
 	GUI::DisplayText(displayfilename);
 	GUI::EndGroup();
 
+
+	Resource::IResource* resource = rm.GetResource<Resource::IResource>(file);
+
+
 	if (GUI::IsItemDoubleClicked(0))
 	{
-		m_selectedClicked = true;
-		m_selectedFile = file;
-		m_selectedResource = Resource::ResourceManager::GetInstance().GetResource<Resource::IResource>(file);
+		if (resource->GetTypeName() == "Scene")
+		{
+			m_selectedScene = (Engine::Scene*)resource;
+		}
+		else
+		{
+			m_selectedClicked = true;
+			m_selectedFile = file;
+			m_selectedResource = resource;
+		}
 	}
 	
 
-	Resource::IResource* resource = rm.GetResource<Resource::IResource>(file);
 	if (resource)
 	{
 		GUI::DragDropSource(resource->GetTypeName(), displayfilename, &resource);

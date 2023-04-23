@@ -1,6 +1,6 @@
 name "Boo 1"
 id 1
-transform 0 10 0 0 0 0 1 1 1
+transform 0 2.05 10.9 0 0 0 3 1 1
 	component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
@@ -64,9 +64,9 @@ name "SpotLight"
 id 8
 transform 0 25 0 0 0 0 1 1 1
 	component "Spot Light"
-	Color 1.000000 1.000000 1.000000
-	Intensity 1.000000
-	Angle 12.000000
+	Color 0.901961 0.878293 0.097270
+	Intensity 9.900000
+	Angle 18.330000
 	Linear Attenuation 0.090000
 	Quadratic Attenuation 0.032000
 	end

@@ -10,6 +10,11 @@
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Texture.hpp"
 
+namespace Engine
+{
+	class Scene;
+}
+
 namespace Resource
 {
 	class IResource;
@@ -26,13 +31,15 @@ namespace EditorGUI
 
 		void Reload();
 
-		Resource::IResource* GetSelected()
+		Resource::IResource* GetSelected() const
 		{
 			if (m_selectedClicked)
 				return m_selectedResource;
 			else
 				return nullptr;
 		}
+
+		Engine::Scene* GetNewScene() const { return m_selectedScene; }
 
 	private:
 
@@ -50,6 +57,8 @@ namespace EditorGUI
 		std::string m_selectedFile;
 		bool m_selectedClicked = false;
 		Resource::IResource* m_selectedResource;
+
+		Engine::Scene* m_selectedScene;
 
 		Resource::Texture* m_defaultFileIcon, * m_folderIcon;
 	};

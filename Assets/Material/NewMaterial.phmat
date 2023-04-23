@@ -1,6 +1,6 @@
 c_alb 0 0 0
 c_spec 0 0 0
 shiny 1
-shader Assets\Shader\NormalTest.prog
+shader Assets\Shader\PBRShader.prog
 v_meta 0
 v_rough 0

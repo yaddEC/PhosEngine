@@ -8,6 +8,11 @@
 
 #include "Wrapper/GUI.hpp"
 
+namespace Engine
+{
+	class Scene;
+}
+
 namespace EditorGUI
 {
 	class MenuBar
@@ -17,5 +22,11 @@ namespace EditorGUI
 		~MenuBar();
 
 		void Update();
+
+		void SetCurrentScene(Engine::Scene* currentScene) { m_currentScene = currentScene; }
+
+	private:
+		Engine::Scene* m_currentScene;
+
 	};
 }
