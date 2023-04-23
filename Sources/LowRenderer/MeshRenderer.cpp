@@ -48,6 +48,7 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 	m_mesh->Render(*m_material->GetShader(), *m_material);
 
 }
+
 void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
 {
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();

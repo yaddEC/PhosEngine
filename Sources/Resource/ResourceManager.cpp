@@ -64,14 +64,15 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 				CreateResource<Engine::Scene>(GetRelativePath(entry, rootAseetsPath));
 			}
 		}
-	}	
+	}
 }
 
-void Resource::ResourceManager::Reload() 
+void Resource::ResourceManager::Reload()
 {
 	for (auto resource : m_resourceMap)
 	{
-		resource.second->Load(resource.first);
+		if (resource.second->GetTypeName() != "Scene")
+			resource.second->Load(resource.first);
 	}
 
 	for (auto resource : m_resourceMap)
@@ -79,12 +80,15 @@ void Resource::ResourceManager::Reload()
 		resource.second->Bind();
 	}
 }
+
 void Resource::ResourceManager::Save()
 {
 	for (auto resource : m_resourceMap)
 	{
-		resource.second->Save();
+		if (resource.second->GetTypeName() != "Scene")
+			resource.second->Save();
 	}
+	m_currentScene->Save();
 }
 
 void Resource::ResourceManager::SetStaticResource()
@@ -94,6 +98,10 @@ void Resource::ResourceManager::SetStaticResource()
 	pickingShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\PickingShader\\PickingShader.prog");
 }
 
+void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene) 
+{
+	m_currentScene = currentScene;
+}
 
 
 

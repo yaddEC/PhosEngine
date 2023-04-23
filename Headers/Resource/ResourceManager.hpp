@@ -156,6 +156,7 @@ namespace Resource
 			return m_materialNameList;
 		}
 
+		void SetCurrentScene(Engine::Scene* currentScene); 
 
 		// Static resource
 
@@ -170,6 +171,8 @@ namespace Resource
 		std::unordered_map<std::string, IResource*> m_resourceMap;
 		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
 			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList;
+
+		Engine::Scene* m_currentScene;
 
 		
 	};

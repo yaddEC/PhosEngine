@@ -121,7 +121,8 @@ void Engine::Scene::Load(const std::string& filepath)
 {
 	m_renderer = new Renderer();
 	Physic::PhysicsManager::GetInstance().Init();
-	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+
+	/*Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 	Mesh* boo = rm.GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = rm.GetResource<Mesh>("Assets\\Model\\cube.obj");
 	Mesh* blaziken = rm.GetResource<Mesh>("Assets\\Model\\blaziken.obj");
@@ -195,9 +196,9 @@ void Engine::Scene::Load(const std::string& filepath)
 	Instantiate(light2);
 
 	//col->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(2, 2, 2), false, Wrapper::BOUNCY_BALL);
-	//col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);
+	//col2->Setup(Maths::Vec3(0, 0, 0), Maths::Vec3(1, 1, 1), false, Wrapper::BOUNCY_BALL);*/
 
-	/*m_gameObjects.clear();
+	m_gameObjects.clear();
 	m_gameObjectBuffer.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(filepath);
 	size_t lineIndex = 0;
@@ -205,7 +206,7 @@ void Engine::Scene::Load(const std::string& filepath)
 	{
 		ParseGameObject(fileData, lineIndex);
 		lineIndex++;
-	}*/
+	}
 }
 
 void Engine::Scene::Unload()
