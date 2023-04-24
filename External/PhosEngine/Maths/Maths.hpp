@@ -345,10 +345,10 @@ namespace Maths
 		static Mat4 CreateViewMatrix(const Vec3& position, float pitch, float yaw);
 
 
+
 		static Mat4 CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale);
-#if 0
-		static Mat4 CreateTransformMatrix(const Vec3& translation, const Quaternion& quaternion, const Vec3& scale);
-#endif
+
+
 		static Mat4 CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio);
 
 		Mat4 GetTranspose() const;
@@ -426,6 +426,7 @@ namespace Maths
 		//CONVERSION
 		Mat4 ToRotationMatrix()  const;
 		Vec3 ToEulerAngles()  const;
+		static Mat4 CreateTransformMatrix(const Vec3& translation, const Quaternion& quaternion, const Vec3& scale);
 		static Quaternion ToQuaternion(const Vec3& eulerAngle);
 		static Quaternion fromAngleAxis(float angle, const Vec3& axis);
 	};
