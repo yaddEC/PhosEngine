@@ -844,19 +844,14 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 	return Mat4{ view };
 }
 
+#if 0
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
 	return  { CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y) *
 									CreateZRotationMatrix(rotation.z) * CreateTranslationMatrix(translation) };
 }
-
-#if 0
-Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Quaternion& quaternion, const Vec3& scale)
-{
-	Vec3 euler = quaternion.ToEulerAngles();
-	return CreateTransformMatrix(translation, euler , scale);
-}
 #endif
+
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)
 {
@@ -1283,6 +1278,11 @@ Maths::Vec3 Maths::Quaternion::ToEulerAngles() const
 	euler.x = static_cast<float>(atan2(2.0 * normalizedQuat.b * normalizedQuat.a - 2.0 * normalizedQuat.c * normalizedQuat.d, -sqx + sqy - sqz + sqw));
 
 	return euler;
+}
+
+Maths::Mat4 Maths::Quaternion::CreateTransformMatrix(const Vec3& translation, const Quaternion& quaternion, const Vec3& scale)
+{
+	return  { Maths::Mat4::CreateScaleMatrix(scale) * quaternion.ToRotationMatrix() * Maths::Mat4::CreateTranslationMatrix(translation) };
 }
 
 Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)

@@ -61,7 +61,7 @@ void Engine::Transform::AddRotation(Maths::Quaternion quaternion)
 
 void Transform::ComputeGlobalMatrix(const Mat4& parentMatrix)
 {
-	Mat4 localMatrix = Mat4::CreateTransformMatrix(position, rotationEuler, scale);
+	Mat4 localMatrix = Quaternion::CreateTransformMatrix(position, rotation, scale);
 	m_globalMatrix = localMatrix * parentMatrix;
 	for (Transform* child : m_children)
 		child->ComputeGlobalMatrix(m_globalMatrix);

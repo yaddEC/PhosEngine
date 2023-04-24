@@ -331,7 +331,7 @@ namespace Wrapper
             PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxQuat pxRotation(-rotationQuat.a, -rotationQuat.c, rotationQuat.d, rotationQuat.b);
+            PxQuat pxRotation(-rotationQuat.a, rotationQuat.d, -rotationQuat.c, rotationQuat.b);
 
  
           
@@ -398,12 +398,10 @@ namespace Wrapper
                 rigidbody->gameobject->transform->position = newPosition;
                 PxQuat updatedRotation = updatedTransform.q;
                 
-                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z);
-                
-                Maths::Vec3 eulerRotation = newRotation.ToEulerAngles();
-             
+                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, -updatedRotation.y, -updatedRotation.z);
+                  
 
-                rigidbody->gameobject->transform->rotationEuler = eulerRotation;
+                rigidbody->gameobject->transform->rotation = newRotation;
 
             }
 
