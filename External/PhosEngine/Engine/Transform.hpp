@@ -17,7 +17,7 @@ namespace Engine
 			Maths::Vec3 _scale = Maths::Vec3(1, 1, 1));
 
 		Transform(const Transform& _transform)
-			: position(_transform.position), rotation(_transform.rotation), scale(_transform.scale) {}
+			: position(_transform.position), rotation(_transform.rotation), scale(_transform.scale), rotationEuler(_transform.rotationEuler) {}
 
 		Maths::Vec3 position;
 		Maths::Quaternion rotation;

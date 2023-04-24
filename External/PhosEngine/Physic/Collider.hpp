@@ -21,9 +21,7 @@ namespace Physic
 	{
 	public:
 		Collider();
-		bool show = false;
 		bool isTrigger = false;
-		bool collide = false;
 		Maths::Vec3 center;
 		Rigidbody* rb;
 		Wrapper::PhysicsCollider* physicsCollider;
@@ -41,6 +39,7 @@ namespace Physic
 	{
 	public:
 		BoxCollider(Maths::Vec3 _size = Maths::Vec3(1, 1, 1));
+		Reflection::ClassMetaData& GetMetaData() override;
 		Maths::Vec3 size;
 	};
 
@@ -48,6 +47,7 @@ namespace Physic
 	{
 	public:
 		SphereCollider(float _radius = 1);
+		Reflection::ClassMetaData& GetMetaData() override;
 		float radius;
 	};
 
@@ -55,12 +55,9 @@ namespace Physic
 	{
 	public:
 		CapsuleCollider(float _radius = 1, float _height = 1);
+		Reflection::ClassMetaData& GetMetaData() override;
 		float radius;
 		float height;
-
-		float scale = 0;
-		float hScale = 0;
-		Maths::Vec3 worldScale = Maths::Vec3(1, 1, 1);
 
 	};
 }

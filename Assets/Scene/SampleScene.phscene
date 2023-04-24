@@ -1,78 +1,53 @@
 name "Boo 1"
 id 1
-transform 0 10 0 0 0 0 1 1 1
+transform 0 17.9 0 0.164061 -0.579449 0.359538 1 1 1
 	component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 	component "RigidBody"
+	Gravity  0.200000 -20.000000 0.000000
+	Velocity  0.000000 0.000000 0.000000
+	mass 1.000000
+	reset  0
 	end
-	component "Collider"
+	component "Sphere Collider"
+	isTrigger  0
+	Center  0.000000 0.000000 0.000000
+	Radius 1.000000
 	end
 end
 name "Blaziken"
 id 2
-transform 10 0 0 0 3.14159 0 0.5 0.5 0.5
+transform 11.2 0 0 -2.34921 4.74726 1.11177 0.5 0.5 0.5
 	component "Mesh Renderer"
 	Mesh Assets\Model\blaziken.obj
 	Material Assets\Material\Blaziken.phmat
-	end
-end
-name "Blaziken"
-id 3
-transform 10 0 0 0 3.14159 0 0.5 0.5 0.5
-	component "Mesh Renderer"
-	Mesh Assets\Model\blaziken.obj
-	Material Assets\Material\Blaziken.phmat
-	end
-end
-name "testMat"
-id 4
-transform 0 0 0 0 0 0 1 1 1
-	component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material Assets\Material\MetalGrid.phmat
 	end
 end
 name "Ground"
-id 5
+id 3
 transform 0 -3 0 0 0 0 50 1 100
 	component "Mesh Renderer"
 	Mesh Assets\Model\cube.obj
 	Material Assets\Material\Material.phmat
 	end
-	component "Collider"
+	component "Box Collider"
+	isTrigger  0
+	Center  0.000000 0.000000 0.000000
+	Size  1.000000 1.000000 1.000000
 	end
 end
 name "testMat"
-id 6
-transform 0 0 0 0 0 0 1 1 1
-	component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material Assets\Material\MetalGrid.phmat
-	end
-end
-name "testMat"
-id 7
-transform 0 0 0 0 0 0 1 1 1
+id 4
+transform 0 0 0 0.258309 0.284489 0 1 1 1
 	component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material Assets\Material\MetalGrid.phmat
 	end
 end
 name "SpotLight"
-id 8
-transform 0 25 0 0 0 0 1 1 1
-	component "Spot Light"
-	Color 1.000000 1.000000 1.000000
-	Intensity 1.000000
-	Angle 12.000000
-	Linear Attenuation 0.090000
-	Quadratic Attenuation 0.032000
-	end
-end
-name "SpotLight"
-id 9
+id 5
 transform 0 25 0 0 0 0 1 1 1
 	component "Spot Light"
 	Color 1.000000 1.000000 1.000000
