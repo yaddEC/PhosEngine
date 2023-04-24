@@ -42,10 +42,10 @@ void Transform::Destroy(bool destroyChildren)
 	}
 }
 
-void Engine::Transform::SetRotation(Maths::Vec3 rotation)
+void Engine::Transform::SetRotation(Maths::Vec3 _rotation)
 {
-	this->rotation = this->rotation.ToQuaternion(rotation * DEG2RAD);
-	rotationEuler = rotation;
+	rotation = rotation.ToQuaternion(_rotation);
+	rotationEuler = _rotation;
 }
 
 void Engine::Transform::SetRotation(Maths::Quaternion quaternion)
@@ -72,11 +72,16 @@ void Transform::OnGUI()
 
 	Vec3 tempRot = rotationEuler * Maths::RAD2DEG;
 	Wrapper::GUI::EditVec3("Position", position, true, 0.05f);
-	Wrapper::GUI::EditVec3("Rotation", tempRot, true, 0.1f);
+	bool rotChange = Wrapper::GUI::EditVec3("Rotation", tempRot, true, 0.1f);
 	Wrapper::GUI::EditVec3("Scale", scale, true, 0.05f);
-	Quaternion newQuat = this->rotation.ToQuaternion(tempRot * DEG2RAD);
-	rotationEuler = tempRot * DEG2RAD;
-	SetRotation(newQuat);
+
+	if (rotChange)
+	{
+		Quaternion newQuat = this->rotation.ToQuaternion(tempRot * DEG2RAD);
+		rotationEuler = tempRot * DEG2RAD;
+		SetRotation(newQuat);
+	}
+	
 }
 
 void Transform::SetParent(Transform* _parent)

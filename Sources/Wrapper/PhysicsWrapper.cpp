@@ -244,6 +244,7 @@ namespace Wrapper
             PhysxActor= Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidDynamic(pose);
             PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
+            collider->rb->physicsRigidbody->Init();
         }
         else {
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
@@ -321,7 +322,7 @@ namespace Wrapper
         collider->center = center;
         collider->isTrigger = trigger;
     }
-
+ 
 
     void PhysicsCollider::Update()
     {
@@ -366,7 +367,7 @@ namespace Wrapper
             }
             case PxGeometryType::eCAPSULE:
             {
-                PxCapsuleGeometry capsuleGeometry = geometryHolder.capsule();
+                PxCapsuleGeometry capsuleGeometry = geometryHolder.capsule();s
                 std::array<float, 2> scaleValues = { collider->gameobject->transform->scale.x, collider->gameobject->transform->scale.y };
                 float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
                 capsuleGeometry.radius *= max_scale;
@@ -379,6 +380,16 @@ namespace Wrapper
             }*/
         
         }
+    }
+
+    void PhysicsRigidbody::Init()
+    {
+        
+        Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
+       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x, rigidbody->gameobject->transform->position.y, rigidbody->gameobject->transform->position.z), PxQuat(-eulerRot.b, eulerRot.c, eulerRot.d, -eulerRot.a));
+
+        PhysxActor->setGlobalPose(pose);
+
     }
 
     void PhysicsRigidbody::Update()
@@ -398,7 +409,7 @@ namespace Wrapper
                 rigidbody->gameobject->transform->position = newPosition;
                 PxQuat updatedRotation = updatedTransform.q;
                 
-                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, -updatedRotation.y, -updatedRotation.z);
+                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, -updatedRotation.y, -updatedRotation.z) ;
                   
 
                 rigidbody->gameobject->transform->rotation = newRotation;

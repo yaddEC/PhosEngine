@@ -44,6 +44,10 @@ Reflection::ClassMetaData& Physic::Rigidbody::GetMetaData()
 		result.name = "RigidBody";
 		result.memberList =
 		{
+			ClassMemberInfo("Gravity", offsetof(Rigidbody, Rigidbody::gravity), MemberType::T_VEC3),
+			ClassMemberInfo("Velocity", offsetof(Rigidbody, Rigidbody::velocity), MemberType::T_VEC3),
+			ClassMemberInfo("mass", offsetof(Rigidbody, Rigidbody::mass), MemberType::T_FLOAT),
+			ClassMemberInfo("reset", offsetof(Rigidbody, Rigidbody::reset), MemberType::T_BOOL),
 		};
 		computed = true;
 	}

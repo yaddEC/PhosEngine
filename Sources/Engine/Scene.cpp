@@ -59,7 +59,8 @@ void Scene::GameObjectFromBuffer()
 
 void Scene::Update()
 {
-	Physic::PhysicsManager::GetInstance().Update(Input::deltaTime);
+	if(m_IsGameMode)
+		Physic::PhysicsManager::GetInstance().Update(Input::deltaTime);
 	
 	if(m_gameObjectBuffer.size() != 0)
 	{
@@ -223,6 +224,7 @@ void Engine::Scene::Unload()
 
 void Engine::Scene::Save()
 {
+	
 	std::fstream progFile;
 	progFile.open((p_directory + "\\" + p_name).c_str(), std::fstream::out | std::fstream::trunc);
 
@@ -239,7 +241,7 @@ void Engine::Scene::Save()
 void Engine::Scene::SaveGameObject(Engine::GameObject* gameObject, std::fstream& file, int depth)
 {
 	std::string tab = std::string(depth, '\t');
-
+	gameObject->transform->SetRotation(gameObject->transform->rotationEuler);
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
 		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z
@@ -277,6 +279,7 @@ GameObject* Engine::Scene::ParseGameObject(const std::vector<std::string>& fileD
 		{
 			newGameObject->transform->position = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
 			newGameObject->transform->rotationEuler = Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6]));
+			newGameObject->transform->SetRotation(newGameObject->transform->rotationEuler);
 			newGameObject->transform->scale = Maths::Vec3(std::stof(tokens[7]), std::stof(tokens[8]), std::stof(tokens[9]));
 		}
 		else if (tokens[0] == "component")
