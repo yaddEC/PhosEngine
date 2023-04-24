@@ -56,9 +56,11 @@ bool Editor::Init()
     Engine::Input::GetInstance().Init(m_window.GetWindow());
     InitEditorGUI();
     m_mainScene = rm.GetResource<Engine::Scene>("Assets\\Scene\\SampleScene.phscene");
+    m_mainScene->Load(m_mainScene->GetFilePath());
     m_sceneGUI->SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
     m_RendererGUI->SetCurrentScene(m_mainScene);
+    rm.SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
     
 
