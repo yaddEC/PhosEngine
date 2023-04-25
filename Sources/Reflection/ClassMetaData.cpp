@@ -198,17 +198,17 @@ void Reflection::ClassMetaData::GUIUpdate(void* classPtr)
 std::string Reflection::ClassMetaData::Save(void* classPtr, int depth)
 {
 	std::string result;
-	std::string tab = std::string(depth, '\t');
+	std::string tab = std::string(depth - 1, '\t');
 
 	result += tab;
 	result += "component \"" + name + "\"\n";
 
 	for (auto member : memberList)
 	{
-		result += tab;
+		result += tab + '\t';
 		result += member.Save((size_t)classPtr);
 	}
-	result += tab;
+	result += tab + '\t';
 	return result + "end\n";
 }
 

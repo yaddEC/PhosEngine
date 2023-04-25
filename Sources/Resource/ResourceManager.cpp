@@ -88,7 +88,8 @@ void Resource::ResourceManager::Save()
 		if (resource.second->GetTypeName() != "Scene")
 			resource.second->Save();
 	}
-	m_currentScene->Save();
+	if(m_currentScene)
+		m_currentScene->Save();
 }
 
 void Resource::ResourceManager::SetStaticResource()

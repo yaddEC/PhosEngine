@@ -7,3 +7,4 @@
 #include "Resource/Texture.hpp"
 #include "Resource/PostProcessingShader.hpp"
 #include "Engine/Scene.hpp"
+#include "Resource/IShader.hpp"

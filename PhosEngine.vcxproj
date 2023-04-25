@@ -418,6 +418,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Reflection\ClassMetaData.hpp" />
+    <ClInclude Include="Headers\Resource\Armature.hpp" />
     <ClInclude Include="Headers\Resource\CubeMap.hpp" />
     <ClInclude Include="Headers\Physic\Collider.hpp" />
     <ClInclude Include="Headers\Physic\PhysicsManager.hpp" />
@@ -429,6 +430,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\Prefab.hpp" />
     <ClInclude Include="Headers\Resource\ResourceIncludes.hpp" />
     <ClInclude Include="Headers\Resource\ResourceManager.hpp" />
+    <ClInclude Include="Headers\Resource\IShader.hpp" />
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
@@ -446,6 +448,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_widgets.cpp" />
     <ClCompile Include="Sources\Reflection\ClassMetaData.cpp" />
+    <ClCompile Include="Sources\Resource\Armature.cpp" />
     <ClCompile Include="Sources\Resource\CubeMap.cpp" />
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Engine\GameObject.cpp" />
@@ -476,6 +479,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Physic\PhysicsManager.cpp" />
     <ClCompile Include="Sources\Physic\Rigidbody.cpp" />
     <ClCompile Include="Sources\Resource\IResource.cpp" />
+    <ClCompile Include="Sources\Resource\IShader.cpp" />
     <ClCompile Include="Sources\Resource\Material.cpp" />
     <ClCompile Include="Sources\Resource\Mesh.cpp" />
     <ClCompile Include="Sources\Resource\Parser.cpp" />

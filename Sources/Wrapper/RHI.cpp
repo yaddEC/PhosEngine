@@ -71,6 +71,11 @@ void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int widt
 
 }
 
+void Wrapper::RHI::BindShader(unsigned int* shaderKey, const std::string& sourceCode, unsigned int ShaderType)
+{
+	*shaderKey = GetCompiledShader(ShaderType, sourceCode.c_str());
+}
+
 void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList)
 {
 	*programKey = glCreateProgram();
@@ -101,6 +106,7 @@ void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::Sh
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
 
+	// DELETE
 	for (auto& shader : shaderList)
 	{
 		glDeleteShader(shader.key);
@@ -137,7 +143,12 @@ void Wrapper::RHI::ShaderFloat(unsigned int programKey, const std::string& unifo
 	glUniform1f(glGetUniformLocation(programKey, uniformName.c_str()), value);
 }
 
-void Wrapper::RHI::UnloadShader(const unsigned int* programKey)
+void Wrapper::RHI::UnloadShader(const unsigned int* shaderKey)
+{
+	glDeleteShader(*shaderKey);
+}
+
+void Wrapper::RHI::UnloadShaderProgram(const unsigned int* programKey)
 {
 	glDeleteProgram(*programKey);
 }

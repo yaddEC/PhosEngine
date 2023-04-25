@@ -11,7 +11,6 @@
 
 #include"Wrapper/RHI.hpp"
 
-#define SHADERPROGRAM_EXPORTS
 #include "Resource/ShaderProgram.hpp"
 
 using namespace std;
@@ -57,6 +56,7 @@ void ShaderProgram::Load(const std::string& filepath)
 			m_shaderList.push_back(info);
 		}
 	}
+	progFile.close();
 }
 
 void ShaderProgram::Bind()
@@ -115,7 +115,7 @@ void Resource::ShaderProgram::SetCubeMap(const std::string& uniformName, int val
 
 void ShaderProgram::Unload()
 {
-	Wrapper::RHI::UnloadShader(&m_programKey);
+	Wrapper::RHI::UnloadShaderProgram(&m_programKey);
 }
 
 Texture* ShaderProgram::GenerateFileIcon()
