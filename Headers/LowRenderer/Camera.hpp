@@ -14,6 +14,7 @@ namespace Resource
 	class Mesh;
 	class Material;
 	class CubeMap;
+	class PostProcessingShader;
 }
 
 namespace LowRenderer
@@ -42,6 +43,7 @@ namespace LowRenderer
 
 		Resource::Texture& GetRenderTexture();
 		void OnGUI();
+		void ApplyPostProcessing(Maths::Vec2 viewPort);
 
 		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform,
 			const Engine::Transform& camTransform, const Resource::Material& material, float fov = 50.f);
@@ -49,7 +51,11 @@ namespace LowRenderer
 	private:
 
 		LowRenderer::FrameBuffer m_framebuffer;
+		LowRenderer::FrameBuffer m_postProFramebuffer;
+		Resource::PostProcessingShader* m_postPro;
+
 		Resource::Texture m_renderTexture;
+		Resource::Texture m_postProRenderTexture;
 
 		enum class BackGround
 		{

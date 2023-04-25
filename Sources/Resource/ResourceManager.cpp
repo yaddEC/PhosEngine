@@ -63,6 +63,10 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			{
 				CreateResource<Engine::Scene>(GetRelativePath(entry, rootAseetsPath));
 			}
+			else if (extension == "phppro" || extension == "PHPPRO")
+			{
+				CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAseetsPath));
+			}
 		}
 	}
 }

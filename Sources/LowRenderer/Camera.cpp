@@ -28,7 +28,9 @@ using namespace Maths;
 
 Camera::Camera()
     : m_framebuffer(FrameBuffer(10, 10))
+    , m_postProFramebuffer(FrameBuffer(10, 10))
     , m_renderTexture(Texture())
+    , m_postProRenderTexture(Texture())
 {
 
     transform = new Transform;
@@ -38,6 +40,9 @@ Camera::Camera()
 
     m_renderTexture.Bind();
     m_framebuffer.AttachTexture(&m_renderTexture);
+
+    m_postProRenderTexture.Bind();
+    m_postProFramebuffer.AttachTexture(&m_postProRenderTexture);
 }
 
 Camera::~Camera()
@@ -139,6 +144,17 @@ void Camera::OnGUI()
             GUI::EditColorRGBA("Background Color : ", m_backgroundColor);
 
     }
+}
+
+void LowRenderer::Camera::ApplyPostProcessing(Maths::Vec2 viewPort)
+{
+    if (m_postPro)
+    {
+        m_postPro->Use();
+        m_postProFramebuffer.Bind(viewPort.x, viewPort.y);
+        m_postProFramebuffer.Clear(m_backgroundColor);
+    }
+
 }
 
 Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const Resource::Material& material, float fov)

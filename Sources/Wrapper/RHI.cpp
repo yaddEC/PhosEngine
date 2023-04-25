@@ -107,7 +107,18 @@ void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::Sh
 	}
 }
 
-void Wrapper::RHI::UserProgram(unsigned int* programKey)
+void Wrapper::RHI::test(unsigned int* programKey, Resource::ShaderInfo& shader)
+{
+	*programKey = glCreateProgram();
+	shader.key = GetCompiledShader(shader.shaderType, shader.source);
+	if (shader.key == -1)
+	{
+		std::cout << "Error binding shader" << std::endl;
+		return;
+	}
+}
+
+void Wrapper::RHI::UseProgram(unsigned int* programKey)
 {
 	glUseProgram(*programKey);
 }

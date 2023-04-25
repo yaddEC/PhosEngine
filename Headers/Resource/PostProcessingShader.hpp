@@ -1,14 +1,9 @@
 #pragma once
 #include "Resource/IResource.hpp"
+#include "Resource/ShaderInfo.hpp"
 
 namespace Resource 
 {
-	struct PostProInfo
-	{
-		std::string fragSource;
-		unsigned int key;
-	};
-
 	class PostProcessingShader : public IResource
 	{
 	public:
@@ -17,12 +12,12 @@ namespace Resource
 		void Load(const std::string& filepath) override;
 		void Bind() override;
 		void Unload() override;
-		void Save() override;
-		void GUIUpdate() override;
 		class Texture* GenerateFileIcon() override { return nullptr; };
 
+		void Use();
+
 	private:
-		PostProInfo shaderInfo;
-		
+		std::vector<ShaderInfo> m_postProShaderList;
+		unsigned int m_progKey;
 	};
 }

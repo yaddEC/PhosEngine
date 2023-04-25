@@ -8,7 +8,6 @@
 #include <fstream>
 #include <sstream>
 
-
 #include"Wrapper/RHI.hpp"
 
 #define SHADERPROGRAM_EXPORTS
@@ -67,7 +66,7 @@ void ShaderProgram::Bind()
 
 void ShaderProgram::Use()
 {
-	Wrapper::RHI::UserProgram(&m_programKey);
+	Wrapper::RHI::UseProgram(&m_programKey);
 }
 
 void ShaderProgram::SetUniformMatrix(const string& uniformName, const Mat4& mat) const
