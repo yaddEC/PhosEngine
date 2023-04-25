@@ -61,6 +61,7 @@ bool Editor::Init()
     rm.SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
     m_RendererGUI->SetCurrentScene(m_mainScene);
+    rm.SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
     
 

@@ -32,6 +32,12 @@ namespace Engine
 		void Start();
 		void Update(); 
 		void Destroy();
+		void OnCollisionEnter(GameObject* gameobject);
+		void OnCollisionStay(GameObject* gameobject);
+		void OnCollisionExit(GameObject* gameobject);
+		void OnTriggerEnter(GameObject* gameobject);
+		void OnTriggerStay(GameObject* gameobject);
+		void OnTriggerExit(GameObject* gameobject);
 
 		Scene* GetScene() { return scene; }
 		void SetScene(Scene* _scene) { scene = _scene; }

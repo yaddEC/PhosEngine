@@ -8,6 +8,11 @@ namespace Resource
 {
 	class ShaderProgram;
 }
+
+namespace Engine
+{
+	class GameObject;
+}
 namespace LowRenderer
 {
 	class PHOSENGINE_API ILight : public Engine::MonoBehaviour
