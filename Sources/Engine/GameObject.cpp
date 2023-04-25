@@ -71,6 +71,54 @@ void Engine::GameObject::Update()
 	}
 }
 
+void Engine::GameObject::OnCollisionEnter(GameObject* gameobject)
+{
+	for (MonoBehaviour* comp : components)
+	{
+		comp->OnCollisionEnter(gameobject);
+	}
+}
+
+void Engine::GameObject::OnCollisionStay(GameObject* gameobject)
+{
+	for (MonoBehaviour* comp : components)
+	{
+		comp->OnCollisionStay(gameobject);
+	}
+}
+
+void Engine::GameObject::OnCollisionExit(GameObject* gameobject)
+{
+	for (MonoBehaviour* comp : components)
+	{
+		comp->OnCollisionExit(gameobject);
+	}
+}
+
+void Engine::GameObject::OnTriggerEnter(GameObject* gameobject)
+{
+	for (MonoBehaviour* comp : components)
+	{
+		comp->OnTriggerEnter(gameobject);
+	}
+}
+
+void Engine::GameObject::OnTriggerStay(GameObject* gameobject)
+{
+	for (MonoBehaviour* comp : components)
+	{
+		comp->OnTriggerStay(gameobject);
+	}
+}
+
+void Engine::GameObject::OnTriggerExit(GameObject* gameobject)
+{
+	for (MonoBehaviour* comp : components)
+	{
+		comp->OnTriggerExit(gameobject);
+	}
+}
+
 void Engine::GameObject::Destroy()
 {
 	for (MonoBehaviour* comp : components)

@@ -22,6 +22,12 @@ namespace Engine
 		bool isActive = true;
 
 		virtual void Start() = 0;
+		virtual void OnTriggerEnter(GameObject* go) = 0;
+		virtual void OnTriggerStay(GameObject* go) = 0;
+		virtual void OnTriggerExit(GameObject* go) = 0;
+		virtual void OnCollisionEnter(GameObject* go) = 0;
+		virtual void OnCollisionStay(GameObject* go) = 0;
+		virtual void OnCollisionExit(GameObject* go) = 0;
 		virtual void Update() = 0;
 		virtual void GUIUpdate() = 0;
 		virtual void OnDestroy() = 0;

@@ -67,7 +67,6 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
         rm.skyboxShader->Use();
 
         glCullFace(GL_BACK);
-        glDepthFunc(GL_LEQUAL);
         glDepthMask(GL_FALSE);
 
         Mat4 skyBoxView = view;
