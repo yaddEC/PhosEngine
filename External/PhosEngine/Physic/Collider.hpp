@@ -27,7 +27,6 @@ namespace Physic
 		Maths::Vec3 center;
 		Rigidbody* rb;
 		Wrapper::PhysicsCollider* physicsCollider;
-		void Init();
 		void Update() override;
 		void Start() override;
 		void GUIUpdate() override {};

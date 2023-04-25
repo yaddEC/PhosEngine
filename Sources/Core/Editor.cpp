@@ -58,6 +58,7 @@ bool Editor::Init()
     m_mainScene = rm.GetResource<Engine::Scene>("Assets\\Scene\\SampleScene.phscene");
     m_mainScene->Load(m_mainScene->GetFilePath());
     m_sceneGUI->SetCurrentScene(m_mainScene);
+    rm.SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
     m_RendererGUI->SetCurrentScene(m_mainScene);
     rm.SetCurrentScene(m_mainScene);
@@ -149,6 +150,17 @@ void Core::Editor::UpdateEditorGUI()
     m_sceneGUI->Update();
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
+
+    if (Engine::Scene* newScene = m_AssetExplorer->GetNewScene())
+    {
+        m_mainScene->Unload();
+        m_mainScene = newScene;
+        m_mainScene->Load(m_mainScene->GetFilePath());
+        m_sceneGUI->SetCurrentScene(m_mainScene);
+        m_Hierarchy->SetCurrentScene(m_mainScene);
+        m_RendererGUI->SetCurrentScene(m_mainScene);
+        Resource::ResourceManager::GetInstance().SetCurrentScene(m_mainScene);
+    }
     if (m_Hierarchy->selectedClicked)
     {
         m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());

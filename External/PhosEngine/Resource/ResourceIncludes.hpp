@@ -5,4 +5,6 @@
 #include "Resource/Prefab.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Texture.hpp"
+#include "Resource/PostProcessingShader.hpp"
 #include "Engine/Scene.hpp"
+#include "Resource/IShader.hpp"

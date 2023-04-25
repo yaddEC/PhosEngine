@@ -1,6 +1,7 @@
-#include "GUI/EditorGUI/MenuBar.hpp"
+ #include "GUI/EditorGUI/MenuBar.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
+#include "Engine/Scene.hpp"
 
 using namespace Wrapper;
 
