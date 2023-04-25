@@ -51,6 +51,7 @@ PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterD
     }
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+    pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
     return PxFilterFlag::eDEFAULT;
 }
 
@@ -61,18 +62,23 @@ void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader,
     {
         const PxContactPair& cp = pairs[i];
 
-        //printf("STAY COLLISION\n");
-
-        // only interested in contacts found with the shapes of the collider
+        Engine::GameObject* contact0 = reinterpret_cast<Engine::GameObject*>(pairHeader.actors[0]->userData);
+        Engine::GameObject* contact1 = reinterpret_cast<Engine::GameObject*>(pairHeader.actors[1]->userData);
         if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
         {
-            printf("\n");
+            contact0->OnCollisionEnter(contact1);
+            contact1->OnCollisionEnter(contact0);
+        }
+        if (cp.events & PxPairFlag::eNOTIFY_TOUCH_PERSISTS)
+        {
+            contact0->OnCollisionStay(contact1);
+            contact1->OnCollisionStay(contact0);
         }
 
-        // only interested in contacts lost with the shapes of the collider
         if (cp.events & PxPairFlag::eNOTIFY_TOUCH_LOST)
         {
-            printf("\n");
+            contact0->OnCollisionExit(contact1);
+            contact1->OnCollisionExit(contact0);
         }
     }
 }
@@ -83,21 +89,29 @@ void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
         PxTriggerPair& pair = pairs[i];
         PxShape* triggerShape = pair.triggerShape;
 
-        // check if the other shape is a trigger or not
+        Engine::GameObject* triggerActor = reinterpret_cast<Engine::GameObject*>(pair.triggerActor->userData);
+        Engine::GameObject* otherActor = reinterpret_cast<Engine::GameObject*>(pair.otherActor->userData);
+
         bool isOtherTrigger = pair.otherShape->getFlags() & PxShapeFlag::eTRIGGER_SHAPE;
 
-        // ENTER
         if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND && !isOtherTrigger)
         {
-            printf("ENTER TRIGGER\n");
+            triggerActor->OnTriggerEnter(otherActor);
         }
 
-        // EXIT
+
+        if (pair.status == PxPairFlag::eNOTIFY_TOUCH_PERSISTS && !isOtherTrigger)
+        {
+            triggerActor->OnTriggerStay(otherActor);
+        }
+
         if (pair.status == PxPairFlag::eNOTIFY_TOUCH_LOST && !isOtherTrigger)
         {
-            printf("EXIT TRIGGER\n");
+            triggerActor->OnTriggerExit(otherActor);
         }
-        //printf("STAY TRIGGER\n");
+
+    
+
     }
 
 }
@@ -219,8 +233,8 @@ namespace Wrapper
         sceneDesc.filterShader = CustomFilterShader;
         sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
         sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+        sceneDesc.simulationEventCallback = mySimulationEventCallback;
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
-        sceneDesc.filterShader = PxDefaultSimulationFilterShader;
         mScene = mPhysics->createScene(sceneDesc);
         if (!mScene)
             throw std::runtime_error("createScene failed!");
@@ -244,6 +258,7 @@ namespace Wrapper
             PhysxActor= Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidDynamic(pose);
             PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
+            collider->rb->physicsRigidbody->Init();
         }
         else {
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
@@ -251,6 +266,7 @@ namespace Wrapper
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.a, rotationQuat.b, rotationQuat.c, rotationQuat.d));
             PhysxActor = Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidStatic(pose);
         }
+        PhysxActor->userData = collider->gameobject;
         Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix();
         PxMaterial* material = createMaterialByType(Physic::PhysicsManager::GetInstance().getPhysics().getPhysics(), PhysxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
@@ -321,7 +337,7 @@ namespace Wrapper
         collider->center = center;
         collider->isTrigger = trigger;
     }
-
+ 
 
     void PhysicsCollider::Update()
     {
@@ -331,7 +347,7 @@ namespace Wrapper
             PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxQuat pxRotation(-rotationQuat.a, -rotationQuat.c, rotationQuat.d, rotationQuat.b);
+            PxQuat pxRotation(-rotationQuat.a, rotationQuat.d, -rotationQuat.c, rotationQuat.b);
 
  
           
@@ -366,7 +382,7 @@ namespace Wrapper
             }
             case PxGeometryType::eCAPSULE:
             {
-                PxCapsuleGeometry capsuleGeometry = geometryHolder.capsule();
+                PxCapsuleGeometry capsuleGeometry = geometryHolder.capsule();s
                 std::array<float, 2> scaleValues = { collider->gameobject->transform->scale.x, collider->gameobject->transform->scale.y };
                 float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
                 capsuleGeometry.radius *= max_scale;
@@ -379,6 +395,16 @@ namespace Wrapper
             }*/
         
         }
+    }
+
+    void PhysicsRigidbody::Init()
+    {
+        
+        Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
+       PxTransform pose(PxVec3(-rigidbody->gameobject->transform->position.x, rigidbody->gameobject->transform->position.y, rigidbody->gameobject->transform->position.z), PxQuat(-eulerRot.b, eulerRot.c, eulerRot.d, -eulerRot.a));
+
+        PhysxActor->setGlobalPose(pose);
+
     }
 
     void PhysicsRigidbody::Update()
@@ -398,12 +424,10 @@ namespace Wrapper
                 rigidbody->gameobject->transform->position = newPosition;
                 PxQuat updatedRotation = updatedTransform.q;
                 
-                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z);
-                
-                Maths::Vec3 eulerRotation = newRotation.ToEulerAngles();
-             
+                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, -updatedRotation.y, -updatedRotation.z) ;
+                  
 
-                rigidbody->gameobject->transform->rotationEuler = eulerRotation;
+                rigidbody->gameobject->transform->rotation = newRotation;
 
             }
 

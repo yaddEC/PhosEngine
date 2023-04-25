@@ -115,6 +115,7 @@ namespace Wrapper
     public:
         PhysicsRigidbody() {};
         ~PhysicsRigidbody() {};
+        void Init();
         void Update();
 
         Rigidbody* rigidbody;

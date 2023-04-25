@@ -99,9 +99,9 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 
 	case MemberType::T_FLOAT: result += std::to_string(*(float*)(classPtr + ptr)); break;
 
-	case MemberType::T_BOOL: result += *(bool*)(classPtr + ptr); break;
+	case MemberType::T_BOOL: result += ' ' + std::to_string(*(bool*)(classPtr + ptr)); break;
 
-	case MemberType::T_VEC3: result += std::to_string(*(float*)(classPtr + ptr)) 
+	case MemberType::T_VEC3: result += ' ' +std::to_string(*(float*)(classPtr + ptr))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 4))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 8)); break;
 
@@ -129,7 +129,7 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 
 	case MemberType::T_FLOAT: *(float*)(classPtr + ptr) = std::stof(tokens[1]);  break;
 
-	case MemberType::T_BOOL: break;
+	case MemberType::T_BOOL:*(bool*)(classPtr + ptr) = std::stoi(tokens[1]); break;
 
 	case MemberType::T_VEC3: *(float*)(classPtr + ptr) = std::stof(tokens[1]);
 		*(float*)(classPtr + ptr + 4) = std::stof(tokens[2]);
@@ -160,7 +160,7 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 
 	case MemberType::T_FLOAT: *(float*)(target + ptr) = *(float*)(source + ptr);  break;
 
-	case MemberType::T_BOOL: break;
+	case MemberType::T_BOOL: *(bool*)(target + ptr) = *(bool*)(source + ptr); break;
 
 	case MemberType::T_VEC3: *(Maths::Vec3*)(target + ptr) = *(Maths::Vec3*)(source + ptr); break;
 
@@ -261,8 +261,18 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	{
 		return gameObject->AddComponent<Physic::Rigidbody>();
 	}
-	if (componentName == "Collider")
+	if (componentName == "Box Collider")
 	{
-		return gameObject->AddComponent<Physic::Collider>();
+		return gameObject->AddComponent<Physic::BoxCollider>();
 	}
+	if (componentName == "Sphere Collider")
+	{
+		return gameObject->AddComponent<Physic::SphereCollider>();
+	}
+	if (componentName == "Capsule Collider")
+	{
+		return gameObject->AddComponent<Physic::CapsuleCollider>();
+	}
+
+	return nullptr;
 }

@@ -19,7 +19,8 @@ void Physic::PhysicsManager::Init()
 
 void Physic::PhysicsManager::Update(float deltaTime)
 {
-	physics.Update(deltaTime);
+	if(deltaTime>0)
+		physics.Update(deltaTime);
 }
 
 void Physic::PhysicsManager::Cleanup()
