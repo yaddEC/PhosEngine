@@ -32,7 +32,8 @@ namespace Wrapper
 		static void ResizeTexture(unsigned int* textureKey, int channel, int width, int height);
 
 		static void BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList);
-		static void UserProgram(unsigned int* programKey);
+		static void test(unsigned int* programKey, Resource::ShaderInfo& shaderList);
+		static void UseProgram(unsigned int* programKey);
 		static void ShaderMat(const unsigned int& programKey, const std::string& uniformName, const Maths::Mat4& mat);
 		static void ShaderVec3(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec3& vec3);
 		static void ShaderVec4(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec4& vec4);

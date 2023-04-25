@@ -14,7 +14,7 @@ namespace LowRenderer
 	class PHOSENGINE_API FrameBuffer
 	{
 	public:
-		FrameBuffer(int _width, int _height);
+		FrameBuffer(int _width = 0, int _height = 0);
 		~FrameBuffer() { Unload(); }
 
 		// Don't resize if at least one parameter is 0 or equal to current width or height
