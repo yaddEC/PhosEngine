@@ -11,6 +11,11 @@ namespace Wrapper
 	enum MaterialType;
 }
 
+namespace Engine
+{
+	class GameObject;
+}
+
 
 
 namespace Physic
@@ -28,6 +33,12 @@ namespace Physic
 		void Init();
 		void Update() override;
 		void Start() override;
+		void OnTriggerEnter(Engine::GameObject* go) override {};
+		void OnTriggerStay(Engine::GameObject* go) override {};
+		void OnTriggerExit(Engine::GameObject* go) override {};
+		void OnCollisionEnter(Engine::GameObject* go) override { printf("Collision enter from %s\n",gameobject->name.c_str()); };
+		void OnCollisionStay(Engine::GameObject* go) override {};
+		void OnCollisionExit(Engine::GameObject* go) override {};
 		void GUIUpdate() override {};
 		void OnDestroy() override {};
 		void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
