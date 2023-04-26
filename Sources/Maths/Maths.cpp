@@ -221,14 +221,16 @@ float Maths::Vec3::GetMagnitude()												const
 }
 void Maths::Vec3::Normalize()
 {
-	if (float i = GetMagnitude() != 0)
+	float i = GetMagnitude();
+	if (i != 0)
 	{
 		operator/=(i);
 	}
 }
 Maths::Vec3 Maths::Vec3::GetNormalized()										const
 {
-	if (float i = GetMagnitude() != 0)
+	float i = GetMagnitude();
+	if (i != 0)
 	{
 		return operator/(i);
 	}
@@ -422,14 +424,16 @@ float Maths::Vec4::GetMagnitude()												const
 }
 void Maths::Vec4::Normalize()
 {
-	if (float i = GetMagnitude() != 0)
+	float i = GetMagnitude();
+	if (i != 0)
 	{
 		operator/=(i);
 	}
 }
 Maths::Vec4 Maths::Vec4::GetNormalized()										const
 {
-	if (float i = GetMagnitude() != 0)
+	float i = GetMagnitude();
+	if (i != 0)
 	{
 		return operator/(i);
 	}
@@ -946,6 +950,7 @@ Maths::Mat4 Maths::Mat4::operator*(Mat4 _Mat) const
 
 	return temp;
 }
+//Mat4 TO Vec3 OPERATIONS :
 
 Maths::Vec4 Maths::Mat4::operator*(Vec4 _vec) const
 {

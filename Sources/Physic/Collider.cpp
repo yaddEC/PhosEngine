@@ -5,6 +5,7 @@
 //----------------
 
 #include <Engine/GameObject.hpp>
+#include <Engine/Transform.hpp>
 #include <Wrapper/PhysicsWrapper.hpp>
 #include <Physic/Rigidbody.hpp>
 

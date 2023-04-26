@@ -43,6 +43,10 @@ namespace Engine
 
 		void AddRotation(Maths::Quaternion quaternion);
 
+		Maths::Vec3 GetForwardVector();
+		Maths::Vec3 GetUpVector();
+		Maths::Vec3 GetRightVector();
+
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 
 		void OnGUI();
