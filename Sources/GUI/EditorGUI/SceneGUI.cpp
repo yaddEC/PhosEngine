@@ -83,6 +83,14 @@ Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 
 void SceneGUI::DoUpdate()
 {
+	frameCount++;
+	elapsedTime += Input::deltaTime;
+	if (elapsedTime >= 1.0f)
+	{
+		fps = static_cast<float>(frameCount) / elapsedTime;
+		elapsedTime = 0.0f;
+		frameCount = 0;
+	}
 	using namespace Wrapper;
 	selectedClicked = false;
 	Input& input = Input::GetInstance();
@@ -108,6 +116,8 @@ void SceneGUI::DoUpdate()
 	m_sceneCamera.OnGUI();
 
 	GUI::SetCursorPos(cursorPos + Maths::Vec2(size.x / 2 - 10, 0));
+	
+	
 	if (m_currentScene->GetIsGameMode())
 	{
 		if (GUI::Button("Stop"))
@@ -122,4 +132,5 @@ void SceneGUI::DoUpdate()
 			m_currentScene->StartGameMode();
 		}
 	}
+	GUI::DisplayText("%f FPS", fps);
 }

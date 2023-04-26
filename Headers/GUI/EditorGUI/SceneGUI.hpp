@@ -22,6 +22,9 @@ namespace EditorGUI
 		void UpdateCamera(Engine::Input& input);
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
+		unsigned int frameCount = 0;
+		float elapsedTime = 0.0f;
+		float fps ;
 
 		float speedModifier;
 		unsigned int m_selectedId;

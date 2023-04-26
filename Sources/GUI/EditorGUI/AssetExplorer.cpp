@@ -49,7 +49,7 @@ void AssetExplorer::Reload()
 
 void AssetExplorer::DoUpdate()
 {
-	GUI::DisplayText(m_currentDirectory); GUI::SameLine();
+	GUI::DisplayText(m_currentDirectory.c_str()); GUI::SameLine();
 
 	GUI::SetCursorPos(Maths::Vec2(GUI::GetWindowSize().x - 95, GUI::GetCursorPos().y - 5));
 
@@ -123,7 +123,7 @@ void AssetExplorer::DisplayFile(const string& file)
 	
 	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
 	
-	GUI::DisplayText(displayfilename);
+	GUI::DisplayText(displayfilename.c_str());
 	GUI::EndGroup();
 
 
@@ -167,7 +167,7 @@ void EditorGUI::AssetExplorer::DisplayFolder(const std::string& folder)
 		displayFolderName += "...";
 
 	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayFolderName).x) * 0.5f, cursorPos.y + 110));
-	GUI::DisplayText(displayFolderName);
+	GUI::DisplayText(displayFolderName.c_str());
 
 	GUI::EndGroup();
 

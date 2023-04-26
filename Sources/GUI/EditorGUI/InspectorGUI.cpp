@@ -39,7 +39,7 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 	}*/
 
 
-	Wrapper::GUI::DisplayText(m_gameobject->name + " id: " + std::to_string(m_gameobject->GetID()));
+	Wrapper::GUI::DisplayText((m_gameobject->name + " id: " + std::to_string(m_gameobject->GetID())).c_str());
 	Wrapper::GUI::Separator();
 	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{
@@ -57,7 +57,7 @@ void EditorGUI::InspectorGUI::DisplayResource()
 {
 	if (!m_resource) return;
 	Wrapper::GUI::SetWindowFontSize(2.f);
-	Wrapper::GUI::DisplayText(m_resource->GetName());
+	Wrapper::GUI::DisplayText(m_resource->GetName().c_str());
 	Wrapper::GUI::SetWindowFontSize(1);
 	Wrapper::GUI::SetCursorPos(Wrapper::GUI::GetCursorPos() + Maths::Vec2(0, 5));
 	Wrapper::GUI::Separator();
