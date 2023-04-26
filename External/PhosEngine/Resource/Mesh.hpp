@@ -8,6 +8,7 @@
 
 #include "Resource/SubMesh.hpp"
 
+#include "Armature.hpp"
 #include "dllInclude.hpp"
 
 namespace Resource
@@ -40,10 +41,12 @@ namespace Resource
 	private:
 		std::vector<SubMesh> m_subMeshes;
 		Maths::Vec3 m_boundingBoxMin, m_boundingBoxMax;
-
+		Armature* m_armature;
+		
 		void ProcessNode(aiNode* node, const aiScene* scene, const std::string& filepath);
 		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
-		class Texture* ProcessTexture(aiMaterial* mat, aiTextureType type, const std::string& filepath);
+		SubMesh ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
+		void ProcessArmature(std::vector<unsigned int>& indices, aiMesh* mesh, const aiScene* scene);
 
 		void GenerateMaterial(aiMaterial* mat);
 	};

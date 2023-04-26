@@ -1,6 +1,6 @@
 c_alb 1 1 1
 c_spec 0.5 0.5 0.5
 shiny 10
-shader Assets\Shader\MainShader.prog
+shader Assets\Shader\PBRShader.prog
 v_meta 0
 v_rough 0

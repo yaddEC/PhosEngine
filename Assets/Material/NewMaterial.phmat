@@ -1,4 +1,4 @@
-c_alb 0 0 0
+t_alb Assets\Texture\Ch46_1001_Diffuse.png
 c_spec 0 0 0
 shiny 1
 shader Assets\Shader\PBRShader.prog

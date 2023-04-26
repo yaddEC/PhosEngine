@@ -4,6 +4,10 @@
 #include <string>
 #include "Engine/Transform.hpp"
 
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+
 #include "dllInclude.hpp"
 
 
