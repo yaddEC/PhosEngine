@@ -75,12 +75,10 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
         Wrapper::RHI::RenderSubMesh(rm.cube->GetSubMesh(0).GetVAO(), rm.cube->GetSubMesh(0).indices);
     }
 
-    
     glCullFace(GL_FRONT);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     
-
     for (MeshRenderer* rend : rendList)
     {
         rend->Render(viewProj);
