@@ -63,6 +63,10 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			{
 				CreateResource<Engine::Scene>(GetRelativePath(entry, rootAseetsPath));
 			}
+			else if (extension == "phppro" || extension == "PHPPRO")
+			{
+				CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAseetsPath));
+			}
 		}
 	}
 }
@@ -97,6 +101,7 @@ void Resource::ResourceManager::SetStaticResource()
 	cube = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCube.obj");
 	skyboxShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\SkyboxShader\\SkyboxShader.prog");
 	pickingShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\PickingShader\\PickingShader.prog");
+	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 }
 
 void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene) 

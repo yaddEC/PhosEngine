@@ -8,7 +8,6 @@
 #include <fstream>
 #include <sstream>
 
-
 #include"Wrapper/RHI.hpp"
 
 #include "Resource/ShaderProgram.hpp"
@@ -40,6 +39,7 @@ void ShaderProgram::Load(const std::string& filepath)
 			if (type == "frag") info.shaderType = GL_FRAGMENT_SHADER;
 
 			string sourcePath = line.substr(5);
+			info.filePath = sourcePath;
 			fstream file;
 			file.open(sourcePath.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 			if (file)
@@ -67,7 +67,7 @@ void ShaderProgram::Bind()
 
 void ShaderProgram::Use()
 {
-	Wrapper::RHI::UserProgram(&m_programKey);
+	Wrapper::RHI::UseProgram(&m_programKey);
 }
 
 void ShaderProgram::SetUniformMatrix(const string& uniformName, const Mat4& mat) const

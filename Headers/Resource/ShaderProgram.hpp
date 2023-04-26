@@ -3,6 +3,7 @@
 #include <vector>
 #include "Maths/Maths.hpp"
 #include "IResource.hpp"
+#include "Resource/ShaderInfo.hpp"
 
 #include "dllInclude.hpp"
 
@@ -10,13 +11,6 @@ namespace Resource
 {
 	class CubeMap;
 	class Texture;
-
-	struct ShaderInfo
-	{
-		std::string source;
-		unsigned int shaderType;
-		unsigned int key;
-	};
 
 	class PHOSENGINE_API ShaderProgram : public IResource
 	{

@@ -28,7 +28,9 @@ using namespace Maths;
 
 Camera::Camera()
     : m_framebuffer(FrameBuffer(10, 10))
+    , m_postProFramebuffer(FrameBuffer(10, 10))
     , m_renderTexture(Texture())
+    , m_postProRenderTexture(Texture())
 {
 
     transform = new Transform;
@@ -38,6 +40,9 @@ Camera::Camera()
 
     m_renderTexture.Bind();
     m_framebuffer.AttachTexture(&m_renderTexture);
+
+    m_postProRenderTexture.Bind();
+    m_postProFramebuffer.AttachTexture(&m_postProRenderTexture);
 }
 
 Camera::~Camera()
@@ -84,8 +89,13 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
         rend->Render(viewProj);
     }
 
+    if (m_postPro)
+    {
+        glCullFace(GL_BACK);
+        ApplyPostProcessing(viewportSize);
+    }
     // unbind the framebuffer
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    Wrapper::RHI::UnbindFrameBuffer();
 }
 
 void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Vec2& viewportSize)
@@ -112,6 +122,10 @@ void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Ve
 
 Resource::Texture& LowRenderer::Camera::GetRenderTexture()
 {
+    if (m_postPro)
+    {
+        return m_postProRenderTexture;
+    }
     return m_renderTexture;
 }
 
@@ -134,8 +148,19 @@ void Camera::OnGUI()
         }
         if((int)m_backgroundMode)
             GUI::EditColorRGBA("Background Color : ", m_backgroundColor);
-
+        Wrapper::GUI::PickPostProcessing("Post Processing : ", &m_postPro);
     }
+}
+
+void LowRenderer::Camera::ApplyPostProcessing(Maths::Vec2 viewPort)
+{
+    Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+    m_postProFramebuffer.Bind(viewPort.x, viewPort.y);
+    m_postProFramebuffer.Clear(m_backgroundColor);
+    m_postPro->Use(); 
+    m_postPro->SetTexture("screenTexture", 0, m_renderTexture);
+    Wrapper::RHI::RenderSubMesh(rm.quad->GetSubMesh(0).GetVAO(), rm.quad->GetSubMesh(0).indices);
+    Wrapper::RHI::UnbindFrameBuffer();
 }
 
 Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, const Transform& camTransform, const Resource::Material& material, float fov)
