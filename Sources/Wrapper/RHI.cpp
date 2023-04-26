@@ -86,6 +86,7 @@ void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::Sh
 		if (shader.key == -1)
 		{
 			std::cout << "Error binding shader" << std::endl;
+			std::cout << shader.filePath << std::endl;
 			return;
 		}
 	}
@@ -103,24 +104,13 @@ void Wrapper::RHI::BindShader(unsigned int* programKey, std::vector<Resource::Sh
 	{
 		char infoLog[512];
 		glGetProgramInfoLog(*programKey, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED : " << shaderList[1] .filePath << "\n" << infoLog << std::endl;
 	}
 
 	// DELETE
 	for (auto& shader : shaderList)
 	{
 		glDeleteShader(shader.key);
-	}
-}
-
-void Wrapper::RHI::test(unsigned int* programKey, Resource::ShaderInfo& shader)
-{
-	*programKey = glCreateProgram();
-	shader.key = GetCompiledShader(shader.shaderType, shader.source);
-	if (shader.key == -1)
-	{
-		std::cout << "Error binding shader" << std::endl;
-		return;
 	}
 }
 

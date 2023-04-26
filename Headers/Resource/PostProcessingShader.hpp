@@ -16,6 +16,7 @@ namespace Resource
 
 		void Use();
 
+		void SetTexture(const std::string& uniformName, int value, const Texture& texture) const;
 	private:
 		std::vector<ShaderInfo> m_postProShaderList;
 		unsigned int m_progKey;

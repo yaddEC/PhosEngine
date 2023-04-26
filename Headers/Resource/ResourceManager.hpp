@@ -23,6 +23,7 @@ namespace Resource
 	class Mesh;
 	class CubeMap;
 	class Prefab;
+	class PostProcessingShader;
 
 	class PHOSENGINE_API ResourceManager
 	{
@@ -111,6 +112,11 @@ namespace Resource
 			{
 				m_prefabList.push_back(((Prefab*)newResource)->GetName());
 			}
+			
+			if (typeid(T) == typeid(PostProcessingShader))
+			{
+				m_postProcessingList.push_back(((PostProcessingShader*)newResource)->GetName());
+			}
 
 			return newResource;
 
@@ -154,6 +160,12 @@ namespace Resource
 		inline std::vector<std::string> GetResourceNameList<Material>()
 		{
 			return m_materialNameList;
+		}		
+		
+		template<>
+		inline std::vector<std::string> GetResourceNameList<PostProcessingShader>()
+		{
+			return m_postProcessingList;
 		}
 
 		void SetCurrentScene(Engine::Scene* currentScene); 
@@ -163,6 +175,7 @@ namespace Resource
 		ShaderProgram* skyboxShader;
 		ShaderProgram* pickingShader;
 		Mesh* cube;
+		Mesh* quad;
 
 	private:
 
@@ -170,7 +183,7 @@ namespace Resource
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
 		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
-			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList;
+			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList, m_postProcessingList;
 
 		Engine::Scene* m_currentScene;
 

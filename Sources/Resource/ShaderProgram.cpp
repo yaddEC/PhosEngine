@@ -39,6 +39,7 @@ void ShaderProgram::Load(const std::string& filepath)
 			if (type == "frag") info.shaderType = GL_FRAGMENT_SHADER;
 
 			string sourcePath = line.substr(5);
+			info.filePath = sourcePath;
 			fstream file;
 			file.open(sourcePath.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 			if (file)
