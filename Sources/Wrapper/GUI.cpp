@@ -306,7 +306,7 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 		}
 		ImGui::EndCombo();
 	}
-	if (Resource::Mesh** newmesh = (Resource::Mesh**)DragDropTarget("Material"))
+	if (Resource::Mesh** newmesh = (Resource::Mesh**)DragDropTarget("Mesh"))
 	{
 		*mesh = *newmesh;
 	}
@@ -348,6 +348,45 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 	if (Resource::Material** mat = (Resource::Material**)DragDropTarget("Material"))
 	{
 		*material = *mat;
+	}
+
+	return false;
+}
+
+bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostProcessingShader** postPro, bool text)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	std::vector<std::string> postProNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::PostProcessingShader>();
+	std::string currentPostProName = (*postPro) ? (*postPro)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
+	{
+		if (ImGui::Selectable("None", !postPro))
+		{
+			*postPro = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto str : postProNameList)
+		{
+			if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+			{
+				*postPro = Resource::ResourceManager::GetInstance().GetResource<Resource::PostProcessingShader>(str);
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	if (Resource::PostProcessingShader** mat = (Resource::PostProcessingShader**)DragDropTarget("Post Processing"))
+	{
+		*postPro = *mat;
 	}
 
 	return false;

@@ -11,18 +11,23 @@
 
 #include "Wrapper/RHI.hpp"
 
-#define VERTEX_EXPORTS
-#define SUBMESH_EXPORTS
 #include "Resource/SubMesh.hpp"
 
 using namespace std;
 using namespace Resource;
 
-SubMesh::SubMesh(vector<Vertex> _vertices, vector<unsigned int> _indices, Texture* _texture)
+SubMesh::SubMesh(vector<Vertex> _vertices, vector<unsigned int> _indices)
 {
     vertices = _vertices;
     indices = _indices;
-    texture = _texture;
+    isSkinned = false;
+}
+
+SubMesh::SubMesh(vector<SkinnedVertex> _vertices, vector<unsigned int> _indices)
+{
+    skninnedVertices = _vertices;
+    indices = _indices;
+    isSkinned = true;
 }
 
 void SubMesh::Render(const ShaderProgram& shaderProgram, const class Material& material) const

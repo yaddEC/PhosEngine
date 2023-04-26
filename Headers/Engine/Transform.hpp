@@ -58,7 +58,7 @@ namespace Engine
 
 		Transform* m_parent = nullptr;
 		std::vector<Transform*> m_children;
-		GameObject* gameObject;
+		GameObject* gameObject{nullptr};
 
 		void RemoveChild(Transform* child);
 	};

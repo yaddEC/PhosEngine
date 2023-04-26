@@ -26,16 +26,20 @@ void Resource::PostProcessingShader::Load(const std::string& filepath)
 {
 	SetFileInfo(filepath);
 	ShaderInfo vertShader;
-	vertShader.source = "#version 330 core"
-						"layout(location = 0) in vec2 aPos;"
-						"out vec2 TexCoords;"
-						"void main() { "
-						"TexCoords = aPos / 2.0 + vec2(0.5, 0.5);"
-						"gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0); }  ";
+	vertShader.source = "#version 330 core\n"
+						"layout (location = 0) in vec3 aPos;\n"
+						"out vec2 TexCoords;\n"
+						"void main()\n"
+						"{\n"
+						"	gl_Position = vec4(aPos.x, aPos.y, 0, 1.0);\n" 
+						"	TexCoords = vec2(aPos) / 2.0 + vec2(0.5, 0.5);\n"
+						"}";
 	vertShader.shaderType = GL_VERTEX_SHADER;
+	vertShader.filePath = "Post Processing shader";
 	m_postProShaderList.push_back(vertShader);
 
 	std::fstream progFile;
+
 	progFile.open(filepath.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!progFile)
@@ -47,6 +51,7 @@ void Resource::PostProcessingShader::Load(const std::string& filepath)
 	{
 		ShaderInfo info;
 		info.shaderType = GL_FRAGMENT_SHADER;
+		info.filePath = filepath;
 		std::string sourceLine;
 		while (getline(progFile, sourceLine))
 			info.source += '\n' + sourceLine;
@@ -68,5 +73,10 @@ void Resource::PostProcessingShader::Unload()
 void Resource::PostProcessingShader::Use()
 {
 	Wrapper::RHI::UseProgram(&m_progKey);
+}
 
+void Resource::PostProcessingShader::SetTexture(const std::string& uniformName, int value, const Texture& texture) const
+{
+	Wrapper::RHI::ActivateTexture(texture, value);
+	Wrapper::RHI::ShaderInt(m_progKey, uniformName, value);
 }

@@ -48,6 +48,7 @@ void Mesh::Unload()
 
 Mesh::~Mesh()
 {
+    delete m_armature;
     Unload();
 }
 
@@ -133,25 +134,82 @@ SubMesh Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string&
             indices.push_back(face.mIndices[j]);
     }
 
-    // process materials (textures for now)
-    Texture* texture = nullptr;
+    
     if (mesh->mMaterialIndex >= 0)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
         //GenerateMaterial(material);
-        texture = ProcessTexture(material, aiTextureType_DIFFUSE, filepath);
     }
 
-    return SubMesh(vertices, indices, texture);
+    return SubMesh(vertices, indices);
 }
 
-Texture* Mesh::ProcessTexture(aiMaterial* mat, aiTextureType type, const std::string& filepath)
+SubMesh Resource::Mesh::ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath)
 {
-    aiString str;
-    mat->GetTexture(type, 0, &str);
-    ResourceManager& rm = ResourceManager::GetInstance();
-    Texture* tex = rm.GetResource<Texture>(p_directory + "\\" + str.C_Str());
-    return tex;
+    std::vector<SkinnedVertex> vertices;
+    std::vector<unsigned int> indices;
+
+    for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+    {
+        SkinnedVertex vertex;
+        // process vertex positions, normals and texture coordinates
+        vertex.position = Vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+        vertex.normal = Vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
+        vertex.tangents = Vec3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+        vertex.bitangents = Vec3(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z);
+        for (size_t i = 0; i < 4; i++)
+        {
+            vertex.boneIDs[i] = -1;
+            vertex.boneWeights[i] = 0.f;
+        }
+
+        if (mesh->mTextureCoords[0])
+        {
+            vertex.UVCoords = Vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+        }
+
+        vertices.push_back(vertex);
+
+        if (vertex.position.x < m_boundingBoxMin.x) m_boundingBoxMin.x = vertex.position.x;
+        if (vertex.position.y < m_boundingBoxMin.y) m_boundingBoxMin.y = vertex.position.y;
+        if (vertex.position.z < m_boundingBoxMin.z) m_boundingBoxMin.z = vertex.position.z;
+
+        if (vertex.position.x > m_boundingBoxMax.x) m_boundingBoxMax.x = vertex.position.x;
+        if (vertex.position.y > m_boundingBoxMax.y) m_boundingBoxMax.y = vertex.position.y;
+        if (vertex.position.z > m_boundingBoxMax.z) m_boundingBoxMax.z = vertex.position.z;
+    }
+
+    // process indices
+    for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+    {
+        aiFace face = mesh->mFaces[i];
+        for (unsigned int j = 0; j < face.mNumIndices; j++)
+            indices.push_back(face.mIndices[j]);
+    }
+
+
+    if (mesh->mMaterialIndex >= 0)
+    {
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        //GenerateMaterial(material);
+    }
+
+    ProcessArmature(vertices, mesh, scene);
+
+    return SubMesh(vertices, indices);
+}
+
+
+void Resource::Mesh::ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene)
+{
+    m_armature = new Armature();
+    for (size_t i = 0; i < mesh->mNumBones; i++)
+    {
+        Bone bone;
+        bone.inverseBind = GetStandardMatrix(mesh->mBones[i]->mOffsetMatrix);
+        bone.indexInArmature = i;
+        bone.name = mesh->mBones[i]->mName.C_Str(); 
+    }
 }
 
 void Resource::Mesh::GenerateMaterial(aiMaterial* mat)

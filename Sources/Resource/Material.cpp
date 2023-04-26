@@ -52,7 +52,8 @@ void Resource::Material::Save()
 			progFile << "c_spec " << m_specular.color.x << " " << m_specular.color.y << " " << m_specular.color.z << '\n';
 
 		progFile << "shiny " << m_shininess << '\n';
-		progFile << "shader " << m_shader->GetFilePath() << '\n';
+		if(m_shader)
+			progFile << "shader " << m_shader->GetFilePath() << '\n';
 
 		if (m_normalMap)
 			progFile << "t_norm " << m_normalMap->GetFilePath() << '\n';
@@ -71,7 +72,7 @@ void Resource::Material::Save()
 
 void Resource::Material::GUIUpdate()
 {
-	std::string shaderName = m_shader->GetName();
+	std::string shaderName = m_shader ? m_shader->GetName() : "No Shader";
 	if (GUI::Combo("Shader : ", ResourceManager::GetInstance().GetResourceNameList<ShaderProgram>(), shaderName))
 	{
 		m_shader = ResourceManager::GetInstance().GetResource<ShaderProgram>(shaderName);
