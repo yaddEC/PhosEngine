@@ -8,7 +8,9 @@ namespace Resource
 {
 	class Material;
 
-	struct PHOSENGINE_API Vertex
+	constexpr size_t MAX_BONE_WEIGHTS = 4;
+
+	struct Vertex
 	{
 		Maths::Vec3 position;
 		Maths::Vec3 normal;
@@ -17,16 +19,28 @@ namespace Resource
 		Maths::Vec3 bitangents;
 	};
 
+	struct SkinnedVertex
+	{
+		Maths::Vec3 position;
+		Maths::Vec3 normal;
+		Maths::Vec2 UVCoords;
+		Maths::Vec3 tangents;
+		Maths::Vec3 bitangents;
+		int boneIDs[MAX_BONE_WEIGHTS];
+		float boneWeights[MAX_BONE_WEIGHTS];
+	};
+
 	class PHOSENGINE_API SubMesh
 	{
 	public:
-		SubMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, class Texture* _texture);
+		SubMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+		SubMesh(std::vector<SkinnedVertex> vertices, std::vector<unsigned int> indices);
 
 		std::vector<Vertex> vertices;
+		std::vector<SkinnedVertex> skninnedVertices;
 		std::vector<unsigned int> indices;
+		bool isSkinned;
 
-		// TEMP : meant to be replaced by material.
-		class Texture* texture;
 
 		void Render(const class ShaderProgram& shaderProgram, const class Material& material) const;
 

@@ -4,6 +4,10 @@
 #include <string>
 #include "Engine/Transform.hpp"
 
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+
 #include "dllInclude.hpp"
 
 
@@ -13,7 +17,7 @@ namespace Resource
 	struct Bone
 	{
 		std::string name;
-		Engine::Transform transform;
+		Maths::Mat4 inverseBind;
 		unsigned int indexInArmature;
 	};
 

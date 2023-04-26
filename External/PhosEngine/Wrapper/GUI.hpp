@@ -13,6 +13,7 @@ namespace Resource
 	class Texture; 
 	class Mesh;
 	class Material;
+	class PostProcessingShader;
 }
 
 namespace Wrapper
@@ -78,6 +79,7 @@ namespace Wrapper
 
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
+		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 
 		static void DisplayText(const std::string& text);
 		static void DisplayFloat(const std::string& label, float value);
