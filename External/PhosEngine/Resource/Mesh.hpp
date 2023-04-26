@@ -46,7 +46,16 @@ namespace Resource
 		void ProcessNode(aiNode* node, const aiScene* scene, const std::string& filepath);
 		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
 		SubMesh ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
-		void ProcessArmature(std::vector<unsigned int>& indices, aiMesh* mesh, const aiScene* scene);
+		void ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene);
+		Maths::Mat4 GetStandardMatrix(const aiMatrix4x4& mat) 
+		{
+			Maths::Mat4 result;
+			result.data4V[0] = Maths::Vec4{mat.a1, mat.a2, mat.a3, mat.a4};
+			result.data4V[1] = Maths::Vec4{ mat.b1, mat.b2, mat.b3, mat.b4 };
+			result.data4V[2] = Maths::Vec4{ mat.c1, mat.c2, mat.c3, mat.c4 };
+			result.data4V[3] = Maths::Vec4{ mat.d1, mat.d2, mat.d3, mat.d4 };
+			return result;
+		}
 
 		void GenerateMaterial(aiMaterial* mat);
 	};

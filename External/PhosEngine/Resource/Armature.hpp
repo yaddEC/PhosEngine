@@ -17,7 +17,7 @@ namespace Resource
 	struct Bone
 	{
 		std::string name;
-		Engine::Transform transform;
+		Maths::Mat4 inverseBind;
 		unsigned int indexInArmature;
 	};
 
