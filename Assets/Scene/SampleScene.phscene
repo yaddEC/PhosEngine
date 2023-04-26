@@ -1,55 +1,36 @@
-name "Boo 1"
-id 1
-transform 6.65 10 0 0 1.11701 0 1 1 1
-	component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-	component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-	component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
 name "Blaziken"
-id 2
+id 1
 transform 10 0 0 0 3.14159 0 0.5 0.5 0.5
-	component "Mesh Renderer"
+component "Mesh Renderer"
 	Mesh Assets\Model\blaziken.obj
 	Material Assets\Material\Blaziken.phmat
 	end
 end
 name "Ground"
-id 3
-transform 0 -3 0 0 0 0 50 1 100
-	component "Mesh Renderer"
+id 2
+transform 6.35 -24.2 21.55 0.263545 0.300197 -0.0855211 50 1 100
+component "Mesh Renderer"
 	Mesh Assets\Model\cube.obj
 	Material Assets\Material\Material.phmat
 	end
-	component "Box Collider"
+component "Box Collider"
 	isTrigger  0
 	Center  0.000000 0.000000 0.000000
 	Size  1.000000 1.000000 1.000000
 	end
 end
 name "testMat"
-id 4
+id 3
 transform 0 0 0 0 0 0 1 1 1
-	component "Mesh Renderer"
+component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material Assets\Material\MetalGrid.phmat
 	end
 end
 name "SpotLight"
-id 5
+id 4
 transform 0 25 0 0 0 0 1 1 1
-	component "Spot Light"
+component "Spot Light"
 	Color 1.000000 1.000000 1.000000
 	Intensity 1.000000
 	Angle 12.000000
@@ -57,96 +38,33 @@ transform 0 25 0 0 0 0 1 1 1
 	Quadratic Attenuation 0.032000
 	end
 end
-name "Boo 2"
+name "Groun6"
+id 5
+transform 11.55 -50 90 0 0 0.129154 1 5 5
+component "Mesh Renderer"
+	Mesh Assets\Model\cube.obj
+	Material Assets\Material\Material.phmat
+	end
+component "Box Collider"
+	isTrigger  0
+	Center  0.000000 0.000000 0.000000
+	Size  1.000000 1.000000 1.000000
+	end
+end
+name "Boo 1"
 id 6
-transform -0.8 10 0 0 1.11701 0 1 1 1
-	component "Mesh Renderer"
+transform 6.65 10 9 0 0.15708 3.14159 1 1 1
+component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
-	component "RigidBody"
+component "RigidBody"
 	Gravity  0.000000 -20.000000 0.000000
 	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
 	reset  0
 	end
-	component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
-name "Boo 3"
-id 7
-transform -8.75 19.9 0 0 1.11701 0 1 1 1
-	component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-	component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-	component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
-name "Boo 4"
-id 8
-transform -0.55 15.1 0 0 1.11701 0 1 1 1
-	component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-	component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-	component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
-name "Boo 5"
-id 9
-transform -8.75 14.85 -11.7 0.829031 1.11701 0 1 1 1
-	component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-	component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-	component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
-name "Boo 6"
-id 10
-transform -8.75 9.8 0 0 1.11701 -0.111701 1 1 1
-	component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-	component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-	component "Sphere Collider"
+component "Sphere Collider"
 	isTrigger  0
 	Center  0.000000 0.000000 0.000000
 	Radius 2.000000

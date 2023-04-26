@@ -14,6 +14,7 @@ namespace Wrapper
 namespace Engine
 {
 	class GameObject;
+	class Transform;
 }
 
 
@@ -35,7 +36,7 @@ namespace Physic
 		void OnTriggerEnter(Engine::GameObject* go) override {};
 		void OnTriggerStay(Engine::GameObject* go) override {};
 		void OnTriggerExit(Engine::GameObject* go) override {};
-		void OnCollisionEnter(Engine::GameObject* go) override { printf("Collision enter from %s\n",gameobject->name.c_str()); };
+		void OnCollisionEnter(Engine::GameObject* go) override {};
 		void OnCollisionStay(Engine::GameObject* go) override {};
 		void OnCollisionExit(Engine::GameObject* go) override {};
 		void GUIUpdate() override {};

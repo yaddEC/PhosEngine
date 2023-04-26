@@ -364,6 +364,7 @@ namespace Maths
 		Mat4 operator-(Mat4 _Mat) const;
 		Mat4 operator*(Mat4 _Mat) const;
 		Vec4 operator*(Vec4 _vec) const;
+		
 
 		//Mat4 TO THIS OPERATIONS :
 
