@@ -22,9 +22,9 @@ Engine::GameObject::GameObject()
 
 void Engine::GameObject::Start()
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
-		if(scene->GetIsGameMode() || comp->renderingComponent)
+		if(m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->Start();
 	}
 }
@@ -52,28 +52,28 @@ T* Engine::GameObject::GetComponentInChildren(unsigned int index )
 
 void Engine::GameObject::Update()
 {
-	for (MonoBehaviour* comp : componentsBuffer)
+	for (MonoBehaviour* comp : m_componentsBuffer)
 	{
-		components.push_back(comp);
+		m_components.push_back(comp);
 	}
-	for (MonoBehaviour* comp : componentsBuffer)
+	for (MonoBehaviour* comp : m_componentsBuffer)
 	{
-		if (scene->GetIsGameMode() || comp->renderingComponent)
+		if (m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->Start();
 	}
-	componentsBuffer.clear();
+	m_componentsBuffer.clear();
 
 
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
-		if (scene->GetIsGameMode() || comp->renderingComponent)
+		if (m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->Update();
 	}
 }
 
 void Engine::GameObject::OnCollisionEnter(GameObject* gameobject)
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnCollisionEnter(gameobject);
 	}
@@ -81,7 +81,7 @@ void Engine::GameObject::OnCollisionEnter(GameObject* gameobject)
 
 void Engine::GameObject::OnCollisionStay(GameObject* gameobject)
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnCollisionStay(gameobject);
 	}
@@ -89,7 +89,7 @@ void Engine::GameObject::OnCollisionStay(GameObject* gameobject)
 
 void Engine::GameObject::OnCollisionExit(GameObject* gameobject)
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnCollisionExit(gameobject);
 	}
@@ -97,7 +97,7 @@ void Engine::GameObject::OnCollisionExit(GameObject* gameobject)
 
 void Engine::GameObject::OnTriggerEnter(GameObject* gameobject)
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnTriggerEnter(gameobject);
 	}
@@ -105,7 +105,7 @@ void Engine::GameObject::OnTriggerEnter(GameObject* gameobject)
 
 void Engine::GameObject::OnTriggerStay(GameObject* gameobject)
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnTriggerStay(gameobject);
 	}
@@ -113,7 +113,7 @@ void Engine::GameObject::OnTriggerStay(GameObject* gameobject)
 
 void Engine::GameObject::OnTriggerExit(GameObject* gameobject)
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnTriggerExit(gameobject);
 	}
@@ -121,12 +121,12 @@ void Engine::GameObject::OnTriggerExit(GameObject* gameobject)
 
 void Engine::GameObject::Destroy()
 {
-	for (MonoBehaviour* comp : components)
+	for (MonoBehaviour* comp : m_components)
 	{
-		if (scene->GetIsGameMode() || comp->renderingComponent)
+		if (m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->OnDestroy();
 	}
 	transform->Destroy();
-	scene->DeleteGameObjectFromList(this);
+	m_scene->DeleteGameObjectFromList(this);
 }
 

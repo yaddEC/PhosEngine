@@ -123,7 +123,7 @@ void Engine::Scene::Load(const std::string& filepath)
 	m_renderer = new Renderer();
 	Physic::PhysicsManager::GetInstance().Init();
 
-	/*Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 	Mesh* boo = rm.GetResource<Mesh>("Assets\\Model\\boo.obj");
 	Mesh* ground = rm.GetResource<Mesh>("Assets\\Model\\cube.obj");
 	Mesh* blaziken = rm.GetResource<Mesh>("Assets\\Model\\blaziken.obj");
@@ -133,7 +133,7 @@ void Engine::Scene::Load(const std::string& filepath)
 	Material* blazikenMat = rm.GetResource<Material>("Assets\\Material\\Blaziken.phmat");
 	Material* basicMat = rm.GetResource<Material>("Assets\\Material\\Material.phmat");
 	Material* metalGrid = rm.GetResource<Material>("Assets\\Material\\MetalGrid.phmat");
-
+	/*
 	GameObject* go = new GameObject();
 	go->name = "Boo 1";
 	MeshRenderer* rend = go->AddComponent<MeshRenderer>();
@@ -208,6 +208,7 @@ void Engine::Scene::Load(const std::string& filepath)
 		ParseGameObject(fileData, lineIndex);
 		lineIndex++;
 	}
+
 }
 
 void Engine::Scene::Unload()

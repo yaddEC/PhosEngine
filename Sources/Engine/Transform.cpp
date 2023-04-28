@@ -5,6 +5,7 @@
 //----------------
 
 #include "Wrapper/GUI.hpp"
+#include "Wrapper/PhysicsWrapper.hpp"
 #include "Engine/GameObject.hpp"
 #include "Resource/Parser.hpp"
 
@@ -30,7 +31,7 @@ void Transform::Destroy(bool destroyChildren)
 	{
 		for (Transform* child : m_children)
 		{
-			child->gameObject->Destroy();
+			child->m_gameObject->Destroy();
 		}
 	}
 	else
@@ -56,6 +57,30 @@ void Engine::Transform::SetRotation(Maths::Quaternion quaternion)
 void Engine::Transform::AddRotation(Maths::Quaternion quaternion)
 {
 	rotation *= quaternion;
+}
+
+Vec3 Engine::Transform::GetForwardVector()
+{
+	Vec4 forwardVector4 = m_globalMatrix * Vec4(0,0,1,0);
+	Vec3 forwardVector3 = Vec3(forwardVector4.x, forwardVector4.y, forwardVector4.z);
+	forwardVector3.Normalize();
+	return forwardVector3;
+}
+
+Vec3 Engine::Transform::GetUpVector()
+{
+	Vec4 upVector4 = m_globalMatrix * Vec4(0, 1, 0, 0);
+	Vec3 upVector3 = Vec3(upVector4.x, upVector4.y, upVector4.z);
+	upVector3.Normalize();
+	return upVector3;
+}
+
+Maths::Vec3 Engine::Transform::GetRightVector()
+{
+	Vec4 RightdVector4 = m_globalMatrix * Vec4(1, 0, 0, 0);
+	Vec3 RightVector3 = Vec3(RightdVector4.x, RightdVector4.y, RightdVector4.z);
+	RightVector3.Normalize();
+	return RightVector3;
 }
 
 

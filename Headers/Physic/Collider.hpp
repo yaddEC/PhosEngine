@@ -14,6 +14,7 @@ namespace Wrapper
 namespace Engine
 {
 	class GameObject;
+	class Transform;
 }
 
 

@@ -61,7 +61,7 @@ void Resource::CubeMap::GUIUpdate()
 	std::string faceName[6] = {"Right : ", "Left :  ", "Down :  ", "Up :    ", "Front : ", "Back :  "};
 	for (size_t i = 0; i < 6; i++)
 	{
-		GUI::DisplayText(faceName[i]);
+		GUI::DisplayText(faceName[i].c_str());
 		GUI::SameLine();
 		if (m_faces[i])
 		{

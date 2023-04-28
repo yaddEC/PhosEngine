@@ -9,6 +9,7 @@
 #include "imgui_internal.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <cstdarg>
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
@@ -392,10 +393,20 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 	return false;
 }
 
-void Wrapper::GUI::DisplayText(const std::string& text)
+void Wrapper::GUI::DisplayText(const char* format, ...)
 {
-	ImGui::Text(text.c_str());
+	const int bufferSize = 1024;
+	char buffer[bufferSize];
+
+	va_list args;
+	va_start(args, format);
+	vsnprintf(buffer, bufferSize, format, args);
+	va_end(args);
+
+	ImGui::Text(buffer);
 }
+
+
 
 void Wrapper::GUI::DisplayFloat(const std::string& label, float value)
 {

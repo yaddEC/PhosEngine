@@ -42,7 +42,7 @@ void Resource::IShader::Unload()
 
 void Resource::IShader::GUIUpdate()
 {
-	Wrapper::GUI::DisplayText(p_sourceCode);
+	Wrapper::GUI::DisplayText(p_sourceCode.c_str());
 }
 
 void Resource::VertexShader::Bind()

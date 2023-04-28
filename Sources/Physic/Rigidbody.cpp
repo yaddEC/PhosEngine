@@ -30,6 +30,22 @@ void Physic::Rigidbody::Update()
 {
 	
 	physicsRigidbody->Update();
+	//Use of the Raycast
+	Wrapper::RayCastHit test;
+	Maths::Vec3 dir = gameobject->transform->GetForwardVector();
+
+	if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test) )
+		printf("Forward %s %d\n", gameobject->name.c_str(), rand());
+
+	dir = gameobject->transform->GetRightVector();
+
+	if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test))
+		printf("Right %s %d\n", gameobject->name.c_str(), rand());
+
+	dir = gameobject->transform->GetUpVector();
+
+	if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test))
+		printf("UP %s %d\n", gameobject->name.c_str(), rand());
 	//velocity += AppState::deltatime * gravity;
 }
 

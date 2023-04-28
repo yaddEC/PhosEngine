@@ -77,8 +77,6 @@ namespace Resource
 		Texture* m_normalMap;
 
 		ColorMap m_albedo;
-		ColorMap m_specular;
-		float m_shininess = 1;
 
 		ValueMap m_roughness;
 		ValueMap m_metallic;

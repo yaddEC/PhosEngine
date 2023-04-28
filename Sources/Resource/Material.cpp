@@ -46,12 +46,6 @@ void Resource::Material::Save()
 		else
 			progFile << "c_alb " << m_albedo.color.x << " " << m_albedo.color.y << " " << m_albedo.color.z << '\n';
 
-		if (m_specular.useTexture)
-			progFile << "t_spec " << m_specular.texture->GetFilePath() << '\n';
-		else
-			progFile << "c_spec " << m_specular.color.x << " " << m_specular.color.y << " " << m_specular.color.z << '\n';
-
-		progFile << "shiny " << m_shininess << '\n';
 		if(m_shader)
 			progFile << "shader " << m_shader->GetFilePath() << '\n';
 
@@ -79,7 +73,6 @@ void Resource::Material::GUIUpdate()
 	}
 
 	m_albedo.GUIUpdate("Albedo : ");
-	m_specular.GUIUpdate("Specular : ");
 	m_roughness.GUIUpdate("Roughness : ");
 	m_metallic.GUIUpdate("Metallic : ");
 
@@ -96,7 +89,6 @@ void Resource::Material::GUIUpdate()
 		}
 	}
 
-	GUI::EditFloat("Shininess : ", m_shininess, true, 0.01f, 0, 64);
 
 }
 
@@ -113,14 +105,6 @@ void Resource::Material::SendDataToShader() const
 		m_shader->SetUniformVec3("material.albedo.color", m_albedo.color);
 	m_shader->SetUniformBool("material.albedo.useTexture", m_albedo.useTexture);
 
-
-	if (m_specular.useTexture)
-		m_shader->SetTexture("material.specular.texture", 1, *m_specular.texture);
-	else
-		m_shader->SetUniformVec3("material.specular.color", m_specular.color);
-	m_shader->SetUniformBool("material.specular.useTexture", m_specular.useTexture);
-
-	m_shader->SetUniformFloat("material.shininess", m_shininess);
 
 	if (m_normalMap)
 	{
@@ -171,24 +155,10 @@ void Resource::Material::SetProperties(const std::string& filepath)
 				m_albedo.color = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
 				m_albedo.useTexture = false;
 			}
-			else if (tokens[0] == "c_spec")
-			{
-				m_specular.color = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
-				m_specular.useTexture = false;
-			}
-			else if (tokens[0] == "shiny")
-			{
-				m_shininess = std::stof(tokens[1]) ;
-			}
 			else if (tokens[0] == "t_alb")
 			{
 				m_albedo.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
 				m_albedo.useTexture = true;
-			}
-			else if (tokens[0] == "t_spec")
-			{
-				m_specular.texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(tokens[1]);
-				m_specular.useTexture = true;
 			}
 			else if (tokens[0] == "shader")
 			{
@@ -223,8 +193,6 @@ void Resource::Material::SetProperties(const std::string& filepath)
 void Resource::Material::SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess, ShaderProgram* shader)
 {
 	m_albedo.color = albedo.color; m_albedo.texture = albedo.texture; m_albedo.useTexture = albedo.useTexture;
-	m_specular.color = specular.color; m_specular.texture = specular.texture; m_specular.useTexture = specular.useTexture;
-	m_shininess = shininess;
 	m_shader = shader;
 }
 
@@ -233,11 +201,6 @@ Resource::Material Resource::Material::DefaultMaterial()
 	Material mat;
 	mat.m_albedo.color = Maths::Vec3(1, 1, 1);
 	mat.m_albedo.useTexture = false;
-
-	mat.m_specular.color = Maths::Vec3(1, 1, 1);
-	mat.m_specular.useTexture = false;
-
-	mat.m_shininess = 1;
 
 	mat.m_shader = nullptr;
 
