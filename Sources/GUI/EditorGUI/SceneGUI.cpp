@@ -11,7 +11,7 @@ using namespace Wrapper;
 using namespace EditorGUI;
 using namespace Engine;
 
-SceneGUI::SceneGUI() : IGUI("Scene",true), speedModifier(1.000f)
+SceneGUI::SceneGUI() : IGUI("Scene",true), m_speedModifier(1.000f)
 {
 	
 }
@@ -40,19 +40,19 @@ void SceneGUI::UpdateCamera(Input& input)
 
 	if (scroDel != 0)
 	{
-		if (speedModifier + scroDel / 10.f <= 0.0001f)
-			speedModifier /= 10;
-		else if (speedModifier < 0.1f)
-			speedModifier *= 10;
+		if (m_speedModifier + scroDel / 10.f <= 0.0001f)
+			m_speedModifier /= 10;
+		else if (m_speedModifier < 0.1f)
+			m_speedModifier *= 10;
 		else
-			speedModifier += ((float)scroDel / 10.f);
+			m_speedModifier += ((float)scroDel / 10.f);
 
-		if (speedModifier > 2)
-			speedModifier = 2;
-		if (speedModifier < 0.001)
-			speedModifier = 0.001;
+		if (m_speedModifier > 2)
+			m_speedModifier = 2;
+		if (m_speedModifier < 0.001)
+			m_speedModifier = 0.001;
 	}
-	speed *= speedModifier;
+	speed *= m_speedModifier;
 
 	//std::cout << speedModifier << std::endl;
 
@@ -83,16 +83,24 @@ Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 
 void SceneGUI::DoUpdate()
 {
+	m_frameCount++;
+	m_elapsedTime += Input::deltaTime;
+	if (m_elapsedTime >= 1.0f)
+	{
+		m_fps = static_cast<float>(m_frameCount) / m_elapsedTime;
+		m_elapsedTime = 0.0f;
+		m_frameCount = 0;
+	}
 	using namespace Wrapper;
 	selectedClicked = false;
 	Input& input = Input::GetInstance();
 
-	if (isOnFocus)
+	if (p_isOnFocus)
 	{
 		UpdateCamera(input);
 		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
 		{
-			m_selectedId = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, size - Vec2(10, 35),
+			m_selectedId = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, p_size - Vec2(10, 35),
 				GUI::GetWindowPos(*Window::GetCurrentContext()));
 			selectedClicked = true;
 		}
@@ -102,12 +110,14 @@ void SceneGUI::DoUpdate()
 	Maths::Vec2 cursorPos = GUI::GetCursorPos();
 
 	if (m_currentScene)
-		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
+		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, p_size - Vec2(10, 35), false);
 
-	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(size.x - 10, size.y - 35));
+	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x - 10, p_size.y - 35));
 	m_sceneCamera.OnGUI();
 
-	GUI::SetCursorPos(cursorPos + Maths::Vec2(size.x / 2 - 10, 0));
+	GUI::SetCursorPos(cursorPos + Maths::Vec2(p_size.x / 2 - 10, 0));
+	
+	
 	if (m_currentScene->GetIsGameMode())
 	{
 		if (GUI::Button("Stop"))
@@ -122,4 +132,5 @@ void SceneGUI::DoUpdate()
 			m_currentScene->StartGameMode();
 		}
 	}
+	GUI::DisplayText("%.2f FPS", m_fps);
 }

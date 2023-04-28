@@ -9,9 +9,14 @@ namespace Physic
     class Collider;
     class Rigidbody;
 }
+namespace Engine
+{
+    class GameObject;
+}
 
 using namespace physx;
 using namespace Physic;
+
 
 class MySimulationEventCallback : public PxSimulationEventCallback
 {
@@ -36,6 +41,7 @@ public:
 
 namespace Wrapper
 {
+
     int countRigidActors(PxScene* scene);
     enum MaterialType 
     {
@@ -110,6 +116,17 @@ namespace Wrapper
 
     };
 
+    class PHOSENGINE_API RayCastHit
+    {
+    public:
+        Engine::GameObject* objectHit;
+        float distance;
+        Maths::Vec3 normHit;
+        Maths::Vec3 impactPos;
+
+    };
+
+
     class PHOSENGINE_API PhysicsRigidbody
     {
     public:
@@ -128,4 +145,5 @@ namespace Wrapper
 
     };
 
+     bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
 }

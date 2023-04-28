@@ -34,14 +34,18 @@ namespace Engine
 		Transform* GetParent() { return m_parent; }
 
 		Maths::Mat4 GetGlobalMatrix() const { return m_globalMatrix; }
-		GameObject* GetGameObject() const { return gameObject; }
-		void SetGameObject(GameObject* _gameobject) { gameObject = _gameobject; }
+		GameObject* GetGameObject() const { return m_gameObject; }
+		void SetGameObject(GameObject* _gameobject) { m_gameObject = _gameobject; }
 
 		void SetRotation(Maths::Vec3 rotation);
 
 		void SetRotation(Maths::Quaternion quaternion);
 
 		void AddRotation(Maths::Quaternion quaternion);
+
+		Maths::Vec3 GetForwardVector();
+		Maths::Vec3 GetUpVector();
+		Maths::Vec3 GetRightVector();
 
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 
@@ -54,7 +58,7 @@ namespace Engine
 
 		Transform* m_parent = nullptr;
 		std::vector<Transform*> m_children;
-		GameObject* gameObject{nullptr};
+		GameObject* m_gameObject{nullptr};
 
 		void RemoveChild(Transform* child);
 	};

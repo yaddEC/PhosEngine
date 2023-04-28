@@ -1,6 +1,4 @@
 t_alb Assets\Texture\metalGridAlbedo.png
-c_spec 0 0 0
-shiny 1
 shader Assets\Shader\PBRShader.prog
 t_norm Assets\Texture\metalGridNormal.png
 t_meta Assets\Texture\metalGridMetalic.png
