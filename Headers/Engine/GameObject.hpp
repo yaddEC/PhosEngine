@@ -39,10 +39,10 @@ namespace Engine
 		void OnTriggerStay(GameObject* gameobject);
 		void OnTriggerExit(GameObject* gameobject);
 
-		Scene* GetScene() { return scene; }
-		void SetScene(Scene* _scene) { scene = _scene; }
-		std::vector<MonoBehaviour*> GetComponents() { return components; }
-		std::vector<MonoBehaviour*> GetComponentBuffer() { return componentsBuffer; }
+		Scene* GetScene() { return m_scene; }
+		void SetScene(Scene* _scene) { m_scene = _scene; }
+		std::vector<MonoBehaviour*> GetComponents() { return m_components; }
+		std::vector<MonoBehaviour*> GetComponentBuffer() { return m_componentsBuffer; }
 
 		template <typename T>
 		T* AddComponent()
@@ -50,7 +50,7 @@ namespace Engine
 			T* newComponent = new T();
 			newComponent->gameobject = this;
 			newComponent->transform = transform;
-			componentsBuffer.push_back(newComponent);
+			m_componentsBuffer.push_back(newComponent);
 			return newComponent;
 		}
 
@@ -58,7 +58,7 @@ namespace Engine
 		inline T* GetComponent(unsigned int index = 0)
 		{
 			T* res = nullptr;
-			for (MonoBehaviour* component : components)
+			for (MonoBehaviour* component : m_components)
 			{
 				if (std::type_index(typeid(*component)) == std::type_index(typeid(T)))
 				{
@@ -79,9 +79,9 @@ namespace Engine
 		void SetID(unsigned int id) { m_ID = id; }
 
 	private:
-		std::vector<MonoBehaviour*> components;
-		std::vector<MonoBehaviour*> componentsBuffer;
-		Scene* scene = nullptr;
+		std::vector<MonoBehaviour*> m_components;
+		std::vector<MonoBehaviour*> m_componentsBuffer;
+		Scene* m_scene = nullptr;
 
 		unsigned int m_ID;
 

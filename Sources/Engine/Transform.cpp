@@ -31,7 +31,7 @@ void Transform::Destroy(bool destroyChildren)
 	{
 		for (Transform* child : m_children)
 		{
-			child->gameObject->Destroy();
+			child->m_gameObject->Destroy();
 		}
 	}
 	else

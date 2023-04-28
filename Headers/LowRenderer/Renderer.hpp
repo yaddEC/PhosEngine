@@ -48,7 +48,7 @@ namespace LowRenderer
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;
-		Maths::Vec3 ambient = Maths::Vec3(0.3f, 0.3f, 0.3f);
+		Maths::Vec3 m_ambient = Maths::Vec3(0.3f, 0.3f, 0.3f);
 		Resource::CubeMap* m_skybox = nullptr;
 	};
 
