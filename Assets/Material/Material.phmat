@@ -1,6 +1,4 @@
 c_alb 1 1 1
-t_spec Assets\Texture\container2_specular.png
-shiny 15.04
 shader Assets\Shader\PBRShader.prog
 v_meta 0
 v_rough 0

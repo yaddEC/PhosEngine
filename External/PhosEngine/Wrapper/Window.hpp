@@ -26,7 +26,7 @@ namespace Wrapper
 		bool ShouldClose() const;
 		void SwapBuffer();
 		static void PollEvents();
-		WindowAPIType* GetWindow() const { return window; }
+		WindowAPIType* GetWindow() const { return m_window; }
 		Maths::Vec2 GetPos() const;
 		void MakeCurrentContext();
 		static Window* GetCurrentContext();
@@ -34,8 +34,8 @@ namespace Wrapper
 		static void SetSwapInterval(bool active);
 
 	private:
-		WindowAPIType* window;
+		WindowAPIType* m_window;
 
-		static std::unordered_map<WindowAPIType*, Window*> windowMap;
+		static std::unordered_map<WindowAPIType*, Window*> m_windowMap;
 	};
 }

@@ -20,7 +20,7 @@ namespace EditorGUI
 		Engine::Scene* m_currentScene;
 		Engine::GameObject* m_selected;
 
-		std::vector<std::pair<Engine::GameObject*, Engine::GameObject*>> objectToParentBuffer;
+		std::vector<std::pair<Engine::GameObject*, Engine::GameObject*>> m_objectToParentBuffer;
 
 		void DisplayHierarchy(Engine::GameObject* current);
 		void AddObjectPopup(Engine::GameObject* current);

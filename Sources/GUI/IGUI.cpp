@@ -8,7 +8,7 @@ void APPGUI::IGUI::Update()
 	if (isOpen)
 	{
 		//ImGui::Begin(name.c_str(), 0, ImGuiWindowFlags_NoCollapse);
-		Wrapper::GUI::BeginWindow(name, false);
+		Wrapper::GUI::BeginWindow(p_name, false);
 
 		SetSize();
 		SetIsOnFocus();
