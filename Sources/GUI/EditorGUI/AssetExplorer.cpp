@@ -129,18 +129,20 @@ void AssetExplorer::DisplayFile(const string& file)
 
 	Resource::IResource* resource = rm.GetResource<Resource::IResource>(file);
 
-
-	if (GUI::IsItemDoubleClicked(0))
+	if (resource)
 	{
-		if (resource->GetTypeName() == "Scene")
+		if (GUI::IsItemDoubleClicked(0))
 		{
-			m_selectedScene = (Engine::Scene*)resource;
-		}
-		else
-		{
-			m_selectedClicked = true;
-			m_selectedFile = file;
-			m_selectedResource = resource;
+			if (resource->GetTypeName() == "Scene")
+			{
+				m_selectedScene = (Engine::Scene*)resource;
+			}
+			else
+			{
+				m_selectedClicked = true;
+				m_selectedFile = file;
+				m_selectedResource = resource;
+			}
 		}
 	}
 	

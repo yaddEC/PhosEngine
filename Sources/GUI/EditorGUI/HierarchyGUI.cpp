@@ -46,11 +46,11 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 	}
 
 
-	for (auto objectPair : objectToParentBuffer)
+	for (auto objectPair : m_objectToParentBuffer)
 	{
 		objectPair.first->transform->AddChild(objectPair.second->transform);
 	}
-	objectToParentBuffer.clear();
+	m_objectToParentBuffer.clear();
 }
 
 Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
@@ -81,13 +81,13 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 
 	if (Engine::GameObject** newChild = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
 	{
-		objectToParentBuffer.push_back(std::pair(current, *newChild));
+		m_objectToParentBuffer.push_back(std::pair(current, *newChild));
 	}
 
 	if (Resource::Prefab** newChild = (Resource::Prefab**)GUI::DragDropTarget("Prefab"))
 	{
 		Engine::GameObject* go = m_currentScene->InstantiatePrefab(**newChild);
-		objectToParentBuffer.push_back(std::pair(current, go));
+		m_objectToParentBuffer.push_back(std::pair(current, go));
 	}
 
 	GUI::PopID();
