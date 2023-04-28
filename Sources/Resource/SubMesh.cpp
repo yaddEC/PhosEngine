@@ -39,7 +39,8 @@ void SubMesh::Render(const ShaderProgram& shaderProgram, const class Material& m
 
 void SubMesh::SetUpSubMesh()
 {
-    Wrapper::RHI::SetSubMeshData(m_VAO, m_VBO, m_EBO, vertices, indices);
+        Wrapper::RHI::SetSubMeshData(m_VAO, m_VBO, m_EBO, vertices, indices);
+
 }
 
 void SubMesh::Unload()

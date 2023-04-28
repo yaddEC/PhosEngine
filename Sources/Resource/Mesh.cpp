@@ -87,7 +87,11 @@ void Mesh::ProcessNode(aiNode* node, const aiScene* scene, const std::string& fi
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        m_subMeshes.push_back(ProcessMesh(mesh, scene, filepath));
+       /* if(mesh->HasBones())
+            m_subMeshes.push_back(ProcessSkinnedMesh(mesh, scene, filepath));
+        else*/
+            m_subMeshes.push_back(ProcessMesh(mesh, scene, filepath));
+        
     }
     // then do the same for each of its children
     for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -202,6 +206,7 @@ SubMesh Resource::Mesh::ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, c
 
 void Resource::Mesh::ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
+    std::vector<int> vertexWeightIndex(vertices.size(), 0 );
     m_armature = new Armature();
     for (size_t i = 0; i < mesh->mNumBones; i++)
     {
@@ -209,6 +214,14 @@ void Resource::Mesh::ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMes
         bone.inverseBind = GetStandardMatrix(mesh->mBones[i]->mOffsetMatrix);
         bone.indexInArmature = i;
         bone.name = mesh->mBones[i]->mName.C_Str(); 
+        for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+        {
+            unsigned int id = mesh->mBones[i]->mWeights[j].mVertexId;
+            vertices[id].boneIDs[vertexWeightIndex[id]] = i;
+            vertices[id].boneWeights[vertexWeightIndex[id]] = mesh->mBones[i]->mWeights[j].mWeight;
+            vertexWeightIndex[id]++;
+        }
+        m_armature->skeleton.push_back(bone);
     }
 }
 
