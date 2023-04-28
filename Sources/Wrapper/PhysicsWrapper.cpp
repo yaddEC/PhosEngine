@@ -25,27 +25,7 @@ MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-bool Wrapper::RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit)
-{
-    PxVec3 pxOrigin = PxVec3(origin.x, origin.y, origin.z);
 
-    PxVec3 pxDirection = PxVec3(direction.x, direction.y, direction.z);
-
-    PxRaycastBuffer pxHit;
-    PxQueryFilterData filterData(PxQueryFlag::eSTATIC);
-
-    bool raycastHit = Physic::PhysicsManager::GetInstance().getPhysics().getScene()->raycast(pxOrigin,pxDirection,maxDistance,pxHit, PxHitFlag::eDEFAULT, filterData);
-
-    if(raycastHit)
-    { 
-    hit.distance = pxHit.block.distance;
-    hit.impactPos = Maths::Vec3(pxHit.block.position.x, pxHit.block.position.y, pxHit.block.position.z);
-    hit.normHit = Maths::Vec3(pxHit.block.normal.x, pxHit.block.normal.y, pxHit.block.normal.z);
-    hit.objectHit = reinterpret_cast<Engine::GameObject*>(pxHit.block.actor->userData);
-    }
-
-    return raycastHit;
-}
 
 PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
     PxFilterObjectAttributes attributes1, PxFilterData filterData1,
@@ -144,7 +124,27 @@ namespace Wrapper
     PxDefaultErrorCallback Physics::gDefaultErrorCallback;
     PxDefaultAllocator Physics::gDefaultAllocatorCallback;
 
+    bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit)
+    {
+        PxVec3 pxOrigin = PxVec3(origin.x, origin.y, origin.z);
 
+        PxVec3 pxDirection = PxVec3(-direction.x, direction.y, -direction.z);
+
+        PxRaycastBuffer pxHit;
+        PxQueryFilterData filterData(PxQueryFlag::eSTATIC);
+
+        bool raycastHit = Physic::PhysicsManager::GetInstance().getPhysics().getScene()->raycast(pxOrigin, pxDirection, maxDistance, pxHit, PxHitFlag::eDEFAULT, filterData);
+
+        if (raycastHit)
+        {
+            hit.distance = pxHit.block.distance;
+            hit.impactPos = Maths::Vec3(pxHit.block.position.x, pxHit.block.position.y, pxHit.block.position.z);
+            hit.normHit = Maths::Vec3(pxHit.block.normal.x, pxHit.block.normal.y, pxHit.block.normal.z);
+            hit.objectHit = reinterpret_cast<Engine::GameObject*>(pxHit.block.actor->userData);
+        }
+
+        return raycastHit;
+    }
 
     Physics::~Physics()
     {
@@ -275,7 +275,7 @@ namespace Wrapper
     {
         
         if (collider->rb) {
-            PxTransform pose(PxVec3(-collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
             PhysxActor= Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidDynamic(pose);
             PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
             collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
@@ -284,7 +284,7 @@ namespace Wrapper
         else {
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxTransform pose(PxVec3(-collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.a, rotationQuat.b, rotationQuat.c, rotationQuat.d));
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat( rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a));
             PhysxActor = Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidStatic(pose);
         }
         PhysxActor->userData = collider->gameobject;
@@ -367,10 +367,10 @@ namespace Wrapper
         if (!collider->rb)
         {
             Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
-            PxVec3 position(-worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxQuat pxRotation(-rotationQuat.a, rotationQuat.d, -rotationQuat.c, rotationQuat.b);
+            PxQuat pxRotation( rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a );
 
  
           
@@ -424,7 +424,7 @@ namespace Wrapper
     {
         
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
-       PxTransform pose(PxVec3(-rigidbody->gameobject->transform->position.x, rigidbody->gameobject->transform->position.y, rigidbody->gameobject->transform->position.z), PxQuat(-eulerRot.b, eulerRot.c, eulerRot.d, -eulerRot.a));
+       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x, rigidbody->gameobject->transform->position.y, rigidbody->gameobject->transform->position.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
 
         PhysxActor->setGlobalPose(pose);
 
@@ -443,11 +443,11 @@ namespace Wrapper
                 dynamicActor->addForce(force);
 
                 PxTransform updatedTransform = dynamicActor->getGlobalPose();
-                Maths::Vec3 newPosition = Maths::Vec3(-updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
+                Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
                 rigidbody->gameobject->transform->position = newPosition;
                 PxQuat updatedRotation = updatedTransform.q;
                 
-                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, -updatedRotation.y, -updatedRotation.z) ;
+                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
                   
 
                 rigidbody->gameobject->transform->rotation = newRotation;

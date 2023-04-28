@@ -26,7 +26,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void Input::Init(GLFWwindow* _window)
 {
-	timeStep = 1/60.f ;
+	timeStep = 1.f ;
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
 		keyMap[i] = 0;
@@ -69,7 +69,6 @@ void Input::Update() {
 		auto currentFrameTime = Wrapper::Window::GetTime();
 		static auto lastFrameTime = Wrapper::Window::GetTime();
 		float temp = currentFrameTime - lastFrameTime;
-
 		if (temp> timeStep)//
 		{
 			deltaTime = timeStep;

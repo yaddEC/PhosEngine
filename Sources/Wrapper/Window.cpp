@@ -105,5 +105,5 @@ double Wrapper::Window::GetTime()
 
 void Wrapper::Window::SetSwapInterval(bool active)
 {
-	glfwSwapInterval(active);
+	glfwSwapInterval(false);
 }
