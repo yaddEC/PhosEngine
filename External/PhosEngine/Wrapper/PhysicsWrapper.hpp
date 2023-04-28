@@ -146,5 +146,4 @@ namespace Wrapper
     };
 
      bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
-     static Maths::Vec3 GetUnitVectors() { return Maths::Vec3(-1, 1, -1); };
 }
