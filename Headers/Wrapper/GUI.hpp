@@ -86,6 +86,7 @@ namespace Wrapper
 		static void DisplayVec2(const std::string& label, const Maths::Vec2& value);
 		static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
+		static bool InputString(const std::string& label, std::string& value);
 		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool CheckBox(const std::string& label, bool* isChecked);
 		static bool Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));

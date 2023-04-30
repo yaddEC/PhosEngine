@@ -1,3 +1,4 @@
+#include "..\..\..\PhosEditor\External\PhosEngine\Wrapper\GUI.hpp"
 // include needed
 #include <utility>
 #include <limits>
@@ -406,7 +407,21 @@ void Wrapper::GUI::DisplayText(const char* format, ...)
 	ImGui::Text(buffer);
 }
 
+bool Wrapper::GUI::InputString(const std::string& label, std::string& value)
+{
+	const int bufferSize = 256;
+	char buffer[bufferSize];
 
+	strncpy_s(buffer, bufferSize, value.c_str(), _TRUNCATE);
+	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+	if (ImGui::InputText(label.c_str(), buffer, bufferSize, inputTextFlags))
+	{
+		value = std::string(buffer);
+		return true;
+	}
+	return false;
+}
 
 void Wrapper::GUI::DisplayFloat(const std::string& label, float value)
 {
