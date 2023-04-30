@@ -63,10 +63,22 @@ Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
 
 void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 {
+	bool opened = false;
 	std::vector<Engine::Transform*> children = current->transform->GetChildren();
 	GUI::PushID(current->GetID());
-	bool opened = GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
-			
+	bool renamingActive = (m_renaming == current);
+	if (renamingActive)
+	{
+		if (Wrapper::GUI::InputString("##RenameObject", current->name))
+		{
+			m_renaming = nullptr;
+		}
+	}
+	else
+	{
+		opened = GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
+	}
+
 	AddObjectPopup(current);
 
 	if (GUI::IsItemClicked(0))
@@ -76,6 +88,11 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 	}
 	if (GUI::IsItemClicked(1))
 		GUI::OpenPopup("GameObject Popup " + current->name);
+
+	if (GUI::IsItemDoubleClicked(0))
+	{
+		m_renaming = current;
+	}
 
 	GUI::DragDropSource("GameObject", current->name, &current);
 
@@ -91,7 +108,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 	}
 
 	GUI::PopID();
-	if (opened)
+	if (opened && !renamingActive)
 	{
 		for (auto child : children)
 		{
@@ -101,7 +118,6 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 		GUI::TreePop();
 	}
 }
-
 void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 {
 	if (GUI::BeginPopupContextItem("GameObject Popup " + (current ? current->name : "null")))

@@ -19,6 +19,7 @@ namespace EditorGUI
 	private:
 		Engine::Scene* m_currentScene;
 		Engine::GameObject* m_selected;
+		Engine::GameObject* m_renaming = nullptr;
 
 		std::vector<std::pair<Engine::GameObject*, Engine::GameObject*>> m_objectToParentBuffer;
 
