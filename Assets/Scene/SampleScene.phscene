@@ -57,9 +57,9 @@ component "Spot Light"
 	Quadratic Attenuation 0.032000
 	end
 end
-name "Boo 2"
+name "test"
 id 6
-transform -0.8 10 0 0 0 0 1 1 1
+transform -0.75 10 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
@@ -114,27 +114,8 @@ component "Sphere Collider"
 	Radius 2.000000
 	end
 end
-name "Boo 5"
-id 9
-transform -8.75 14.85 -11.7 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
 name "Boo 6"
-id 10
+id 9
 transform -8.75 9.8 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -153,7 +134,7 @@ component "Sphere Collider"
 	end
 end
 name "Directional Light"
-id 11
+id 10
 transform 0 0 0 -6.95858 0 0 1 1 1
 component "Directional Light"
 	Color 1.000000 1.000000 1.000000

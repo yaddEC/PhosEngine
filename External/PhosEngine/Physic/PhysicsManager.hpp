@@ -3,34 +3,29 @@
 #include "dllInclude.hpp"
 #include <Wrapper/PhysicsWrapper.hpp>
 
+namespace Physic {
 
-namespace Physic
-{
-   class PhysicsManager
-    {
+    class PhysicsManager {
     public:
-
+        PhysicsManager() = default;
+        PhysicsManager(const PhysicsManager&) = delete;
+        ~PhysicsManager();
 
         void Init();
         void Update(float deltaTime);
         void Cleanup();
 
-        PhysicsManager(const PhysicsManager&) = delete;
         PhysicsManager& operator=(const PhysicsManager&) = delete;
 
-        static PhysicsManager& GetInstance()
-        {
+        static PhysicsManager& GetInstance() {
             static PhysicsManager instance;
             return instance;
         }
 
-
-        Wrapper::Physics& getPhysics() { return physics; }
+        inline Wrapper::Physics& GetPhysics() { return m_physics; }
 
     private:
-        PhysicsManager() {};
-        ~PhysicsManager() ;
-        Wrapper::Physics physics;
-
+        Wrapper::Physics m_physics;
     };
+
 }
