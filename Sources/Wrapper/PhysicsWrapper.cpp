@@ -121,8 +121,8 @@ namespace Wrapper
 {
 
     
-    PxDefaultErrorCallback Physics::gDefaultErrorCallback;
-    PxDefaultAllocator Physics::gDefaultAllocatorCallback;
+    PxDefaultErrorCallback Physics::m_defaultErrorCallback;
+    PxDefaultAllocator Physics::m_defaultAllocatorCallback;
 
     bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit)
     {
@@ -133,7 +133,7 @@ namespace Wrapper
         PxRaycastBuffer pxHit;
         PxQueryFilterData filterData(PxQueryFlag::eSTATIC);
 
-        bool raycastHit = Physic::PhysicsManager::GetInstance().getPhysics().getScene()->raycast(pxOrigin, pxDirection, maxDistance, pxHit, PxHitFlag::eDEFAULT, filterData);
+        bool raycastHit = Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->raycast(pxOrigin, pxDirection, maxDistance, pxHit, PxHitFlag::eDEFAULT, filterData);
 
         if (raycastHit)
         {
@@ -161,29 +161,29 @@ namespace Wrapper
 
     void Physics::Update(float deltaTime)
     {
-        if (mScene)
+        if (m_scene)
         {
-            mScene->simulate(deltaTime);
-            mScene->fetchResults(true);
+            m_scene->simulate(deltaTime);
+            m_scene->fetchResults(true);
         }
     }
 
     void Physics::Cleanup()
     {
-        if (mScene)
-            mScene->release();
+        if (m_scene)
+            m_scene->release();
 
-        if (mPhysics)
-            mPhysics->release();
+        if (m_physics)
+            m_physics->release();
 
-        if (mPvd)
-            mPvd->release();
+        if (m_pvd)
+            m_pvd->release();
 
-        if (mFoundation)
-            mFoundation->release();
+        if (m_foundation)
+            m_foundation->release();
     }
 
-    PxMaterial* createMaterialByType( PxPhysics* physics, MaterialType type)
+    PxMaterial* CreateMaterialByType( PxPhysics* physics, MaterialType type)
     {
         PxReal staticFriction, dynamicFriction, restitution;
 
@@ -234,39 +234,39 @@ namespace Wrapper
 
     void Physics::CreateFoundation()
     {
-        mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
-        if (!mFoundation)
+        m_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_defaultAllocatorCallback, m_defaultErrorCallback);
+        if (!m_foundation)
             throw std::runtime_error("PxCreateFoundation failed!");
     }
 
     void Physics::CreatePhysics()
     {
-        mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, PxTolerancesScale(), true, mPvd);
-        if (!mPhysics)
+        m_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_foundation, PxTolerancesScale(), true, m_pvd);
+        if (!m_physics)
             throw std::runtime_error("PxCreatePhysics failed!");
     }
 
     void Physics::CreateScene()
     {
         MySimulationEventCallback* mySimulationEventCallback = new MySimulationEventCallback();
-        PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+        PxSceneDesc sceneDesc(m_physics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
         sceneDesc.filterShader = CustomFilterShader;
         sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
         sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
         sceneDesc.simulationEventCallback = mySimulationEventCallback;
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
-        mScene = mPhysics->createScene(sceneDesc);
-        if (!mScene)
+        m_scene = m_physics->createScene(sceneDesc);
+        if (!m_scene)
             throw std::runtime_error("createScene failed!");
     }
 
     void Physics::SetupVisualDebugger()
     {
 
-        mPvd = PxCreatePvd(*mFoundation);
+        m_pvd = PxCreatePvd(*m_foundation);
         PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
-        mPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+        m_pvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 
     }
 
@@ -276,45 +276,45 @@ namespace Wrapper
         
         if (collider->rb) {
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
-            PhysxActor= Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidDynamic(pose);
-            PhysxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
-            collider->rb->physicsRigidbody->setRigidActor(PhysxActor);
+            m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidDynamic(pose);
+            m_physxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
+            collider->rb->physicsRigidbody->SetRigidActor(m_physxActor);
             collider->rb->physicsRigidbody->Init();
         }
         else {
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat( rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a));
-            PhysxActor = Physic::PhysicsManager::GetInstance().getPhysics().getPhysics()->createRigidStatic(pose);
+            m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidStatic(pose);
         }
-        PhysxActor->userData = collider->gameobject;
+        m_physxActor->userData = collider->gameobject;
         Maths::Quaternion rotCol = collider->transform->rotation.ToQuaternion(collider->transform->rotationEuler);
         rotCol.Conjugate();
         Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix() * rotCol.ToRotationMatrix() ;
-        PxMaterial* material = createMaterialByType(Physic::PhysicsManager::GetInstance().getPhysics().getPhysics(), PhysxMaterial);
+        PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
-            geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x , worldModel.data_4_4[1][1] * boxCollider->size.y , worldModel.data_4_4[2][2] * boxCollider->size.z );
-            shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.box, *material);
+            m_geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x , worldModel.data_4_4[1][1] * boxCollider->size.y , worldModel.data_4_4[2][2] * boxCollider->size.z );
+            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.box, *material);
         }
         else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
         {
-            geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->radius);
-            shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.sphere, *material);
+            m_geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->radius);
+            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.sphere, *material);
         }
         else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
         {
-            geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->radius, worldModel.data_4_4[1][1] * capsuleCollider->height  * 0.5f);
-            shape = PxRigidActorExt::createExclusiveShape(*PhysxActor, geometry.capsule, *material);
+            m_geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->radius, worldModel.data_4_4[1][1] * capsuleCollider->height  * 0.5f);
+            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.capsule, *material);
         }
         
         if (collider->isTrigger)
         {
-            shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
-            shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+            m_shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+            m_shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
         }
 
-        Physic::PhysicsManager::GetInstance().getPhysics().getScene()->addActor(*PhysxActor);
+        Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->addActor(*m_physxActor);
 
     }
 
@@ -371,52 +371,9 @@ namespace Wrapper
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
             PxQuat pxRotation( rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a );
-
- 
-          
-
             PxTransform pose(position, pxRotation);
-            PhysxActor->setGlobalPose(pose);
+            m_physxActor->setGlobalPose(pose);
 
-            //change scale in runtime
-            /*
-            PxShape* shape;
-            PhysxActor->getShapes(&shape, 1);
-            PxGeometryHolder geometryHolder = shape->getGeometry();
-
-            switch (geometryHolder.getType())
-            {
-            case PxGeometryType::eBOX:
-            {
-                PxBoxGeometry boxGeometry = geometryHolder.box();
-                boxGeometry.halfExtents = PxVec3(boxGeometry.halfExtents.x * collider->gameobject->transform->scale.x, boxGeometry.halfExtents.y * collider->gameobject->transform->scale.y, boxGeometry.halfExtents.z * collider->gameobject->transform->scale.z);
-                shape->setGeometry(boxGeometry);
-                break;
-            }
-            case PxGeometryType::eSPHERE:
-            {
-                PxSphereGeometry sphereGeometry = geometryHolder.sphere();
-                std::array<float, 3> scaleValues = { collider->gameobject->transform->scale.x,collider->gameobject->transform->scale.y, collider->gameobject->transform->scale.z };
-                float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
-
-                sphereGeometry.radius *= max_scale;
-                shape->setGeometry(sphereGeometry);
-                break;
-            }
-            case PxGeometryType::eCAPSULE:
-            {
-                PxCapsuleGeometry capsuleGeometry = geometryHolder.capsule();s
-                std::array<float, 2> scaleValues = { collider->gameobject->transform->scale.x, collider->gameobject->transform->scale.y };
-                float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
-                capsuleGeometry.radius *= max_scale;
-                capsuleGeometry.halfHeight *= worldModel.data_4_4[2][2];
-                shape->setGeometry(capsuleGeometry);
-                break;
-            }
-            default:
-                break;
-            }*/
-        
         }
     }
 
@@ -426,17 +383,17 @@ namespace Wrapper
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
        PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x, rigidbody->gameobject->transform->position.y, rigidbody->gameobject->transform->position.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
 
-        PhysxActor->setGlobalPose(pose);
+        m_physxActor->setGlobalPose(pose);
 
     }
 
     void PhysicsRigidbody::Update()
     {
-        if (PhysxActor)
+        if (m_physxActor)
         {
-            if ( PhysxActor && PhysxActor->is<PxRigidDynamic>())
+            if ( m_physxActor && m_physxActor->is<PxRigidDynamic>())
             {
-                PxRigidDynamic* dynamicActor = PhysxActor->is<PxRigidDynamic>();
+                PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
 
                 PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
 

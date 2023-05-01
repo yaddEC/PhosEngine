@@ -14,16 +14,16 @@ Physic::PhysicsManager::~PhysicsManager()
 
 void Physic::PhysicsManager::Init()
 {
-	physics.Init();
+	m_physics.Init();
 }
 
 void Physic::PhysicsManager::Update(float deltaTime)
 {
 	if(deltaTime>0)
-		physics.Update(deltaTime);
+		m_physics.Update(deltaTime);
 }
 
 void Physic::PhysicsManager::Cleanup()
 {
-	physics.Cleanup();
+	m_physics.Cleanup();
 }
