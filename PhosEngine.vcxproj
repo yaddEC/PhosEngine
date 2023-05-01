@@ -419,6 +419,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\pch.h" />
     <ClInclude Include="Headers\Reflection\ClassMetaData.hpp" />
     <ClInclude Include="Headers\Resource\Animation.hpp" />
+    <ClInclude Include="Headers\Resource\AnimBone.hpp" />
     <ClInclude Include="Headers\Resource\Armature.hpp" />
     <ClInclude Include="Headers\Resource\CubeMap.hpp" />
     <ClInclude Include="Headers\Physic\Collider.hpp" />
