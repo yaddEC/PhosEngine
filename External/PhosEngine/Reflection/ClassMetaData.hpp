@@ -4,7 +4,8 @@
 #include <fstream>
 #include "Engine/GameObject.hpp"
 #include "dllInclude.hpp"
-
+#include "Resource/Texture.hpp"
+#include "Resource/Mesh.hpp"
 
 namespace Reflection
 {
@@ -50,6 +51,9 @@ namespace Reflection
 
 		void DisplayClassInfo(void* classPtr);
 		void GUIUpdate(void* classPtr);
+
+		Resource::Texture* PosTexture = nullptr;
+		Resource::Mesh* PosModelForTexture = nullptr;
 
 		std::string Save(void* classPtr, int depth);
 		void Parse(const std::vector<std::string>& fileData, size_t& lineIndex, void* classPtr);
