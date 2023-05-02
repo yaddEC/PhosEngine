@@ -111,8 +111,8 @@ void SceneGUI::DoUpdate()
 
 	if (m_currentScene) 
 	{
-		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, size - Vec2(10, 35), false);
-		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, size - Vec2(10, 35));
+		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, p_size - Vec2(10, 35), false);
+		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
 
 	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x - 10, p_size.y - 35));
