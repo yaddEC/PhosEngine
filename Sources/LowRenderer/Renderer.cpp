@@ -102,6 +102,13 @@ int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2
 	return pickedID;
 }
 
+void Renderer::RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize)
+{
+	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	rm.pickingShader->Use();
+	mainCamera->RenderIcon(m_directionalLights, m_pointLights, m_spotLights, viewportSize);
+}
+
 void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
 {
 	for (std::vector<MeshRenderer*>::iterator it = m_meshRenderers.begin(); it != m_meshRenderers.end(); ++it)
