@@ -33,15 +33,15 @@ namespace Resource
 	{
 	public:
 
-		void Load(const std::string& name, int ID, const aiNodeAnim* channel);
+		void Load(const std::string& name, int ID, const aiNodeAnim* channel) {};
 
-		void UpdateTransform(float animationTime);
+		void UpdateTransform(float animationTime) {};
 
 	private:
 
-		Maths::Vec3 GetInterpolationPosition(float animationTime) const;
-		Maths::Quaternion GetInterpolationRotation(float animationTime) const;
-		Maths::Vec3 GetInterpolationScale(float animationTime) const;
+		Maths::Vec3 GetInterpolationPosition(float animationTime) const {};
+		Maths::Quaternion GetInterpolationRotation(float animationTime) const {};
+		Maths::Vec3 GetInterpolationScale(float animationTime) const {};
 
 		std::string m_name;
 		Maths::Mat4 m_localMatrix;
