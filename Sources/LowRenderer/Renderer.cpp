@@ -93,6 +93,9 @@ int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2
 
 	mainCamera->IdPickerRender(m_meshRenderers, viewportSize);
 
+	rm.iconShaderForPicking->Use();
+	mainCamera->IdPickerIcon(m_directionalLights, m_pointLights, m_spotLights, viewportSize);
+
 	unsigned char* pixelColor = Wrapper::RHI::GetPixelColor(viewportSize, TabPos);
 	int pickedID =
 		pixelColor[0] +
@@ -105,7 +108,7 @@ int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2
 void Renderer::RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize)
 {
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-	rm.pickingShader->Use();
+	rm.iconShader->Use();
 	mainCamera->RenderIcon(m_directionalLights, m_pointLights, m_spotLights, viewportSize);
 }
 

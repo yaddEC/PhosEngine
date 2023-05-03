@@ -119,11 +119,10 @@ void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Ve
     // unbind the framebuffer
 }
 
-void LowRenderer::Camera::RenderIcon(const std::vector<DirectionalLight*>& m_directionalLights, std::vector<PointLight*>& m_pointLights, std::vector<SpotLight*>& m_spotLights, const Maths::Vec2& viewportSize)
+void Camera::IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLights, std::vector<PointLight*>& m_pointLights, std::vector<SpotLight*>& m_spotLights, const Maths::Vec2& viewportSize)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
-    Mat4 viewProj = view * proj;
 
     m_framebuffer.Bind(viewportSize.x, viewportSize.y);
     // m_framebuffer.Clear({ 0,0,0,255 });
@@ -132,11 +131,125 @@ void LowRenderer::Camera::RenderIcon(const std::vector<DirectionalLight*>& m_dir
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
 
-    for(SpotLight* SLight : m_spotLights)
+    Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+    rm.iconShaderForPicking->SetUniformMatrix("projectionMatrix", proj);
+
+    for (DirectionalLight* DLight : m_directionalLights)
     {
-        Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-        rm.pickingShader->SetUniformMatrix("mvp", SLight->transform->GetGlobalMatrix() * viewProj);
-        rm.pickingShader->SetUniformVec4("PickingColor", { 1, 0, 0 , 1.0f });
+        rm.iconShaderForPicking->SetUniformMatrix("modelViewMatrix", DLight->transform->GetGlobalMatrix() * view);
+
+        int r = (DLight->gameobject->GetID() & 0x000000FF) >> 0;
+        int g = (DLight->gameobject->GetID() & 0x0000FF00) >> 8;
+        int b = (DLight->gameobject->GetID() & 0x00FF0000) >> 16;
+
+        rm.iconShaderForPicking->SetUniformVec4("PickingColor", { r / 255.0f, g / 255.0f, b / 255.0f, 1.0f });
+        //rm.iconShaderForPicking->SetUniformVec4("PickingColor", { 1, 0, 0, 1.0f }); // DEBUG
+
+        std::vector<SubMesh> LightSMesh = DLight->GetMetaData().PosModelForTexture->GetSubMeshes(); 
+
+        for (int j = 0; j < LightSMesh.size(); j++)
+        {
+            glBindVertexArray(LightSMesh[j].GetVAO());
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+    }
+
+    for (PointLight* PLight : m_pointLights)
+    {
+        rm.iconShaderForPicking->SetUniformMatrix("modelViewMatrix", PLight->transform->GetGlobalMatrix() * view);
+
+        int r = (PLight->gameobject->GetID() & 0x000000FF) >> 0;
+        int g = (PLight->gameobject->GetID() & 0x0000FF00) >> 8;
+        int b = (PLight->gameobject->GetID() & 0x00FF0000) >> 16;
+
+        rm.iconShaderForPicking->SetUniformVec4("PickingColor", { r / 255.0f, g / 255.0f, b / 255.0f, 1.0f });
+
+        std::vector<SubMesh> LightSMesh = PLight->GetMetaData().PosModelForTexture->GetSubMeshes(); 
+
+        for (int j = 0; j < LightSMesh.size(); j++)
+        {
+            glBindVertexArray(LightSMesh[j].GetVAO());
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+    }
+
+    for (SpotLight* SLight : m_spotLights)
+    {
+        rm.iconShaderForPicking->SetUniformMatrix("modelViewMatrix", SLight->transform->GetGlobalMatrix() * view);
+
+        int r = (SLight->gameobject->GetID() & 0x000000FF) >> 0;
+        int g = (SLight->gameobject->GetID() & 0x0000FF00) >> 8;
+        int b = (SLight->gameobject->GetID() & 0x00FF0000) >> 16;
+
+        rm.iconShaderForPicking->SetUniformVec4("PickingColor", { r / 255.0f, g / 255.0f, b / 255.0f, 1.0f });
+
+        std::vector<SubMesh> LightSMesh = SLight->GetMetaData().PosModelForTexture->GetSubMeshes(); 
+
+        for (int j = 0; j < LightSMesh.size(); j++)
+        {
+            glBindVertexArray(LightSMesh[j].GetVAO());
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+    }
+}
+
+void Camera::RenderIcon(const std::vector<DirectionalLight*>& m_directionalLights, std::vector<PointLight*>& m_pointLights, std::vector<SpotLight*>& m_spotLights, const Maths::Vec2& viewportSize)
+{
+    Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
+    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
+
+    m_framebuffer.Bind(viewportSize.x, viewportSize.y);
+    // m_framebuffer.Clear({ 0,0,0,255 });
+
+    glCullFace(GL_FRONT);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+
+    Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+    rm.iconShader->SetUniformMatrix("projectionMatrix", proj);
+    
+    for (DirectionalLight* DLight : m_directionalLights)
+    {
+        rm.iconShader->SetUniformMatrix("modelViewMatrix", DLight->transform->GetGlobalMatrix() * view);
+        rm.iconShader->SetTexture("Texture", 0, *DLight->GetMetaData().PosTexture);
+
+        std::vector<SubMesh> LightSMesh = DLight->GetMetaData().PosModelForTexture->GetSubMeshes(); //error 
+
+        for (int j = 0; j < LightSMesh.size(); j++)
+        {
+            glBindVertexArray(LightSMesh[j].GetVAO());
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+    }
+
+    for(PointLight* PLight : m_pointLights)
+    {
+        rm.iconShader->SetUniformMatrix("modelViewMatrix", PLight->transform->GetGlobalMatrix() * view);
+        rm.iconShader->SetTexture("Texture", 0, *PLight->GetMetaData().PosTexture);
+
+        std::vector<SubMesh> LightSMesh = PLight->GetMetaData().PosModelForTexture->GetSubMeshes(); //error 
+
+        for (int j = 0; j < LightSMesh.size(); j++)
+        {
+            glBindVertexArray(LightSMesh[j].GetVAO());
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+        }
+    }
+
+    for (SpotLight* SLight : m_spotLights)
+    {
+        rm.iconShader->SetUniformMatrix("modelViewMatrix", SLight->transform->GetGlobalMatrix() * view);
+        rm.iconShader->SetTexture("Texture", 0, *SLight->GetMetaData().PosTexture);
 
         std::vector<SubMesh> LightSMesh = SLight->GetMetaData().PosModelForTexture->GetSubMeshes(); //error 
 
@@ -148,6 +261,7 @@ void LowRenderer::Camera::RenderIcon(const std::vector<DirectionalLight*>& m_dir
             glBindVertexArray(0);
         }
     }
+    
 }
 
 Resource::Texture& LowRenderer::Camera::GetRenderTexture()
