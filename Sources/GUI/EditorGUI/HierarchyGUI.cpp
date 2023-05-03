@@ -69,6 +69,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 	bool renamingActive = (m_renaming == current);
 	if (renamingActive)
 	{
+		GUI::SetKeyboardFocusHere();
 		if (Wrapper::GUI::InputString("##RenameObject", current->name))
 		{
 			m_renaming = nullptr;

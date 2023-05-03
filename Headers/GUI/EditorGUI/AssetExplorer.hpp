@@ -9,6 +9,7 @@
 #include "Resource/Mesh.hpp"
 #include "Resource/ShaderProgram.hpp"
 #include "Resource/Texture.hpp"
+#include "Engine/Input.hpp"
 
 namespace Engine
 {
@@ -53,14 +54,24 @@ namespace EditorGUI
 		void DisplayFile(const std::string& file);
 		void DisplayFolder(const std::string& folder);
 		void NewResource();
+		void CreateNewFolder(const std::string& path);
+		void CreateNewFile(const std::string& path);
+		void FolderButton(const std::string& folder);
+		void FileButton(const std::string& file);
+		void RenameFile(const std::string& file);
+		void RenameFolder(const std::string& folder);
 
 		std::string m_selectedFile;
+		std::string m_copiedPath;
 		bool m_selectedClicked = false;
+		int m_isRenaming = -1;
 		Resource::IResource* m_selectedResource;
 
 		Engine::Scene* m_selectedScene;
 
 		Resource::Texture* m_defaultFileIcon, * m_folderIcon;
+
+		bool isTherePopUp ;
 	};
 }
 
