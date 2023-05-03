@@ -105,7 +105,7 @@ int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2
 void Renderer::RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize)
 {
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-	rm.pickingShader->Use();
+	rm.iconShader->Use();
 	mainCamera->RenderIcon(m_directionalLights, m_pointLights, m_spotLights, viewportSize);
 }
 
