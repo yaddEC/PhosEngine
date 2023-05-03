@@ -1,0 +1,2 @@
+vert DefaultAssets\Shader\BillboardShader\BillboardShader.vert
+frag DefaultAssets\Shader\BillboardShader\BillboardShader.frag
