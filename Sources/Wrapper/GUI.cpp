@@ -632,6 +632,18 @@ void Wrapper::GUI::EndMenu()
 {
 	ImGui::EndMenu();
 }
+
+bool Wrapper::GUI::BeginMenuBar()
+{
+	bool test = ImGui::BeginMenuBar();
+	return test;
+}
+
+void Wrapper::GUI::EndMenuBar()
+{
+	ImGui::EndMenuBar();
+}
+
 bool Wrapper::GUI::MenuItem(const char* label, const char* shortcut, bool selected)
 {
 	return ImGui::MenuItem(label, shortcut, selected);

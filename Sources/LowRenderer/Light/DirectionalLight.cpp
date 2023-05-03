@@ -13,6 +13,8 @@
 
 #include "Wrapper/GUI.hpp"
 
+#include "Resource/ResourceManager.hpp"
+
 #include "LowRenderer/Renderer.hpp"
 
 #define DIRECTIONALLIGHT_EXPORTS
@@ -74,6 +76,8 @@ Reflection::ClassMetaData& LowRenderer::DirectionalLight::GetMetaData()
 			ClassMemberInfo("Color", offsetof(DirectionalLight, DirectionalLight::p_color), MemberType::T_COLOR),
 			ClassMemberInfo("Intensity", offsetof(DirectionalLight, DirectionalLight::p_intensity), MemberType::T_FLOAT, 0.1f, 0, 10)
 		};
+		result.PosTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("DefaultAssets\\LightIcon.png");
+		result.PosModelForTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitivePlane.obj");
 		computed = true;
 	}
 	return result;
