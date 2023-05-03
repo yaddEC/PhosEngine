@@ -19,6 +19,7 @@ namespace EditorGUI
 
 		bool selectedClicked;
 	private:
+		void MenuBarScene();
 		void UpdateCamera(Engine::Input& input);
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
@@ -28,6 +29,7 @@ namespace EditorGUI
 
 		float m_speedModifier;
 		unsigned int m_selectedId;
+		bool m_drawCameraData = false;
 	};
 }
 

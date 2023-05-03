@@ -174,6 +174,8 @@ namespace Resource
 
 		ShaderProgram* skyboxShader;
 		ShaderProgram* pickingShader;
+		ShaderProgram* iconShaderForPicking;
+		ShaderProgram* iconShader;
 		Mesh* cube;
 		Mesh* quad;
 

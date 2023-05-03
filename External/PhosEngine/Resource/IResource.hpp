@@ -27,7 +27,7 @@ namespace Resource
 		void SetFileInfo(const std::string& filepath);
 
 		// Do not call every frame
-		virtual class Texture* GenerateFileIcon() = 0;
+		virtual class Texture* GenerateFileIcon() { return nullptr; }
 
 	protected:
 

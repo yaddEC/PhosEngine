@@ -33,7 +33,11 @@ namespace Engine
 		bool IsKeyDown(int key);
 		bool IsAnyKeyDown();
 
+
+
 		bool IsMouseButtonPressed(int mouseButton);
+		bool IsMouseButtonDown(int mouseButton);
+		bool IsMouseButtonReleased(int mouseButton);
 
 		Maths::Vec2 GetMouseDelta();
 		int GetScrollDelta();
@@ -49,6 +53,7 @@ namespace Engine
 		int scrollDelta;
 
 		int keyMap[348];
+		int mouseMap;
 		float timeStep ;
 		bool anyKeyDown;
 

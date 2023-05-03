@@ -19,14 +19,9 @@ namespace Resource
 		void Load(const std::string& filepath) override;
 		void Bind() override;
 		void Unload() override;
-		std::string GetTypeName() override { return "Animation"; }
-		Texture* GenerateFileIcon() override { return nullptr; }
 		void GUIUpdate() override;
 		
 		std::vector<AnimBone*> GetAnimBones() const { return m_AnimBones;  }
-		float GetDuration() { return m_duration; }
-
-	private:
 
 		void DisplayBoneHierarchy(AnimBone& current);
 		void ProcessBone(const aiAnimation* anim, const aiScene* scene);
