@@ -44,6 +44,7 @@ namespace LowRenderer
 		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
 			const Maths::Vec2& viewportSize, const Resource::CubeMap* skybox);
 		void IdPickerRender(const std::vector<LowRenderer::MeshRenderer*>& rendList, const Maths::Vec2& viewportSize);
+		void IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLights, std::vector<PointLight*>& m_pointLights, std::vector<SpotLight*>& m_spotLights, const Maths::Vec2& viewportSize);
 		void RenderIcon(const std::vector<DirectionalLight*>& m_directionalLights, std::vector<PointLight*>& m_pointLights, std::vector<SpotLight*>& m_spotLights, const Maths::Vec2& viewportSize);
 
 		Resource::Texture& GetRenderTexture();
