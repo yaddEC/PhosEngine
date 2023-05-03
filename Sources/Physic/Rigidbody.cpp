@@ -22,8 +22,8 @@ namespace Physic {
     void Rigidbody::Update() {
         physicsRigidbody->Update();
 
-        // Use of the Raycast
-       /* Wrapper::RayCastHit test;
+       /* // Use of the Raycast
+        Wrapper::RayCastHit test;
         Maths::Vec3 dir = gameobject->transform->GetForwardVector();
 
         if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test)) {

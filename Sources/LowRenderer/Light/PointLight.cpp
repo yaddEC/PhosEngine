@@ -17,6 +17,8 @@
 
 #include "LowRenderer/Renderer.hpp"
 
+#include "Resource/ResourceManager.hpp"
+
 #define POINTLIGHT_EXPORTS
 #include "LowRenderer/Light/PointLight.hpp"
 
@@ -80,6 +82,8 @@ Reflection::ClassMetaData& LowRenderer::PointLight::GetMetaData()
 			ClassMemberInfo("Linear Attenuation", offsetof(PointLight, PointLight::m_linearAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1),
 			ClassMemberInfo("Quadratic Attenuation", offsetof(PointLight, PointLight::m_quadraticAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1)
 		};
+		result.PosTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("DefaultAssets\\LightIcon.png");
+		result.PosModelForTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitivePlane.obj");
 		computed = true;
 	}
 	return result;

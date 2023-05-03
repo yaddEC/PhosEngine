@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Maths/Maths.hpp"
+#include "Engine/Input.hpp"
 
 #include "dllInclude.hpp"
 
@@ -37,6 +38,7 @@ namespace Wrapper
 		static void BeginGroupCentered(Maths::Vec2 sizeOfGroup);
 		static void EndGroup();
 
+		static bool BeginPopup(const std::string& ID);
 		static bool BeginPopupContextItem(const std::string& ID);
 		static void EndPopup();
 		static void OpenPopup(const std::string& ID);
@@ -59,9 +61,12 @@ namespace Wrapper
 
 		static void Separator();
 		static void SameLine(float spacing = -1.f);
+		static void SetNextItemWidth(float item_width);
+		static void SetKeyboardFocusHere();
 
 		static void Image(const Resource::Texture& texture, Maths::Vec2 size);
 
+		static void TextUnformatted(const std::string& text, const std::string& text_end = "");
 		static Maths::Vec2 CalcTextSize(const std::string& text);
 		static bool TruncTextBySize(std::string& text, float maxLength);
 
@@ -92,6 +97,8 @@ namespace Wrapper
 		static bool Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, bool text = false, const std::string& first = "");
 
+		static bool IsItemHovered();
+		static bool IsItemDown(int mouseButton);
 		static bool IsItemClicked(int mouseButton);
 		static bool IsItemDoubleClicked(int mouseButton);
 
@@ -103,6 +110,9 @@ namespace Wrapper
 
 		static bool BeginMenu(const char* name);
 		static void EndMenu();
+
+		static bool BeginMenuBar();
+		static void EndMenuBar();
 
 		static bool MenuItem(const char* label, const char* shortcut, bool selected);
 		static bool MenuItem(const char* label, const char* shortcut);
