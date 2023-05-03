@@ -23,7 +23,7 @@ namespace Physic {
         physicsRigidbody->Update();
 
         // Use of the Raycast
-        Wrapper::RayCastHit test;
+       /* Wrapper::RayCastHit test;
         Maths::Vec3 dir = gameobject->transform->GetForwardVector();
 
         if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test)) {
@@ -40,7 +40,7 @@ namespace Physic {
 
         if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test)) {
             printf("UP %s %d\n", gameobject->name.c_str(), rand());
-        }
+        }*/
     }
 
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {

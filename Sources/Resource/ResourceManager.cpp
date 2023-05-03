@@ -42,6 +42,11 @@ void ResourceManager::Init(const std::string& rootAseetsPath)
 			else if (extension == "obj" || extension == "OBJ" || extension == "fbx" || extension == "FBX")
 			{
 				CreateResource<Mesh>(GetRelativePath(entry, rootAseetsPath));
+				//CreateResource<Animation>(GetRelativePath(entry, rootAseetsPath));
+			}
+			else if (extension == "anim" || extension == "ANIM")
+			{
+				CreateResource<Animation>(GetRelativePath(entry, rootAseetsPath));
 			}
 			else if (extension == "prog" || extension == "PROG")
 			{
@@ -76,7 +81,7 @@ void Resource::ResourceManager::Reload()
 	for (auto resource : m_resourceMap)
 	{
 		if (resource.second->GetTypeName() != "Scene")
-			resource.second->Load(resource.first);
+			resource.second->Load(resource.second->GetFilePath());
 	}
 
 	for (auto resource : m_resourceMap)

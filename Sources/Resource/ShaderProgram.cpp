@@ -112,6 +112,24 @@ void Resource::ShaderProgram::SetCubeMap(const std::string& uniformName, int val
 	Wrapper::RHI::ShaderInt(m_programKey, uniformName, value);
 }
 
+void Resource::ShaderProgram::SetUniformMatrixArray(const std::string& uniformName, const std::vector<Maths::Mat4> matrices)
+{
+	for (int i = 0; i < matrices.size(); i++)
+	{
+		Wrapper::RHI::ShaderMat(m_programKey, uniformName + "[" + std::to_string(i) + "]", matrices[i]);
+	}
+}
+
+void Resource::ShaderProgram::SetUniformMatrixArray(const std::string& uniformName, const std::map<std::string, Maths::Mat4> matrices)
+{
+	int i = 0;
+	for (auto element : matrices)
+	{
+		Wrapper::RHI::ShaderMat(m_programKey, uniformName + "[" + std::to_string(i) + "]", element.second);
+		i++;
+	}
+}
+
 
 void ShaderProgram::Unload()
 {

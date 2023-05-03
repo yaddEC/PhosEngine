@@ -17,7 +17,6 @@
 
 #include <iostream>
 
-#define MESHRENDERER_EXPORTS
 #include "LowRenderer/MeshRenderer.hpp"
 
 
@@ -44,9 +43,23 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 	m_material->GetShader()->Use();
 	m_material->GetShader()->SetUniformMatrix("model", transform->GetGlobalMatrix());
 	m_material->GetShader()->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
+	if (m_mesh->GetArmature())
+	{
+		m_material->GetShader()->SetUniformMatrixArray("skinMat", m_animatedBoneMatrices);
+		//m_material->GetShader()->SetUniformBool("isSkinned", true);
+	}
+	else
+	{
+		m_material->GetShader()->SetUniformBool("isSkinned", false);
+	}
 
 	m_mesh->Render(*m_material->GetShader(), *m_material);
 
+}
+
+void MeshRenderer::SetAnimMatrix(std::string name, Maths::Mat4 matrix) 
+{
+	m_animatedBoneMatrices[name] = matrix * m_mesh->GetArmature()->boneMap[name].inverseBind;
 }
 
 void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
@@ -70,6 +83,13 @@ void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
 void LowRenderer::MeshRenderer::Start()
 {
 	gameobject->GetScene()->GetRenderer()->AddMeshRenderer(this);
+	if (m_mesh->GetArmature())
+	{
+		for (auto bone : m_mesh->GetArmature()->boneMap)
+		{
+			m_animatedBoneMatrices.emplace(bone.first, (Maths::Mat4::CreateDiagonalMatrix(1)));
+		}
+	}
 }
 
 void LowRenderer::MeshRenderer::Update()

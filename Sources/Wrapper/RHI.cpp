@@ -207,6 +207,48 @@ void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned
 	glBindVertexArray(0);
 }
 
+void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned int& EBO,
+	const std::vector<Resource::SkinnedVertex>& skinnedVertices, const std::vector<unsigned int>& indices)
+{
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	size_t size = sizeof(Resource::SkinnedVertex);
+	glBufferData(GL_ARRAY_BUFFER, skinnedVertices.size() * size, &skinnedVertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+
+	// vertex positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, (void*)0);
+	// vertex normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, normal));
+	// vertex texture coords
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, UVCoords));
+	// vertex tangents
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, tangents));
+	// vertex bitangents
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, bitangents));
+	// vertex bone weight index
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_INT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, boneIDs));
+	// vertex bone weight
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, boneWeights));
+
+	glBindVertexArray(0);
+}
+
 void Wrapper::RHI::UnloadSubMesh(const unsigned int& VAO, const unsigned int& VBO, const unsigned int& EBO)
 {
 	glDeleteVertexArrays(1, &VAO);

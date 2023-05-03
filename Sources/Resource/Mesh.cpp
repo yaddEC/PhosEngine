@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include "Wrapper/GUI.hpp"
 #include "Resource/SubMesh.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/ResourceIncludes.hpp"
@@ -43,6 +44,17 @@ void Mesh::Unload()
     for (SubMesh& mesh : m_subMeshes)
     {
         mesh.Unload();
+    }
+}
+
+void Resource::Mesh::GUIUpdate()
+{
+    if (m_armature)
+    {
+        for (auto bone : m_armature->boneMap)
+        {
+            Wrapper::GUI::DisplayText("%s : %d", bone.first.c_str(), bone.second.indexInArmature);
+        }
     }
 }
 
@@ -87,9 +99,9 @@ void Mesh::ProcessNode(aiNode* node, const aiScene* scene, const std::string& fi
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-       /* if(mesh->HasBones())
+        if(mesh->HasBones())
             m_subMeshes.push_back(ProcessSkinnedMesh(mesh, scene, filepath));
-        else*/
+        else
             m_subMeshes.push_back(ProcessMesh(mesh, scene, filepath));
         
     }
@@ -192,11 +204,6 @@ SubMesh Resource::Mesh::ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, c
     }
 
 
-    if (mesh->mMaterialIndex >= 0)
-    {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        //GenerateMaterial(material);
-    }
 
     ProcessArmature(vertices, mesh, scene);
 
@@ -217,11 +224,12 @@ void Resource::Mesh::ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMes
         for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
         {
             unsigned int id = mesh->mBones[i]->mWeights[j].mVertexId;
+            if (vertexWeightIndex[id] >= 4) continue;
             vertices[id].boneIDs[vertexWeightIndex[id]] = i;
             vertices[id].boneWeights[vertexWeightIndex[id]] = mesh->mBones[i]->mWeights[j].mWeight;
             vertexWeightIndex[id]++;
         }
-        m_armature->skeleton.push_back(bone);
+        m_armature->boneMap.emplace(bone.name, bone);
     }
 }
 
@@ -260,4 +268,9 @@ void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
     material->SetProperties(albedo, spec, shininess, shader);
     material->SetFileInfo(p_directory + "\\" + name.C_Str() + ".phmat");
     material->Save();
+}
+
+void Resource::Mesh::DisplayArmature(Bone& current)
+{
+
 }

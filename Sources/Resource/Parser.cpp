@@ -9,7 +9,6 @@
 #include <sstream>
 #include <filesystem>
 
-#define PARSER_EXPORTS
 #include "Resource/Parser.hpp"
 
 std::vector<std::string> Resource::Parser::ConvertFileToStringArray(const std::string& filepath)
@@ -81,4 +80,23 @@ Maths::Vec3 Resource::Parser::ParseVec3(std::vector<std::string> tokens, int sta
 std::string Resource::Parser::WriteVec3(const std::string& label, const Maths::Vec3& value)
 {
 	return std::string();
+}
+
+Maths::Vec3 Resource::Parser::ConvertVec3(const float* vec3_ptr)
+{
+	return Maths::Vec3(*vec3_ptr, *(vec3_ptr + 1), *(vec3_ptr + 2));
+}
+
+Maths::Mat4 Resource::Parser::ConvertMat4(const float* mat4_ptr)
+{
+	Maths::Mat4 result;
+	for (size_t i = 0; i < 4; i++)
+	{  
+		for (size_t j = 0; j < 4; j++)
+		{
+			result.data_4_4[i][j] = *(mat4_ptr + i * 4 + j);
+
+		}
+	}
+	return result;
 }

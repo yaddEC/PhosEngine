@@ -16,6 +16,7 @@
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
 #include <iostream>
+#include "LowRenderer/Animator.hpp"
 #include "Reflection/ClassMetaData.hpp"
 
 const std::string typeToString[] = { "int", "float", "bool", "Vec3", "Color", "Mesh", "Material", "Material List"};
@@ -272,6 +273,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Capsule Collider")
 	{
 		return gameObject->AddComponent<Physic::CapsuleCollider>();
+	}
+	if (componentName == "Animator")
+	{
+		return gameObject->AddComponent<LowRenderer::Animator>();
 	}
 
 	return nullptr;

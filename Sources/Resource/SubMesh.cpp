@@ -39,8 +39,10 @@ void SubMesh::Render(const ShaderProgram& shaderProgram, const class Material& m
 
 void SubMesh::SetUpSubMesh()
 {
+    if(isSkinned)
+        Wrapper::RHI::SetSubMeshData(m_VAO, m_VBO, m_EBO, skninnedVertices, indices);
+    else
         Wrapper::RHI::SetSubMeshData(m_VAO, m_VBO, m_EBO, vertices, indices);
-
 }
 
 void SubMesh::Unload()

@@ -848,13 +848,11 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 	return Mat4{ view };
 }
 
-#if 0
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
 	return  { CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y) *
 									CreateZRotationMatrix(rotation.z) * CreateTranslationMatrix(translation) };
-}
-#endif
+}   
 
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)

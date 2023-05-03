@@ -33,9 +33,19 @@ namespace Resource
 	{
 	public:
 
-		void Load(const std::string& name, int ID, const aiNodeAnim* channel);
+		void Load(const aiNodeAnim* channel);
 
-		void UpdateTransform(float animationTime);
+		Maths::Mat4 GetGlobalMatrix(float animationTime, const Maths::Mat4& parentMatrix) const;
+
+		std::string GetName() const { return m_name; }
+
+		void AddChild(AnimBone* child) { m_children.push_back(child); }
+		void SetParent(AnimBone* parent) { m_parent = parent; }
+		AnimBone* GetParent() const { return m_parent; }
+		std::vector<AnimBone*> GetChildren() const { return m_children; }
+
+		void SetArmatureIndex(int i) { m_ArmatureIndex = i; }
+		int GetArmatureIndex() const { return m_ArmatureIndex; }
 
 	private:
 
@@ -43,9 +53,13 @@ namespace Resource
 		Maths::Quaternion GetInterpolationRotation(float animationTime) const;
 		Maths::Vec3 GetInterpolationScale(float animationTime) const;
 
+
 		std::string m_name;
-		Maths::Mat4 m_localMatrix;
-		int m_parentID;
+
+		int m_ArmatureIndex;
+		AnimBone* m_parent;
+		std::vector<AnimBone*> m_children;
+
 
 		std::vector<AnimBonePosition> m_positionList;
 		std::vector<AnimBoneRotation> m_rotationList;
