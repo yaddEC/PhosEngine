@@ -133,6 +133,9 @@ void Engine::Scene::Load(const std::string& filepath)
 	Material* blazikenMat = rm.GetResource<Material>("Assets\\Material\\Blaziken.phmat");
 	Material* basicMat = rm.GetResource<Material>("Assets\\Material\\Material.phmat");
 	Material* metalGrid = rm.GetResource<Material>("Assets\\Material\\MetalGrid.phmat");
+	
+
+	
 	/*
 	GameObject* go = new GameObject();
 	go->name = "Boo 1";

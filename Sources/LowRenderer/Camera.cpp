@@ -163,7 +163,6 @@ Resource::Texture& LowRenderer::Camera::GetRenderTexture()
 void Camera::OnGUI()
 {
     using namespace Wrapper;
-    if (GUI::CollapsingHeader("Camera"))
     {
         transform->OnGUI();
         GUI::EditFloat("Field of View : ", fov, 0.1f, 1, 180);

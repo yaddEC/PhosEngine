@@ -104,6 +104,9 @@ namespace Wrapper
 		static bool BeginMenu(const char* name);
 		static void EndMenu();
 
+		static bool BeginMenuBar();
+		static void EndMenuBar();
+
 		static bool MenuItem(const char* label, const char* shortcut, bool selected);
 		static bool MenuItem(const char* label, const char* shortcut);
 
