@@ -5,6 +5,7 @@
 #include "LowRenderer/Framebuffer.hpp"
 #include "Resource/Texture.hpp"
 
+#include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 
