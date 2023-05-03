@@ -70,7 +70,7 @@ void AssetExplorer::DoUpdate()
 		}
 	}
 
-	
+
 
 	Maths::Vec2 cursorPos = GUI::GetCursorPos();
 	cursorPos.x = 15;
@@ -129,10 +129,10 @@ void AssetExplorer::DoUpdate()
 				case 1: // New File
 					CreateNewFile(m_currentDirectory);
 					break;
-				case 2 : 
+				case 2:
 					//WIP
 					break;
-				
+
 				default:
 					break;
 				}
@@ -273,13 +273,13 @@ void AssetExplorer::DisplayFile(const string& file)
 					selected = i;
 					switch (selected)
 					{
-					case 0 :
+					case 0:
 						RenameFile(file);
 						break;
-					case 1 :
+					case 1:
 						//WIP
 						break;
-					case 2 :
+					case 2:
 						fs::remove(file);
 						break;
 					default:
@@ -322,12 +322,12 @@ void EditorGUI::AssetExplorer::DisplayFolder(const std::string& folder)
 				if (Wrapper::GUI::InputString("##RenameObject", displayFolderName))
 				{
 					std::string newFolderPath = folder.substr(0, folder.find_last_of('\\')) + "\\" + displayFolderName;
-					if ((fs::exists(folder) && !fs::exists(newFolderPath))|| displayFolderName == "New Folder")
+					if ((fs::exists(folder) && !fs::exists(newFolderPath)) || displayFolderName == "New Folder")
 					{
 						fs::rename(folder, newFolderPath);
 						m_isRenaming = -1;
 					}
-					
+
 				}
 
 				GUI::EndGroup();
@@ -347,12 +347,12 @@ void EditorGUI::AssetExplorer::DisplayFolder(const std::string& folder)
 				if (Wrapper::GUI::InputString("##RenameObject", displayFolderName))
 				{
 					std::string newFolderPath = folder.substr(0, folder.find_last_of('\\')) + "\\" + displayFolderName;
-					if ((fs::exists(folder) && !fs::exists(newFolderPath))|| displayFolderName == "New Folder(" + std::to_string(m_isRenaming) + ")")
+					if ((fs::exists(folder) && !fs::exists(newFolderPath)) || displayFolderName == "New Folder(" + std::to_string(m_isRenaming) + ")")
 					{
 						fs::rename(folder, newFolderPath);
 						m_isRenaming = -1;
 					}
-					
+
 				}
 				GUI::EndGroup();
 			}
@@ -395,22 +395,22 @@ void EditorGUI::AssetExplorer::DisplayFolder(const std::string& folder)
 					case 0:
 						RenameFolder(folder);
 						break;
-					case 1 :
-					//WIP
+					case 1:
+						//WIP
 						break;
-					case 2 :
+					case 2:
 						fs::remove_all(folder);
 						break;
 					default:
 						break;
 					}
 				}
-					
+
 			}
 			GUI::EndPopup();
 		}
 	}
-	
+
 
 }
 
@@ -450,7 +450,7 @@ void EditorGUI::AssetExplorer::NewResource()
 
 void EditorGUI::AssetExplorer::CreateNewFolder(const std::string& path)
 {
-	
+
 	int index = 1;
 	m_isRenaming = 0;
 	std::string new_folder_name = "New Folder";
@@ -461,7 +461,7 @@ void EditorGUI::AssetExplorer::CreateNewFolder(const std::string& path)
 		m_isRenaming = index;
 		index++;
 	}
-	
+
 	fs::create_directory(new_folder_path);
 
 
@@ -494,7 +494,7 @@ void EditorGUI::AssetExplorer::FolderButton(const std::string& folder)
 	if (GUI::TruncTextBySize(displayFolderName, 90))
 		displayFolderName += "...";
 
-	
+
 	GUI::DisplayText(displayFolderName.c_str());
 	//GUI::SameLine();
 
@@ -521,7 +521,7 @@ void EditorGUI::AssetExplorer::RenameFile(const std::string& file)
 	m_isRenaming = 0;
 	std::string new_file_name = "New File.txt";
 	std::string path = file.substr(0, file.find_last_of('\\'));
-	std::string new_file_path = path+ "\\" + new_file_name;
+	std::string new_file_path = path + "\\" + new_file_name;
 
 	while (fs::exists(new_file_path))
 	{
