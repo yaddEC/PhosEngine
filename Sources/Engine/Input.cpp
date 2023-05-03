@@ -26,6 +26,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void Input::Init(GLFWwindow* _window)
 {
+	mouseMap = 0;
 	timeStep = 1.f ;
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
@@ -101,6 +102,7 @@ void Input::Update() {
 			keyMap[i] = 0;
 		}
 	}
+
 }
 
 bool Input::IsKeyPressed(int key) {
@@ -117,8 +119,52 @@ bool Input::IsAnyKeyDown() {
 
 
 bool Input::IsMouseButtonPressed(int mouseButton) {
-	return glfwGetMouseButton(window, mouseButton);
+	
+	bool mouseBool = glfwGetMouseButton(window, mouseButton);
+	if (mouseBool)
+	{
+		if (mouseMap == 0)
+		{
+			mouseMap = 1;
+			return true;
+		}
+	}
+	else
+	{
+		mouseMap = 0;
+	}
+
+	return false;
+
 }
+
+bool Input::IsMouseButtonDown(int mouseButton) {
+	
+	return glfwGetMouseButton(window, mouseButton);
+
+}
+
+bool Input::IsMouseButtonReleased(int mouseButton) {
+
+	bool mouseBool = glfwGetMouseButton(window, mouseButton);
+	if (!mouseBool)
+	{
+		if (mouseMap == 1)
+		{
+			mouseMap = 0;
+			return true;
+		}
+
+	}
+	else
+	{
+		mouseMap = 1;
+	}
+	return false;
+
+}
+
+
 
 int Input::GetScrollDelta()
 {

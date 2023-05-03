@@ -15,9 +15,9 @@ namespace Resource
 	{
 	public:
 
-		void Load(const std::string& filepath) override;
-		void Bind() override;
-		void Unload() override;
+		void Load(const std::string& filepath) override {};
+		void Bind() override {};
+		void Unload() override {};
 
 		
 		std::vector<AnimBone> GetAnimBones() const { return m_AnimBones;  }

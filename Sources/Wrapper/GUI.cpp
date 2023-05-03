@@ -156,9 +156,24 @@ void Wrapper::GUI::SameLine(float spacing)
 	ImGui::SameLine(0, spacing);
 }
 
+void Wrapper::GUI::SetNextItemWidth(float item_width)
+{
+	ImGui::SetNextItemWidth(item_width);
+}
+
+void Wrapper::GUI::SetKeyboardFocusHere()
+{
+	ImGui::SetKeyboardFocusHere();
+}
+
 void Wrapper::GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
 {
 	ImGui::Image((ImTextureID)texture.GetTextureKey(), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
+}
+
+void Wrapper::GUI::TextUnformatted(const std::string& text, const std::string& text_end)
+{
+	ImGui::TextUnformatted(text.c_str(),text_end.c_str());
 }
 
 Maths::Vec2 Wrapper::GUI::CalcTextSize(const std::string& text)
@@ -413,7 +428,8 @@ bool Wrapper::GUI::InputString(const std::string& label, std::string& value)
 	char buffer[bufferSize];
 
 	strncpy_s(buffer, bufferSize, value.c_str(), _TRUNCATE);
-	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue;
+	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
+
 
 	if (ImGui::InputText(label.c_str(), buffer, bufferSize, inputTextFlags))
 	{
@@ -517,6 +533,16 @@ void Wrapper::GUI::PopID()
 	ImGui::PopID();
 }
 
+bool Wrapper::GUI::IsItemHovered()
+{
+	return ImGui::IsItemHovered(ImGuiHoveredFlags_None);
+}
+
+bool Wrapper::GUI::IsItemDown(int mouseButton)
+{
+	return IsItemHovered() && Engine::Input::GetInstance().IsMouseButtonDown(mouseButton);
+}
+
 bool Wrapper::GUI::IsItemClicked(int mouseButton)
 {
 	return ImGui::IsItemClicked(mouseButton);
@@ -552,6 +578,10 @@ void* Wrapper::GUI::DragDropTarget(const std::string& ID)
 	return result;
 }
 
+bool Wrapper::GUI::BeginPopup(const std::string& ID)
+{
+	return ImGui::BeginPopup(ID.c_str());
+}
 
 bool Wrapper::GUI::BeginPopupContextItem(const std::string& ID)
 {
