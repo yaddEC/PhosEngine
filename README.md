@@ -1,4 +1,4 @@
-# PhosEngine        
+## **PhosEngine**        
 <a href="https://www.isart.fr/"><img width="255" height="255" src = "https://cdn.discordapp.com/attachments/1027192447232643152/1082248746710077451/telechargement.png"></a> <a href="#"><img width="390" height="255" src = "https://cdn.discordapp.com/attachments/1077144912954409033/1084231741121757215/image.png"></a>
 ## ⭐ About the Project
 This project is a Game Engine made for the second year at ISART digital, we have 4 months to complete the project.
@@ -14,13 +14,13 @@ This project is a Game Engine made for the second year at ISART digital, we have
     |Sound|<a href="https://miniaud.io/">miniaudio</a>|
     |Physics|<a href="https://github.com/NVIDIA-Omniverse/PhysX">Nvidia PhysX</a>|
     |GUI (Editor)|<a href="https://github.com/ocornut/imgui">Dear ImGui</a>|
-## Authors
+## ✒ Authors
 
 - <a href = "mailto: l.lin@student.isartdigital.com">Laurent LIN</a>
 - <a href = "mailto: l.zallio@student.isartdigital.com">Liam ZALIO</a>
 - <a href = "mailto: m.robion@student.isartdigital.com">Mathieu ROBION</a>
 - <a href = "mailto: y.dechaux@student.isartdigital.com">Yann DECHAUX</a>
-## Visual Studio Explanation
+## 📚 Visual Studio Explanation
 - ⚠ The main branch is the editor, it contains all the dll so you should be able to run it. The engine as its own branch. ⚠
 - ### PhosEngine.sln
     ```
@@ -45,7 +45,9 @@ This project is a Game Engine made for the second year at ISART digital, we have
     - I just pull and my project can't compile.
     >**Solution:** You have probably pulled a PhosEngine.dll or .lib that doesn't have a function you used or modified an existing one. Try to pull the Engine and if it's not working go in [Build > Rebuild Solution], it will rebuild all projects and will overwrite the dll you pull.
 
-## PhysX Repository
+## 🖥 PhysX Repository
 This is another repository used to test physX functions and implement basics architecture before adding it to our engine:
 
  https://gitlabstudents.isartintra.com/y.dechaux/physx_test
+ ## 📄 License
+ - <a href="/LICENSE"><b>MIT License</b></a>
