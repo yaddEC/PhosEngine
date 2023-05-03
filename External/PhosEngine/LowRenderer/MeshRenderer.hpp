@@ -1,6 +1,7 @@
 #pragma once
 #include "Maths/Maths.hpp"
 #include "Engine/MonoBehaviour.hpp"
+#include <map>
 
 #include "dllInclude.hpp"
 
@@ -32,12 +33,6 @@ namespace LowRenderer
 
 		void Start() override;
 		void Update() override;
-		void OnTriggerEnter(Engine::GameObject* go) override {};
-		void OnTriggerStay(Engine::GameObject* go) override {};
-		void OnTriggerExit(Engine::GameObject* go) override {};
-		void OnCollisionEnter(Engine::GameObject* go) override {};
-		void OnCollisionStay(Engine::GameObject* go) override {};
-		void OnCollisionExit(Engine::GameObject* go) override {};
 		void GUIUpdate() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
@@ -48,9 +43,12 @@ namespace LowRenderer
 		void SetMaterial(Resource::Material* _material) { m_material = _material; }
 		Resource::Material* GetMaterial() { return m_material; }
 
-		
+		void SetAnimMatrix(std::string name, Maths::Mat4 matrix);
 
 	private:
+
+		// must keep empty if no animation
+		std::map<std::string, Maths::Mat4> m_animatedBoneMatrices;
 
 		Resource::Mesh* m_mesh = nullptr;
 		Resource::Material* m_material = nullptr;

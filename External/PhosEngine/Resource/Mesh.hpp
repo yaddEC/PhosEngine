@@ -18,6 +18,7 @@ namespace Resource
 	class PHOSENGINE_API Mesh : public IResource
 	{
 	public:
+
 		Mesh() : IResource()
 		{
 			m_boundingBoxMin = Maths::Vec3(INT32_MAX, INT32_MAX, INT32_MAX);
@@ -28,6 +29,7 @@ namespace Resource
 		void Load(const std::string& filepath) override;
 		void Bind() override;
 		void Unload() override;
+		void GUIUpdate() override;
 		virtual ~Mesh();
 		std::string GetTypeName() { return "Mesh"; }
 
@@ -37,8 +39,10 @@ namespace Resource
 
 		SubMesh& GetSubMesh(int index) { return m_subMeshes[index]; }
 		std::vector<SubMesh>& GetSubMeshes() { return m_subMeshes; }
+		Armature* GetArmature() const { return m_armature; }
 
 	private:
+
 		std::vector<SubMesh> m_subMeshes;
 		Maths::Vec3 m_boundingBoxMin, m_boundingBoxMax;
 		Armature* m_armature;
@@ -58,6 +62,8 @@ namespace Resource
 		}
 
 		void GenerateMaterial(aiMaterial* mat);
+
+		void DisplayArmature(Bone& current);
 	};
 }
 

@@ -4,7 +4,6 @@ out vec4 FragColor;
 in vec2 texCoord;
 in vec3 FragPos;
 in mat3 TBN;
-in vec3 Normal;
 
 uniform vec3 viewPos;
 uniform int lenghtDirLight;

@@ -4,24 +4,48 @@ layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoord;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;
+layout (location = 5) in ivec4 aBoneWeightIndex;
+layout (location = 6) in vec4 aBoneWeight;
 
 out vec2 texCoord;
 out vec3 FragPos;
 out mat3 TBN;
-out vec3 Normal;
 
 uniform mat4 mvp;
 uniform mat4 model;
 
+uniform mat4 skinMat[128];
+
+uniform bool isSkinned = false;
+
 void main()
 {
-    gl_Position =  mvp * vec4(aPos, 1.0);
+    mat4 localPos = mat4(0);
+    mat3 localNormal = mat3(0);
+    if(isSkinned)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if(aBoneWeightIndex[i] == -1) continue;
+            localPos += skinMat[aBoneWeightIndex[i]] * aBoneWeight[i];
+            localNormal += mat3(skinMat[aBoneWeightIndex[i]] * aBoneWeight[i]);
+        }
+    }
+    else
+    {
+        localPos = mat4(1);
+        localNormal = mat3(1);
+    }
+    
+    vec4 resPos = localPos * vec4(aPos, 1.0);
+    gl_Position =  mvp * resPos;
     texCoord = aTexCoord;
-    FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal =  vec3(model * vec4(aNormal, 0.0));
+    FragPos = vec3(model * resPos);
 
-    vec3 T = normalize(vec3(model * vec4(aTangent,   0.0)));
-    vec3 B = normalize(vec3(model * vec4(aBitangent, 0.0)));
-    vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));
+    
+
+    vec3 T = normalize(vec3(model * vec4(localNormal * aTangent, 0.0)));
+    vec3 B = normalize(vec3(model * vec4(localNormal * aBitangent, 0.0)));
+    vec3 N = normalize(vec3(model * vec4(localNormal * aNormal, 0.0)));
     TBN = mat3(T, B, N);
 }

@@ -8,3 +8,4 @@
 #include "Resource/PostProcessingShader.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/IShader.hpp"
+#include "Resource/Animation.hpp"

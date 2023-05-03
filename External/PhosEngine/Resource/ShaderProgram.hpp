@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 #include "Maths/Maths.hpp"
 #include "IResource.hpp"
 #include "Resource/ShaderInfo.hpp"
@@ -37,6 +38,11 @@ namespace Resource
 		void SetUniformFloat(const std::string& uniformName, float value) const;
 		void SetTexture(const std::string& uniformName, int value, const Texture& texture) const;
 		void SetCubeMap(const std::string& uniformName, int value, const CubeMap& texture) const;
+
+		void SetUniformMatrixArray(const std::string& uniformName,
+			const std::vector<Maths::Mat4> matrices);
+		void SetUniformMatrixArray(const std::string& uniformName,
+			const std::map<std::string, Maths::Mat4> matrices);
 
 	private:
 		unsigned int m_programKey;

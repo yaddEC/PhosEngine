@@ -1,32 +1,16 @@
-name "Boo 1"
-id 1
-transform 6.65 10 0 0 1.11701 0 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Radius 2.000000
-	end
-end
 name "Blaziken"
-id 2
+id 1
 transform 10 0 0 0 3.14159 0 0.1 0.1 0.1
 component "Mesh Renderer"
 	Mesh Assets\Model\Walking.fbx
 	Material Assets\Material\NewMaterial.phmat
 	end
+component "Animator"
+	Speed 1.000000
+	end
 end
 name "Ground"
-id 3
+id 2
 transform 0 -3 0 0 0 0 50 1 100
 component "Mesh Renderer"
 	Mesh Assets\Model\cube.obj
@@ -39,7 +23,7 @@ component "Box Collider"
 	end
 end
 name "testMat"
-id 4
+id 3
 transform 0 0 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
@@ -47,7 +31,7 @@ component "Mesh Renderer"
 	end
 end
 name "SpotLight"
-id 5
+id 4
 transform -23.8 55.95 0 0 0 0 1 1 1
 component "Spot Light"
 	Color 1.000000 1.000000 1.000000
@@ -58,7 +42,7 @@ component "Spot Light"
 	end
 end
 name "test"
-id 6
+id 5
 transform -0.75 10 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -77,7 +61,7 @@ component "Sphere Collider"
 	end
 end
 name "Boo 3"
-id 7
+id 6
 transform -17.8 19.9 0 0 0 -1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -96,7 +80,7 @@ component "Sphere Collider"
 	end
 end
 name "Boo 4"
-id 8
+id 7
 transform -0.55 15.1 -25.9 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -115,7 +99,7 @@ component "Sphere Collider"
 	end
 end
 name "Boo 6"
-id 9
+id 8
 transform -8.75 9.8 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -134,7 +118,7 @@ component "Sphere Collider"
 	end
 end
 name "Directional Light"
-id 10
+id 9
 transform 0 0 0 -6.95858 0 0 1 1 1
 component "Directional Light"
 	Color 1.000000 1.000000 1.000000

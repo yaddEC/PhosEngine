@@ -2,6 +2,7 @@
 #include "Resource/IResource.hpp"
 #include <vector>
 #include <string>
+#include <map>
 #include "Engine/Transform.hpp"
 
 #include "assimp/Importer.hpp"
@@ -26,7 +27,7 @@ namespace Resource
 	{
 	public:
 
-		std::vector<Bone> skeleton;
+		std::map<std::string, Bone> boneMap;
 
 	};
 }
