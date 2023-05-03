@@ -6,6 +6,8 @@
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/Window.hpp"
 
+#include "imgui.h"
+#include "imgui_internal.h"
 using namespace Maths; 
 using namespace Wrapper;
 using namespace EditorGUI;
@@ -81,8 +83,15 @@ Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 
 }
 
+void SceneGUI::MenuBarScene()
+{
+
+}
+
 void SceneGUI::DoUpdate()
 {
+	MenuBarScene();
+
 	m_frameCount++;
 	m_elapsedTime += Input::deltaTime;
 	if (m_elapsedTime >= 1.0f)
@@ -115,12 +124,14 @@ void SceneGUI::DoUpdate()
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
 
-	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x - 10, p_size.y - 35));
-	m_sceneCamera.OnGUI();
 
-	GUI::SetCursorPos(cursorPos + Maths::Vec2(p_size.x / 2 - 10, 0));
-	
-	
+	if (GUI::Button("Debug Camera"))
+	{
+		m_drawCameraData = !m_drawCameraData;
+	}
+
+	GUI::SameLine();
+
 	if (m_currentScene->GetIsGameMode())
 	{
 		if (GUI::Button("Stop"))
@@ -135,5 +146,13 @@ void SceneGUI::DoUpdate()
 			m_currentScene->StartGameMode();
 		}
 	}
-	GUI::DisplayText("%.2f FPS", m_fps);
+
+	if (m_drawCameraData)
+	{
+		m_sceneCamera.OnGUI();
+	}
+
+	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x - 10, p_size.y - 60));
+
+	//GUI::DisplayText("%.2f FPS", m_fps);
 }
