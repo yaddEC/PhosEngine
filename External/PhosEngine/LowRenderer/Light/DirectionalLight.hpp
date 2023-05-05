@@ -1,5 +1,6 @@
 #pragma once
 #include "LowRenderer/Light/ILight.hpp"
+#include "Resource/Texture.hpp"
 
 #include "dllInclude.hpp"
 
@@ -12,6 +13,7 @@ namespace LowRenderer
 		~DirectionalLight();
 
 		void Render(const Resource::ShaderProgram& shaderProg, int number) override;
+		void RenderShadowMap() override {};
 
 		void Start() override;
 		void Update() override;
@@ -20,7 +22,7 @@ namespace LowRenderer
 		Reflection::ClassMetaData& GetMetaData() override;
 
 	private:
-
+		Resource::Texture m_shadowTexture;
 	};
 
 
