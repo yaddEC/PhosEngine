@@ -26,9 +26,57 @@ bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	//Set up Style 
+	ImGui::StyleColorsDark();
+
+	auto& Style = ImGui::GetStyle();
+
+	Style.WindowRounding = 7.000f;
+	Style.WindowBorderSize = 0.000f;
+	Style.ChildRounding = 7.000f;
+	Style.ChildBorderSize = 0.000f;
+	Style.PopupRounding = 7.000f;
+	Style.PopupBorderSize = 1.000f;
+	Style.FrameRounding = 7.000f;
+	Style.ScrollbarSize = 15.000f;
+	Style.ScrollbarRounding = 7.000f;
+	Style.GrabMinSize = 9.000f;
+	Style.GrabRounding = 7.000f;
+	Style.LogSliderDeadzone = 7.000f;
+	Style.TabRounding = 7.000f;
+
+	Style.Colors[ImGuiCol_FrameBg] = ImVec4(0.305f, 0.310f, 0.316f, 0.540f);
+	Style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.122f, 0.361f, 0.357f, 1.000f);
+	Style.Colors[ImGuiCol_CheckMark] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.180f, 0.659f, 0.631f, 1.000f);
+	Style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_Button] = ImVec4(0.196f, 0.737f, 0.702f, 0.749f);
+	Style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.196f, 0.737f, 0.702f, 0.835f);
+	Style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.047f, 0.737f, 0.647f, 0.753f);
+	Style.Colors[ImGuiCol_Header] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_SeparatorActive] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.238f, 0.918f, 0.873f, 1.000f);
+	Style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.196f, 0.737f, 0.702f, 0.758f);
+	Style.Colors[ImGuiCol_Tab] = ImVec4(0.137f, 0.435f, 0.424f, 1.000f);
+	Style.Colors[ImGuiCol_TabHovered] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_TabActive] = ImVec4(0.153f, 0.510f, 0.486f, 1.000f);
+	Style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.051f, 0.110f, 0.110f, 1.000f);
+	Style.Colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.102f, 0.318f, 0.306f, 1.000f);
+	Style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.749f, 0.263f, 0.502f, 1.000f);
+	Style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.678f, 0.114f, 0.004f, 1.000f);
+	Style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.749f, 0.004f, 0.020f, 1.000f);
+	Style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_DragDropTarget] = ImVec4(0.749f, 0.282f, 0.004f, 1.000f);
+	Style.Colors[ImGuiCol_NavHighlight] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
 	// Set up ImGui
 	ImGuiIO& io = ImGui::GetIO();
-
+	io.Fonts->AddFontFromFileTTF("DefaultAssets/Font/Figtree-Regular.ttf", 18.000f);
 	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls

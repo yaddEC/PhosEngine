@@ -36,7 +36,6 @@ namespace LowRenderer
 		Resource::Texture* GetBindedTexture() { return m_bindedTexture; }
 
 	private:
-
 		int m_width, m_height;
 		unsigned int m_framebufferKey, m_renderbufferKey;
 		Resource::Texture* m_bindedTexture;
