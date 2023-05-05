@@ -56,8 +56,8 @@ namespace Wrapper
 		static void BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateize = false);
 		static void UnbindFrameBuffer();
 		static void ClearFrameBuffer(const Maths::Vec4& clearColor);
-		static void AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey);
-		static void DetachTextureToFrameBuffer(unsigned int frameBufferKey);
+		static void AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDetph = false);
+		static void DetachTextureToFrameBuffer(unsigned int frameBufferKey, bool useDepth = false);
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
 		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
