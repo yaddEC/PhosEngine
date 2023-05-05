@@ -11,8 +11,10 @@
 #include"Wrapper/RHI.hpp"
 #include "Wrapper/GUI.hpp"
 
-void Resource::IShader::Load(const std::string& filepath)
+void Resource::IShader::Load()
 {
+	std::string filepath = GetFilePath();
+
 	std::fstream progFile;
 	progFile.open(filepath.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 

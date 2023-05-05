@@ -10,8 +10,9 @@
 #include "Resource/AnimBone.hpp"
 #include "Resource/Animation.hpp"
 
-void Resource::Animation::Load(const std::string& filepath)
+void Resource::Animation::Load()
 {
+    std::string filepath = GetFilePath();
 
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(filepath.c_str(), 0);

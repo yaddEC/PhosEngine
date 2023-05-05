@@ -13,9 +13,10 @@
 using namespace Maths;
 using namespace Resource;
 
-void Mesh::Load(const std::string& filepath)
+void Mesh::Load()
 {
-    SetFileInfo(filepath);
+
+    std::string filepath = GetFilePath();
 
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(filepath.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);

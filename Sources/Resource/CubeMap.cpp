@@ -20,10 +20,9 @@
 #define CUBEMAP_EXPORTS
 #include "Resource/CubeMap.hpp"
 
-void Resource::CubeMap::Load(const std::string& filepath)
+void Resource::CubeMap::Load()
 {
-	SetFileInfo(filepath);
-	SetProperties(filepath);
+	SetProperties(GetFilePath());
 	LoadData();
 }
 

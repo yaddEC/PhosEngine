@@ -26,7 +26,7 @@ namespace Resource
 		};
 
 
-		void Load(const std::string& filepath) override;
+		void Load() override;
 		void Bind() override;
 		void Unload() override;
 		void GUIUpdate() override;

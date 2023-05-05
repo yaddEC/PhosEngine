@@ -21,10 +21,12 @@
 
 using namespace Resource;
 
-void Resource::Prefab::Load(const std::string& filepath)
+void Resource::Prefab::Load()
 {
+	
+
 	m_gameObjectList.clear();
-	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(filepath);
+	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(GetFilePath());
 	size_t lineIndex = 0;
 	ParseGameObject(fileData, lineIndex);
 }

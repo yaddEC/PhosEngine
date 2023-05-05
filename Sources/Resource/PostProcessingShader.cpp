@@ -22,9 +22,10 @@ Resource::PostProcessingShader::~PostProcessingShader()
 {
 }
 
-void Resource::PostProcessingShader::Load(const std::string& filepath)
+void Resource::PostProcessingShader::Load()
 {
-	SetFileInfo(filepath);
+	std::string filepath = GetFilePath();
+
 	ShaderInfo vertShader;
 	vertShader.source = "#version 330 core\n"
 						"layout (location = 0) in vec3 aPos;\n"

@@ -426,6 +426,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Physic\Collider.hpp" />
     <ClInclude Include="Headers\Physic\PhysicsManager.hpp" />
     <ClInclude Include="Headers\Physic\Rigidbody.hpp" />
+    <ClInclude Include="Headers\Resource\File.hpp" />
+    <ClInclude Include="Headers\Resource\FileManager.hpp" />
     <ClInclude Include="Headers\Resource\IResource.hpp" />
     <ClInclude Include="Headers\Resource\Material.hpp" />
     <ClInclude Include="Headers\Resource\Mesh.hpp" />
@@ -452,6 +454,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGUI\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Resource\FileManager.cpp" />
     <ClCompile Include="Sources\LowRenderer\Animator.cpp" />
     <ClCompile Include="Sources\Reflection\ClassMetaData.cpp" />
     <ClCompile Include="Sources\Resource\Animation.cpp" />
@@ -486,6 +489,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Physic\Collider.cpp" />
     <ClCompile Include="Sources\Physic\PhysicsManager.cpp" />
     <ClCompile Include="Sources\Physic\Rigidbody.cpp" />
+    <ClCompile Include="Sources\Resource\File.cpp" />
     <ClCompile Include="Sources\Resource\IResource.cpp" />
     <ClCompile Include="Sources\Resource\IShader.cpp" />
     <ClCompile Include="Sources\Resource\Material.cpp" />

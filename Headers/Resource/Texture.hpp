@@ -13,7 +13,7 @@ namespace Resource
 		Texture(unsigned char* _data = nullptr, int _width = 1, int _height = 1, int _nrChannels = 3);
 		~Texture() { Unload(); }
 
-		void Load(const std::string& filepath) override;
+		void Load() override;
 		void SetData(unsigned char* _data, int _width, int _height, int _nrChannel = 3);
 
 		void Bind() override;

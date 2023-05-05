@@ -3,7 +3,6 @@
 #include <limits>
 #include "pch.h"
 
-#define IRESOURCE_EXPORTS
 #include "Resource/IResource.hpp"
 
 using namespace Resource;

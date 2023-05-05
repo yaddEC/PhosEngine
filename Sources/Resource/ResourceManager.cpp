@@ -81,7 +81,7 @@ void Resource::ResourceManager::Reload()
 	for (auto resource : m_resourceMap)
 	{
 		if (resource.second->GetTypeName() != "Scene")
-			resource.second->Load(resource.second->GetFilePath());
+			resource.second->Load();
 	}
 
 	for (auto resource : m_resourceMap)

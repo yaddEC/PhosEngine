@@ -12,7 +12,7 @@ namespace Resource
 		IResource() { }
 		virtual ~IResource() { }
 
-		virtual void Load(const std::string& filepath) {}
+		virtual void Load() {}
 		virtual void Bind() {}
 		virtual void Unload() { p_isLoaded = false; }
 		virtual void Save() {}

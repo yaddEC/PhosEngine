@@ -16,16 +16,15 @@ using namespace std;
 using namespace Maths;
 using namespace Resource;
 
-void ShaderProgram::Load(const std::string& filepath)
+void ShaderProgram::Load()
 {
-	SetFileInfo(filepath);
 
 	fstream progFile;
-	progFile.open(filepath.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
+	progFile.open(GetFilePath().c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!progFile)
 	{
-		cout << "Error opening file " + filepath << endl;
+		cout << "Error opening file " + GetFilePath() << endl;
 		return;
 	}
 	else

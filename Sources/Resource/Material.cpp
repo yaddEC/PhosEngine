@@ -18,10 +18,9 @@ using namespace Wrapper;
 
 namespace fs = std::filesystem;
 
-void Resource::Material::Load(const std::string& filepath)
+void Resource::Material::Load()
 {
-	SetFileInfo(filepath);
-	SetProperties(filepath);
+	SetProperties(GetFilePath());
 }
 
 void Resource::Material::Bind()
