@@ -261,11 +261,11 @@ void Wrapper::RHI::CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int*
 	glGenFramebuffers(1, frameBufferKey);
 	glBindFramebuffer(GL_FRAMEBUFFER, *frameBufferKey);
 
-	// create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+	// create a renderbuffer object for depth sattachment (we won't be sampling these)
 	glGenRenderbuffers(1, renderBufferKey);
 	glBindRenderbuffer(GL_RENDERBUFFER, *renderBufferKey);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 69, 69); // use a single renderbufferKey object for both a depth AND stencil buffer.
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, *renderBufferKey); // now actually attach it
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 69, 69); // use a single renderbufferKey object for both a depth.
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, *renderBufferKey); // now actually attach it
 
 	// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -294,16 +294,17 @@ void Wrapper::RHI::ClearFrameBuffer(const Maths::Vec4& clearColor)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey)
+void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDepth)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureKey, 0);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, useDepth ? GL_DEPTH_ATTACHMENT : GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D , textureKey, 0);
 }
 
-void Wrapper::RHI::DetachTextureToFrameBuffer(unsigned int frameBufferKey)
+void Wrapper::RHI::DetachTextureToFrameBuffer(unsigned int frameBufferKey, bool useDepth)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, useDepth ? GL_DEPTH_ATTACHMENT : GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
 }
 
 void Wrapper::RHI::UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey)
