@@ -9,10 +9,11 @@ namespace Resource
 	public:
 		PostProcessingShader();
 		~PostProcessingShader();
-		void Load(const std::string& filepath) override;
+		void Load() override;
 		void Bind() override;
 		void Unload() override;
 		class Texture* GenerateFileIcon() override { return nullptr; };
+		std::string GetTypeName() { return "PostProcessingShader"; }
 
 		void Use();
 

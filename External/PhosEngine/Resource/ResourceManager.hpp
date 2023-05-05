@@ -24,6 +24,7 @@ namespace Resource
 	class CubeMap;
 	class Prefab;
 	class PostProcessingShader;
+	class Animation;
 
 	class PHOSENGINE_API ResourceManager
 	{

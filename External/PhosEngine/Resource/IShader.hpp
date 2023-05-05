@@ -14,7 +14,7 @@ namespace Resource
 		IShader() : IResource() {}
 
 
-		void Load(const std::string& filepath) override;
+		void Load() override;
 		void Unload() override;
 		void GUIUpdate() override;
 

@@ -126,7 +126,7 @@ component "Directional Light"
 	end
 end
 name "Cube"
-id 11
+id 10
 transform -4.7 2.75 -6.65 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
