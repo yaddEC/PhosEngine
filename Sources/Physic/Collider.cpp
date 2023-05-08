@@ -21,13 +21,21 @@ namespace Physic {
 
         Rigidbody* rigidbody = gameobject->GetComponent<Rigidbody>();
         if (rigidbody)
+        {
             rb = rigidbody;
+            rb->col = this;
+        }
         physicsCollider->Init();
     }
 
     void Collider::Update()
     {
         physicsCollider->Update();
+    }
+
+    void Collider::GUIUpdate()
+    {
+        physicsCollider->OnGuiChanged();
     }
 
     void Collider::Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material)
@@ -54,7 +62,6 @@ namespace Physic {
         : Collider()
     {
         size = _size;
-        Maths::Vec3 seg = size / 2.0f;
     }
 
     Reflection::ClassMetaData& BoxCollider::GetMetaData()

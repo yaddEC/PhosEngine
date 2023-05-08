@@ -273,11 +273,10 @@ namespace Wrapper
 
     void PhysicsCollider::Init()
     {
-        
+        collider->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
         if (collider->rb) {
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
             m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidDynamic(pose);
-            m_physxActor->is<PxRigidDynamic>()->setMass(collider->rb->mass);
             collider->rb->physicsRigidbody->SetRigidActor(m_physxActor);
             collider->rb->physicsRigidbody->Init();
         }
@@ -357,34 +356,114 @@ namespace Wrapper
             capsuleCollider->height = size.y;
 
         }
-        collider->center = center* Maths::Vec3(-1,0,0);
+        collider->center = center;
         collider->isTrigger = trigger;
     }
  
 
     void PhysicsCollider::Update()
     {
-        if (!collider->rb)
+
+    }
+
+    void Wrapper::PhysicsCollider::OnGuiChanged()
+    {
+        if (this)
         {
             Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
-            PxVec3 position(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
-            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
-            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxQuat pxRotation( rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a );
-            PxTransform pose(position, pxRotation);
-            m_physxActor->setGlobalPose(pose);
+            PxShape* shapes[1];
+            m_physxActor->getShapes(shapes, 1);
+            shapes[0]->setFlag(PxShapeFlag::eTRIGGER_SHAPE, collider->isTrigger);
+            PxVec3 position = PxVec3(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            m_physxActor->setGlobalPose(PxTransform(position));
 
+            if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
+            {
+                PxVec3 newDimensions(boxCollider->size.x * collider->gameobject->transform->scale.x, boxCollider->size.y * collider->gameobject->transform->scale.y, boxCollider->size.z * collider->gameobject->transform->scale.z);
+                PxBoxGeometry boxGeometry;
+                shapes[0]->getBoxGeometry(boxGeometry);
+                boxGeometry.halfExtents = newDimensions * 0.5f;
+                shapes[0]->setGeometry(boxGeometry);
+            }
+            else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
+            {
+
+                PxSphereGeometry sphereGeometry;
+                shapes[0]->getSphereGeometry(sphereGeometry);
+                sphereGeometry.radius = sphereCollider->radius * collider->gameobject->transform->scale.x;
+                shapes[0]->setGeometry(sphereGeometry);
+            }
+            else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
+            {
+                PxCapsuleGeometry capsuleGeometry;
+                shapes[0]->getCapsuleGeometry(capsuleGeometry);
+                capsuleGeometry.radius = capsuleCollider->radius * collider->gameobject->transform->scale.x;
+                capsuleGeometry.halfHeight = capsuleCollider->height * collider->gameobject->transform->scale.y;
+                shapes[0]->setGeometry(capsuleGeometry);
+            }
         }
+     
+    }
+
+    void Wrapper::PhysicsCollider::OnTransformChanged()
+    {
+        if (this)
+        {
+            Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
+            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(collider->gameobject->transform->rotationEuler);
+            PxQuat pxRotation(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a);
+            PxVec3 position;
+            position = PxVec3(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            m_physxActor->setGlobalPose(PxTransform(position, pxRotation));
+
+            PxShape* shape;
+            m_physxActor->getShapes(&shape, 1);
+
+            if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
+            {
+                m_geometry.box.halfExtents = PxVec3(boxCollider->size.x * collider->gameobject->transform->scale.x, boxCollider->size.y * collider->gameobject->transform->scale.y, boxCollider->size.z * collider->gameobject->transform->scale.z);
+                shape->setGeometry(m_geometry.box);
+            }
+            else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
+            {
+                std::array<float, 3> scaleValues = { collider->gameobject->transform->scale.x,collider->gameobject->transform->scale.y, collider->gameobject->transform->scale.z };
+                float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
+
+                m_geometry.sphere.radius = sphereCollider->radius * max_scale;
+                shape->setGeometry(m_geometry.sphere);
+
+
+            }
+            else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
+            {
+                std::array<float, 2> scaleValues = { collider->gameobject->transform->scale.x, collider->gameobject->transform->scale.y };
+                float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
+                m_geometry.capsule.radius = capsuleCollider->radius * max_scale;
+                m_geometry.capsule.halfHeight = capsuleCollider->height * worldModel.data_4_4[2][2];
+                shape->setGeometry(m_geometry.capsule);
+            }
+        }
+      
     }
 
     void PhysicsRigidbody::Init()
     {
-        
+        rigidbody->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
+
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
-       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x, rigidbody->gameobject->transform->position.y, rigidbody->gameobject->transform->position.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
+       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+rigidbody->col->center.x, rigidbody->gameobject->transform->position.y + rigidbody->col->center.y, rigidbody->gameobject->transform->position.z + rigidbody->col->center.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
+       m_physxActor->setGlobalPose(pose);
+       m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->mass);
 
-        m_physxActor->setGlobalPose(pose);
+    }
 
+    void UpdateRotationEuler(Maths::Vec3& rotationEuler, const Maths::Quaternion& newRotation) {
+        Maths::Vec3 newEulerAngles = newRotation.ToEulerAngles();
+
+        for (int i = 0; i < 3; ++i) {
+            float deltaAngle = newEulerAngles.xyz[i] - std::fmod(rotationEuler.xyz[i], 360.0f);
+            rotationEuler.xyz[i] += deltaAngle;
+        }
     }
 
     void PhysicsRigidbody::Update()
@@ -393,25 +472,53 @@ namespace Wrapper
         {
             if ( m_physxActor && m_physxActor->is<PxRigidDynamic>())
             {
-                PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+                if (!m_transformChangedExternally)
+                {
 
-                PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
-
-                dynamicActor->addForce(force);
-
-                PxTransform updatedTransform = dynamicActor->getGlobalPose();
-                Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
-                rigidbody->gameobject->transform->position = newPosition;
-                PxQuat updatedRotation = updatedTransform.q;
                 
-                Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
-                  
+                    PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
 
-                rigidbody->gameobject->transform->rotation = newRotation;
+                    PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
 
+                    dynamicActor->addForce(force);
+
+                    PxTransform updatedTransform = dynamicActor->getGlobalPose();
+                    Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
+                    rigidbody->gameobject->transform->position = newPosition-rigidbody->col->center;
+                    PxQuat updatedRotation = updatedTransform.q;
+                    
+                    Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
+
+                      
+
+                    rigidbody->gameobject->transform->rotation = newRotation;
+                    
+                }
+                else
+                {
+                    m_transformChangedExternally = false;
+                }
             }
 
         }
     }
+
+    void Wrapper::PhysicsRigidbody::OnGuiChanged()
+    {
+        if (this)
+        {
+            m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->mass);
+        }
+    }
+
+    void PhysicsRigidbody::OnTransformChanged()
+    {
+        if (this)
+        {
+            m_transformChangedExternally = true;
+        }
+    }
+
+  
 
 }

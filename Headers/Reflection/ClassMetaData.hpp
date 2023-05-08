@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include "Engine/GameObject.hpp"
+//#include "Engine/MonoBehaviour.hpp"
 #include "dllInclude.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/Mesh.hpp"
@@ -36,7 +37,7 @@ namespace Reflection
 		float editMax;
 
 		void DisplayMemberInfo(size_t classPtr);
-		void GUIUpdate(size_t classPtr);
+		void GUIUpdate(void* classPtr);
 		std::string Save(size_t classPtr);
 		void Parse(const std::vector<std::string>& tokens, size_t classPtr);
 		void Copy(size_t source, size_t target);

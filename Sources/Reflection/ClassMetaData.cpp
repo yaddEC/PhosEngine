@@ -53,34 +53,66 @@ void Reflection::ClassMemberInfo::DisplayMemberInfo(size_t classPtr)
 	}
 }
 
-void Reflection::ClassMemberInfo::GUIUpdate(size_t classPtr)
+void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 {
 	using namespace Wrapper;
-
+	//component->GUIUpdate();
+	Engine::MonoBehaviour* monoBehavior = static_cast<Engine::MonoBehaviour*>(classPtr);
 	switch (type)
 	{
 	case MemberType::T_INT:   break;
 
 	case MemberType::T_FLOAT:
 	{
-		GUI::EditFloat(name, (float*)(classPtr + ptr), true, editSpeed, editMin, editMax);
+		
+		if (GUI::EditFloat(name, (float*)((size_t)classPtr + ptr), true, editSpeed, editMin, editMax))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		
 		break;
 	}
 
 	case MemberType::T_BOOL:  break;
 
-	case MemberType::T_VEC3: GUI::EditVec3(name, (Maths::Vec3*)(classPtr + ptr), true, editSpeed, editMin, editMax); break;
-
-	case MemberType::T_COLOR: GUI::EditColorRGB(name, (Maths::Vec3*)(classPtr + ptr), true); break;
+	case MemberType::T_VEC3:
+	{
+		if (GUI::EditVec3(name, (Maths::Vec3*)((size_t)classPtr + ptr), true, editSpeed, editMin, editMax))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		 break;
+	}
+	case MemberType::T_COLOR:
+	{
+		if (GUI::EditColorRGB(name, (Maths::Vec3*)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		
+		
+		break;
+	}
 
 	case MemberType::T_MESH: 
 	{
-		GUI::PickMesh(name, (Resource::Mesh**)(classPtr + ptr), true);
+		if (GUI::PickMesh(name, (Resource::Mesh**)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		
 		break;
 	}
 		
 
-	case MemberType::T_MATERIAL: GUI::PickMaterial(name, (Resource::Material**)(classPtr + ptr), true); break;
+	case MemberType::T_MATERIAL:
+	{
+		if (GUI::PickMaterial(name, (Resource::Material**)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		 break;
+	}
 
 	case MemberType::T_MATERIAL_LIST:
 		break;
@@ -191,7 +223,7 @@ void Reflection::ClassMetaData::GUIUpdate(void* classPtr)
 	{
 		for (auto member : memberList)
 		{
-			member.GUIUpdate((size_t)classPtr);
+			member.GUIUpdate(classPtr);
 		}
 	}
 }

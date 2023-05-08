@@ -96,9 +96,17 @@ void Transform::OnGUI()
 {
 
 	Vec3 tempRot = rotationEuler * Maths::RAD2DEG;
-	Wrapper::GUI::EditVec3("Position", position, true, 0.05f);
+	bool positionChanged = Wrapper::GUI::EditVec3("Position", position, true, 0.05f);
 	bool rotChange = Wrapper::GUI::EditVec3("Rotation", tempRot, true, 0.1f);
-	Wrapper::GUI::EditVec3("Scale", scale, true, 0.05f);
+	bool scaleChanged = Wrapper::GUI::EditVec3("Scale", scale, true, 0.05f);
+
+	if (positionChanged || rotChange || scaleChanged)
+	{
+		for (auto& callback : m_transformChangedCallbacks)
+		{
+			callback();
+		}
+	}
 
 	if (rotChange)
 	{
@@ -107,6 +115,11 @@ void Transform::OnGUI()
 		SetRotation(newQuat);
 	}
 	
+}
+
+void Engine::Transform::RegisterTransformChangedCallback(TransformChangedCallback callback)
+{
+	m_transformChangedCallbacks.push_back(callback);
 }
 
 void Transform::SetParent(Transform* _parent)

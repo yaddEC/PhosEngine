@@ -43,6 +43,11 @@ namespace Physic {
         }*/
     }
 
+    void Rigidbody::GUIUpdate()
+    {
+        physicsRigidbody->OnGuiChanged();
+    }
+
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {
         using namespace Reflection;
 
