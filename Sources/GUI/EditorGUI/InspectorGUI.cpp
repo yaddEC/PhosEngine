@@ -48,7 +48,7 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 
 	for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
 	{
-		//component->GUIUpdate();
+		
 		component->GetMetaData().GUIUpdate(component);
 	}
 }

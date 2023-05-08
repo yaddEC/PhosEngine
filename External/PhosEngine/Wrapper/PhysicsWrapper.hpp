@@ -91,10 +91,13 @@ namespace Wrapper
         void Init();
         void Update();
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
+        void OnGuiChanged();
 
         Collider* collider;
 
     private:
+
+        void OnTransformChanged();
         union Geometry
         {
             PxBoxGeometry box;
@@ -106,6 +109,8 @@ namespace Wrapper
         PxShape* m_shape = nullptr;
         PxRigidActor* m_physxActor = nullptr;
         MaterialType m_physxMaterial;
+
+        
     };
 
     class PHOSENGINE_API RayCastHit
@@ -125,6 +130,7 @@ namespace Wrapper
 
         void Init();
         void Update();
+        void OnGuiChanged();
 
         Rigidbody* rigidbody;
 
@@ -132,7 +138,9 @@ namespace Wrapper
         inline void SetRigidActor(PxRigidActor* actor) { m_physxActor = actor; }
 
     private:
+        void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
+        bool m_transformChangedExternally ;
     };
 
      bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);

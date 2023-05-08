@@ -27,6 +27,7 @@ namespace Physic
         float mass = 1;
         bool reset = false;
 
+        Collider* col;
         Wrapper::PhysicsRigidbody* physicsRigidbody;
 
 
@@ -39,7 +40,7 @@ namespace Physic
         void OnCollisionEnter(Engine::GameObject* go) override {};
         void OnCollisionStay(Engine::GameObject* go) override {};
         void OnCollisionExit(Engine::GameObject* go) override {};
-        void GUIUpdate() override {};
+        void GUIUpdate() override ;
         void OnDestroy() override {};
 
         Reflection::ClassMetaData& GetMetaData() override;
