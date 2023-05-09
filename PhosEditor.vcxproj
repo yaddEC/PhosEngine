@@ -182,6 +182,7 @@
     <ClCompile Include="Sources\Core\ProjectManager.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\AssetExplorer.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\HierarchyGUI.cpp" />
+    <ClCompile Include="Sources\GUI\EditorGUI\PhysicsSettingsGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\RendererGUI.cpp" />
     <ClCompile Include="Sources\GUI\IGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\InspectorGUI.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Headers\Core\ProjectManager.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\HierarchyGUI.hpp" />
+    <ClInclude Include="Headers\GUI\EditorGUI\PhysicsSettingsGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\RendererGUI.hpp" />
     <ClInclude Include="Headers\GUI\IGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\InspectorGUI.hpp" />

@@ -18,6 +18,7 @@ namespace EditorGUI
 	class InspectorGUI;
 	class MenuBar;
 	class RendererGUI;
+	class PhysicsSettingsGUI;
 }
 
 
@@ -50,6 +51,7 @@ namespace Core
 		EditorGUI::InspectorGUI* m_Inspector;
 		EditorGUI::MenuBar* m_MenuBar;
 		EditorGUI::RendererGUI* m_RendererGUI;
+		EditorGUI::PhysicsSettingsGUI* m_PhysicsSettingsGUI;
 
 		Engine::Scene* m_mainScene; // TEMP
 
