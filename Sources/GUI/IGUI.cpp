@@ -7,8 +7,13 @@ void APPGUI::IGUI::Update()
 {
 	if (isOpen)
 	{
-		//ImGui::Begin(name.c_str(), 0, ImGuiWindowFlags_NoCollapse);
+		
 		Wrapper::GUI::BeginWindow(p_name, false);
+		if (p_canBeClosed)
+		{
+			if (GUI::TitleButton())
+				isOpen = false;
+		}
 
 		SetSize();
 		SetIsOnFocus();

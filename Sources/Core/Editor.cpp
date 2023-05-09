@@ -9,6 +9,7 @@
 #include "GUI/EditorGUI/InspectorGUI.hpp"
 #include "GUI/EditorGUI/MenuBar.hpp"
 #include "GUI/EditorGUI/RendererGUI.hpp"
+#include "GUI/EditorGUI/PhysicsSettingsGUI.hpp"
 
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -99,6 +100,7 @@ void Editor::Destroy()
     delete m_Hierarchy;
     delete m_MenuBar;
     delete m_RendererGUI;
+    delete m_PhysicsSettingsGUI;
 
 }
 
@@ -110,6 +112,7 @@ bool Core::Editor::InitEditorGUI()
     m_Inspector = new EditorGUI::InspectorGUI();
     m_MenuBar = new EditorGUI::MenuBar();
     m_RendererGUI = new EditorGUI::RendererGUI();
+    m_PhysicsSettingsGUI = new EditorGUI::PhysicsSettingsGUI();
     return true;
 }
 
@@ -177,5 +180,6 @@ void Core::Editor::UpdateEditorGUI()
     m_RendererGUI->Update();
     m_Inspector->Update();
     m_MenuBar->Update();
+    m_PhysicsSettingsGUI->Update();
 }
 

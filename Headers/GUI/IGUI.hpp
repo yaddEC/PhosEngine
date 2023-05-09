@@ -13,8 +13,8 @@ namespace APPGUI
 	class IGUI
 	{
 	public:
-		IGUI(const std::string& windowName, bool startOpen = true)
-			: p_name(windowName), isOpen(startOpen)
+		IGUI(const std::string& windowName, bool startOpen = true, bool canBeClosed = false)
+			: p_name(windowName), isOpen(startOpen), p_canBeClosed(canBeClosed)
 		{
 		}
 
@@ -33,7 +33,9 @@ namespace APPGUI
 
 		std::string p_name;
 		bool p_isOnFocus;
+		bool p_canBeClosed;
 		Maths::Vec2 p_size;
+
 	};
 }
 
