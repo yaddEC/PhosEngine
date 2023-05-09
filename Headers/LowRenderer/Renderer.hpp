@@ -21,7 +21,7 @@ namespace LowRenderer
 	{
 	public:
 		
-		void ComputeShadowMap() {}; // Empty for now
+		void ComputeShadowMap(); // Empty for now
 		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras);
 		int IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 		void RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize);

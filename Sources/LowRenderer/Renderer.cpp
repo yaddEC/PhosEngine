@@ -13,6 +13,8 @@
 
 #include "Resource/ShaderProgram.hpp"
 
+#include "Maths/Maths.hpp"
+
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
 
@@ -25,9 +27,7 @@ using namespace LowRenderer;
 
 void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
 {
-
-
-
+	ComputeShadowMap();
 	std::vector<Resource::ShaderProgram*> shaderList;
 	for (MeshRenderer* rend : m_meshRenderers)
 	{
@@ -85,6 +85,26 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	
 }
+
+void Renderer::ComputeShadowMap()
+{
+	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	for (int i = 0; i < m_spotLights.size(); i++)
+	{
+		Maths::Mat4 proj = Maths::Mat4::CreateProjectionMatrix(m_spotLights[i]->GetAngle() * 2, 0.01f, 400, 1);
+		Maths::Mat4 view = Maths::Mat4::CreateViewMatrix(m_spotLights[i]->gameobject->transform->position, m_spotLights[i]->gameobject->transform->rotationEuler.x, m_spotLights[i]->gameobject->transform->rotationEuler.y);
+		Maths::Mat4 VP = proj * view;
+		m_spotLights[i]->RenderShadowMap();
+		rm.shadowShader->Use();
+		rm.shadowShader->SetUniformMatrix("lightMat", VP);
+		for (MeshRenderer* mesh : m_meshRenderers)
+		{
+			rm.shadowShader->SetUniformMatrix("model", mesh->gameobject->transform->GetGlobalMatrix());
+		}
+		Wrapper::RHI::UnbindFrameBuffer();
+	}
+}
+
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
 	

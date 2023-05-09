@@ -60,6 +60,20 @@ void RHI::BindTexture(unsigned int* textureKey, unsigned char* data, int channel
 
 }
 
+void Wrapper::RHI::BindDepthTexture(unsigned int* textureKey, int width, int height)
+{
+	glGenTextures(1, textureKey);
+	glBindTexture(GL_TEXTURE_2D, *textureKey);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	float clampColor[4] = { 1, 1, 1, 1 };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, clampColor);
+}
+
 void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int width, int height)
 {
 	glBindTexture(GL_TEXTURE_2D, *textureKey);
@@ -299,6 +313,11 @@ void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, useDepth ? GL_DEPTH_ATTACHMENT : GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D , textureKey, 0);
+	if (useDepth)
+	{
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
 }
 
 void Wrapper::RHI::DetachTextureToFrameBuffer(unsigned int frameBufferKey, bool useDepth)

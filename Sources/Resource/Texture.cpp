@@ -66,6 +66,12 @@ void Resource::Texture::GUIUpdate()
 	Wrapper::GUI::Image(*this, Maths::Vec2(150, 150));
 }
 
+void Resource::Texture::BindDepth()
+{
+	Wrapper::RHI::BindDepthTexture(&m_textureKey, m_width, m_height);
+	p_isLoaded = true;
+}
+
 void Texture::ResizeAndReset(int _width, int _height)
 {
 	if (m_width <= 0 || m_height <= 0) return;
