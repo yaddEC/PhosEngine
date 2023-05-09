@@ -117,14 +117,6 @@ component "Sphere Collider"
 	Radius 2.000000
 	end
 end
-name "Directional Light"
-id 9
-transform 0 0 0 -6.95858 0 0 1 1 1
-component "Directional Light"
-	Color 1.000000 1.000000 1.000000
-	Intensity 10.000000
-	end
-end
 name "Cube"
 id 10
 transform -4.7 2.75 -6.65 0 0 0 1 1 1
