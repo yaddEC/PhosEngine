@@ -568,7 +568,7 @@ void Wrapper::GUI::TreePop()
 
 bool Wrapper::GUI::CollapsingHeader(const std::string& label)
 {
-	return ImGui::CollapsingHeader(label.c_str());
+	return ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
 }
 
 void Wrapper::GUI::PushID(int ID)

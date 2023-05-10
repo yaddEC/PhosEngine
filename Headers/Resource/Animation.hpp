@@ -24,9 +24,10 @@ namespace Resource
 		std::vector<AnimBone*> GetAnimBones() const { return m_AnimBones;  }
 
 		void DisplayBoneHierarchy(AnimBone& current);
+		void DisplayBoneKeyFrame(AnimBone& current, float timeline);
 		void ProcessBone(const aiAnimation* anim, const aiScene* scene);
 		AnimBone* ProcessHierarchy(const aiNode* node, std::unordered_map<std::string, AnimBone*>& boneMap
-			, AnimBone* parent = nullptr);
+			, AnimBone* parent, int& index);
 
 		float m_duration;
 		float m_tickRate;
