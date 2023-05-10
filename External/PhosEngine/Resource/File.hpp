@@ -8,6 +8,7 @@
 namespace Resource
 {
 	class IResource;
+	class Texture;
 
 	class File
 	{
@@ -26,6 +27,7 @@ namespace Resource
 
 	private:
 
+		Texture* m_fileIcon;
 		std::vector<IResource*> m_resourceInFile;
 		std::string m_directory, m_filename, m_extension;
 	};
