@@ -45,6 +45,17 @@ void Top()
 		if (Wrapper::GUI::MenuItem("Scripting Reference", NULL)) {}
 		Wrapper::GUI::EndMenu();
 	}
+	if (Wrapper::GUI::BeginMenu("Settings"))
+	{
+		if (Wrapper::GUI::MenuItem("Physics Settings", NULL))
+		{
+
+		}
+		if (Wrapper::GUI::MenuItem("Visual Settings", NULL)) {}
+		Wrapper::GUI::Separator();
+		if (Wrapper::GUI::MenuItem("General Settings", NULL)) {}
+		Wrapper::GUI::EndMenu();
+	}
 }
 
 void Bottom()
