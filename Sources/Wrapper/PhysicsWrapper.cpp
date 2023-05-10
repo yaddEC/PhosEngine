@@ -474,8 +474,6 @@ namespace Wrapper
             {
                 if (!m_transformChangedExternally)
                 {
-
-                
                     PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
 
                     PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
@@ -490,8 +488,8 @@ namespace Wrapper
                     Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
 
                       
-
                     rigidbody->gameobject->transform->rotation = newRotation;
+                    rigidbody->gameobject->transform->rotationEuler = newRotation.ToEulerAngles();
                     
                 }
                 else

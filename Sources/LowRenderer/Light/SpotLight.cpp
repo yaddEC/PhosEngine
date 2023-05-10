@@ -5,6 +5,8 @@
 //----------------
 
 #include "Resource/ShaderProgram.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Resource/Texture.hpp"
 
 #include "Engine/Transform.hpp"
 #include "Engine/GameObject.hpp"
@@ -12,10 +14,9 @@
 #include "Engine/MonoBehaviour.hpp"
 
 #include "Wrapper/GUI.hpp"
+#include "Wrapper/RHI.hpp"
 
 #include "LowRenderer/Renderer.hpp"
-
-#include "Resource/ResourceManager.hpp"
 
 #define SPOTLIGHT_EXPORTS
 #include "LowRenderer/Light/SpotLight.hpp"
@@ -52,9 +53,22 @@ void LowRenderer::SpotLight::Render(const Resource::ShaderProgram& shaderProg, i
 	}
 }
 
+void LowRenderer::SpotLight::RenderShadowMap()
+{
+	p_shadowFrame->Bind();
+	p_shadowFrame->Clear();
+	Wrapper::RHI::ActivateTexture(*m_shadowTexture, 0);
+}
+
 void LowRenderer::SpotLight::Start()
 {
 	gameobject->GetScene()->GetRenderer()->AddSpotLight(this);
+	p_shadowFrame = new FrameBuffer(512, 512);
+	m_shadowTexture = new Resource::Texture();
+	m_shadowTexture->SetData(nullptr, 512, 512, 1);
+
+	m_shadowTexture->BindDepth();
+	p_shadowFrame->AttachTexture(m_shadowTexture, true);
 }
 
 void LowRenderer::SpotLight::Update()

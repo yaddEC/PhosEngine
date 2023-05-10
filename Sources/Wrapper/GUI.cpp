@@ -44,6 +44,7 @@ bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 	Style.GrabRounding = 7.000f;
 	Style.LogSliderDeadzone = 7.000f;
 	Style.TabRounding = 7.000f;
+	Style.WindowMenuButtonPosition = ImGuiDir_None;
 
 	Style.Colors[ImGuiCol_FrameBg] = ImVec4(0.305f, 0.310f, 0.316f, 0.540f);
 	Style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
@@ -131,6 +132,7 @@ bool Wrapper::GUI::BeginWindow(const std::string& name, bool canCollpase)
 	ImGuiWindowFlags Flag = ImGuiWindowFlags_None;
 	if (!canCollpase)
 		Flag |= ImGuiWindowFlags_NoCollapse;
+
 	return ImGui::Begin(name.c_str(), 0, Flag);
 }
 
@@ -505,6 +507,37 @@ void Wrapper::GUI::DisplayVec3(const std::string& label, const Maths::Vec3& valu
 bool Wrapper::GUI::Button(const std::string& label, const Maths::Vec2& size)
 {
 	return ImGui::Button(label.c_str(), ImVec2(size.x, size.y));
+}
+
+bool Wrapper::GUI::TitleButton()
+{
+
+	ImGuiWindow* curWindow = ImGui::GetCurrentWindow();
+	ImDrawList* drawList = ImGui::GetForegroundDrawList(curWindow);
+	ImRect titlePos = curWindow->TitleBarRect();
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiID id = curWindow->GetID("#custom");
+	const ImRect bb(ImVec2(titlePos.Max.x - 30, titlePos.Max.y - 15), ImVec2(titlePos.Max.x , titlePos.Max.y ));
+	ImGui::ItemSize(bb);
+	ImGui::ItemAdd(bb, id);
+
+	bool hovered, held;
+	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held);
+
+	// Render
+	const ImU32 col = ImGui::GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	ImGui::RenderNavHighlight(bb, id);
+	ImGui::RenderFrame(bb.Min, bb.Max, col, true);
+	//drawList->AddRectFilled(bb.Min, bb.Max, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	//drawList->AddTriangleFilled(ImVec2(titlePos.Max.x - 30, titlePos.Max.y - 7), ImVec2(titlePos.Max.x - 10, titlePos.Max.y - 7), ImVec2(titlePos.Max.x - 20, titlePos.Max.y - 15), ImGui::GetColorU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f)));
+	drawList->AddText(ImVec2(titlePos.Max.x -15, titlePos.Max.y-20 ), ImGui::GetColorU32(ImVec4(1.0f,1.0f,1.0f,1.0f)), "X");
+
+	if (pressed)
+	{
+		printf("t");
+	}
+	return false;
 }
 
 bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked)

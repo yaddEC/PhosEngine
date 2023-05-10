@@ -49,11 +49,11 @@ void FrameBuffer::Clear(Maths::Vec4 clearColor)
     Wrapper::RHI::ClearFrameBuffer(clearColor);
 }
 
-void FrameBuffer::AttachTexture(Texture* texture)
+void FrameBuffer::AttachTexture(Texture* texture, bool useDepth)
 {
     if (!texture) return;
 
-    Wrapper::RHI::AttachTextureToFrameBuffer(texture->GetTextureKey(), m_framebufferKey);
+    Wrapper::RHI::AttachTextureToFrameBuffer(texture->GetTextureKey(), m_framebufferKey, useDepth);
 
     texture->ResizeAndReset(m_width, m_height);
 

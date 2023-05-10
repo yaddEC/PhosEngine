@@ -30,6 +30,7 @@ namespace Wrapper
 
 		//Resource
 		static void BindTexture(unsigned int* textureKey, unsigned char* data, int channel, int width, int height);
+		static void BindDepthTexture(unsigned int* textureKey, int width, int height);
 		static void ResizeTexture(unsigned int* textureKey, int channel, int width, int height);
 
 		static void BindShader(unsigned int* shaderKey, const std::string& sourceCode, unsigned int ShaderType);
@@ -57,7 +58,7 @@ namespace Wrapper
 		static void BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateize = false);
 		static void UnbindFrameBuffer();
 		static void ClearFrameBuffer(const Maths::Vec4& clearColor);
-		static void AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDetph = false);
+		static void AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDepth = false);
 		static void DetachTextureToFrameBuffer(unsigned int frameBufferKey, bool useDepth = false);
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 

@@ -109,6 +109,7 @@ void Resource::ResourceManager::SetStaticResource()
 	iconShaderForPicking = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\IconShaderForPicking\\IconShaderForPicking.prog");
 	iconShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\BillboardShader\\BillboardShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
+	shadowShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\ShadowShader.prog");
 }
 
 void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene) 
