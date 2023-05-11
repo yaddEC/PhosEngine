@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <string>
+#include <functional>
 
 #include "Maths/Maths.hpp"
 #include "Engine/Input.hpp"
@@ -12,7 +13,7 @@
 namespace Resource
 {
 	class Texture; 
-	class Mesh;
+	class Mesh; 
 	class Material;
 	class PostProcessingShader;
 }
@@ -31,16 +32,18 @@ namespace Wrapper
 
 		static void DockingSpace();
 
-		static bool BeginWindow(const std::string& name, bool canCollpase = false);
+		static bool BeginWindow(const std::string& name, bool canCollpase = false, bool isDialogBox = false, bool canBeClosed = false, bool* isOpen = nullptr);
 		static void EndWindow();
 
 		static void BeginGroup();
 		static void BeginGroupCentered(Maths::Vec2 sizeOfGroup);
 		static void EndGroup();
 
-		static bool BeginPopup(const std::string& ID);
+		static bool BeginPopup(const std::string& ID, bool isNormalPopUp = true);
 		static bool BeginPopupContextItem(const std::string& ID);
+		static bool BeginPopupModal(const std::string& ID);
 		static void EndPopup();
+		static void CloseCurrentPopUp();
 		static void OpenPopup(const std::string& ID);
 
 		static bool TreeNode(const std::string& label, bool isSelected, bool leaf = false);
@@ -93,7 +96,6 @@ namespace Wrapper
 
 		static bool InputString(const std::string& label, std::string& value);
 		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
-		static bool TitleButton();
 		static bool CheckBox(const std::string& label, bool* isChecked);
 		static bool Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, bool text = false, const std::string& first = "");
@@ -107,7 +109,7 @@ namespace Wrapper
 		static void* DragDropTarget(const std::string& ID);
 
 		static void Demo();
-		static void MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void));
+		static void MenuBar(std::function<void()> funcTopBar);
 
 		static bool BeginMenu(const char* name);
 		static void EndMenu();
