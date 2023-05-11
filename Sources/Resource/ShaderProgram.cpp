@@ -115,7 +115,7 @@ void Resource::ShaderProgram::SetUniformMatrixArray(const std::string& uniformNa
 {
 	for (int i = 0; i < matrices.size(); i++)
 	{
-		Wrapper::RHI::ShaderMat(m_programKey, uniformName + "[" + std::to_string(i) + "]", matrices[i]);
+		Wrapper::RHI::ShaderMatList(m_programKey, uniformName + "[0]", matrices);
 	}
 }
 

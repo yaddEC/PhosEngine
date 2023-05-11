@@ -1,6 +1,7 @@
 #pragma once
 #include "Resource/IResource.hpp"
 #include <vector>
+#include <unordered_map>
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
@@ -13,6 +14,13 @@
 
 namespace Resource
 {
+	struct NodeTest
+	{
+		std::string name;
+		Maths::Vec3 position, rotation, scale;
+		std::vector<NodeTest*> children;
+	};
+
 	class Material;
 
 	class PHOSENGINE_API Mesh : public IResource
@@ -42,6 +50,7 @@ namespace Resource
 		Armature* GetArmature() const { return m_armature; }
 
 	private:
+		std::vector<NodeTest*> nodeList; // test
 
 		std::vector<SubMesh> m_subMeshes;
 		Maths::Vec3 m_boundingBoxMin, m_boundingBoxMax;
@@ -51,6 +60,7 @@ namespace Resource
 		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
 		SubMesh ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);
 		void ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene);
+		Bone* ProcessHierarchy(aiNode* node, const std::unordered_map<std::string, int>& boneMap);
 		Maths::Mat4 GetStandardMatrix(const aiMatrix4x4& mat) 
 		{
 			Maths::Mat4 result;
@@ -63,7 +73,7 @@ namespace Resource
 
 		void GenerateMaterial(aiMaterial* mat);
 
-		void DisplayArmature(Bone& current);
+		void DisplayHierarchy(Bone* node);
 	};
 }
 

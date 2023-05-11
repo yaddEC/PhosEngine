@@ -75,5 +75,50 @@ Maths::Mat4 Resource::AnimBone::GetGlobalMatrix(float animationTime, const Maths
 	
 }
 
+Maths::Vec3 Resource::AnimBone::GetInterpolationPosition(float animationTime) const
+{
+	int posIndex = 0;
+
+	for (size_t i = 0; i < m_positionList.size(); i++)
+	{
+		if (m_positionList.at(i).timeStamp < animationTime)
+			posIndex++;
+		else
+			break;
+	}
+
+	return m_positionList.at(posIndex).position;
+}
+
+Maths::Quaternion Resource::AnimBone::GetInterpolationRotation(float animationTime) const
+{
+	int rotIndex = 0;
+
+	for (size_t i = 0; i < m_rotationList.size(); i++)
+	{
+		if (m_rotationList.at(i).timeStamp < animationTime)
+			rotIndex++;
+		else
+			break;
+	}
+
+	return m_rotationList.at(rotIndex).rotation;
+}
+
+Maths::Vec3 Resource::AnimBone::GetInterpolationScale(float animationTime) const
+{
+	int scaleIndex = 0;
+
+	for (size_t i = 0; i < m_scaleList.size(); i++)
+	{
+		if (m_scaleList.at(i).timeStamp < animationTime)
+			scaleIndex++;
+		else
+			break;
+	}
+
+	return m_scaleList.at(scaleIndex).scale;
+}
+
 
 

@@ -2,7 +2,6 @@
 #include "Resource/IResource.hpp"
 #include <vector>
 #include <string>
-#include <map>
 #include "Engine/Transform.hpp"
 
 #include "assimp/Importer.hpp"
@@ -19,7 +18,14 @@ namespace Resource
 	{
 		std::string name;
 		Maths::Mat4 inverseBind;
-		unsigned int indexInArmature;
+
+		std::vector<Bone*> children;
+
+		unsigned int GetArmatureIndex() const { return armatureIndex; }
+		void SetArmatureIndex(unsigned int i) { armatureIndex = i; }
+
+	private:
+		unsigned int armatureIndex;
 	};
 
 
@@ -27,7 +33,7 @@ namespace Resource
 	{
 	public:
 
-		std::map<std::string, Bone> boneMap;
+		std::vector<Bone> boneMap;
 
 	};
 }

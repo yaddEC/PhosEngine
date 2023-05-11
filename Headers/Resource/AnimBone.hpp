@@ -47,11 +47,13 @@ namespace Resource
 		void SetArmatureIndex(int i) { m_ArmatureIndex = i; }
 		int GetArmatureIndex() const { return m_ArmatureIndex; }
 
-	private:
-
 		Maths::Vec3 GetInterpolationPosition(float animationTime) const;
 		Maths::Quaternion GetInterpolationRotation(float animationTime) const;
 		Maths::Vec3 GetInterpolationScale(float animationTime) const;
+
+	private:
+
+		
 
 
 		std::string m_name;
