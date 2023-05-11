@@ -398,7 +398,7 @@ unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	
 	Engine::Input& input = Engine::Input::GetInstance();
-	Maths::Vec2 MPos = input.GetMousePos() + TabPos - Maths::Vec2(8,27);//offset added
+	Maths::Vec2 MPos = input.GetMousePos() + TabPos - Maths::Vec2(20,32);//offset added
 	
 	Maths::Vec2 WindowS = Wrapper::Window::GetCurrentContext()->GetSize();
 
