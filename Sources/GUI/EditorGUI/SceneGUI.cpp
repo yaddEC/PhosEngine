@@ -83,14 +83,12 @@ Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 
 }
 
-void SceneGUI::MenuBarScene()
-{
 
-}
+
 
 void SceneGUI::DoUpdate()
 {
-	MenuBarScene();
+
 
 	m_frameCount++;
 	m_elapsedTime += Input::deltaTime;
@@ -125,27 +123,11 @@ void SceneGUI::DoUpdate()
 	}
 
 
-	if (GUI::Button("Debug Camera"))
-	{
-		m_drawCameraData = !m_drawCameraData;
-	}
+
 
 	GUI::SameLine();
 
-	if (m_currentScene->GetIsGameMode())
-	{
-		if (GUI::Button("Stop"))
-		{
-			m_currentScene->StopGameMode();
-		}
-	}
-	else
-	{
-		if (GUI::Button("Play"))
-		{
-			m_currentScene->StartGameMode();
-		}
-	}
+
 
 	if (m_drawCameraData)
 	{
