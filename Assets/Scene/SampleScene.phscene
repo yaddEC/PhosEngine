@@ -339,7 +339,7 @@ id 67
 transform -5.25 -3 -1.55 0 0 0 50 1 100
 component "Mesh Renderer"
 	Mesh Assets\Model\cube.obj
-	Material Assets\Material\Material.phmat
+	Material Assets\Material\Blaziken.phmat
 	end
 component "Box Collider"
 	isTrigger  0
@@ -456,5 +456,13 @@ transform 0 0 0 -0.808087 0 0 1 1 1
 component "Directional Light"
 	Color 1.000000 1.000000 1.000000
 	Intensity 1.000000
+	end
+end
+name "Cube"
+id 76
+transform 0 0 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh Assets\Model\blaziken.obj
+	Material Assets\Material\Blaziken.phmat
 	end
 end
