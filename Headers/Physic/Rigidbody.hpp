@@ -20,11 +20,6 @@ namespace Physic
     public:
         Rigidbody();
         ~Rigidbody() {};
-
-
-        Maths::Vec3 gravity = Maths::Vec3(0, -20, 0);
-        Maths::Vec3 velocity;
-        float mass = 1;
         bool reset = false;
 
         Collider* col;
@@ -42,7 +37,18 @@ namespace Physic
         void OnCollisionExit(Engine::GameObject* go) override {};
         void GUIUpdate() override ;
         void OnDestroy() override {};
+        Maths::Vec3 GetGravity() { return m_gravity; };
+        Maths::Vec3 GetVelocity() { return m_velocity; };
+        float GetMass() { return m_mass; };
+        void SetGravity(Maths::Vec3 gravity);
+        void SetVelocity(Maths::Vec3 velocity);
+        void SetMass(float mass);
 
         Reflection::ClassMetaData& GetMetaData() override;
+
+    private:
+        Maths::Vec3 m_gravity = Maths::Vec3(0, -20, 0);
+        Maths::Vec3 m_velocity;
+        float m_mass = 1;
     };
 }
