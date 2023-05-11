@@ -10,6 +10,7 @@ namespace Resource
 	class ShaderProgram;
 	class Mesh;
 	class Material;
+	struct Bone;
 }
 
 namespace Engine
@@ -43,12 +44,14 @@ namespace LowRenderer
 		void SetMaterial(Resource::Material* _material) { m_material = _material; }
 		Resource::Material* GetMaterial() { return m_material; }
 
-		void SetAnimMatrix(std::string name, Maths::Mat4 matrix);
+		void SetAnimMatrix(int index, Maths::Mat4 matrix);
 
 	private:
 
+		Engine::GameObject* GenerateBonesObject(const Resource::Bone& bone);
+
 		// must keep empty if no animation
-		std::map<std::string, Maths::Mat4> m_animatedBoneMatrices;
+		std::vector<Maths::Mat4> m_animatedBoneMatrices;
 
 		Resource::Mesh* m_mesh = nullptr;
 		Resource::Material* m_material = nullptr;

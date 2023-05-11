@@ -30,16 +30,8 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 {
 	if (!m_gameobject) return;
 
-	/*if (GUI::Button("Display class info"))
-	{
-		for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
-		{
-			component->GetMetaData().DisplayClassInfo(component);
-		}
-	}*/
 
-
-	Wrapper::GUI::DisplayText((m_gameobject->name + " id: " + std::to_string(m_gameobject->GetID())).c_str());
+	Wrapper::GUI::DisplayText(m_gameobject->name.c_str());
 	Wrapper::GUI::Separator();
 	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{
@@ -48,7 +40,6 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 
 	for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
 	{
-		
 		component->GetMetaData().GUIUpdate(component);
 	}
 }

@@ -57,7 +57,7 @@ void AssetExplorer::DoUpdate()
 
 	GUI::DisplayText(m_currentDirectory.c_str()); GUI::SameLine();
 
-	GUI::SetCursorPos(Maths::Vec2(GUI::GetWindowSize().x - 95, GUI::GetCursorPos().y - 5));
+	GUI::SetCursorPos(Maths::Vec2(GUI::GetWindowSize().x - 110, GUI::GetCursorPos().y - 5));
 
 	NewResource();
 
