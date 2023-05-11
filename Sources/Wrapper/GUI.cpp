@@ -151,7 +151,6 @@ bool Wrapper::GUI::BeginWindow(const std::string& name, bool canCollpase, bool i
 {
 	ImGuiWindowClass windowClass;
 	ImGuiWindowFlags Flag = ImGuiWindowFlags_None;
-	windowClass.DockNodeFlagsOverrideSet |= ImGuiDockNodeFlags_AutoHideTabBar;
 	if (!canCollpase)
 		Flag |= ImGuiWindowFlags_NoCollapse;
 	if (isDialogBox)
