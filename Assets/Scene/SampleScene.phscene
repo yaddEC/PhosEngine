@@ -349,7 +349,7 @@ component "Box Collider"
 end
 name "testMat"
 id 68
-transform 0 0 0 0.39968 0 0 1 1 1
+transform 0 0 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material Assets\Material\MetalGrid.phmat

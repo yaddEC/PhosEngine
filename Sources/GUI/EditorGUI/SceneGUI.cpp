@@ -134,7 +134,7 @@ void SceneGUI::DoUpdate()
 		m_sceneCamera.OnGUI();
 	}
 
-	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x - 10, p_size.y - 60));
+	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
 
 	//GUI::DisplayText("%.2f FPS", m_fps);
 }

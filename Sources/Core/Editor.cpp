@@ -48,10 +48,10 @@ void Editor::Top()
     }
     if (Wrapper::GUI::BeginMenu("Help"))
     {
-        if (Wrapper::GUI::MenuItem(u8"\u25BA", NULL)) {}
+        if (Wrapper::GUI::MenuItem("About Phos", NULL)) {}
         Wrapper::GUI::Separator();
-        if (Wrapper::GUI::MenuItem("||", NULL)) {}
-        if (Wrapper::GUI::MenuItem(u8"\u25A0", NULL)) {}
+        if (Wrapper::GUI::MenuItem("Phos Manual", NULL)) {}
+        if (Wrapper::GUI::MenuItem("Scripting Reference", NULL)) {}
         Wrapper::GUI::EndMenu();
     }
     if (Wrapper::GUI::BeginMenu("Settings"))

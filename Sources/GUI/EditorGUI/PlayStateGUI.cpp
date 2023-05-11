@@ -3,6 +3,7 @@
 #include "GUI/EditorGUI/PlayStateGUI.hpp"
 
 
+
 EditorGUI::PlayStateGUI::PlayStateGUI()
 	: IGUI("PlayState", true,true,false)
 {
