@@ -50,11 +50,11 @@ void LowRenderer::DirectionalLight::Update()
 
 void LowRenderer::DirectionalLight::GUIUpdate()
 {
-	if (Wrapper::GUI::CollapsingHeader("Directionnal Light"))
+	/*if (Wrapper::GUI::CollapsingHeader("Directionnal Light"))
 	{
 		Wrapper::GUI::EditColorRGB("Color", p_color);
 		Wrapper::GUI::EditFloat("Intensity", p_intensity, true, 0.001f, 0.f, 3.0f);
-	}
+	}*/
 }
 
 void LowRenderer::DirectionalLight::OnDestroy()

@@ -124,8 +124,10 @@ Resource::AnimBone* Resource::Animation::ProcessHierarchy(const aiNode* node,
         for (size_t i = 0; i < node->mNumChildren; i++)
         {
             AnimBone* child = ProcessHierarchy(node->mChildren[i], boneMap, current, ++index);
-            if(child)
+            if (child)
                 current->AddChild(child);
+            else
+                index--;
         }
 
         return current;

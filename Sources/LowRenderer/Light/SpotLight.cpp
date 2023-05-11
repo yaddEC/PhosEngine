@@ -79,14 +79,14 @@ void LowRenderer::SpotLight::Update()
 
 void LowRenderer::SpotLight::GUIUpdate()
 {
-	if (Wrapper::GUI::CollapsingHeader("Spot Light"))
+	/*if (Wrapper::GUI::CollapsingHeader("Spot Light"))
 	{
 		Wrapper::GUI::EditColorRGB("Color", p_color);
 		Wrapper::GUI::EditFloat("Intensity", p_intensity, true, 0.01f, 0.f, 3.0f);
 		Wrapper::GUI::EditFloat("Angle", m_angle, true, 0.1f, 0.f, 360.0f);
 		Wrapper::GUI::EditFloat("Linear", m_linearAttenuation, true, 0.001f, 0.f, 1.0f);
 		Wrapper::GUI::EditFloat("Quadratic", m_quadraticAttenuation, true, 0.001f, 0.f, 1.0f);
-	}
+	}*/
 }
 
 void LowRenderer::SpotLight::OnDestroy()

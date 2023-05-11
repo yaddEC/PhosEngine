@@ -68,6 +68,7 @@ Engine::GameObject* LowRenderer::MeshRenderer::GenerateBonesObject(const Bone& b
 	Engine::GameObject* go = new GameObject();
 	go->name = bone.name;
 	gameobject->GetScene()->Instantiate(go);
+	m_boneObjectList.push_back(go->transform);
 
 	for (auto child : bone.children)
 	{
@@ -75,6 +76,15 @@ Engine::GameObject* LowRenderer::MeshRenderer::GenerateBonesObject(const Bone& b
 	}
 
 	return go;
+}
+
+void LowRenderer::MeshRenderer::AssignBoneObject(Engine::Transform* tr)
+{
+	m_boneObjectList.push_back(tr);
+	for (auto child : tr->GetChildren())
+	{
+		AssignBoneObject(child);
+	}
 }
 
 
@@ -108,7 +118,10 @@ void LowRenderer::MeshRenderer::Start()
 		for (auto child : transform->GetChildren())
 		{
 			if (child->GetGameObject()->name == m_mesh->GetArmature()->boneMap[0].name)
+			{
+				AssignBoneObject(child);
 				return;
+			}
 		}
 		transform->AddChild(GenerateBonesObject(m_mesh->GetArmature()->boneMap[0])->transform);
 	}
@@ -116,12 +129,20 @@ void LowRenderer::MeshRenderer::Start()
 
 void LowRenderer::MeshRenderer::Update()
 {
+	if (m_mesh->GetArmature())
+	{
+		m_boneObjectList[0]->ComputeGlobalMatrix();
 
+		for (size_t i = 0; i < m_boneObjectList.size(); i++)
+		{
+			m_animatedBoneMatrices[i] = m_boneObjectList[i]->GetGlobalMatrix();
+		}
+	}
 }
 
-void LowRenderer::MeshRenderer::GUIUpdate()
+void LowRenderer::MeshRenderer::GUIUpdate()  
 {
-	if (Wrapper::GUI::CollapsingHeader("Mesh Renderer"))
+	/*if (Wrapper::GUI::CollapsingHeader("Mesh Renderer"))
 	{
 		Wrapper::GUI::DisplayText("Mesh : "); Wrapper::GUI::SameLine();
 		Wrapper::GUI::Button(m_mesh->GetName());
@@ -136,7 +157,7 @@ void LowRenderer::MeshRenderer::GUIUpdate()
 		{
 			m_material = *mat;
 		}
-	}
+	}*/
 }
 
 void LowRenderer::MeshRenderer::OnDestroy()

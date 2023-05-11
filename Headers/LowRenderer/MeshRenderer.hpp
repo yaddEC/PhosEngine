@@ -49,9 +49,11 @@ namespace LowRenderer
 	private:
 
 		Engine::GameObject* GenerateBonesObject(const Resource::Bone& bone);
+		void AssignBoneObject(Engine::Transform* go);
 
 		// must keep empty if no animation
 		std::vector<Maths::Mat4> m_animatedBoneMatrices;
+		std::vector<Engine::Transform*> m_boneObjectList;
 
 		Resource::Mesh* m_mesh = nullptr;
 		Resource::Material* m_material = nullptr;

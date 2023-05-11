@@ -56,13 +56,13 @@ void LowRenderer::PointLight::OnDestroy()
 
 void LowRenderer::PointLight::GUIUpdate()
 {
-	if (Wrapper::GUI::CollapsingHeader("Spot Light"))
+	/*if (Wrapper::GUI::CollapsingHeader("Spot Light"))
 	{
 		Wrapper::GUI::EditColorRGB("Color", p_color);
 		Wrapper::GUI::EditFloat("Intensity", p_intensity, true, 0.001f, 0.f, 3.0f);
 		Wrapper::GUI::EditFloat("Linear", m_linearAttenuation, true, 0.001f, 0.f, 1.0f);
 		Wrapper::GUI::EditFloat("Quadratic", m_quadraticAttenuation, true, 0.001f, 0.f, 1.0f);
-	}
+	}*/
 }
 
 
