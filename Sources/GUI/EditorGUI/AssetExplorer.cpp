@@ -2,6 +2,7 @@
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Engine/GameObject.hpp"
+#include "Wrapper/GUI.hpp"
 
 #include <fstream>
 

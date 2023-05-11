@@ -1,4 +1,4 @@
-﻿#include "Core/Editor.hpp"
+#include "Core/Editor.hpp"
 #include <iostream>
 #include <fstream>
 #include <chrono>

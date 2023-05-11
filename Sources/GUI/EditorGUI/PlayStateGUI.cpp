@@ -1,6 +1,7 @@
-#include "GUI/EditorGUI/PlayStateGUI.hpp"
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/GUI.hpp"
+#include "GUI/EditorGUI/PlayStateGUI.hpp"
+
 
 EditorGUI::PlayStateGUI::PlayStateGUI()
 	: IGUI("PlayState", true,true,false)
@@ -17,22 +18,22 @@ void EditorGUI::PlayStateGUI::DoUpdate()
 void EditorGUI::PlayStateGUI::PlayStateButton()
 {
 	Wrapper::GUI::BeginGroupCentered((0, 20));
-		if (m_currentScene->GetIsGameMode())
+	if (m_currentScene->GetIsGameMode())
+	{
+		if (Wrapper::GUI::Button(u8"\u2009\u2009\u25A0\u2009"))
 		{
-			if (Wrapper::GUI::Button(u8"\u2009\u2009\u25A0\u2009"))
-			{
-				m_currentScene->StopGameMode();
-			}
+			m_currentScene->StopGameMode();
 		}
-		else
+	}
+	else
+	{
+		if (Wrapper::GUI::Button(u8"\u2009\u25BA"))
 		{
-			if (Wrapper::GUI::Button(u8"\u2009\u25BA"))
-			{
-				m_currentScene->StartGameMode();
-			}
+			m_currentScene->StartGameMode();
 		}
-		Wrapper::GUI::SameLine();
-		if (Wrapper::GUI::Button(u8" \u2009\u258D \u258D ")) {}
-		Wrapper::GUI::EndGroup();
+	}
+	Wrapper::GUI::SameLine();
+	if (Wrapper::GUI::Button(u8" \u2009\u258D \u258D ")) {}
+	Wrapper::GUI::EndGroup();
 	
 }
