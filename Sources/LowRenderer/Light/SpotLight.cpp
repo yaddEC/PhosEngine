@@ -38,6 +38,7 @@ void LowRenderer::SpotLight::Render(const Resource::ShaderProgram& shaderProg, i
 {
 	if (isActive)
 	{
+		//shaderProg.SetUniformInt("spotLights[" + std::to_string(number) + "].shadowMap", m_shadowTexture->GetTextureKey());
 		shaderProg.SetUniformVec3("spotLights[" + std::to_string(number) + "].position", transform->position);
 		shaderProg.SetUniformVec3("spotLights[" + std::to_string(number) + "].direction", p_direction);
 
@@ -55,25 +56,33 @@ void LowRenderer::SpotLight::Render(const Resource::ShaderProgram& shaderProg, i
 
 void LowRenderer::SpotLight::RenderShadowMap()
 {
-	p_shadowFrame->Bind();
+	p_shadowFrame->Bind(false);
 	p_shadowFrame->Clear();
-	Wrapper::RHI::ActivateTexture(*m_shadowTexture, 0);
 }
 
 void LowRenderer::SpotLight::Start()
 {
 	gameobject->GetScene()->GetRenderer()->AddSpotLight(this);
-	p_shadowFrame = new FrameBuffer(512, 512);
+	p_shadowFrame = new FrameBuffer(512, 512, false);
 	m_shadowTexture = new Resource::Texture();
 	m_shadowTexture->SetData(nullptr, 512, 512, 1);
 
 	m_shadowTexture->BindDepth();
 	p_shadowFrame->AttachTexture(m_shadowTexture, true);
+
 }
 
 void LowRenderer::SpotLight::Update()
 {
 	p_direction = (gameobject->transform->GetGlobalMatrix() * Maths::Vec4(0, -1, 0, 0)).xyz();
+	Maths::Vec3 Up = p_direction == Maths::Vec3(0, 1, 0) || p_direction == Maths::Vec3(0, -1, 0) ? Maths::Vec3(0, 0, -1) : Maths::Vec3(0, 1, 0);
+	Maths::Vec3 globalPos = Maths::Vec3(gameobject->transform->GetGlobalMatrix().data_4_4[0][3], gameobject->transform->GetGlobalMatrix().data_4_4[1][3], gameobject->transform->GetGlobalMatrix().data_4_4[2][3]);
+
+	Maths::Mat4 proj = Maths::Mat4::CreateProjectionMatrix(90, 1.f, 15000.f, 1);
+	Maths::Mat4 view = Maths::Mat4::LookAt(globalPos, globalPos - p_direction, Up);
+	float mat[16] = { 0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1 };
+	Maths::Mat4 bias = Maths::Mat4(mat);
+	m_VP = view * proj;
 }
 
 

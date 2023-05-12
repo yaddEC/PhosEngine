@@ -65,10 +65,11 @@ void Wrapper::RHI::BindDepthTexture(unsigned int* textureKey, int width, int hei
 	glGenTextures(1, textureKey);
 	glBindTexture(GL_TEXTURE_2D, *textureKey);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 	float clampColor[4] = { 1, 1, 1, 1 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, clampColor);
@@ -270,27 +271,32 @@ void Wrapper::RHI::UnloadSubMesh(const unsigned int& VAO, const unsigned int& VB
 	glDeleteBuffers(1, &EBO);
 }
 
-void Wrapper::RHI::CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey)
+void Wrapper::RHI::CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey, bool useRenderBuffer)
 {
 	glGenFramebuffers(1, frameBufferKey);
 	glBindFramebuffer(GL_FRAMEBUFFER, *frameBufferKey);
+	if (useRenderBuffer)
+	{
+		// create a renderbuffer object for depth sattachment (we won't be sampling these)
+		glGenRenderbuffers(1, renderBufferKey);
+		glBindRenderbuffer(GL_RENDERBUFFER, *renderBufferKey);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 69, 69); // use a single renderbufferKey object for both a depth.
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, *renderBufferKey); // now actually attach it
 
-	// create a renderbuffer object for depth sattachment (we won't be sampling these)
-	glGenRenderbuffers(1, renderBufferKey);
-	glBindRenderbuffer(GL_RENDERBUFFER, *renderBufferKey);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 69, 69); // use a single renderbufferKey object for both a depth.
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, *renderBufferKey); // now actually attach it
-
-	// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+		// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateSize)
+void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateSize, bool useRenderBuffer)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
-	glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
+	if (useRenderBuffer)
+	{
+		glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
+	}
 
 	glViewport(0, 0, width, height);
 	
@@ -316,8 +322,9 @@ void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned 
 	if (useDepth)
 	{
 		glDrawBuffer(GL_NONE);
-		glReadBuffer(GL_NONE);
+		//glReadBuffer(GL_NONE);
 	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Wrapper::RHI::DetachTextureToFrameBuffer(unsigned int frameBufferKey, bool useDepth)
