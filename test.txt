@@ -1,0 +1,130 @@
+=== OpenGL Start ===
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\VertexShader.vert
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\FragmentShader.frag
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\ShadowShader.vert
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\ShadowShader.frag
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\PointShadow.vert
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\PointShadow.geom
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\PointShadow.frag
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\GoochShader.frag
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Shader.cpp::Resources::Shader::Load()
+Line 56 : Error opening file Resources\Shaders\ToonShader.frag
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\blaziken.obj
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\Bidoof.obj
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\cube.obj
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\sphere.obj
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\BetterBoo.obj
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\goomba.obj
+
+=========================================================================
+
+=========================================================================
+
+[[ ERROR ]]
+Model.cpp::Resources::Model::Load()
+Line 39 : Error opening file Resources\Obj\maskass.obj
+
+=========================================================================
+

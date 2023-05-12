@@ -32,10 +32,10 @@ component "Mesh Renderer"
 end
 name "SpotLight"
 id 4
-transform -23.8 55.95 0 0 0 0 1 1 1
+transform -6.65 55.95 0 0 0 0 1 1 1
 component "Spot Light"
 	Color 1.000000 1.000000 1.000000
-	Intensity 1.000000
+	Intensity 10.000000
 	Angle 12.000000
 	Linear Attenuation 0.090000
 	Quadratic Attenuation 0.032000
@@ -118,7 +118,7 @@ component "Sphere Collider"
 	end
 end
 name "Cube"
-id 10
+id 9
 transform -4.7 2.75 -6.65 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj

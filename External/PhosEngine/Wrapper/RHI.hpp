@@ -53,8 +53,8 @@ namespace Wrapper
 			const std::vector<Resource::SkinnedVertex>& skinnedVertices, const std::vector<unsigned int>& indices);
 		static void UnloadSubMesh(const unsigned int& VAO, const unsigned int& VBO, const unsigned int& EBO);
 
-		static void CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
-		static void BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateize = false);
+		static void CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey, bool useRenderBuffer = true);
+		static void BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateize = false, bool useRenderBuffer = true);
 		static void UnbindFrameBuffer();
 		static void ClearFrameBuffer(const Maths::Vec4& clearColor);
 		static void AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDepth = false);
