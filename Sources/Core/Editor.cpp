@@ -65,7 +65,7 @@ void Editor::Top()
         if (Wrapper::GUI::MenuItem("General Settings", NULL)) {}
         Wrapper::GUI::EndMenu();
     }
-    Wrapper::GUI::BeginGroupCentered((40, 20));
+    Wrapper::GUI::BeginGroupCentered((40.f, 20.f));
     
    
     Wrapper::GUI::EndGroup();

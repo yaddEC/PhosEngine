@@ -52,7 +52,7 @@ void SceneGUI::UpdateCamera(Input& input)
 		if (m_speedModifier > 2)
 			m_speedModifier = 2;
 		if (m_speedModifier < 0.001)
-			m_speedModifier = 0.001;
+			m_speedModifier = 0.001f;
 	}
 	speed *= m_speedModifier;
 

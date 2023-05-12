@@ -173,13 +173,13 @@ namespace Resource
 
 		// Static resource
 
-		ShaderProgram* skyboxShader;
-		ShaderProgram* pickingShader;
-		ShaderProgram* iconShaderForPicking;
-		ShaderProgram* iconShader;
-		ShaderProgram* shadowShader;
-		Mesh* cube;
-		Mesh* quad;
+		ShaderProgram* skyboxShader = nullptr;
+		ShaderProgram* pickingShader = nullptr;
+		ShaderProgram* iconShaderForPicking = nullptr;
+		ShaderProgram* iconShader = nullptr;
+		ShaderProgram* shadowShader = nullptr;
+		Mesh* cube = nullptr;
+		Mesh* quad = nullptr;
 
 	private:
 
@@ -189,7 +189,7 @@ namespace Resource
 		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
 			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList, m_postProcessingList;
 
-		Engine::Scene* m_currentScene;
+		Engine::Scene* m_currentScene = nullptr;
 
 		
 	};
