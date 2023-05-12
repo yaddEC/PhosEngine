@@ -25,11 +25,7 @@ MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-
-
-PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
-    PxFilterObjectAttributes attributes1, PxFilterData filterData1,
-    PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+PxFilterFlags Wrapper::Physics::CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
 {
     bool isTrigger0 = PxFilterObjectIsTrigger(attributes0);
     bool isTrigger1 = PxFilterObjectIsTrigger(attributes1);
@@ -55,6 +51,8 @@ PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterD
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
     return PxFilterFlag::eDEFAULT;
 }
+
+
 
 void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
 {
@@ -251,7 +249,7 @@ namespace Wrapper
         MySimulationEventCallback* mySimulationEventCallback = new MySimulationEventCallback();
         PxSceneDesc sceneDesc(m_physics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-        sceneDesc.filterShader = CustomFilterShader;
+        sceneDesc.filterShader = Physics::CustomFilterShader;
         sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
         sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
         sceneDesc.simulationEventCallback = mySimulationEventCallback;
