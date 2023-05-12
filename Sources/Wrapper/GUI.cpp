@@ -45,6 +45,7 @@ bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 	Style.LogSliderDeadzone = 7.000f;
 	Style.TabRounding = 7.000f;
 	Style.WindowMenuButtonPosition = ImGuiDir_None;
+	
 
 	Style.Colors[ImGuiCol_FrameBg] = ImVec4(0.305f, 0.310f, 0.316f, 0.540f);
 	Style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
@@ -75,9 +76,28 @@ bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 	Style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
 	Style.Colors[ImGuiCol_DragDropTarget] = ImVec4(0.749f, 0.282f, 0.004f, 1.000f);
 	Style.Colors[ImGuiCol_NavHighlight] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+
+	static const ImWchar ranges1[] =
+	{
+	0x25A0,0x25A0,
+	0x258D,0x258D,
+	0x2009,0x2009,
+	};
+	static const ImWchar ranges2[] =
+	{
+	0x25BA,0x25BA,
+	
+	};
 	// Set up ImGui
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("DefaultAssets/Font/Figtree-Regular.ttf", 18.000f);
+
+	io.Fonts->AddFontFromFileTTF("DefaultAssets/Font/Figtree-Regular.ttf", 18.000f,0);
+	ImFontConfig config;
+	config.GlyphRanges = ranges2;
+	config.MergeMode = true;
+	io.Fonts->AddFontFromFileTTF("DefaultAssets/Font/Arial.ttf", 18.000f,&config, ranges2);
+	config.GlyphRanges = ranges1;
+	io.Fonts->AddFontFromFileTTF("DefaultAssets/Font/seguisym.ttf", 18.000f, &config, ranges1);
 	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -127,14 +147,24 @@ void Wrapper::GUI::DestroyGUI()
 }
 
 
-bool Wrapper::GUI::BeginWindow(const std::string& name, bool canCollpase)
+bool Wrapper::GUI::BeginWindow(const std::string& name, bool canCollpase, bool isDialogBox ,bool canBeClosed, bool* isOpen)
 {
+	ImGuiWindowClass windowClass;
 	ImGuiWindowFlags Flag = ImGuiWindowFlags_None;
 	if (!canCollpase)
 		Flag |= ImGuiWindowFlags_NoCollapse;
-
-	return ImGui::Begin(name.c_str(), 0, Flag);
+	if (isDialogBox)
+	{
+		Flag |=  ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar;
+		windowClass.DockNodeFlagsOverrideSet |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoResize | ImGuiDockNodeFlags_NoDockingSplitMe | ImGuiDockNodeFlags_NoDockingOverMe | ImGuiDockNodeFlags_NoDockingOverOther;
+	}
+		ImGui::SetNextWindowClass(&windowClass);
+	if(canBeClosed)
+		return ImGui::Begin(name.c_str(), isOpen, Flag);
+	else
+		return ImGui::Begin(name.c_str(),(bool*)0, Flag);
 }
+
 
 void Wrapper::GUI::EndWindow()
 {
@@ -162,6 +192,8 @@ void Wrapper::GUI::DockingSpace()
 {
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::DockSpaceOverViewport(viewport);
+
+
 }
 
 Maths::Vec2 Wrapper::GUI::GetWindowSize()
@@ -509,36 +541,6 @@ bool Wrapper::GUI::Button(const std::string& label, const Maths::Vec2& size)
 	return ImGui::Button(label.c_str(), ImVec2(size.x, size.y));
 }
 
-bool Wrapper::GUI::TitleButton()
-{
-
-	ImGuiWindow* curWindow = ImGui::GetCurrentWindow();
-	ImDrawList* drawList = ImGui::GetForegroundDrawList(curWindow);
-	ImRect titlePos = curWindow->TitleBarRect();
-
-	ImGuiContext& g = *GImGui;
-	const ImGuiID id = curWindow->GetID("#custom");
-	const ImRect bb(ImVec2(titlePos.Max.x - 30, titlePos.Max.y - 15), ImVec2(titlePos.Max.x , titlePos.Max.y ));
-	ImGui::ItemSize(bb);
-	ImGui::ItemAdd(bb, id);
-
-	bool hovered, held;
-	bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held);
-
-	// Render
-	const ImU32 col = ImGui::GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
-	ImGui::RenderNavHighlight(bb, id);
-	ImGui::RenderFrame(bb.Min, bb.Max, col, true);
-	//drawList->AddRectFilled(bb.Min, bb.Max, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f)));
-	//drawList->AddTriangleFilled(ImVec2(titlePos.Max.x - 30, titlePos.Max.y - 7), ImVec2(titlePos.Max.x - 10, titlePos.Max.y - 7), ImVec2(titlePos.Max.x - 20, titlePos.Max.y - 15), ImGui::GetColorU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f)));
-	drawList->AddText(ImVec2(titlePos.Max.x -15, titlePos.Max.y-20 ), ImGui::GetColorU32(ImVec4(1.0f,1.0f,1.0f,1.0f)), "X");
-
-	if (pressed)
-	{
-		printf("t");
-	}
-	return false;
-}
 
 bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked)
 {
@@ -601,7 +603,7 @@ void Wrapper::GUI::TreePop()
 
 bool Wrapper::GUI::CollapsingHeader(const std::string& label)
 {
-	return ImGui::CollapsingHeader(label.c_str());
+	return ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
 }
 
 void Wrapper::GUI::PushID(int ID)
@@ -659,9 +661,14 @@ void* Wrapper::GUI::DragDropTarget(const std::string& ID)
 	return result;
 }
 
-bool Wrapper::GUI::BeginPopup(const std::string& ID)
+bool Wrapper::GUI::BeginPopup(const std::string& ID, bool isNormalPopUp)
 {
-	return ImGui::BeginPopup(ID.c_str());
+	ImGuiWindowFlags notTypicalPopup = ImGuiWindowFlags_None;
+
+	if(!isNormalPopUp)
+		notTypicalPopup = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove;
+
+		return ImGui::BeginPopup(ID.c_str(), notTypicalPopup);
 }
 
 bool Wrapper::GUI::BeginPopupContextItem(const std::string& ID)
@@ -669,9 +676,19 @@ bool Wrapper::GUI::BeginPopupContextItem(const std::string& ID)
 	return ImGui::BeginPopupContextItem(ID.c_str());
 }
 
+bool Wrapper::GUI::BeginPopupModal(const std::string& ID)
+{
+	return ImGui::BeginPopupModal(ID.c_str());
+}
+
 void Wrapper::GUI::EndPopup()
 {
 	ImGui::EndPopup();
+}
+
+void Wrapper::GUI::CloseCurrentPopUp()
+{
+	ImGui::CloseCurrentPopup();
 }
 
 void Wrapper::GUI::OpenPopup(const std::string& ID)
@@ -684,7 +701,7 @@ void Wrapper::GUI::Demo()
 	ImGui::ShowDemoWindow();
 }
 
-void Wrapper::GUI::MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void))
+void Wrapper::GUI::MenuBar(std::function<void()> funcTopBar)
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBackground;
 	float height = ImGui::GetFrameHeight();
@@ -696,13 +713,7 @@ void Wrapper::GUI::MenuBar(void(*funcTopBar)(void), void(*funcBottomBar)(void))
 		}
 	}
 	ImGui::End();
-	if (ImGui::BeginViewportSideBar("##SecondaryMenuBar", NULL, ImGuiDir_Up, height, window_flags)) {
-		if (ImGui::BeginMenuBar()) {
-			funcBottomBar();
-			ImGui::EndMenuBar();
-		}
-	}
-	ImGui::End();
+
 }
 
 bool Wrapper::GUI::BeginMenu(const char* name)

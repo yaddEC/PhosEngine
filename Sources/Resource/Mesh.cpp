@@ -4,10 +4,12 @@
 #include "pch.h"
 
 #include <iostream>
+#include <algorithm>
 
 #include "Wrapper/GUI.hpp"
 #include "Resource/SubMesh.hpp"
 #include "Resource/ResourceManager.hpp"
+#include "Resource/Parser.hpp"
 #include "Resource/ResourceIncludes.hpp"
 
 using namespace Maths;
@@ -19,7 +21,7 @@ void Mesh::Load()
     std::string filepath = GetFilePath();
 
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(filepath.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+    const aiScene* scene = importer.ReadFile(filepath.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_PopulateArmatureData);
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
@@ -52,10 +54,7 @@ void Resource::Mesh::GUIUpdate()
 {
     if (m_armature)
     {
-        for (auto bone : m_armature->boneMap)
-        {
-            Wrapper::GUI::DisplayText("%s : %d", bone.first.c_str(), bone.second.indexInArmature);
-        }
+        DisplayHierarchy(&m_armature->boneMap[0]);
     }
 }
 
@@ -204,8 +203,6 @@ SubMesh Resource::Mesh::ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, c
             indices.push_back(face.mIndices[j]);
     }
 
-
-
     ProcessArmature(vertices, mesh, scene);
 
     return SubMesh(vertices, indices);
@@ -215,23 +212,50 @@ SubMesh Resource::Mesh::ProcessSkinnedMesh(aiMesh* mesh, const aiScene* scene, c
 void Resource::Mesh::ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
     std::vector<int> vertexWeightIndex(vertices.size(), 0 );
+    std::unordered_map<std::string, int> boneMap;
     m_armature = new Armature();
     for (size_t i = 0; i < mesh->mNumBones; i++)
     {
         Bone bone;
         bone.inverseBind = GetStandardMatrix(mesh->mBones[i]->mOffsetMatrix);
-        bone.indexInArmature = i;
+        bone.SetArmatureIndex((unsigned int)i);
         bone.name = mesh->mBones[i]->mName.C_Str(); 
         for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
         {
             unsigned int id = mesh->mBones[i]->mWeights[j].mVertexId;
             if (vertexWeightIndex[id] >= 4) continue;
-            vertices[id].boneIDs[vertexWeightIndex[id]] = i;
+            vertices[id].boneIDs[vertexWeightIndex[id]] = (int)i;
             vertices[id].boneWeights[vertexWeightIndex[id]] = mesh->mBones[i]->mWeights[j].mWeight;
             vertexWeightIndex[id]++;
         }
-        m_armature->boneMap.emplace(bone.name, bone);
+        m_armature->boneMap.push_back(bone);
+        boneMap.emplace(bone.name, m_armature->boneMap.size() - 1);
     }
+    ProcessHierarchy(mesh->mBones[0]->mNode, boneMap);
+    std::sort(m_armature->boneMap.begin(), m_armature->boneMap.end(), [](const Bone& a, const Bone& b) { return a.GetArmatureIndex() < b.GetArmatureIndex(); });
+}
+
+Bone* Resource::Mesh::ProcessHierarchy(aiNode* node, const std::unordered_map<std::string, int>& boneMap)
+{
+    if (boneMap.find(node->mName.data) != boneMap.end())
+    {
+        Bone* bone = &m_armature->boneMap.at(boneMap.at(node->mName.data));
+
+        for (size_t i = 0; i < node->mNumChildren; i++)
+        {
+            Bone* res = ProcessHierarchy(node->mChildren[i], boneMap);
+            if(res)
+                bone->children.push_back(res);
+        }
+        return bone;
+    }
+    else
+    {
+        return nullptr;
+    }
+    
+
+    
 }
 
 void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
@@ -271,7 +295,16 @@ void Resource::Mesh::GenerateMaterial(aiMaterial* mat)
     material->Save();
 }
 
-void Resource::Mesh::DisplayArmature(Bone& current)
+void Resource::Mesh::DisplayHierarchy(Bone* node)
 {
+    if (Wrapper::GUI::TreeNode(node->name.c_str(), false, !node->children.size()))
+    {
 
+        for (auto child : node->children)
+        {
+            DisplayHierarchy(child);
+        }
+        Wrapper::GUI::TreePop();
+    }
 }
+

@@ -43,6 +43,18 @@ namespace Physic {
         physicsCollider->Setup(center, size, trigger, material);
     }
 
+    void Collider::SetTriggerState(bool isTrigger)
+    {
+        p_isTrigger = isTrigger;
+        physicsCollider->OnGuiChanged();
+    }
+
+    void Collider::SetCenter(Maths::Vec3 center)
+    {
+        p_center = center;
+        physicsCollider->OnGuiChanged();
+    }
+
     Reflection::ClassMetaData& Collider::GetMetaData()
     {
         using namespace Reflection;
@@ -61,7 +73,7 @@ namespace Physic {
     BoxCollider::BoxCollider(Maths::Vec3 _size)
         : Collider()
     {
-        size = _size;
+        m_size = _size;
     }
 
     Reflection::ClassMetaData& BoxCollider::GetMetaData()
@@ -74,19 +86,25 @@ namespace Physic {
         {
             result.name = "Box Collider";
             result.memberList = {
-                ClassMemberInfo("isTrigger", offsetof(BoxCollider, isTrigger), MemberType::T_BOOL),
-                ClassMemberInfo("Center", offsetof(BoxCollider, center), MemberType::T_VEC3),
-                ClassMemberInfo("Size", offsetof(BoxCollider, size), MemberType::T_VEC3),
+                ClassMemberInfo("isTrigger", offsetof(BoxCollider, p_isTrigger), MemberType::T_BOOL),
+                ClassMemberInfo("Center", offsetof(BoxCollider, p_center), MemberType::T_VEC3),
+                ClassMemberInfo("Size", offsetof(BoxCollider, m_size), MemberType::T_VEC3),
             };
             computed = true;
         }
         return result;
     }
 
+    void BoxCollider::SetSize(Maths::Vec3 size)
+    {
+        m_size = size;
+        physicsCollider->OnGuiChanged();
+    }
+
     SphereCollider::SphereCollider(float _radius)
         : Collider()
     {
-        radius = _radius;
+        m_radius = _radius;
     }
 
     Reflection::ClassMetaData& SphereCollider::GetMetaData()
@@ -99,20 +117,27 @@ namespace Physic {
         {
             result.name = "Sphere Collider";
             result.memberList = {
-                ClassMemberInfo("isTrigger", offsetof(SphereCollider, isTrigger), MemberType::T_BOOL),
-                ClassMemberInfo("Center", offsetof(SphereCollider, center), MemberType::T_VEC3),
-                ClassMemberInfo("Radius", offsetof(SphereCollider, radius), MemberType::T_FLOAT),
+                ClassMemberInfo("isTrigger", offsetof(SphereCollider, p_isTrigger), MemberType::T_BOOL),
+                ClassMemberInfo("Center", offsetof(SphereCollider, p_center), MemberType::T_VEC3),
+                ClassMemberInfo("Radius", offsetof(SphereCollider, m_radius), MemberType::T_FLOAT),
             };
             computed = true;
         }
         return result;
     }
 
+    void SphereCollider::SetRadius(float radius)
+    {
+        m_radius = radius;
+        physicsCollider->OnGuiChanged();
+    }
+
+
     CapsuleCollider::CapsuleCollider(float _radius, float _height)
         : Collider()
     {
-        radius = _radius;
-        height = _height;
+        m_radius = _radius;
+        m_height = _height;
     }
     Reflection::ClassMetaData& CapsuleCollider::GetMetaData()
     {
@@ -124,13 +149,23 @@ namespace Physic {
         {
             result.name = "Capsule Collider";
             result.memberList = {
-                ClassMemberInfo("isTrigger", offsetof(CapsuleCollider, isTrigger), MemberType::T_BOOL),
-                ClassMemberInfo("Center", offsetof(CapsuleCollider, center), MemberType::T_VEC3),
-                ClassMemberInfo("Height", offsetof(CapsuleCollider, height), MemberType::T_FLOAT),
-                ClassMemberInfo("Radius", offsetof(CapsuleCollider, radius), MemberType::T_FLOAT),
+                ClassMemberInfo("isTrigger", offsetof(CapsuleCollider, p_isTrigger), MemberType::T_BOOL),
+                ClassMemberInfo("Center", offsetof(CapsuleCollider, p_center), MemberType::T_VEC3),
+                ClassMemberInfo("Height", offsetof(CapsuleCollider, m_height), MemberType::T_FLOAT),
+                ClassMemberInfo("Radius", offsetof(CapsuleCollider, m_radius), MemberType::T_FLOAT),
             };
             computed = true;
         }
         return result;
+    }
+    void CapsuleCollider::SetRadius(float radius)
+    {
+        m_radius = radius;
+        physicsCollider->OnGuiChanged();
+    }
+    void CapsuleCollider::SetHeight(float height)
+    {
+        m_height = height;
+        physicsCollider->OnGuiChanged();
     }
 }

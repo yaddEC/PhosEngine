@@ -10,6 +10,7 @@
 #include "Engine/Transform.hpp"
 #include "Engine/GameObject.hpp"
 #include "Engine/Scene.hpp"
+#include "Resource/Armature.hpp"
 #include "LowRenderer/Renderer.hpp"
 #include "Wrapper/GUI.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -46,7 +47,7 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 	if (m_mesh->GetArmature())
 	{
 		m_material->GetShader()->SetUniformMatrixArray("skinMat", m_animatedBoneMatrices);
-		//m_material->GetShader()->SetUniformBool("isSkinned", true);
+		m_material->GetShader()->SetUniformBool("isSkinned", true);
 	}
 	else
 	{
@@ -57,10 +58,35 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 
 }
 
-void MeshRenderer::SetAnimMatrix(std::string name, Maths::Mat4 matrix) 
+void MeshRenderer::SetAnimMatrix(int index, Maths::Mat4 matrix) 
 {
-	m_animatedBoneMatrices[name] = matrix * m_mesh->GetArmature()->boneMap[name].inverseBind;
+	m_animatedBoneMatrices[index] = m_mesh->GetArmature()->boneMap[index].inverseBind * matrix;
 }
+
+Engine::GameObject* LowRenderer::MeshRenderer::GenerateBonesObject(const Bone& bone)
+{
+	Engine::GameObject* go = new GameObject();
+	go->name = bone.name;
+	gameobject->GetScene()->Instantiate(go);
+	m_boneObjectList.push_back(go->transform);
+
+	for (auto child : bone.children)
+	{
+		go->transform->AddChild(GenerateBonesObject(*child)->transform);
+	}
+
+	return go;
+}
+
+void LowRenderer::MeshRenderer::AssignBoneObject(Engine::Transform* tr)
+{
+	m_boneObjectList.push_back(tr);
+	for (auto child : tr->GetChildren())
+	{
+		AssignBoneObject(child);
+	}
+}
+
 
 void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
 {
@@ -87,19 +113,36 @@ void LowRenderer::MeshRenderer::Start()
 	{
 		for (auto bone : m_mesh->GetArmature()->boneMap)
 		{
-			m_animatedBoneMatrices.emplace(bone.first, (Maths::Mat4::CreateDiagonalMatrix(1)));
+			m_animatedBoneMatrices.push_back(Maths::Mat4::CreateDiagonalMatrix(1));
 		}
+		for (auto child : transform->GetChildren())
+		{
+			if (child->GetGameObject()->name == m_mesh->GetArmature()->boneMap[0].name)
+			{
+				AssignBoneObject(child);
+				return;
+			}
+		}
+		transform->AddChild(GenerateBonesObject(m_mesh->GetArmature()->boneMap[0])->transform);
 	}
 }
 
 void LowRenderer::MeshRenderer::Update()
 {
+	if (m_mesh->GetArmature())
+	{
+		m_boneObjectList[0]->ComputeGlobalMatrix();
 
+		for (size_t i = 0; i < m_boneObjectList.size(); i++)
+		{
+			m_animatedBoneMatrices[i] = m_boneObjectList[i]->GetGlobalMatrix();
+		}
+	}
 }
 
-void LowRenderer::MeshRenderer::GUIUpdate()
+void LowRenderer::MeshRenderer::GUIUpdate()  
 {
-	if (Wrapper::GUI::CollapsingHeader("Mesh Renderer"))
+	/*if (Wrapper::GUI::CollapsingHeader("Mesh Renderer"))
 	{
 		Wrapper::GUI::DisplayText("Mesh : "); Wrapper::GUI::SameLine();
 		Wrapper::GUI::Button(m_mesh->GetName());
@@ -114,7 +157,7 @@ void LowRenderer::MeshRenderer::GUIUpdate()
 		{
 			m_material = *mat;
 		}
-	}
+	}*/
 }
 
 void LowRenderer::MeshRenderer::OnDestroy()

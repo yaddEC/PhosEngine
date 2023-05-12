@@ -37,6 +37,7 @@ namespace Wrapper
 		static void BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList);
 		static void UseProgram(unsigned int* programKey);
 		static void ShaderMat(const unsigned int& programKey, const std::string& uniformName, const Maths::Mat4& mat);
+		static void ShaderMatList(const unsigned int& programKey, const std::string& uniformName, const std::vector<Maths::Mat4>& matList);
 		static void ShaderVec3(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec3& vec3);
 		static void ShaderVec4(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec4& vec4);
 		static void ShaderInt(const unsigned int& programKey, const std::string& uniformName, int value);

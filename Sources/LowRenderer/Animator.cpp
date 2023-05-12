@@ -79,7 +79,7 @@ Reflection::ClassMetaData& LowRenderer::Animator::GetMetaData()
 void LowRenderer::Animator::ComputeAnimBoneMatrices(Maths::Mat4 parentMatrix, Resource::AnimBone* bone)
 {
 	Maths::Mat4 matrix = bone->GetGlobalMatrix(m_timeline, parentMatrix);
-	m_meshRenderer->SetAnimMatrix(bone->GetName(), matrix);
+	m_meshRenderer->SetAnimMatrix(bone->GetArmatureIndex(), matrix);
 	for (Resource::AnimBone* child : bone->GetChildren())
 	{
 		ComputeAnimBoneMatrices(matrix, child);

@@ -48,6 +48,24 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    void Rigidbody::SetGravity(Maths::Vec3 gravity)
+    {
+        m_gravity = gravity;
+        physicsRigidbody->OnGuiChanged();
+    }
+
+    void Rigidbody::SetVelocity(Maths::Vec3 velocity)
+    {
+        m_velocity = velocity;
+        physicsRigidbody->OnGuiChanged();
+    }
+
+    void Rigidbody::SetMass(float mass)
+    {
+        m_mass = mass;
+        physicsRigidbody->OnGuiChanged();
+    }
+
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {
         using namespace Reflection;
 
@@ -56,9 +74,9 @@ namespace Physic {
         if (!computed) {
             result.name = "RigidBody";
             result.memberList = {
-                ClassMemberInfo("Gravity", offsetof(Rigidbody, gravity), MemberType::T_VEC3),
-                ClassMemberInfo("Velocity", offsetof(Rigidbody, velocity), MemberType::T_VEC3),
-                ClassMemberInfo("mass", offsetof(Rigidbody, mass), MemberType::T_FLOAT),
+                ClassMemberInfo("Gravity", offsetof(Rigidbody, m_gravity), MemberType::T_VEC3),
+                ClassMemberInfo("Velocity", offsetof(Rigidbody, m_velocity), MemberType::T_VEC3),
+                ClassMemberInfo("mass", offsetof(Rigidbody, m_mass), MemberType::T_FLOAT),
                 ClassMemberInfo("reset", offsetof(Rigidbody, reset), MemberType::T_BOOL),
             };
             computed = true;

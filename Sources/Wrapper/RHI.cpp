@@ -139,6 +139,11 @@ void Wrapper::RHI::ShaderMat(const unsigned int& programKey, const std::string& 
 	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, true, &mat.data_4_4[0][0]);
 }
 
+void Wrapper::RHI::ShaderMatList(const unsigned int& programKey, const std::string& uniformName, const std::vector<Maths::Mat4>& matList)
+{
+	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), matList.size(), true, &matList.at(0).data[0]);
+}
+
 void Wrapper::RHI::ShaderVec3(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec3& vec3)
 {
 	glUniform3fv(glGetUniformLocation(programKey, uniformName.c_str()), 1, &vec3.x);
@@ -256,7 +261,7 @@ void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, bitangents));
 	// vertex bone weight index
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_INT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, boneIDs));
+	glVertexAttribIPointer(5, 4, GL_INT, size, (void*)offsetof(Resource::SkinnedVertex, boneIDs));
 	// vertex bone weight
 	glEnableVertexAttribArray(6);
 	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, size, (void*)offsetof(Resource::SkinnedVertex, boneWeights));
@@ -400,7 +405,7 @@ unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	
 	Engine::Input& input = Engine::Input::GetInstance();
-	Maths::Vec2 MPos = input.GetMousePos() + TabPos - Maths::Vec2(8,27);//offset added
+	Maths::Vec2 MPos = input.GetMousePos() + TabPos - Maths::Vec2(20,32);//offset added
 	
 	Maths::Vec2 WindowS = Wrapper::Window::GetCurrentContext()->GetSize();
 

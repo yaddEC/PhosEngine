@@ -16,20 +16,17 @@
 #define PHYSICSWRAPPER_EXPORTS
 #include "Wrapper/PhysicsWrapper.hpp"
 
+
 MySimulationEventCallback::MySimulationEventCallback()
 {
-
+   
 }
 
 MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-
-
-PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
-    PxFilterObjectAttributes attributes1, PxFilterData filterData1,
-    PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSiz)
 {
     bool isTrigger0 = PxFilterObjectIsTrigger(attributes0);
     bool isTrigger1 = PxFilterObjectIsTrigger(attributes1);
@@ -46,15 +43,21 @@ PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterD
 
         }
     }
-    else
+    else if (layerInteractionMatrix[std::make_pair(filterData0.word0, filterData1.word0)])
     {
         pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+    }
+    else
+    {
+        return PxFilterFlag::eSUPPRESS;
     }
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
     return PxFilterFlag::eDEFAULT;
 }
+
+
 
 void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
 {
@@ -159,6 +162,12 @@ namespace Wrapper
         CreateScene();
     }
 
+    void Wrapper::Physics::SetLayerInteraction(PxU32 layerA, PxU32 layerB, bool shouldCollide)
+    {
+        layerInteractionMatrix[std::make_pair(layerA, layerB)] = shouldCollide;
+        layerInteractionMatrix[std::make_pair(layerB, layerA)] = shouldCollide;
+    }
+
     void Physics::Update(float deltaTime)
     {
         if (m_scene)
@@ -188,43 +197,40 @@ namespace Wrapper
         PxReal staticFriction, dynamicFriction, restitution;
 
         switch (type) {
-        case ROCK:
-            staticFriction = 0.8f;
-            dynamicFriction = 0.7f;
-            restitution = 0.1f;
-            break;
-        case BOUNCY_BALL:
+        case MaterialType::BOUNCY_BALL:
             staticFriction = 0.5f;
             dynamicFriction = 0.3f;
             restitution = 0.8f;
             break;
-        case ICE:
+        case MaterialType::ICE:
             staticFriction = 0.1f;
             dynamicFriction = 0.05f;
             restitution = 0.2f;
             break;
-        case RUBBER:
+        case MaterialType::RUBBER:
             staticFriction = 0.7f;
             dynamicFriction = 0.5f;
             restitution = 0.6f;
             break;
-        case WOOD:
+        case MaterialType::WOOD:
             staticFriction = 0.6f;
             dynamicFriction = 0.4f;
             restitution = 0.3f;
             break;
-        case METAL:
+        case MaterialType::METAL:
             staticFriction = 0.4f;
             dynamicFriction = 0.2f;
             restitution = 0.1f;
             break;
-        case GLASS:
+        case MaterialType::GLASS:
             staticFriction = 0.6f;
             dynamicFriction = 0.5f;
             restitution = 0.2f;
             break;
-        default:
-
+        default: //MaterialType::ROCK
+            staticFriction = 0.5f;
+            dynamicFriction = 0.3f;
+            restitution = 0.8f;
             break;
         }
      
@@ -293,21 +299,22 @@ namespace Wrapper
         PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
-            m_geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxCollider->size.x , worldModel.data_4_4[1][1] * boxCollider->size.y , worldModel.data_4_4[2][2] * boxCollider->size.z );
+            Maths::Vec3 boxSize = boxCollider->GetSize();
+            m_geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxSize.x , worldModel.data_4_4[1][1] * boxSize.y , worldModel.data_4_4[2][2] * boxSize.z );
             m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.box, *material);
         }
         else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
         {
-            m_geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->radius);
+            m_geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->GetRadius());
             m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.sphere, *material);
         }
         else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
         {
-            m_geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->radius, worldModel.data_4_4[1][1] * capsuleCollider->height  * 0.5f);
+            m_geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->GetRadius(), worldModel.data_4_4[1][1] * capsuleCollider->GetHeight()  * 0.5f);
             m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.capsule, *material);
         }
         
-        if (collider->isTrigger)
+        if (collider->GetTriggerState())
         {
             m_shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
             m_shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
@@ -344,20 +351,21 @@ namespace Wrapper
 
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
-            boxCollider->size = size;
+            Maths::Vec3 boxSize = boxCollider->GetSize();
+            boxSize = size;
         }
         else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
         {
-            sphereCollider->radius = size.x;
+            sphereCollider->SetRadius(size.x);
         }
         else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
         {
-            capsuleCollider->radius = size.x;
-            capsuleCollider->height = size.y;
+            capsuleCollider->SetRadius(size.x);
+            capsuleCollider->SetHeight(size.y);
 
         }
-        collider->center = center;
-        collider->isTrigger = trigger;
+        collider->SetCenter(center);
+        collider->SetTriggerState(trigger);
     }
  
 
@@ -373,13 +381,15 @@ namespace Wrapper
             Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
             PxShape* shapes[1];
             m_physxActor->getShapes(shapes, 1);
-            shapes[0]->setFlag(PxShapeFlag::eTRIGGER_SHAPE, collider->isTrigger);
-            PxVec3 position = PxVec3(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            shapes[0]->setFlag(PxShapeFlag::eTRIGGER_SHAPE, collider->GetTriggerState());
+            Maths::Vec3 collCenter = collider->GetCenter();
+            PxVec3 position = PxVec3(worldModel.data_4_4[0][3] + collCenter.x, worldModel.data_4_4[1][3] + collCenter.y, worldModel.data_4_4[2][3] + collCenter.z);
             m_physxActor->setGlobalPose(PxTransform(position));
 
             if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
             {
-                PxVec3 newDimensions(boxCollider->size.x * collider->gameobject->transform->scale.x, boxCollider->size.y * collider->gameobject->transform->scale.y, boxCollider->size.z * collider->gameobject->transform->scale.z);
+                Maths::Vec3 boxSize = boxCollider->GetSize();
+                PxVec3 newDimensions(boxSize.x * collider->gameobject->transform->scale.x, boxSize.y * collider->gameobject->transform->scale.y, boxSize.z * collider->gameobject->transform->scale.z);
                 PxBoxGeometry boxGeometry;
                 shapes[0]->getBoxGeometry(boxGeometry);
                 boxGeometry.halfExtents = newDimensions * 0.5f;
@@ -390,15 +400,15 @@ namespace Wrapper
 
                 PxSphereGeometry sphereGeometry;
                 shapes[0]->getSphereGeometry(sphereGeometry);
-                sphereGeometry.radius = sphereCollider->radius * collider->gameobject->transform->scale.x;
+                sphereGeometry.radius = sphereCollider->GetRadius() * collider->gameobject->transform->scale.x;
                 shapes[0]->setGeometry(sphereGeometry);
             }
             else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
             {
                 PxCapsuleGeometry capsuleGeometry;
                 shapes[0]->getCapsuleGeometry(capsuleGeometry);
-                capsuleGeometry.radius = capsuleCollider->radius * collider->gameobject->transform->scale.x;
-                capsuleGeometry.halfHeight = capsuleCollider->height * collider->gameobject->transform->scale.y;
+                capsuleGeometry.radius = capsuleCollider->GetRadius() * collider->gameobject->transform->scale.x;
+                capsuleGeometry.halfHeight = capsuleCollider->GetHeight() * collider->gameobject->transform->scale.y;
                 shapes[0]->setGeometry(capsuleGeometry);
             }
         }
@@ -413,7 +423,8 @@ namespace Wrapper
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(collider->gameobject->transform->rotationEuler);
             PxQuat pxRotation(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a);
             PxVec3 position;
-            position = PxVec3(worldModel.data_4_4[0][3] + collider->center.x, worldModel.data_4_4[1][3] + collider->center.y, worldModel.data_4_4[2][3] + collider->center.z);
+            Maths::Vec3 collCenter = collider->GetCenter();
+            position = PxVec3(worldModel.data_4_4[0][3] + collCenter.x, worldModel.data_4_4[1][3] + collCenter.y, worldModel.data_4_4[2][3] + collCenter.z);
             m_physxActor->setGlobalPose(PxTransform(position, pxRotation));
 
             PxShape* shape;
@@ -421,7 +432,8 @@ namespace Wrapper
 
             if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
             {
-                m_geometry.box.halfExtents = PxVec3(boxCollider->size.x * collider->gameobject->transform->scale.x, boxCollider->size.y * collider->gameobject->transform->scale.y, boxCollider->size.z * collider->gameobject->transform->scale.z);
+                Maths::Vec3 boxSize = boxCollider->GetSize();
+                m_geometry.box.halfExtents = PxVec3(boxSize.x * collider->gameobject->transform->scale.x, boxSize.y * collider->gameobject->transform->scale.y, boxSize.z * collider->gameobject->transform->scale.z);
                 shape->setGeometry(m_geometry.box);
             }
             else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
@@ -429,7 +441,7 @@ namespace Wrapper
                 std::array<float, 3> scaleValues = { collider->gameobject->transform->scale.x,collider->gameobject->transform->scale.y, collider->gameobject->transform->scale.z };
                 float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
 
-                m_geometry.sphere.radius = sphereCollider->radius * max_scale;
+                m_geometry.sphere.radius = sphereCollider->GetRadius() * max_scale;
                 shape->setGeometry(m_geometry.sphere);
 
 
@@ -438,8 +450,8 @@ namespace Wrapper
             {
                 std::array<float, 2> scaleValues = { collider->gameobject->transform->scale.x, collider->gameobject->transform->scale.y };
                 float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
-                m_geometry.capsule.radius = capsuleCollider->radius * max_scale;
-                m_geometry.capsule.halfHeight = capsuleCollider->height * worldModel.data_4_4[2][2];
+                m_geometry.capsule.radius = capsuleCollider->GetRadius() * max_scale;
+                m_geometry.capsule.halfHeight = capsuleCollider->GetHeight() * worldModel.data_4_4[2][2];
                 shape->setGeometry(m_geometry.capsule);
             }
         }
@@ -451,9 +463,10 @@ namespace Wrapper
         rigidbody->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
 
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
-       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+rigidbody->col->center.x, rigidbody->gameobject->transform->position.y + rigidbody->col->center.y, rigidbody->gameobject->transform->position.z + rigidbody->col->center.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
+        Maths::Vec3 collCenter = rigidbody->col->GetCenter();
+       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+collCenter.x, rigidbody->gameobject->transform->position.y + collCenter.y, rigidbody->gameobject->transform->position.z + collCenter.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
        m_physxActor->setGlobalPose(pose);
-       m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->mass);
+       m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
 
     }
 
@@ -475,14 +488,14 @@ namespace Wrapper
                 if (!m_transformChangedExternally)
                 {
                     PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
-
-                    PxVec3 force = PxVec3(rigidbody->velocity.x, rigidbody->velocity.y, rigidbody->velocity.z) * rigidbody->mass;
+                    Maths::Vec3 velocity = rigidbody->GetVelocity();
+                    PxVec3 force = PxVec3(velocity.x, velocity.y, velocity.z) * rigidbody->GetMass();
 
                     dynamicActor->addForce(force);
 
                     PxTransform updatedTransform = dynamicActor->getGlobalPose();
                     Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
-                    rigidbody->gameobject->transform->position = newPosition-rigidbody->col->center;
+                    rigidbody->gameobject->transform->position = newPosition-rigidbody->col->GetCenter();
                     PxQuat updatedRotation = updatedTransform.q;
                     
                     Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
@@ -505,7 +518,7 @@ namespace Wrapper
     {
         if (this)
         {
-            m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->mass);
+            m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
         }
     }
 
