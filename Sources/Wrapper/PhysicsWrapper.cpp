@@ -197,43 +197,40 @@ namespace Wrapper
         PxReal staticFriction, dynamicFriction, restitution;
 
         switch (type) {
-        case ROCK:
-            staticFriction = 0.8f;
-            dynamicFriction = 0.7f;
-            restitution = 0.1f;
-            break;
-        case BOUNCY_BALL:
+        case MaterialType::BOUNCY_BALL:
             staticFriction = 0.5f;
             dynamicFriction = 0.3f;
             restitution = 0.8f;
             break;
-        case ICE:
+        case MaterialType::ICE:
             staticFriction = 0.1f;
             dynamicFriction = 0.05f;
             restitution = 0.2f;
             break;
-        case RUBBER:
+        case MaterialType::RUBBER:
             staticFriction = 0.7f;
             dynamicFriction = 0.5f;
             restitution = 0.6f;
             break;
-        case WOOD:
+        case MaterialType::WOOD:
             staticFriction = 0.6f;
             dynamicFriction = 0.4f;
             restitution = 0.3f;
             break;
-        case METAL:
+        case MaterialType::METAL:
             staticFriction = 0.4f;
             dynamicFriction = 0.2f;
             restitution = 0.1f;
             break;
-        case GLASS:
+        case MaterialType::GLASS:
             staticFriction = 0.6f;
             dynamicFriction = 0.5f;
             restitution = 0.2f;
             break;
-        default:
-
+        default: //MaterialType::ROCK
+            staticFriction = 0.5f;
+            dynamicFriction = 0.3f;
+            restitution = 0.8f;
             break;
         }
      

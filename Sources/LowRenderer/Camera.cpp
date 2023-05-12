@@ -57,7 +57,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     Mat4 viewProj = view * proj;
    
 
-    m_framebuffer.Bind(viewportSize.x, viewportSize.y);
+    m_framebuffer.Bind((int)viewportSize.x, (int)viewportSize.y);
     m_framebuffer.Clear(m_backgroundColor);
 
     if (skybox && m_backgroundMode == BackGround::BG_Skybox) // Skybox
@@ -103,7 +103,7 @@ void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Ve
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
     Mat4 viewProj = view * proj;
 
-    m_framebuffer.Bind(viewportSize.x, viewportSize.y);
+    m_framebuffer.Bind((int)viewportSize.x, (int)viewportSize.y);
     m_framebuffer.Clear({0,0,0,255});
 
     glCullFace(GL_FRONT);
@@ -124,7 +124,7 @@ void Camera::IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLig
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
 
-    m_framebuffer.Bind(viewportSize.x, viewportSize.y);
+    m_framebuffer.Bind((int)viewportSize.x, (int)viewportSize.y);
     // m_framebuffer.Clear({ 0,0,0,255 });
 
     glCullFace(GL_FRONT);
@@ -204,7 +204,7 @@ void Camera::RenderIcon(const std::vector<DirectionalLight*>& m_directionalLight
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
 
-    m_framebuffer.Bind(viewportSize.x, viewportSize.y);
+    m_framebuffer.Bind((int)viewportSize.x, (int)viewportSize.y);
     // m_framebuffer.Clear({ 0,0,0,255 });
 
     glCullFace(GL_FRONT);
@@ -298,7 +298,7 @@ void Camera::OnGUI()
 void LowRenderer::Camera::ApplyPostProcessing(Maths::Vec2 viewPort)
 {
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-    m_postProFramebuffer.Bind(viewPort.x, viewPort.y);
+    m_postProFramebuffer.Bind((int)viewPort.x, (int)viewPort.y);
     m_postProFramebuffer.Clear(m_backgroundColor);
     m_postPro->Use(); 
     m_postPro->SetTexture("screenTexture", 0, m_renderTexture);

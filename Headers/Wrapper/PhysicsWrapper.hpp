@@ -39,7 +39,7 @@ namespace Wrapper
 {
     int countRigidActors(PxScene* scene);
 
-    enum MaterialType
+    enum class MaterialType
     {
         ROCK,
         BOUNCY_BALL,
@@ -98,7 +98,7 @@ namespace Wrapper
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void OnGuiChanged();
 
-        Collider* collider;
+        Collider* collider = nullptr;
 
     private:
 
@@ -108,12 +108,12 @@ namespace Wrapper
             PxBoxGeometry box;
             PxSphereGeometry sphere;
             PxCapsuleGeometry capsule;
-            Geometry() {}
+            Geometry() : box() {}
         } m_geometry;
 
         PxShape* m_shape = nullptr;
         PxRigidActor* m_physxActor = nullptr;
-        MaterialType m_physxMaterial;
+        MaterialType m_physxMaterial = MaterialType::ROCK;
 
         
     };
@@ -121,8 +121,8 @@ namespace Wrapper
     class PHOSENGINE_API RayCastHit
     {
     public:
-        Engine::GameObject* objectHit;
-        float distance;
+        Engine::GameObject* objectHit = nullptr;
+        float distance = 0;
         Maths::Vec3 normHit;
         Maths::Vec3 impactPos;
     };
@@ -137,7 +137,7 @@ namespace Wrapper
         void Update();
         void OnGuiChanged();
 
-        Rigidbody* rigidbody;
+        Rigidbody* rigidbody = nullptr;
 
         inline PxRigidActor* GetRigidActor() { return m_physxActor; }
         inline void SetRigidActor(PxRigidActor* actor) { m_physxActor = actor; }
@@ -145,7 +145,7 @@ namespace Wrapper
     private:
         void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
-        bool m_transformChangedExternally ;
+        bool m_transformChangedExternally = false;
     };
 
      bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
