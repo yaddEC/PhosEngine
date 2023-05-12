@@ -52,7 +52,7 @@ void SceneGUI::UpdateCamera(Input& input)
 		if (m_speedModifier > 2)
 			m_speedModifier = 2;
 		if (m_speedModifier < 0.001)
-			m_speedModifier = 0.001;
+			m_speedModifier = 0.001f;
 	}
 	speed *= m_speedModifier;
 
@@ -83,14 +83,12 @@ Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 
 }
 
-void SceneGUI::MenuBarScene()
-{
 
-}
+
 
 void SceneGUI::DoUpdate()
 {
-	MenuBarScene();
+
 
 	m_frameCount++;
 	m_elapsedTime += Input::deltaTime;
@@ -125,34 +123,18 @@ void SceneGUI::DoUpdate()
 	}
 
 
-	if (GUI::Button("Debug Camera"))
-	{
-		m_drawCameraData = !m_drawCameraData;
-	}
+
 
 	GUI::SameLine();
 
-	if (m_currentScene->GetIsGameMode())
-	{
-		if (GUI::Button("Stop"))
-		{
-			m_currentScene->StopGameMode();
-		}
-	}
-	else
-	{
-		if (GUI::Button("Play"))
-		{
-			m_currentScene->StartGameMode();
-		}
-	}
+
 
 	if (m_drawCameraData)
 	{
 		m_sceneCamera.OnGUI();
 	}
 
-	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x - 10, p_size.y - 60));
+	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
 
 	//GUI::DisplayText("%.2f FPS", m_fps);
 }

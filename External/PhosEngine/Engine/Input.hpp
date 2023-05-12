@@ -52,10 +52,10 @@ namespace Engine
 		Maths::Vec2 mouseDelta;
 		int scrollDelta;
 
-		int keyMap[348];
+		int keyMap[348] = {0};
 		int mouseMap;
 		float timeStep ;
-		bool anyKeyDown;
+		bool anyKeyDown = false;
 
 		void DisplayGUI();
 

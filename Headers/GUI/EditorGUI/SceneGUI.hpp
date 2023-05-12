@@ -13,13 +13,16 @@ namespace EditorGUI
 		SceneGUI();
 
 		void SetCurrentScene(Engine::Scene* newScene) { m_currentScene = newScene; }
+		Engine::Scene* GetCurrentScene() { return m_currentScene; };
 		Engine::GameObject* GetSelected();
+		bool GetDebugCamera() { return m_drawCameraData; };
+		void SetDebugCamera(bool setter) { m_drawCameraData = setter; }
 
 		void DoUpdate() override;
 
 		bool selectedClicked;
+	
 	private:
-		void MenuBarScene();
 		void UpdateCamera(Engine::Input& input);
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;

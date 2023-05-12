@@ -2,6 +2,7 @@
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Engine/GameObject.hpp"
+#include "Wrapper/GUI.hpp"
 
 #include <fstream>
 
@@ -10,6 +11,8 @@ using namespace std;
 using namespace Wrapper;
 using namespace EditorGUI;
 using namespace Engine;
+
+static bool resource = false;
 
 AssetExplorer::AssetExplorer(const std::string& rootDirectory)
 	: IGUI("Assets", true), m_assetsRootDirectory(rootDirectory), m_currentDirectory(rootDirectory)
@@ -55,7 +58,7 @@ void AssetExplorer::DoUpdate()
 
 	GUI::DisplayText(m_currentDirectory.c_str()); GUI::SameLine();
 
-	GUI::SetCursorPos(Maths::Vec2(GUI::GetWindowSize().x - 95, GUI::GetCursorPos().y - 5));
+	GUI::SetCursorPos(Maths::Vec2(GUI::GetWindowSize().x - 110, GUI::GetCursorPos().y - 5));
 
 	NewResource();
 
@@ -100,7 +103,7 @@ void AssetExplorer::DoUpdate()
 		GUI::SetCursorPos(cursorPos);
 	}
 	int selected = -1;
-	const char* names[] = { "New Folder", "New File", "Paste" };
+	const char* names[] = { "New Folder", "New File", "New Resource" };
 	bool toggles[] = { true, false, false };
 
 
@@ -116,6 +119,7 @@ void AssetExplorer::DoUpdate()
 	}
 	if (GUI::BeginPopup("my_select_popup"))
 	{
+	
 		for (int i = 0; i < IM_ARRAYSIZE(names); i++)
 		{
 			if (GUI::Selectable(names[i], false))
@@ -130,7 +134,7 @@ void AssetExplorer::DoUpdate()
 					CreateNewFile(m_currentDirectory);
 					break;
 				case 2:
-					//WIP
+					resource = true;
 					break;
 
 				default:
@@ -141,8 +145,21 @@ void AssetExplorer::DoUpdate()
 		}
 		GUI::EndPopup();
 	}
+	if (resource)
+	{
+		GUI::OpenPopup("New_Resource_Popup");
+		resource = false;
+	}
 	GUI::SameLine();
+	
 
+	if (Engine::GameObject** go = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
+	{
+		std::fstream progFile;
+		progFile.open((m_currentDirectory + "\\" + (*go)->name + ".phprefab").c_str(), std::fstream::out | std::fstream::trunc);
+		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
+		pr->SaveGameObjectAsPrefab(*go, progFile);
+	}
 }
 
 
@@ -295,7 +312,7 @@ void AssetExplorer::DisplayFile(const string& file)
 
 
 
-
+	
 
 
 }
@@ -416,8 +433,7 @@ void EditorGUI::AssetExplorer::DisplayFolder(const std::string& folder)
 
 void EditorGUI::AssetExplorer::NewResource()
 {
-
-	if (GUI::BeginPopupContextItem("New Resource Popup"))
+	if (GUI::BeginPopup("New_Resource_Popup"))
 	{
 		if (GUI::Selectable("Cube Map", false))
 		{
@@ -434,18 +450,8 @@ void EditorGUI::AssetExplorer::NewResource()
 		GUI::EndPopup();
 	}
 
-	if (GUI::Button("New Resource"))
-	{
-		GUI::OpenPopup("New Resource Popup");
-	}
 
-	if (Engine::GameObject** go = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
-	{
-		std::fstream progFile;
-		progFile.open((m_currentDirectory + "\\" + (*go)->name + ".phprefab").c_str(), std::fstream::out | std::fstream::trunc);
-		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
-		pr->SaveGameObjectAsPrefab(*go, progFile);
-	}
+	
 }
 
 void EditorGUI::AssetExplorer::CreateNewFolder(const std::string& path)

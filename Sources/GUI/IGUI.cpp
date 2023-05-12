@@ -8,12 +8,10 @@ void APPGUI::IGUI::Update()
 	if (isOpen)
 	{
 		
-		Wrapper::GUI::BeginWindow(p_name, false);
-		if (p_canBeClosed)
-		{
-			if (GUI::TitleButton())
-				isOpen = false;
-		}
+		Wrapper::GUI::BeginWindow(p_name, false, p_isDialogBox,p_canBeClosed, &isOpen);
+
+
+
 
 		SetSize();
 		SetIsOnFocus();

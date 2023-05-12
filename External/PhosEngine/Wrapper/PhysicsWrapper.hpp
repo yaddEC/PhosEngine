@@ -1,6 +1,7 @@
 #pragma once
 #include <Physx/PxPhysicsAPI.h>
 #include <Maths/Maths.hpp>
+#include <map>
 
 #include "dllInclude.hpp"
 
@@ -36,7 +37,7 @@ namespace Wrapper
 {
     int countRigidActors(PxScene* scene);
 
-    enum MaterialType
+    enum class MaterialType
     {
         ROCK,
         BOUNCY_BALL,
@@ -66,7 +67,7 @@ namespace Wrapper
 
         inline PxPhysics* GetPhysics() const { return m_physics; }
         inline PxScene* GetScene() const { return m_scene; }
-
+        std::map<std::pair<PxU32, PxU32>, bool> layerInteractionMatrix;
     private:
         static PxDefaultErrorCallback m_defaultErrorCallback;
         static PxDefaultAllocator m_defaultAllocatorCallback;
@@ -80,6 +81,10 @@ namespace Wrapper
         void CreatePhysics();
         void CreateScene();
         void SetupVisualDebugger();
+       
+        static PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
+            PxFilterObjectAttributes attributes1, PxFilterData filterData1,
+            PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize);
     };
 
     class PHOSENGINE_API PhysicsCollider
@@ -93,7 +98,7 @@ namespace Wrapper
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void OnGuiChanged();
 
-        Collider* collider;
+        Collider* collider = nullptr;
 
     private:
 
@@ -103,12 +108,12 @@ namespace Wrapper
             PxBoxGeometry box;
             PxSphereGeometry sphere;
             PxCapsuleGeometry capsule;
-            Geometry() {}
+            Geometry() : box() {}
         } m_geometry;
 
         PxShape* m_shape = nullptr;
         PxRigidActor* m_physxActor = nullptr;
-        MaterialType m_physxMaterial;
+        MaterialType m_physxMaterial = MaterialType::ROCK;
 
         
     };
@@ -116,8 +121,8 @@ namespace Wrapper
     class PHOSENGINE_API RayCastHit
     {
     public:
-        Engine::GameObject* objectHit;
-        float distance;
+        Engine::GameObject* objectHit = nullptr;
+        float distance = 0;
         Maths::Vec3 normHit;
         Maths::Vec3 impactPos;
     };
@@ -132,7 +137,7 @@ namespace Wrapper
         void Update();
         void OnGuiChanged();
 
-        Rigidbody* rigidbody;
+        Rigidbody* rigidbody = nullptr;
 
         inline PxRigidActor* GetRigidActor() { return m_physxActor; }
         inline void SetRigidActor(PxRigidActor* actor) { m_physxActor = actor; }
@@ -140,7 +145,7 @@ namespace Wrapper
     private:
         void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
-        bool m_transformChangedExternally ;
+        bool m_transformChangedExternally = false;
     };
 
      bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);

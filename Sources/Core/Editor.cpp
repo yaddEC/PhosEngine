@@ -7,20 +7,72 @@
 #include "GUI/EditorGUI/AssetExplorer.hpp"
 #include "GUI/EditorGUI/HierarchyGUI.hpp"
 #include "GUI/EditorGUI/InspectorGUI.hpp"
-#include "GUI/EditorGUI/MenuBar.hpp"
 #include "GUI/EditorGUI/RendererGUI.hpp"
 #include "GUI/EditorGUI/PhysicsSettingsGUI.hpp"
+#include "GUI/EditorGUI/PlayStateGUI.hpp"
 
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Mesh.hpp"
 #include "Engine/Input.hpp"
 #include "Resource/ShaderProgram.hpp"
-
 #include "Wrapper/RHI.hpp"
+
 
 using namespace Core;
 using namespace Wrapper;
+#pragma region callback
+void Editor::Top()
+{
+    if (Wrapper::GUI::BeginMenu("File"))
+    {
+        if (Wrapper::GUI::MenuItem("New Project...", NULL)) {}
+        if (Wrapper::GUI::MenuItem("Open Project...", NULL)) {}
+        if (Wrapper::GUI::MenuItem("Save Project", NULL))
+        {
+            Resource::ResourceManager::GetInstance().Save();
+        }
+        Wrapper::GUI::Separator();
+        if (Wrapper::GUI::MenuItem("Exit", "Alt+F4")) {}
+        Wrapper::GUI::EndMenu();
+    }
+    if (Wrapper::GUI::BeginMenu("Window"))
+    {
+        if (Wrapper::GUI::MenuItem("Assets Explorer", NULL, m_AssetExplorer->isOpen)) { m_AssetExplorer->isOpen = !m_AssetExplorer->isOpen; }
+        if (Wrapper::GUI::MenuItem("Hierarchy", NULL, m_Hierarchy->isOpen)) { m_Hierarchy->isOpen = !m_Hierarchy->isOpen; }
+        if (Wrapper::GUI::MenuItem("Inspector", NULL, m_Inspector->isOpen)) { m_Inspector->isOpen = !m_Inspector->isOpen; }
+        if (Wrapper::GUI::MenuItem("Renderer", NULL, m_RendererGUI->isOpen)) { m_RendererGUI->isOpen = !m_RendererGUI->isOpen; }
+        if (Wrapper::GUI::MenuItem("Scene", NULL, m_sceneGUI->isOpen)) { m_sceneGUI->isOpen = !m_sceneGUI->isOpen; }
+        if (Wrapper::GUI::MenuItem("Debug Camera", NULL, m_sceneGUI->GetDebugCamera())) { m_sceneGUI->SetDebugCamera(!m_sceneGUI->GetDebugCamera()) ; }
+        Wrapper::GUI::EndMenu();
+    }
+    if (Wrapper::GUI::BeginMenu("Help"))
+    {
+        if (Wrapper::GUI::MenuItem("About Phos", NULL)) {}
+        Wrapper::GUI::Separator();
+        if (Wrapper::GUI::MenuItem("Phos Manual", NULL)) {}
+        if (Wrapper::GUI::MenuItem("Scripting Reference", NULL)) {}
+        Wrapper::GUI::EndMenu();
+    }
+    if (Wrapper::GUI::BeginMenu("Settings"))
+    {
+        if (Wrapper::GUI::MenuItem("Physics Settings", NULL))
+        {
+            m_PhysicsSettingsGUI->isOpen = true;
+        }
+        if (Wrapper::GUI::MenuItem("Visual Settings", NULL)) {}
+        Wrapper::GUI::Separator();
+        if (Wrapper::GUI::MenuItem("General Settings", NULL)) {}
+        Wrapper::GUI::EndMenu();
+    }
+    Wrapper::GUI::BeginGroupCentered((40.f, 20.f));
+    
+   
+    Wrapper::GUI::EndGroup();
+}
+
+
+#pragma endregion
 
 Editor::Editor(Wrapper::Window& window )
     : m_window(window)
@@ -36,7 +88,7 @@ bool Editor::Init()
     typedef std::chrono::duration<float> fsec;
     auto t0 = Time::now();*/
     
-
+    static bool popUp = false;
     CreateGuiIni();
 
     // INIT SCENE TEST
@@ -71,6 +123,7 @@ bool Editor::Init()
 
 void Editor::Run()
 {
+ 
     /* Loop until the user closes the window */
     while (!m_window.ShouldClose())
     {
@@ -98,9 +151,9 @@ void Editor::Destroy()
     delete m_mainScene;
     delete m_AssetExplorer;
     delete m_Hierarchy;
-    delete m_MenuBar;
     delete m_RendererGUI;
     delete m_PhysicsSettingsGUI;
+    delete m_PlayStateGUI;
 
 }
 
@@ -110,9 +163,9 @@ bool Core::Editor::InitEditorGUI()
     m_Hierarchy = new EditorGUI::HierarchyGUI();
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     m_Inspector = new EditorGUI::InspectorGUI();
-    m_MenuBar = new EditorGUI::MenuBar();
     m_RendererGUI = new EditorGUI::RendererGUI();
     m_PhysicsSettingsGUI = new EditorGUI::PhysicsSettingsGUI();
+    m_PlayStateGUI = new EditorGUI::PlayStateGUI();
     return true;
 }
 
@@ -150,7 +203,10 @@ void Core::Editor::UpdateEditorGUI()
 
     GUI::DockingSpace();
 
+    m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
+    m_PlayStateGUI->Update();
     m_sceneGUI->Update();
+
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
 
@@ -179,7 +235,8 @@ void Core::Editor::UpdateEditorGUI()
     
     m_RendererGUI->Update();
     m_Inspector->Update();
-    m_MenuBar->Update();
+    Wrapper::GUI::MenuBar([this]() { this->Top(); });
     m_PhysicsSettingsGUI->Update();
+
 }
 

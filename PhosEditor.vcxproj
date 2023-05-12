@@ -183,10 +183,10 @@
     <ClCompile Include="Sources\GUI\EditorGUI\AssetExplorer.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\HierarchyGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\PhysicsSettingsGUI.cpp" />
+    <ClCompile Include="Sources\GUI\EditorGUI\PlayStateGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\RendererGUI.cpp" />
     <ClCompile Include="Sources\GUI\IGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\InspectorGUI.cpp" />
-    <ClCompile Include="Sources\GUI\EditorGUI\MenuBar.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\GUI\ProjectManagerGUI\ProjectManagerGUI.cpp" />
@@ -233,12 +233,12 @@
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\Core\ProjectManager.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
+	<ClInclude Include="Headers\GUI\EditorGUI\PlayStateGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\HierarchyGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\PhysicsSettingsGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\RendererGUI.hpp" />
     <ClInclude Include="Headers\GUI\IGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\InspectorGUI.hpp" />
-    <ClInclude Include="Headers\GUI\EditorGUI\MenuBar.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\SceneGUI.hpp" />
     <ClInclude Include="Headers\GUI\ProjectManagerGUI\ProjectManagerGUI.hpp" />
   </ItemGroup>

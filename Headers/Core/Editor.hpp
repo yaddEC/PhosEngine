@@ -16,9 +16,9 @@ namespace EditorGUI
 	class AssetExplorer;
 	class HierarchyGUI;
 	class InspectorGUI;
-	class MenuBar;
 	class RendererGUI;
 	class PhysicsSettingsGUI;
+	class PlayStateGUI;
 }
 
 
@@ -34,10 +34,12 @@ namespace Core
 		bool Init();
 		void Run();
 		void Destroy();
+		
 
 	private:
 		bool InitEditorGUI();
 		void UpdateEditorGUI();
+		void Top();
 
 		//Only if not existing
 		void CreateGuiIni();
@@ -49,9 +51,9 @@ namespace Core
 		EditorGUI::AssetExplorer* m_AssetExplorer;
 		EditorGUI::HierarchyGUI* m_Hierarchy;
 		EditorGUI::InspectorGUI* m_Inspector;
-		EditorGUI::MenuBar* m_MenuBar;
 		EditorGUI::RendererGUI* m_RendererGUI;
 		EditorGUI::PhysicsSettingsGUI* m_PhysicsSettingsGUI;
+		EditorGUI::PlayStateGUI* m_PlayStateGUI;
 
 		Engine::Scene* m_mainScene; // TEMP
 

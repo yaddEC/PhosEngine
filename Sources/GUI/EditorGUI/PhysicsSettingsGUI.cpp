@@ -12,7 +12,7 @@ using namespace Engine;
 
 
 EditorGUI::PhysicsSettingsGUI::PhysicsSettingsGUI()
-	:IGUI("Physics settings", true,true)
+	:IGUI("Physics settings", false,false,true)
 {
 }
 
