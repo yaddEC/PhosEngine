@@ -16,16 +16,17 @@
 #define PHYSICSWRAPPER_EXPORTS
 #include "Wrapper/PhysicsWrapper.hpp"
 
+
 MySimulationEventCallback::MySimulationEventCallback()
 {
-
+   
 }
 
 MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-PxFilterFlags Wrapper::Physics::CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSiz)
 {
     bool isTrigger0 = PxFilterObjectIsTrigger(attributes0);
     bool isTrigger1 = PxFilterObjectIsTrigger(attributes1);
@@ -42,9 +43,13 @@ PxFilterFlags Wrapper::Physics::CustomFilterShader(PxFilterObjectAttributes attr
 
         }
     }
-    else
+    else if (layerInteractionMatrix[std::make_pair(filterData0.word0, filterData1.word0)])
     {
         pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+    }
+    else
+    {
+        return PxFilterFlag::eSUPPRESS;
     }
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
@@ -157,6 +162,12 @@ namespace Wrapper
         CreateScene();
     }
 
+    void Wrapper::Physics::SetLayerInteraction(PxU32 layerA, PxU32 layerB, bool shouldCollide)
+    {
+        layerInteractionMatrix[std::make_pair(layerA, layerB)] = shouldCollide;
+        layerInteractionMatrix[std::make_pair(layerB, layerA)] = shouldCollide;
+    }
+
     void Physics::Update(float deltaTime)
     {
         if (m_scene)
@@ -249,7 +260,7 @@ namespace Wrapper
         MySimulationEventCallback* mySimulationEventCallback = new MySimulationEventCallback();
         PxSceneDesc sceneDesc(m_physics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-        sceneDesc.filterShader = Physics::CustomFilterShader;
+        sceneDesc.filterShader = CustomFilterShader;
         sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
         sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
         sceneDesc.simulationEventCallback = mySimulationEventCallback;
