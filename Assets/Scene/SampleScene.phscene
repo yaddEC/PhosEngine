@@ -1,6 +1,6 @@
 name "Girl"
 id 1
-transform 10 0 0 0 3.14159 0 0.1 0.1 0.1
+transform 10 0 0 0 3.14159 0 0 0 0
 component "Mesh Renderer"
 	Mesh Assets\Model\Walking.fbx
 	Material Assets\Material\NewMaterial.phmat
