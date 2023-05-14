@@ -45,7 +45,7 @@ namespace Resource
 			const std::map<std::string, Maths::Mat4> matrices);
 
 	private:
-		unsigned int m_programKey;
+		unsigned int m_programKey = 0;
 
 		std::vector<ShaderInfo> m_shaderList;
 	};

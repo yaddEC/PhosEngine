@@ -13,8 +13,12 @@ namespace APPGUI
 	class IGUI
 	{
 	public:
-		IGUI(const std::string& windowName, bool startOpen = true, bool isDialogBox = false, bool canBeClosed = false)
-			: p_name(windowName), isOpen(startOpen), p_isDialogBox(isDialogBox), p_canBeClosed(canBeClosed)
+		IGUI(const std::string& windowName, bool startOpen = true, bool isDialogBox = false, bool canBeClosed = false) :
+			isOpen(startOpen),
+			p_name(windowName),
+			p_isOnFocus(false),
+			p_canBeClosed(canBeClosed),
+			p_isDialogBox(isDialogBox)
 		{
 		}
 

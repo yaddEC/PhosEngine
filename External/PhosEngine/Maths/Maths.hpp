@@ -343,7 +343,7 @@ namespace Maths
 		static Mat4 CreateYRotationMatrix(float y);
 		static Mat4 CreateZRotationMatrix(float z);
 		static Mat4 CreateViewMatrix(const Vec3& position, float pitch, float yaw);
-
+		static Mat4 LookAt(const Vec3& pos, const Vec3& point, const Vec3& up);
 
 
 		static Mat4 CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale);
