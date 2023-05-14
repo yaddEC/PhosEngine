@@ -2,7 +2,7 @@
 #include <Physx/PxPhysicsAPI.h>
 #include <Maths/Maths.hpp>
 #include <map>
-
+#include <vector>
 #include "dllInclude.hpp"
 
 namespace Physic
@@ -19,7 +19,7 @@ namespace Engine
 using namespace physx;
 using namespace Physic;
 
-static std::map<std::pair<PxU32, PxU32>, bool> layerInteractionMatrix;
+
 
 class MySimulationEventCallback : public PxSimulationEventCallback
 {
@@ -37,6 +37,8 @@ public:
 
 namespace Wrapper
 {
+
+
     int countRigidActors(PxScene* scene);
 
     enum class MaterialType
@@ -69,8 +71,25 @@ namespace Wrapper
 
         inline PxPhysics* GetPhysics() const { return m_physics; }
         inline PxScene* GetScene() const { return m_scene; }
-        void SetLayerInteraction(PxU32 layerA, PxU32 layerB, bool shouldCollide);
+
+
+        static void CreateLayer(const std::string& layerName);
+        static bool GetLayerCollision(std::string layerA, std::string layerB);
+        static void SetLayerCollision(std::string layerA, std::string layerB, bool shouldCollide);
+        static void saveLayerInfo();
+        static void LoadLayerInfo();
+
+        static std::vector<std::string>* GetLayerNames();
+        static std::map<std::pair<PxU32, PxU32>, bool>* GetLayerInteractions();
+        static std::map<std::string, PxU32>* GetNameToIndex();
+
+        std::map<std::pair<PxU32, PxU32>, bool> layerInteractionMatrix;
+        std::vector<std::string> layerNames;
+        std::map<std::string, PxU32> layerNameToIndexMap;
     private:
+
+
+
         static PxDefaultErrorCallback m_defaultErrorCallback;
         static PxDefaultAllocator m_defaultAllocatorCallback;
 
@@ -83,8 +102,8 @@ namespace Wrapper
         void CreatePhysics();
         void CreateScene();
         void SetupVisualDebugger();
-       
-     
+
+
     };
 
     class PHOSENGINE_API PhysicsCollider
@@ -115,7 +134,7 @@ namespace Wrapper
         PxRigidActor* m_physxActor = nullptr;
         MaterialType m_physxMaterial = MaterialType::ROCK;
 
-        
+
     };
 
     class PHOSENGINE_API RayCastHit
@@ -148,5 +167,5 @@ namespace Wrapper
         bool m_transformChangedExternally = false;
     };
 
-     bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
+    bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
 }
