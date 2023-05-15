@@ -14,11 +14,11 @@ namespace LowRenderer
 	class PHOSENGINE_API FrameBuffer
 	{
 	public:
-		FrameBuffer(int _width = 0, int _height = 0);
+		FrameBuffer(int _width = 0, int _height = 0, bool _useRenderBuffer = true);
 		~FrameBuffer() { Unload(); }
 
 		// Don't resize if at least one parameter is 0 or equal to current width or height
-		void Bind(int _width = 0, int _height = 0);
+		void Bind(bool useRenderBuffer = true, int _width = 0, int _height = 0);
 
 		// Only call AFTER Bind()
 		void Clear(Maths::Vec4 clearColor = Maths::Vec4());

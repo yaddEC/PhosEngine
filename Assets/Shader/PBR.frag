@@ -4,11 +4,15 @@ out vec4 FragColor;
 in vec2 texCoord;
 in vec3 FragPos;
 in mat3 TBN;
+in vec4 FragPosPoint[6];
+in vec4 FragPosSpot[6];
+in vec4 FragPosDir[3];
 
 uniform vec3 viewPos;
 uniform int lenghtDirLight;
 uniform int lenghtPointLight;
 uniform int lenghtSpotLight;
+
 
 struct ColorMap 
 {
@@ -36,6 +40,7 @@ struct DirLight {
 
     vec3 color;
     float intensity;
+    sampler2D shadowMap;
 };  
 #define MAX_DIR_LIGHTS 3
 uniform DirLight dirLights[MAX_DIR_LIGHTS];
@@ -68,6 +73,8 @@ struct SpotLight {
     float constant;
     float linear;
     float quadratic;
+
+    sampler2D shadowMap;
 }; 
 #define MAX_SPOT_LIGHTS 6
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];

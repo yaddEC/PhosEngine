@@ -3,7 +3,7 @@
 #include <string>
 #include <filesystem>
 #include <unordered_map>
-
+#include "Wrapper/PhysicsWrapper.hpp"
 
 #include "Engine/Input.hpp"
 
@@ -31,8 +31,9 @@ namespace EditorGUI
 
 	private:
 
+		std::string newLayerName;
 		void DoUpdate() override;
-
+		
 	};
 }
 

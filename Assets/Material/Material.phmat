@@ -1,4 +1,4 @@
-t_alb Assets\Texture\PhotoAAAAAAAAAAAAAAAAAAA.png
+t_alb Assets\Texture\container2.png
 shader Assets\Shader\PBRShader.prog
 v_meta 0
 v_rough 0

@@ -1,8 +1,10 @@
 #pragma once
 #include "GUI/IGUI.hpp"
-#include "Engine/Scene.hpp"
-#include "Engine/Input.hpp"
 
+namespace Engine 
+{
+	class Scene;
+}
 
 
 namespace EditorGUI

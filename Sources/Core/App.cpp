@@ -23,6 +23,7 @@ bool Core::App::InitApp()
 
 	//m_PManager = new Core::ProjectManager(m_window);
 	m_editor = new Core::Editor(m_window);
+	return true;
 }
 
 void Core::App::DestroyApp()
