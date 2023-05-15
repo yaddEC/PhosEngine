@@ -21,7 +21,7 @@ float Input::deltaTime = 0.0f;
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	Input::GetInstance().ScrollBackDoor(yoffset);
+	Input::GetInstance().ScrollBackDoor(static_cast<int>(yoffset));
 }
 
 void Input::Init(GLFWwindow* _window)
@@ -69,7 +69,7 @@ void Input::Update() {
 
 		auto currentFrameTime = Wrapper::Window::GetTime();
 		static auto lastFrameTime = Wrapper::Window::GetTime();
-		float temp = currentFrameTime - lastFrameTime;
+		float temp = static_cast<float>(currentFrameTime - lastFrameTime);
 		if (temp> timeStep)//
 		{
 			deltaTime = timeStep;
@@ -85,15 +85,15 @@ void Input::Update() {
 
 	double mousePosX, mousePosY;
 	glfwGetCursorPos(window, &mousePosX, &mousePosY);
-	mouseDelta.x = mousePosX - mousePosition.x;
-	mouseDelta.y = mousePosY - mousePosition.y;
+	mouseDelta.x = static_cast<float>(mousePosX - mousePosition.x);
+	mouseDelta.y = static_cast<float>(mousePosY - mousePosition.y);
 
-	mousePosition.x = mousePosX;
-	mousePosition.y = mousePosY;
+	mousePosition.x = static_cast<float>(mousePosX);
+	mousePosition.y = static_cast<float>(mousePosY);
 
 	//DisplayGUI();
 	anyKeyDown = false;
-	for (size_t i = 0; i < 348; i++) {
+	for (int i = 0; i < 348; i++) {
 		if (glfwGetKey(window, i) == GLFW_PRESS) {
 			if (keyMap[i] == 0) { keyMap[i] = 2; anyKeyDown = true; }
 			else keyMap[i] = 1;

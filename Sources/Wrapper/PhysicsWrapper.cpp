@@ -32,7 +32,7 @@ void  Wrapper::Physics::CreateLayer(const std::string& layerName)
 {
     std::vector<std::string>* layerNames =Wrapper::Physics::GetLayerNames();
     std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
-    PxU32 newLayerIndex = layerNames->size();
+    PxU32 newLayerIndex = static_cast<unsigned int>(layerNames->size());
     layerNames->push_back(layerName);
     (*layerNameToIndexMap)[layerName] = newLayerIndex;
 

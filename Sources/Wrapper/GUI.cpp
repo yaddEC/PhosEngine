@@ -5,6 +5,7 @@
 #include "pch.h"
 //----------------
 
+#include <cstdint> 
 
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -250,7 +251,7 @@ void Wrapper::GUI::SetKeyboardFocusHere()
 
 void Wrapper::GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
 {
-	ImGui::Image((ImTextureID)texture.GetTextureKey(), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(texture.GetTextureKey())), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
 }
 
 void Wrapper::GUI::TextUnformatted(const std::string& text, const std::string& text_end)
@@ -581,8 +582,8 @@ bool Wrapper::GUI::Combo(const std::string& label, const std::vector<std::string
 			}
 		}
 		ImGui::EndCombo();
-		return false;
 	}
+	return false;
 }
 
 bool Wrapper::GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)
