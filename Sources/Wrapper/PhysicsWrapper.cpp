@@ -98,10 +98,18 @@ void Wrapper::Physics::LoadLayerInfo()
     if (!in) {
         std::cerr << "Failed to open CollisionSettings.phs for reading.\n";
         std::ofstream out("CollisionSettings.phs");
+        layerNames->push_back("Default");
+        (*layerNameToIndexMap)["Default"] = 0;
+        (*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
         return;
     }
-    if(in.peek() == std::ifstream::traits_type::eof())
+    if (in.peek() == std::ifstream::traits_type::eof())
+    {
+        layerNames->push_back("Default");
+        (*layerNameToIndexMap)["Default"] = 0;
+        (*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
         return;
+    }
 
     layerNames->clear();
     layerNameToIndexMap->clear();
