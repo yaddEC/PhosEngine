@@ -12,8 +12,8 @@
 
 namespace Resource
 {
-	class Texture; 
-	class Mesh; 
+	class Texture;
+	class Mesh;
 	class Material;
 	class PostProcessingShader;
 }
@@ -89,14 +89,14 @@ namespace Wrapper
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 
-		static void DisplayText(const char* format,...);
+		static void DisplayText(const char* format, ...);
 		static void DisplayFloat(const std::string& label, float value);
 		static void DisplayVec2(const std::string& label, const Maths::Vec2& value);
 		static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
-		static bool InputString(const std::string& label, std::string& value);
+		static bool InputString(const std::string& label, std::string& value, bool enterTrue = true);
 		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
-		static bool CheckBox(const std::string& label, bool* isChecked);
+		static bool CheckBox(const std::string& label, bool* isChecked, bool hiddenName = false);
 		static bool Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool Combo(const std::string& label, const std::vector<std::string>& list, std::string& selected, bool text = false, const std::string& first = "");
 

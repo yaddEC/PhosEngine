@@ -25,29 +25,56 @@ EditorGUI::PhysicsSettingsGUI::~PhysicsSettingsGUI()
 
 void EditorGUI::PhysicsSettingsGUI::DoUpdate()
 {
-    std::vector<std::string> layernames = *Wrapper::Physics::GetLayerNames();
-    for (const auto& layer1Name : layernames)
-    {
-        GUI::DisplayText("%s", layer1Name.c_str());
+    GUI::BeginGroup();
+    GUI::DisplayText("New Layer Name");
+    GUI::InputString(" ", newLayerName,false);
 
-        for (const auto& layer2Name : layernames)
-        {
-           
-            std::string checkBoxID = layer1Name + " vs " + layer2Name;
-            bool shouldCollide = Wrapper::Physics::GetLayerCollision(layer1Name, layer2Name);
-            
-            if (GUI::CheckBox(checkBoxID.c_str(), &shouldCollide))
-            {     
-                    Wrapper::Physics::SetLayerCollision(layer1Name, layer2Name, shouldCollide);
-            }
-        }
-    }
-
-    GUI::InputString("New Layer Name", newLayerName);
-
-    if (GUI::Button("Create Layer"))
+    if (GUI::Button("Create Layer") && newLayerName !="" && newLayerName.c_str()[0] != ' ')
     {
         Wrapper::Physics::CreateLayer(newLayerName);
-        //newLayerName = "";
+        newLayerName = "";
+    }
+    GUI::EndGroup();
+
+    std::vector<std::string> layernames = *Wrapper::Physics::GetLayerNames();
+    if(layernames.size()>0)
+    { 
+    GUI::BeginGroup();
+    GUI::BeginGroup();
+
+    GUI::DisplayText("\n \n");
+   
+    GUI::EndGroup();
+    for (int i = 0; i < layernames.size(); i++)
+    {
+    GUI::SameLine();
+
+    GUI::BeginGroup();
+    
+        GUI::DisplayText("%s\n\n", layernames[i].c_str());
+
+        for (int j = 0; j<=i; j++)
+        {
+            bool hiddenName = true;
+            std::string checkBoxID = layernames[j] + to_string(j) + to_string(i);;
+            if (i == layernames.size() - 1)
+            {
+                hiddenName = false;
+                checkBoxID = layernames[j];
+            }
+                
+            bool shouldCollide = Wrapper::Physics::GetLayerCollision(layernames[i], layernames[j]);
+            if (GUI::CheckBox(checkBoxID.c_str(), &shouldCollide,hiddenName))
+            {     
+                    Wrapper::Physics::SetLayerCollision(layernames[i], layernames[j], shouldCollide);
+            }
+
+            
+
+        }
+    GUI::EndGroup();
+    }
+
+    GUI::EndGroup();
     }
 }

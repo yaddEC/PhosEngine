@@ -56,11 +56,10 @@ void Editor::Top()
     }
     if (Wrapper::GUI::BeginMenu("Settings"))
     {
-        if (Wrapper::GUI::MenuItem("Physics Settings", NULL))
-        {
-            m_PhysicsSettingsGUI->isOpen = true;
-        }
+
+        if (Wrapper::GUI::MenuItem("Physics Settings", NULL)){m_PhysicsSettingsGUI->isOpen = true;}
         if (Wrapper::GUI::MenuItem("Show FPS", NULL, m_PlayStateGUI->showFps)) { m_PlayStateGUI->showFps = !m_PlayStateGUI->showFps; }
+        if (Wrapper::GUI::MenuItem("VSync", NULL, m_vsync)) { m_vsync = !m_vsync; Wrapper::Window::SetSwapInterval(m_vsync); }
         Wrapper::GUI::Separator();
         if (Wrapper::GUI::MenuItem("General Settings", NULL)) {}
         Wrapper::GUI::EndMenu();

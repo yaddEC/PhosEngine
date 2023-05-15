@@ -17,7 +17,7 @@ bool Core::App::InitApp()
 	m_window.Init(Maths::Vec2(1920, 1080), "Phos Editor");
 	if (!Wrapper::Window::InitGlew()) return false;
 	if (!Wrapper::GUI::InitGUI(m_window.GetWindow())) return false;
-	Wrapper::Window::SetSwapInterval(true);
+	Wrapper::Window::SetSwapInterval(false);
 	Wrapper::RHI::EnableCulling();
 	Wrapper::RHI::EnableDepthTest();
 
