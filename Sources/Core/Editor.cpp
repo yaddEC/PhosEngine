@@ -60,7 +60,7 @@ void Editor::Top()
         {
             m_PhysicsSettingsGUI->isOpen = true;
         }
-        if (Wrapper::GUI::MenuItem("Visual Settings", NULL)) {}
+        if (Wrapper::GUI::MenuItem("Show FPS", NULL, m_PlayStateGUI->showFps)) { m_PlayStateGUI->showFps = !m_PlayStateGUI->showFps; }
         Wrapper::GUI::Separator();
         if (Wrapper::GUI::MenuItem("General Settings", NULL)) {}
         Wrapper::GUI::EndMenu();

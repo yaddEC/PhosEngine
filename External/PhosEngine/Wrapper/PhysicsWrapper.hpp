@@ -19,6 +19,8 @@ namespace Engine
 using namespace physx;
 using namespace Physic;
 
+static std::map<std::pair<PxU32, PxU32>, bool> layerInteractionMatrix;
+
 class MySimulationEventCallback : public PxSimulationEventCallback
 {
 public:
@@ -67,7 +69,7 @@ namespace Wrapper
 
         inline PxPhysics* GetPhysics() const { return m_physics; }
         inline PxScene* GetScene() const { return m_scene; }
-        std::map<std::pair<PxU32, PxU32>, bool> layerInteractionMatrix;
+        void SetLayerInteraction(PxU32 layerA, PxU32 layerB, bool shouldCollide);
     private:
         static PxDefaultErrorCallback m_defaultErrorCallback;
         static PxDefaultAllocator m_defaultAllocatorCallback;
@@ -82,9 +84,7 @@ namespace Wrapper
         void CreateScene();
         void SetupVisualDebugger();
        
-        static PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
-            PxFilterObjectAttributes attributes1, PxFilterData filterData1,
-            PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize);
+     
     };
 
     class PHOSENGINE_API PhysicsCollider
