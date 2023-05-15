@@ -218,13 +218,13 @@ void Resource::Mesh::ProcessArmature(std::vector<SkinnedVertex>& vertices, aiMes
     {
         Bone bone;
         bone.inverseBind = GetStandardMatrix(mesh->mBones[i]->mOffsetMatrix);
-        bone.SetArmatureIndex(i);
+        bone.SetArmatureIndex((unsigned int)i);
         bone.name = mesh->mBones[i]->mName.C_Str(); 
         for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
         {
             unsigned int id = mesh->mBones[i]->mWeights[j].mVertexId;
             if (vertexWeightIndex[id] >= 4) continue;
-            vertices[id].boneIDs[vertexWeightIndex[id]] = i;
+            vertices[id].boneIDs[vertexWeightIndex[id]] = (int)i;
             vertices[id].boneWeights[vertexWeightIndex[id]] = mesh->mBones[i]->mWeights[j].mWeight;
             vertexWeightIndex[id]++;
         }

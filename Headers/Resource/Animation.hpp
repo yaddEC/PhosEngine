@@ -31,8 +31,8 @@ namespace Resource
 		AnimBone* ProcessHierarchy(const aiNode* node, std::unordered_map<std::string, AnimBone*>& boneMap
 			, AnimBone* parent, int& index);
 
-		float m_duration;
-		float m_tickRate;
+		float m_duration = 0;
+		float m_tickRate = 0;
 		std::vector<AnimBone*> m_AnimBones;
 
 	};

@@ -848,6 +848,44 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 	return Mat4{ view };
 }
 
+Maths::Mat4 Maths::Mat4::LookAt(const Vec3& pos, const Vec3& point, const Vec3& up)
+{
+	// May be optimized eventually.
+
+	/*Vec3 Up = up / up.GetMagnitude();
+	Vec3 F = (pos - point).GetNormalized();
+	Vec3 L = (Up.CrossProduct(F)).GetNormalized();
+	Vec3 U = (F.CrossProduct(L)).GetNormalized();
+	Vec3 T =  (-(L * pos), -(U * pos), -(F * pos) );
+
+	float matRot[16] = { L.x, L.y, L.z, T.x,
+						U.x, U.y, U.z, T.y,
+						F.x, F.y, F.z, T.z,
+						0, 0, 0, 1 };*/
+
+	Vec3 f = (point - pos).GetNormalized();
+	Vec3 s = (f.CrossProduct(up)).GetNormalized();
+	Vec3 u = s.CrossProduct(f);
+
+	Mat4 res;
+
+	res.data_4_4[0][0] = s.x;
+	res.data_4_4[1][0] = s.y;
+	res.data_4_4[2][0] = s.z;
+	res.data_4_4[0][1] = u.x;
+	res.data_4_4[1][1] = u.y;
+	res.data_4_4[2][1] = u.z;
+	res.data_4_4[0][2] = -f.x;
+	res.data_4_4[1][2] = -f.y;
+	res.data_4_4[2][2] = -f.z;
+	res.data_4_4[3][1] = -Vec3::DotProduct(u, pos);
+	res.data_4_4[3][2] = Vec3::DotProduct(f, pos);
+
+	res = res.GetTranspose();
+	return res;
+	//return Mat4{ matRot };
+}
+
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
 {
 	return  { CreateScaleMatrix(scale) * CreateXRotationMatrix(rotation.x) * CreateYRotationMatrix(rotation.y) *
@@ -863,9 +901,16 @@ Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _
 	{
 		(1 / view * (_aspectRatio)),	0,		    0,			0,
 		0,						1 / view,		0,			0,
-		0,						0,				((-_near - _far)/(_near - _far)), ((2 * _far * _near) / (_near - _far)),
+		0,						0,				((-_near - _far) / (_near - _far)), ((2 * _far * _near) / (_near - _far)),
 		0,						0,				1,			0
 	};
+
+
+	float S = 1 / tanf(_fov / 2 * (float)DEG2RAD);
+	float result[16] = { S * _aspectRatio, 0, 0, 0,
+						0, S, 0, 0,
+						0, 0, (_far / (_far - _near)), -((_far * _near) / (_far - _near)),
+						0, 0, 1, 0 };
 	return Mat4(projectionData);
 
 }

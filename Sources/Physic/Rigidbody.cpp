@@ -60,6 +60,12 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    void Rigidbody::SetMass(float mass)
+    {
+        m_mass = mass;
+        physicsRigidbody->OnGuiChanged();
+    }
+
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {
         using namespace Reflection;
 

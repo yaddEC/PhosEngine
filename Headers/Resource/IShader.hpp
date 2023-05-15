@@ -24,7 +24,7 @@ namespace Resource
 
 	protected:
 		std::string p_sourceCode;
-		unsigned int p_shaderKey;
+		unsigned int p_shaderKey = 0;
 		bool p_ignoreGeneration = false;
 	};
 

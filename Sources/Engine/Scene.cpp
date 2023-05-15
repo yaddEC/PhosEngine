@@ -27,7 +27,7 @@ using namespace LowRenderer;
 using namespace Resource;
 using namespace Physic;
 
-Scene::Scene()
+Scene::Scene() : m_renderer(nullptr)
 {
 	
 }
@@ -43,16 +43,14 @@ void Scene::GameObjectFromBuffer()
 
 	for (Engine::GameObject* newGo : m_gameObjectBuffer)
 	{
-		int id = 1;
+		unsigned int id = 1;
 		for (Engine::GameObject* go : m_gameObjects)
 		{
-			if (go->GetID() > id)
-				break;
-
+			if (go->GetID() > id) break;
 			id++;
 		}
 		newGo->SetID(id);
-		m_gameObjects.insert(m_gameObjects.begin() + (id - 1), newGo);
+		m_gameObjects.insert(m_gameObjects.begin() + (static_cast<size_t>(id) - 1), newGo);
 	}
 	m_gameObjectBuffer.clear();
 }
@@ -197,7 +195,7 @@ GameObject* Engine::Scene::ParseGameObject(const std::vector<std::string>& fileD
 		}
 		else if (tokens[0] == "id")
 		{
-			newGameObject->SetID(std::stof(tokens[1]));
+			newGameObject->SetID((unsigned int)std::stof(tokens[1]));
 		}
 		else if (tokens[0] == "transform")
 		{

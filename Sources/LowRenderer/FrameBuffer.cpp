@@ -17,15 +17,15 @@
 using namespace Resource;
 using namespace LowRenderer;
 
-FrameBuffer::FrameBuffer(int _width, int _height)
+FrameBuffer::FrameBuffer(int _width, int _height, bool _useRenderBuffer)
     : m_height(_height), m_width(_width), m_bindedTexture(nullptr)
 {
-    Wrapper::RHI::CreateFrameBuffer(&m_framebufferKey, &m_renderbufferKey);
+    Wrapper::RHI::CreateFrameBuffer(&m_framebufferKey, &m_renderbufferKey, _useRenderBuffer);
 }
 
-void FrameBuffer::Bind(int _width, int _height)
+void FrameBuffer::Bind(bool useRenderBuffer, int _width, int _height)
 {
-    Wrapper::RHI::BindFrameBuffer(m_framebufferKey, m_renderbufferKey, m_width, m_height, _width != m_width || _height != m_height);
+    Wrapper::RHI::BindFrameBuffer(m_framebufferKey, m_renderbufferKey, m_width, m_height, _width != m_width || _height != m_height, useRenderBuffer);
 
     if (_width == 0 || _height == 0) return;
 

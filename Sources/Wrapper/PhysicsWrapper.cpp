@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <array>
+#include <limits>
 #include "Engine/Transform.hpp"
 #include "Engine/Scene.hpp"
 #include "Physx/PxPhysicsAPI.h"
@@ -16,21 +17,142 @@
 #define PHYSICSWRAPPER_EXPORTS
 #include "Wrapper/PhysicsWrapper.hpp"
 
+
+
 MySimulationEventCallback::MySimulationEventCallback()
 {
-
+   
 }
 
 MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-
-
-PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0,
-    PxFilterObjectAttributes attributes1, PxFilterData filterData1,
-    PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+void  Wrapper::Physics::CreateLayer(const std::string& layerName)
 {
+    std::vector<std::string>* layerNames =Wrapper::Physics::GetLayerNames();
+    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
+    PxU32 newLayerIndex = layerNames->size();
+    layerNames->push_back(layerName);
+    (*layerNameToIndexMap)[layerName] = newLayerIndex;
+
+    for (const auto& otherLayerName : *layerNames)
+    {
+        PxU32 otherLayerIndex = (*layerNameToIndexMap)[otherLayerName];
+        SetLayerCollision(layerName, otherLayerName, true);
+    }
+}
+
+bool  Wrapper::Physics::GetLayerCollision(std::string layerA, std::string layerB)
+{
+    std::map < std::pair<PxU32, PxU32>, bool> layerInteractionMatrix = *Wrapper::Physics::GetLayerInteractions();
+    std::map<std::string, PxU32> layerNameToIndexMap = *Wrapper::Physics::GetNameToIndex();
+    return layerInteractionMatrix[std::make_pair(layerNameToIndexMap[layerA], layerNameToIndexMap[layerB])];
+}
+
+void  Wrapper::Physics::SetLayerCollision(std::string layerA, std::string layerB, bool shouldCollide)
+{
+    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+    std::map<std::string, PxU32> layerNameToIndexMap = *Wrapper::Physics::GetNameToIndex();
+    (*layerInteractionMatrix)[std::make_pair(layerNameToIndexMap[layerA], layerNameToIndexMap[layerB])] = shouldCollide;
+    (*layerInteractionMatrix)[std::make_pair(layerNameToIndexMap[layerA], layerNameToIndexMap[layerB])] = shouldCollide;
+}
+
+void  Wrapper::Physics::saveLayerInfo()
+{
+    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
+
+    std::ofstream out("CollisionSettings.phs");
+    if (!out) {
+        std::cerr << "Failed to open CollisionSettings.phs for writing.\n";
+        return;
+    }
+
+    out << layerNames->size() << '\n';
+    for (const auto& name : *layerNames) {
+        out << name << '\n';
+    }
+
+    out << layerNameToIndexMap->size() << '\n';
+    for (const auto& kv : *layerNameToIndexMap) {
+        out << kv.first << ' ' << kv.second << '\n';
+    }
+
+    out << layerInteractionMatrix->size() << '\n';
+    for (const auto& kv : *layerInteractionMatrix) {
+        out << kv.first.first << ' ' << kv.first.second << ' ' << kv.second << '\n';
+    }
+}
+
+
+void Wrapper::Physics::LoadLayerInfo()
+{
+
+    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
+   
+    std::ifstream in("CollisionSettings.phs");
+    if (!in) {
+        std::cerr << "Failed to open CollisionSettings.phs for reading.\n";
+        return;
+    }
+
+    layerNames->clear();
+    layerNameToIndexMap->clear();
+    layerInteractionMatrix->clear();
+
+    std::size_t numNames;
+    in >> numNames;
+    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    layerNames->resize(numNames);
+    for (std::string& name : *layerNames) {
+        std::getline(in, name);
+    }
+
+    std::size_t numMappings;
+    in >> numMappings;
+    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    for (std::size_t i = 0; i < numMappings; ++i) {
+        std::string name;
+        PxU32 index;
+        in >> name >> index;
+        (*layerNameToIndexMap)[name] = index;
+        in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    }
+
+    std::size_t numInteractions;
+    in >> numInteractions;
+    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    for (std::size_t i = 0; i < numInteractions; ++i) {
+        PxU32 key1, key2;
+        bool value;
+        in >> key1 >> key2 >> value;
+        (*layerInteractionMatrix)[std::make_pair(key1, key2)] = value;
+        in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    }
+}
+
+std::vector<std::string>* Wrapper::Physics::GetLayerNames()
+{
+    return  &Physic::PhysicsManager::GetInstance().GetPhysics().layerNames;
+}
+
+std::map<std::pair<PxU32, PxU32>, bool>* Wrapper::Physics::GetLayerInteractions()
+{
+    return &Physic::PhysicsManager::GetInstance().GetPhysics().layerInteractionMatrix;
+}
+
+std::map<std::string, PxU32>* Wrapper::Physics::GetNameToIndex()
+{
+    return &Physic::PhysicsManager::GetInstance().GetPhysics().layerNameToIndexMap;
+}
+
+PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterData filterData0, PxFilterObjectAttributes attributes1, PxFilterData filterData1, PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSiz)
+{
+    std::map < std::pair<PxU32, PxU32>, bool> layerInteractionMatrix = *Wrapper::Physics::GetLayerInteractions();
     bool isTrigger0 = PxFilterObjectIsTrigger(attributes0);
     bool isTrigger1 = PxFilterObjectIsTrigger(attributes1);
     if (isTrigger0 || isTrigger1)
@@ -46,15 +168,21 @@ PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterD
 
         }
     }
-    else
+    else //if (layerInteractionMatrix[std::make_pair(filterData0.word0, filterData1.word0)])
     {
         pairFlags = PxPairFlag::eCONTACT_DEFAULT;
     }
+    /*else
+    {
+        return PxFilterFlag::eSUPPRESS;
+    }*/
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
     return PxFilterFlag::eDEFAULT;
 }
+
+
 
 void MySimulationEventCallback::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
 {
@@ -159,6 +287,7 @@ namespace Wrapper
         CreateScene();
     }
 
+
     void Physics::Update(float deltaTime)
     {
         if (m_scene)
@@ -188,43 +317,40 @@ namespace Wrapper
         PxReal staticFriction, dynamicFriction, restitution;
 
         switch (type) {
-        case ROCK:
-            staticFriction = 0.8f;
-            dynamicFriction = 0.7f;
-            restitution = 0.1f;
-            break;
-        case BOUNCY_BALL:
+        case MaterialType::BOUNCY_BALL:
             staticFriction = 0.5f;
             dynamicFriction = 0.3f;
             restitution = 0.8f;
             break;
-        case ICE:
+        case MaterialType::ICE:
             staticFriction = 0.1f;
             dynamicFriction = 0.05f;
             restitution = 0.2f;
             break;
-        case RUBBER:
+        case MaterialType::RUBBER:
             staticFriction = 0.7f;
             dynamicFriction = 0.5f;
             restitution = 0.6f;
             break;
-        case WOOD:
+        case MaterialType::WOOD:
             staticFriction = 0.6f;
             dynamicFriction = 0.4f;
             restitution = 0.3f;
             break;
-        case METAL:
+        case MaterialType::METAL:
             staticFriction = 0.4f;
             dynamicFriction = 0.2f;
             restitution = 0.1f;
             break;
-        case GLASS:
+        case MaterialType::GLASS:
             staticFriction = 0.6f;
             dynamicFriction = 0.5f;
             restitution = 0.2f;
             break;
-        default:
-
+        default: //MaterialType::ROCK
+            staticFriction = 0.5f;
+            dynamicFriction = 0.3f;
+            restitution = 0.8f;
             break;
         }
      

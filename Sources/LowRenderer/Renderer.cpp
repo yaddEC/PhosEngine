@@ -97,20 +97,24 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 void Renderer::ComputeShadowMap()
 {
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+	glCullFace(GL_BACK);
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+	glDepthFunc(GL_LEQUAL);
 	for (int i = 0; i < m_spotLights.size(); i++)
 	{
-		Maths::Mat4 proj = Maths::Mat4::CreateProjectionMatrix(m_spotLights[i]->GetAngle() * 2, 0.01f, 400, 1);
-		Maths::Mat4 view = Maths::Mat4::CreateViewMatrix(m_spotLights[i]->gameobject->transform->position, m_spotLights[i]->gameobject->transform->rotationEuler.x, m_spotLights[i]->gameobject->transform->rotationEuler.y);
-		Maths::Mat4 VP = proj * view;
-		m_spotLights[i]->RenderShadowMap();
 		rm.shadowShader->Use();
-		rm.shadowShader->SetUniformMatrix("lightMat", VP);
+		m_spotLights[i]->RenderShadowMap();
+		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		for (MeshRenderer* mesh : m_meshRenderers)
-		{
-			rm.shadowShader->SetUniformMatrix("model", mesh->gameobject->transform->GetGlobalMatrix());
+		{  
+			mesh->Render(m_spotLights[i]->GetVP());
 		}
 		Wrapper::RHI::UnbindFrameBuffer();
 	}
+	glCullFace(GL_FRONT);
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
 }
 
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)

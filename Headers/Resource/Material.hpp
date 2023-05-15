@@ -74,7 +74,7 @@ namespace Resource
 	private:
 		ShaderProgram* m_shader = nullptr;
 		
-		Texture* m_normalMap;
+		Texture* m_normalMap = nullptr;
 
 		ColorMap m_albedo;
 
