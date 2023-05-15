@@ -5,7 +5,6 @@
 //----------------
 
 
-#define INPUT_EXPORTS
 #include "Engine/Input.hpp"
 
 using namespace Maths;
@@ -27,7 +26,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void Input::Init(GLFWwindow* _window)
 {
 	mouseMap = 0;
-	timeStep = 1.f ;
+	timeStep = 1/60.f ;
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
 		keyMap[i] = 0;

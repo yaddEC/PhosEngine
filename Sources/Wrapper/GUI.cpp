@@ -504,13 +504,16 @@ void Wrapper::GUI::DisplayText(const char* format, ...)
 	ImGui::Text(buffer);
 }
 
-bool Wrapper::GUI::InputString(const std::string& label, std::string& value)
+bool Wrapper::GUI::InputString(const std::string& label, std::string& value, bool enterTrue)
 {
 	const int bufferSize = 256;
 	char buffer[bufferSize];
 
 	strncpy_s(buffer, bufferSize, value.c_str(), _TRUNCATE);
-	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
+	ImGuiInputTextFlags inputTextFlags =  ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_AlwaysInsertMode;
+
+	if (enterTrue)
+		inputTextFlags |= ImGuiInputTextFlags_EnterReturnsTrue;
 
 
 	if (ImGui::InputText(label.c_str(), buffer, bufferSize, inputTextFlags))
@@ -542,9 +545,21 @@ bool Wrapper::GUI::Button(const std::string& label, const Maths::Vec2& size)
 }
 
 
-bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked)
+bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked, bool hiddenName)
 {
-	return ImGui::Checkbox(label.c_str(), isChecked);
+	if (hiddenName)
+	{
+		ImGui::PushID(label.c_str() + 1);
+		bool checkbox = ImGui::Checkbox("", isChecked);
+		ImGui::PopID();
+		return checkbox;
+	}
+	else
+	{
+		return ImGui::Checkbox(label.c_str(), isChecked);
+	}
+
+
 }
 
 bool Wrapper::GUI::Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size)

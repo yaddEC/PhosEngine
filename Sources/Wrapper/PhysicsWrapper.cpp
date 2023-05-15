@@ -28,7 +28,7 @@ MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-void  Wrapper::Physics::CreateLayer(const std::string& layerName)
+void  Wrapper::Physics::CreateLayer(const std::string layerName)
 {
     std::vector<std::string>* layerNames =Wrapper::Physics::GetLayerNames();
     std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
@@ -97,8 +97,11 @@ void Wrapper::Physics::LoadLayerInfo()
     std::ifstream in("CollisionSettings.phs");
     if (!in) {
         std::cerr << "Failed to open CollisionSettings.phs for reading.\n";
+        std::ofstream out("CollisionSettings.phs");
         return;
     }
+    if(in.peek() == std::ifstream::traits_type::eof())
+        return;
 
     layerNames->clear();
     layerNameToIndexMap->clear();
