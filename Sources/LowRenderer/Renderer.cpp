@@ -27,6 +27,14 @@ using namespace LowRenderer;
 
 void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
 {
+	for (MeshRenderer* rend : m_meshRenderers)
+	{
+		if (rend->GetMesh()->GetArmature())
+		{
+			rend->SetSkinningMatrices();
+		}
+	}
+
 	ComputeShadowMap();
 	std::vector<Resource::ShaderProgram*> shaderList;
 	for (MeshRenderer* rend : m_meshRenderers)

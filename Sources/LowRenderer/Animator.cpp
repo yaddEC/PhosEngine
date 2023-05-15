@@ -6,9 +6,11 @@
 
 #include <iostream>
 
+#include "Wrapper/GUI.hpp"
 #include "Resource/Animation.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/ResourceIncludes.hpp"
+#include "Engine/Transform.hpp"
 #include "Resource/AnimBone.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Animator.hpp"
@@ -19,8 +21,8 @@ LowRenderer::Animator::Animator()
 
 void LowRenderer::Animator::Start()
 {
-	m_meshRenderer = gameobject->GetComponent<MeshRenderer>();
 	m_currentAnimation = Resource::ResourceManager::GetInstance().GetResource<Resource::Animation>("Assets\\Model\\Walking.anim");
+	SetAnimObjects();
 	/*if (m_meshRenderer)
 	{
 		if (Resource::Armature* arm = m_meshRenderer->GetMesh()->GetArmature())
@@ -37,24 +39,21 @@ void LowRenderer::Animator::Start()
 
 void LowRenderer::Animator::Update()
 {
-	if (!m_meshRenderer)
-		return;
-
-	for (auto bone : m_currentAnimation->GetAnimBones())
+	for (size_t i = 0; i < animObjectList.size(); i++)
 	{
-		if(!bone->GetParent())
-			ComputeAnimBoneMatrices(Maths::Mat4::CreateDiagonalMatrix(1), bone);
+		Resource::AnimBone* animBone = m_currentAnimation->GetAnimBones()[i];
+		//animObjectList[i]->position = animBone->GetInterpolationPosition(m_timeline * m_currentAnimation->GetTickRate());
+		animObjectList[i]->rotation = animBone->GetInterpolationRotation(m_timeline * m_currentAnimation->GetTickRate());
+		//animObjectList[i]->scale = animBone->GetInterpolationScale(m_timeline * m_currentAnimation->GetTickRate());
 	}
 }
 
-void LowRenderer::Animator::GUIUpdate()
+
+void LowRenderer::Animator::OnInspector()
 {
-
-}
-
-void LowRenderer::Animator::OnDestroy()
-{
-
+	MonoBehaviour::OnInspector();
+	if(m_currentAnimation)
+		Wrapper::GUI::SliderFloat("Timeline", m_timeline, true, 0, m_currentAnimation->GetDuration() / m_currentAnimation->GetTickRate());
 }
 
 Reflection::ClassMetaData& LowRenderer::Animator::GetMetaData()
@@ -76,12 +75,11 @@ Reflection::ClassMetaData& LowRenderer::Animator::GetMetaData()
 	return result;
 }
 
-void LowRenderer::Animator::ComputeAnimBoneMatrices(Maths::Mat4 parentMatrix, Resource::AnimBone* bone)
+void LowRenderer::Animator::SetAnimObjects()
 {
-	Maths::Mat4 matrix = bone->GetGlobalMatrix(m_timeline, parentMatrix);
-	m_meshRenderer->SetAnimMatrix(bone->GetArmatureIndex(), matrix);
-	for (Resource::AnimBone* child : bone->GetChildren())
+	for (auto animBone : m_currentAnimation->GetAnimBones())
 	{
-		ComputeAnimBoneMatrices(matrix, child);
+		animObjectList.push_back(gameobject->FindChildByName(animBone->GetName())->transform);
 	}
 }
+

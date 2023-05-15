@@ -43,6 +43,7 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 {
 	m_material->GetShader()->Use();
 	m_material->GetShader()->SetUniformMatrix("model", transform->GetGlobalMatrix());
+	m_material->GetShader()->SetUniformMatrix("viewProj", viewProj);
 	m_material->GetShader()->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
 	if (m_mesh->GetArmature())
 	{
@@ -58,9 +59,13 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 
 }
 
-void MeshRenderer::SetAnimMatrix(int index, Maths::Mat4 matrix) 
+
+void LowRenderer::MeshRenderer::SetSkinningMatrices()
 {
-	m_animatedBoneMatrices[index] = m_mesh->GetArmature()->boneMap[index].inverseBind * matrix;
+	for (size_t i = 0; i < m_boneObjectList.size(); i++)
+	{
+		m_animatedBoneMatrices[i] = m_boneObjectList[i]->GetGlobalMatrix();
+	}
 }
 
 Engine::GameObject* LowRenderer::MeshRenderer::GenerateBonesObject(const Bone& bone)
@@ -127,38 +132,9 @@ void LowRenderer::MeshRenderer::Start()
 	}
 }
 
-void LowRenderer::MeshRenderer::Update()
-{
-	if (m_mesh->GetArmature())
-	{
-		m_boneObjectList[0]->ComputeGlobalMatrix();
 
-		for (size_t i = 0; i < m_boneObjectList.size(); i++)
-		{
-			m_animatedBoneMatrices[i] = m_boneObjectList[i]->GetGlobalMatrix();
-		}
-	}
-}
 
-void LowRenderer::MeshRenderer::GUIUpdate()  
-{
-	/*if (Wrapper::GUI::CollapsingHeader("Mesh Renderer"))
-	{
-		Wrapper::GUI::DisplayText("Mesh : "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::Button(m_mesh->GetName());
-		if (Resource::Mesh** mesh = (Mesh**)Wrapper::GUI::DragDropTarget("Mesh"))
-		{
-			m_mesh = *mesh;
-		}
 
-		Wrapper::GUI::DisplayText("Material : "); Wrapper::GUI::SameLine();
-		Wrapper::GUI::Button(m_material->GetName());
-		if (Resource::Material** mat = (Material**)Wrapper::GUI::DragDropTarget("Material"))
-		{
-			m_material = *mat;
-		}
-	}*/
-}
 
 void LowRenderer::MeshRenderer::OnDestroy()
 {

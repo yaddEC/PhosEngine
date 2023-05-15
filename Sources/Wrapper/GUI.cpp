@@ -275,6 +275,16 @@ bool Wrapper::GUI::TruncTextBySize(std::string& text, float maxLength)
 	return trunced;
 }
 
+bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text, float min, float max)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::SliderFloat(("##" + label).c_str(), &value, min, max, "%.2f");
+}
+
 bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
 {
 	if (text)

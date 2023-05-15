@@ -44,41 +44,14 @@ void Resource::Animation::Unload()
 
 void Resource::Animation::GUIUpdate()
 {
-    static bool displayHierarchy;
-    if(Wrapper::GUI::Button(displayHierarchy ? "Key Frame" : "Bone Hierarchy"))
+    static float timeline;
+    Wrapper::GUI::EditFloat("timeline", &timeline, true, 0.01f, 0, m_duration / m_tickRate);
+    for (auto bone : m_AnimBones)
     {
-        displayHierarchy = !displayHierarchy;
-    }
-
-    if (displayHierarchy)
-    {
-        static float timeline;
-        Wrapper::GUI::EditFloat("timeline", &timeline, true, 0.01f, 0, m_duration / m_tickRate);
-        for (auto bone : m_AnimBones)
-        {
-            DisplayBoneKeyFrame(*bone, timeline);
-        }
-    }
-    else
-    {
-        for (auto bone : m_AnimBones)
-        {
-            if (!bone->GetParent())
-                DisplayBoneHierarchy(*bone);
-        }  
+        DisplayBoneKeyFrame(*bone, timeline);
     }
 }
 
-void Resource::Animation::DisplayBoneHierarchy(AnimBone& current)
-{
-    if (Wrapper::GUI::TreeNode(current.GetName(), false, !current.GetChildren().size()))
-    {
-        for (auto bone : current.GetChildren())
-            DisplayBoneHierarchy(*bone);
-
-        Wrapper::GUI::TreePop();
-    }
-}
 
 void Resource::Animation::DisplayBoneKeyFrame(AnimBone& current, float timeline)
 {
@@ -118,15 +91,12 @@ Resource::AnimBone* Resource::Animation::ProcessHierarchy(const aiNode* node,
     if (boneMap.find(boneName) != boneMap.end())
     {
         current = boneMap.find(boneName)->second;
-        current->SetParent(parent);
         current->SetArmatureIndex(index);
 
         for (size_t i = 0; i < node->mNumChildren; i++)
         {
             AnimBone* child = ProcessHierarchy(node->mChildren[i], boneMap, current, ++index);
-            if (child)
-                current->AddChild(child);
-            else
+            if(!child)
                 index--;
         }
 
