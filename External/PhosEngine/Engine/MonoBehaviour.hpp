@@ -21,16 +21,17 @@ namespace Engine
 
 		bool isActive = true;
 
-		virtual void Start() = 0;
+		virtual void Start() {};
 		virtual void OnTriggerEnter(GameObject* go) {};
 		virtual void OnTriggerStay(GameObject* go) {};
 		virtual void OnTriggerExit(GameObject* go) {};
 		virtual void OnCollisionEnter(GameObject* go) {};
 		virtual void OnCollisionStay(GameObject* go) {};
 		virtual void OnCollisionExit(GameObject* go) {};
-		virtual void Update() = 0;
-		virtual void GUIUpdate() = 0;
-		virtual void OnDestroy() = 0;
+		virtual void Update() {};
+		virtual void GUIUpdate() {};
+		virtual void OnInspector();
+		virtual void OnDestroy() {};
 		const bool renderingComponent = false;
 
 		virtual Reflection::ClassMetaData& GetMetaData() = 0;
