@@ -14,19 +14,19 @@ namespace Resource
 	struct AnimBonePosition
 	{
 		Maths::Vec3 position;
-		float timeStamp;
+		double timeStamp;
 	};
 
 	struct AnimBoneRotation
 	{
 		Maths::Quaternion rotation;
-		float timeStamp;
+		double timeStamp;
 	};
 
 	struct AnimBoneScale
 	{
 		Maths::Vec3 scale;
-		float timeStamp;
+		double timeStamp;
 	};
 
 	class AnimBone

@@ -219,6 +219,7 @@ GameObject* Engine::Scene::ParseGameObject(const std::vector<std::string>& fileD
 			return newGameObject;
 		}
 	}
+	return nullptr;
 }
 
 
