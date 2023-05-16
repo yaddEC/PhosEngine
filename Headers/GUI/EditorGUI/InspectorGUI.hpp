@@ -2,6 +2,7 @@
 #include "GUI/IGUI.hpp"
 #include "Engine/GameObject.hpp"
 #include "Resource/IResource.hpp"
+#include "Wrapper/PhysicsWrapper.hpp"
 
 namespace EditorGUI
 {
