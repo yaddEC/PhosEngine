@@ -44,9 +44,9 @@ void FrameBuffer::Bind(bool useRenderBuffer, int _width, int _height)
 
 
 
-void FrameBuffer::Clear(Maths::Vec4 clearColor)
+void FrameBuffer::Clear(Maths::Vec4 clearColor, bool onlyDepth)
 {
-    Wrapper::RHI::ClearFrameBuffer(clearColor);
+    Wrapper::RHI::ClearFrameBuffer(clearColor, onlyDepth);
 }
 
 void FrameBuffer::AttachTexture(Texture* texture, bool useDepth)

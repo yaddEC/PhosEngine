@@ -65,11 +65,11 @@ void Wrapper::RHI::BindDepthTexture(unsigned int* textureKey, int width, int hei
 	glGenTextures(1, textureKey);
 	glBindTexture(GL_TEXTURE_2D, *textureKey);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 	float clampColor[4] = { 1, 1, 1, 1 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, clampColor);
@@ -297,10 +297,14 @@ void Wrapper::RHI::CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int*
 
 void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateSize, bool useRenderBuffer)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
 	if (useRenderBuffer)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
 		glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
+	}
+	else
+	{
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferKey);
 	}
 
 	glViewport(0, 0, width, height);
@@ -313,10 +317,10 @@ void Wrapper::RHI::UnbindFrameBuffer()
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
-void Wrapper::RHI::ClearFrameBuffer(const Maths::Vec4& clearColor)
+void Wrapper::RHI::ClearFrameBuffer(const Maths::Vec4& clearColor, bool onlyDepth)
 {
 	glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(onlyDepth ? GL_DEPTH_BUFFER_BIT: GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDepth)
@@ -327,7 +331,7 @@ void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned 
 	if (useDepth)
 	{
 		glDrawBuffer(GL_NONE);
-		//glReadBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -353,8 +357,7 @@ void Wrapper::RHI::BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], 
 	{
 		if (data[i] && faces[i])
 		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]
 			);
 		}
 	}
