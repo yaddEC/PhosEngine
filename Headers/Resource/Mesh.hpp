@@ -42,6 +42,7 @@ namespace Resource
 		std::string GetTypeName() { return "Mesh"; }
 
 		void Render(const class ShaderProgram& shaderProgram, const class Material& material) const;
+		void RenderShadowMap() const;
 
 		Texture* GenerateFileIcon() override;
 
