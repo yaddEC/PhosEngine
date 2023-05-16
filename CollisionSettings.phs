@@ -1,16 +1,15 @@
 3
-test
-test2
-Test3
+Default
+Ground
+Enemy
 3
-Test3 2
-test 0
-test2 1
-7
+Default 0
+Enemy 2
+Ground 1
+6
 0 0 1
 1 0 1
 1 1 0
-1 2 0
-2 0 1
-2 1 0
-2 2 0
+2 0 0
+2 1 1
+2 2 1
