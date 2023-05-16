@@ -40,7 +40,7 @@ bool Wrapper::Window::InitGlew()
 
 bool Wrapper::Window::Init(const Maths::Vec2& size, const std::string& name)
 {
-	m_window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
+	m_window = glfwCreateWindow(static_cast<int>(size.x), static_cast<int>(size.y), name.c_str(), nullptr, nullptr);
 	if (!m_window)
 	{
 		std::cout << "FAILED TO CREATE A WINDOW" << std::endl;
@@ -81,7 +81,7 @@ Maths::Vec2 Wrapper::Window::GetPos() const
 {
 	int x, y;
 	glfwGetWindowPos(m_window, &x, &y);
-	return Maths::Vec2(x, y);
+	return Maths::Vec2(static_cast<float>(x), static_cast<float>(y));
 }
 
 void Wrapper::Window::MakeCurrentContext()
@@ -96,6 +96,7 @@ Wrapper::Window* Wrapper::Window::GetCurrentContext()
 	{
 		return m_windowMap[w];
 	}
+	return nullptr;
 }
 
 double Wrapper::Window::GetTime()

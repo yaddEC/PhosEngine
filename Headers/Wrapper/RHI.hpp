@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <array>
 
 #include "Maths/Maths.hpp"
 
@@ -64,7 +65,7 @@ namespace Wrapper
 
 		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
 
-		static unsigned char* GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
+		static std::array<char, 4> GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 
 	private:
 		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);

@@ -28,11 +28,11 @@ MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-void  Wrapper::Physics::CreateLayer(const std::string& layerName)
+void  Wrapper::Physics::CreateLayer(const std::string layerName)
 {
     std::vector<std::string>* layerNames =Wrapper::Physics::GetLayerNames();
     std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
-    PxU32 newLayerIndex = layerNames->size();
+    PxU32 newLayerIndex = static_cast<unsigned int>(layerNames->size());
     layerNames->push_back(layerName);
     (*layerNameToIndexMap)[layerName] = newLayerIndex;
 
@@ -97,6 +97,17 @@ void Wrapper::Physics::LoadLayerInfo()
     std::ifstream in("CollisionSettings.phs");
     if (!in) {
         std::cerr << "Failed to open CollisionSettings.phs for reading.\n";
+        std::ofstream out("CollisionSettings.phs");
+        layerNames->push_back("Default");
+        (*layerNameToIndexMap)["Default"] = 0;
+        (*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
+        return;
+    }
+    if (in.peek() == std::ifstream::traits_type::eof())
+    {
+        layerNames->push_back("Default");
+        (*layerNameToIndexMap)["Default"] = 0;
+        (*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
         return;
     }
 

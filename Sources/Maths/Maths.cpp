@@ -1235,7 +1235,7 @@ Maths::Quaternion Slerp(Maths::Quaternion q1, Maths::Quaternion q2, float time)
 	qperp.Normalize();
 
 
-	Maths::Quaternion result = q1 * cos(theta) + qperp * sin(theta);
+	Maths::Quaternion result = q1 * static_cast<float>(cos(theta)) + qperp * static_cast<float>(sin(theta));
 	return result.GetNormalized();
 }
 
@@ -1334,27 +1334,27 @@ Maths::Vec3 Maths::Quaternion::ToEulerAngles() const
 	Quaternion normalizedQuat = GetNormalized();
 	Vec3 euler;
 
-	double sqw = normalizedQuat.a * normalizedQuat.a;
-	double sqx = normalizedQuat.b * normalizedQuat.b;
-	double sqy = normalizedQuat.c * normalizedQuat.c;
-	double sqz = normalizedQuat.d * normalizedQuat.d;
-	double unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
-	double test = normalizedQuat.b * normalizedQuat.c + normalizedQuat.d * normalizedQuat.a;
-	if (test > 0.499 * unit) { // singularity at north pole
-		euler.y = static_cast<float>(2.0 * atan2(normalizedQuat.b, normalizedQuat.a));
-		euler.z = static_cast<float>(M_PI / 2.0);
-		euler.x = static_cast<float>(0.0);
+	float sqw = normalizedQuat.a * normalizedQuat.a;
+	float sqx = normalizedQuat.b * normalizedQuat.b;
+	float sqy = normalizedQuat.c * normalizedQuat.c;
+	float sqz = normalizedQuat.d * normalizedQuat.d;
+	float unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+	float test = normalizedQuat.b * normalizedQuat.c + normalizedQuat.d * normalizedQuat.a;
+	if (test > 0.499f * unit) { // singularity at north pole
+		euler.y = 2.0f * atan2(normalizedQuat.b, normalizedQuat.a);
+		euler.z = M_PI / 2.0f;
+		euler.x = 0.0f;
 		return euler ;
 	}
 	if (test < -0.499 * unit) { // singularity at south pole
-		euler.y = static_cast<float>(-2.0 * atan2(normalizedQuat.b, normalizedQuat.a));
-		euler.z = static_cast<float>(-M_PI / 2.0);
-		euler.x = static_cast<float>(0.0);
+		euler.y = -2.0f * atan2(normalizedQuat.b, normalizedQuat.a);
+		euler.z = -M_PI / 2.0f;
+		euler.x = 0.0f;
 		return euler ;
 	}
-	euler.y = static_cast<float>(atan2(2.0 * normalizedQuat.c * normalizedQuat.a - 2.0 * normalizedQuat.b * normalizedQuat.d, sqx - sqy - sqz + sqw));
-	euler.z = static_cast<float>(asin(2.0 * test / unit));
-	euler.x = static_cast<float>(atan2(2.0 * normalizedQuat.b * normalizedQuat.a - 2.0 * normalizedQuat.c * normalizedQuat.d, -sqx + sqy - sqz + sqw));
+	euler.y = atan2(2.0f * normalizedQuat.c * normalizedQuat.a - 2.0f * normalizedQuat.b * normalizedQuat.d, sqx - sqy - sqz + sqw);
+	euler.z = asin(2.0f * test / unit);
+	euler.x = atan2(2.0f * normalizedQuat.b * normalizedQuat.a - 2.0f * normalizedQuat.c * normalizedQuat.d, -sqx + sqy - sqz + sqw);
 
 	return euler;
 }
@@ -1367,12 +1367,12 @@ Maths::Mat4 Maths::Quaternion::CreateTransformMatrix(const Vec3& translation, co
 Maths::Quaternion Maths::Quaternion::ToQuaternion(const Vec3& eulerAngle)
 {
 
-	double c1 = cos(eulerAngle.z * 0.5);
-	double c2 = cos(eulerAngle.y * 0.5);
-	double c3 = cos(eulerAngle.x * 0.5);
-	double s1 = sin(eulerAngle.z * 0.5);
-	double s2 = sin(eulerAngle.y * 0.5);
-	double s3 = sin(eulerAngle.x * 0.5);
+	float c1 = cosf(eulerAngle.z * 0.5f);
+	float c2 = cosf(eulerAngle.y * 0.5f);
+	float c3 = cosf(eulerAngle.x * 0.5f);
+	float s1 = sinf(eulerAngle.z * 0.5f);
+	float s2 = sinf(eulerAngle.y * 0.5f);
+	float s3 = sinf(eulerAngle.x * 0.5f);
 
 	Quaternion q;
 	q.a = c1 * c2 * c3 + s1 * s2 * s3;

@@ -141,7 +141,7 @@ void Wrapper::RHI::ShaderMat(const unsigned int& programKey, const std::string& 
 
 void Wrapper::RHI::ShaderMatList(const unsigned int& programKey, const std::string& uniformName, const std::vector<Maths::Mat4>& matList)
 {
-	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), matList.size(), true, &matList.at(0).data[0]);
+	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), static_cast<int>(matList.size()), true, &matList.at(0).data[0]);
 }
 
 void Wrapper::RHI::ShaderVec3(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec3& vec3)
@@ -190,7 +190,7 @@ void Wrapper::RHI::RenderSubMesh(const unsigned int& VAO, const std::vector<unsi
 {
 	glBindVertexArray(VAO);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
@@ -237,7 +237,7 @@ void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	size_t size = sizeof(Resource::SkinnedVertex);
+	int size = sizeof(Resource::SkinnedVertex);
 	glBufferData(GL_ARRAY_BUFFER, skinnedVertices.size() * size, &skinnedVertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -399,8 +399,7 @@ int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& 
 
 	return shaderID;
 }
-
-unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
+std::array<char, 4> Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
 	glFlush();
 	glFinish();
@@ -414,8 +413,8 @@ unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2
 
 	MPos.y = -MPos.y + viewportSize.y;
 
-	unsigned char data[4];
-	glReadPixels(MPos.x, MPos.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	std::array<char, 4> data{0};
+	glReadPixels(static_cast<int>(MPos.x), static_cast<int>(MPos.y), 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
 	return data;
 }
