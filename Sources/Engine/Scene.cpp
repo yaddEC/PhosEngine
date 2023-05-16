@@ -166,6 +166,8 @@ void Engine::Scene::SaveGameObject(Engine::GameObject* gameObject, std::fstream&
 	gameObject->transform->SetRotation(gameObject->transform->rotationEuler);
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
+		<< tab << "layer " << gameObject->GetLayer() << '\n'
+		<< tab << "tag " << gameObject->GetTag() << '\n'
 		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z
 		<< ' ' << gameObject->transform->rotationEuler.x << ' ' << gameObject->transform->rotationEuler.y << ' ' << gameObject->transform->rotationEuler.z
 		<< ' ' << gameObject->transform->scale.x << ' ' << gameObject->transform->scale.y << ' ' << gameObject->transform->scale.z << '\n';
@@ -196,6 +198,14 @@ GameObject* Engine::Scene::ParseGameObject(const std::vector<std::string>& fileD
 		else if (tokens[0] == "id")
 		{
 			newGameObject->SetID((unsigned int)std::stof(tokens[1]));
+		}
+		else if (tokens[0] == "layer")
+		{
+			newGameObject->SetLayer((unsigned int)std::stof(tokens[1]));
+		}
+		else if (tokens[0] == "tag")
+		{
+			newGameObject->SetTag((unsigned int)std::stof(tokens[1]));
 		}
 		else if (tokens[0] == "transform")
 		{
