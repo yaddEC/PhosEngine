@@ -25,7 +25,6 @@ void Resource::Material::Load()
 
 void Resource::Material::Bind()
 {
-	p_isLoaded = true;
 }
 
 void Resource::Material::Unload()

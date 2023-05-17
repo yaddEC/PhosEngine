@@ -50,12 +50,10 @@ void Resource::IShader::GUIUpdate()
 void Resource::VertexShader::Bind()
 {
 	Wrapper::RHI::BindShader(&p_shaderKey, p_sourceCode, GL_VERTEX_SHADER);
-	p_isLoaded = true;
 }
 
 void Resource::FragmentShader::Bind()
 {
 	Wrapper::RHI::BindShader(&p_shaderKey, p_sourceCode, GL_FRAGMENT_SHADER);
-	p_isLoaded = true;
 }
 

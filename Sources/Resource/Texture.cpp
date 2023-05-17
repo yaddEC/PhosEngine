@@ -50,7 +50,6 @@ void Texture::Bind()
 	{
 		stbi_image_free(m_data);
 	}
-	p_isLoaded = true;
 }
 
 void Texture::Unload()
@@ -60,16 +59,13 @@ void Texture::Unload()
 
 void Resource::Texture::GUIUpdate()
 {
-	Wrapper::GUI::DisplayFloat("Texture Key : ", m_textureKey);
-	Wrapper::GUI::DisplayVec2("Width and Height :", Maths::Vec2(m_width, m_height));
-	Wrapper::GUI::DisplayFloat("Channels : ", m_nrChannels);
+	Wrapper::GUI::DisplayText("Size : %d, %d", m_width, m_height);
 	Wrapper::GUI::Image(*this, Maths::Vec2(150, 150));
 }
 
 void Resource::Texture::BindDepth()
 {
 	Wrapper::RHI::BindDepthTexture(&m_textureKey, m_width, m_height);
-	p_isLoaded = true;
 }
 
 void Texture::ResizeAndReset(int _width, int _height)

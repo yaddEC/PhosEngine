@@ -17,7 +17,6 @@
 #include "Resource/Texture.hpp"
 #include "Wrapper/GUI.hpp"
 
-#define CUBEMAP_EXPORTS
 #include "Resource/CubeMap.hpp"
 
 void Resource::CubeMap::Load()
@@ -58,18 +57,23 @@ void Resource::CubeMap::GUIUpdate()
 {
 	using namespace Wrapper;
 	std::string faceName[6] = {"Right : ", "Left :  ", "Down :  ", "Up :    ", "Front : ", "Back :  "};
+	bool reload = false;
 	for (size_t i = 0; i < 6; i++)
 	{
-		GUI::DisplayText(faceName[i].c_str());
-		GUI::SameLine();
+		//GUI::DisplayText(faceName[i].c_str());
+		if (GUI::PickTexture(faceName[i], &m_faces[i], true))
+			reload = true;
 		if (m_faces[i])
 		{
 			GUI::Image(*m_faces[i], Maths::Vec2(100, 100));
 		}
-		else
-		{
-			GUI::DisplayText("NULL");
-		}
+		
+	}
+	if (reload)
+	{
+		std::cout << "cubemap reload" << std::endl;
+		LoadData();
+		Bind();
 	}
 
 }

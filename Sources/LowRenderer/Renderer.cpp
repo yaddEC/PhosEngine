@@ -20,7 +20,6 @@
 
 #include "Wrapper/RHI.hpp"
 
-#define RENDERER_EXPORTS
 #include "LowRenderer/Renderer.hpp"
 
 using namespace LowRenderer;

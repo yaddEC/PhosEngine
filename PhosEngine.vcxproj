@@ -266,6 +266,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\Threading\" "$(SolutionDir)External\PhosEngine\Threading\"
 xcopy /y /d "$(ProjectDir)Headers\Reflection\" "$(SolutionDir)External\PhosEngine\Reflection\"
 xcopy /y /d "$(ProjectDir)Headers\dllInclude.hpp" "$(SolutionDir)External\PhosEngine\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
@@ -439,6 +440,9 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
+    <ClInclude Include="Headers\Threading\AtomicMutex.hpp" />
+    <ClInclude Include="Headers\Threading\PoolSystem.hpp" />
+    <ClInclude Include="Headers\Threading\Thread.hpp" />
     <ClInclude Include="Headers\Wrapper\GUI.hpp" />
     <ClInclude Include="Headers\Wrapper\PhysicsWrapper.hpp" />
     <ClInclude Include="Headers\Wrapper\RHI.hpp" />
@@ -497,6 +501,8 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
     <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
+    <ClCompile Include="Sources\Threading\PoolSystem.cpp" />
+    <ClCompile Include="Sources\Threading\Thread.cpp" />
     <ClCompile Include="Sources\Wrapper\GUI.cpp" />
     <ClCompile Include="Sources\Wrapper\PhysicsWrapper.cpp" />
     <ClCompile Include="Sources\Wrapper\RHI.cpp" />

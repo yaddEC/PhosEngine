@@ -63,12 +63,16 @@ void Resource::PostProcessingShader::Load()
 void Resource::PostProcessingShader::Bind()
 {
 	Wrapper::RHI::BindShader(&m_progKey, m_postProShaderList);
-	p_isLoaded = true;
 }
 
 void Resource::PostProcessingShader::Unload()
 {
-	Wrapper::RHI::UnloadShader(&m_progKey);
+	for (auto shader : m_postProShaderList)
+	{
+		Wrapper::RHI::UnloadShader(&shader.key);
+	}
+	m_postProShaderList.clear();
+	Wrapper::RHI::UnloadShaderProgram(&m_progKey);
 }
 
 void Resource::PostProcessingShader::Use()
