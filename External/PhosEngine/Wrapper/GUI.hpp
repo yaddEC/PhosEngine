@@ -86,6 +86,7 @@ namespace Wrapper
 		static bool EditColorRGB(const std::string& label, Maths::Vec3* value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text = true);
 
+		static bool PickTexture(const std::string& label, Resource::Texture** texture, bool text = true);
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);

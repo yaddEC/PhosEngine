@@ -14,6 +14,7 @@ namespace EditorGUI
 
 		void DoUpdate() override;
 		Engine::GameObject* GetSelected();
+		void SetSelected(Engine::GameObject* selected) { m_selected = selected; }
 		bool selectedClicked = false;
 
 	private:

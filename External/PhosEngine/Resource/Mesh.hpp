@@ -29,8 +29,8 @@ namespace Resource
 
 		Mesh() : IResource()
 		{
-			m_boundingBoxMin = Maths::Vec3(INT32_MAX, INT32_MAX, INT32_MAX);
-			m_boundingBoxMax = Maths::Vec3(INT32_MIN, INT32_MIN, INT32_MIN);
+			m_boundingBoxMin = Maths::Vec3(FLT_MAX, FLT_MAX, FLT_MAX);
+			m_boundingBoxMax = Maths::Vec3(FLT_MIN, FLT_MIN, FLT_MIN);
 		};
 
 

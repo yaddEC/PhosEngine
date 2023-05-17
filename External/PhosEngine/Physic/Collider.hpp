@@ -7,7 +7,7 @@
 namespace Wrapper
 {
     class PhysicsCollider;
-    enum MaterialType;
+    enum class MaterialType;
 }
 
 namespace Engine
