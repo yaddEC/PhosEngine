@@ -33,8 +33,6 @@ namespace LowRenderer
 		void IdPickerRender(const Maths::Mat4& viewProj) const;
 
 		void Start() override;
-		void Update() override;
-		void GUIUpdate() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 
@@ -44,9 +42,9 @@ namespace LowRenderer
 		void SetMaterial(Resource::Material* _material) { m_material = _material; }
 		Resource::Material* GetMaterial() { return m_material; }
 
-		void SetAnimMatrix(int index, Maths::Mat4 matrix);
-
+		void SetSkinningMatrices();
 	private:
+
 
 		Engine::GameObject* GenerateBonesObject(const Resource::Bone& bone);
 		void AssignBoneObject(Engine::Transform* go);

@@ -73,6 +73,7 @@ namespace Wrapper
 		static Maths::Vec2 CalcTextSize(const std::string& text);
 		static bool TruncTextBySize(std::string& text, float maxLength);
 
+		static bool SliderFloat(const std::string& label, float& value, bool text = true, float min = 0, float max = 0);
 		static bool EditFloat(const std::string& label, float& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditVec2(const std::string& label, Maths::Vec2& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditVec3(const std::string& label, Maths::Vec3& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
@@ -85,6 +86,7 @@ namespace Wrapper
 		static bool EditColorRGB(const std::string& label, Maths::Vec3* value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text = true);
 
+		static bool PickTexture(const std::string& label, Resource::Texture** texture, bool text = true);
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);

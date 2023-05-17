@@ -12,7 +12,6 @@
 
 #include "Wrapper/RHI.hpp"
 
-#define TEXTURE_EXPORTS
 #include "Resource/Texture.hpp"
 
 using namespace Resource;
@@ -51,7 +50,6 @@ void Texture::Bind()
 	{
 		stbi_image_free(m_data);
 	}
-	p_isLoaded = true;
 }
 
 void Texture::Unload()
@@ -61,16 +59,20 @@ void Texture::Unload()
 
 void Resource::Texture::GUIUpdate()
 {
-	Wrapper::GUI::DisplayText("Texture Key : %d", m_textureKey);
-	Wrapper::GUI::DisplayText("Width and Height : (%d, %d)", m_width, m_height);
-	Wrapper::GUI::DisplayText("Channels : %d", m_nrChannels);
+	Wrapper::GUI::DisplayText("Size : %d, %d", m_width, m_height);
+	if(m_nrChannels == 1)
+		Wrapper::GUI::DisplayText("Format : Grey");
+	if (m_nrChannels == 3)
+		Wrapper::GUI::DisplayText("Format : RGB");
+	if (m_nrChannels == 4)
+		Wrapper::GUI::DisplayText("Format : RGBA");
+
 	Wrapper::GUI::Image(*this, Maths::Vec2(150, 150));
 }
 
 void Resource::Texture::BindDepth()
 {
 	Wrapper::RHI::BindDepthTexture(&m_textureKey, m_width, m_height);
-	p_isLoaded = true;
 }
 
 void Texture::ResizeAndReset(int _width, int _height)
@@ -85,7 +87,7 @@ void Texture::ResizeAndReset(int _width, int _height)
 
 void Texture::DisplayImage(float maxSize)
 {
-	int max = Maths::Max(m_width, m_height);
+	float max = Maths::Max(m_width, m_height);
 
 	float displayWidth = maxSize * static_cast<float>(m_width / max);
 	float displayHeight = maxSize * static_cast<float>(m_height / max);

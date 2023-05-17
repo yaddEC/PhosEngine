@@ -129,6 +129,27 @@ void Engine::GameObject::OnTriggerExit(GameObject* gameobject)
 	}
 }
 
+Engine::GameObject* Engine::GameObject::FindChildByName(const std::string& name)
+{
+	GameObject* currentParent = this;
+
+	for (auto child : currentParent->transform->GetChildren())
+	{
+		if (child->GetGameObject()->name == name)
+		{
+			return child->GetGameObject();
+		}
+		else
+		{
+			GameObject* result = child->GetGameObject()->FindChildByName(name);
+			if (result) return result;
+		}
+
+	}
+
+	return nullptr;
+}
+
 void Engine::GameObject::Destroy()
 {
 	for (MonoBehaviour* comp : m_components)

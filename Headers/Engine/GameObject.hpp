@@ -46,6 +46,8 @@ namespace Engine
 		std::vector<MonoBehaviour*> GetComponents() { return m_components; }
 		std::vector<MonoBehaviour*> GetComponentBuffer() { return m_componentsBuffer; }
 
+		Engine::GameObject* FindChildByName(const std::string& name);
+
 		template <typename T>
 		T* AddComponent()
 		{
