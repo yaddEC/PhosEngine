@@ -75,11 +75,11 @@ void LowRenderer::SpotLight::Start()
 void LowRenderer::SpotLight::Update()
 {
 	p_direction = (gameobject->transform->GetGlobalMatrix() * Maths::Vec4(0, -1, 0, 0)).xyz();
-	Maths::Vec3 Up = p_direction == Maths::Vec3(0, 1, 0) || p_direction == Maths::Vec3(0, -1, 0) ? Maths::Vec3(0, 0, -1) : Maths::Vec3(0, 1, 0);
+	Maths::Vec3 Up = -p_direction == Maths::Vec3(0, 1, 0) || p_direction == Maths::Vec3(0, -1, 0) ? Maths::Vec3(0, 0, -1) : Maths::Vec3(0, 1, 0);
 	Maths::Vec3 globalPos = gameobject->transform->position;
 
 	Maths::Mat4 proj = Maths::Mat4::CreateProjectionMatrix(90.f, 1.f, 15000.f, 1.f);
-	Maths::Mat4 view = Maths::Mat4::LookAt(globalPos + p_direction, globalPos, Up);
+	Maths::Mat4 view = Maths::Mat4::LookAt(globalPos , globalPos - p_direction, Up);
 	m_VP = view * proj;
 }
 

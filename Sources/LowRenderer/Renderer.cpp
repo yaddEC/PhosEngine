@@ -93,13 +93,15 @@ void Renderer::ComputeShadowMap()
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glDepthFunc(GL_LEQUAL);
+	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	for (int i = 0; i < m_spotLights.size(); i++)
 	{
 		m_spotLights[i]->RenderShadowMap();
 		rm.shadowShader->Use();
-		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		for (MeshRenderer* meshRender : m_meshRenderers)
 		{  
+			Maths::Mat4 test = meshRender->transform->GetGlobalMatrix() * m_spotLights[i]->GetVP();
+			rm.shadowShader->SetUniformMatrix("mvp", test);
 			rm.shadowShader->SetUniformMatrix("lightMat", m_spotLights[i]->GetVP());
 			rm.shadowShader->SetUniformMatrix("model", meshRender->transform->GetGlobalMatrix());
 			meshRender->GetMesh()->RenderShadowMap();
