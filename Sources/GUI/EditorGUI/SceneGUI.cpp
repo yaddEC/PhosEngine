@@ -5,7 +5,7 @@
 #include "Engine/GameObject.hpp"
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/Window.hpp"
-
+#include "Wrapper/GUI_Editor.hpp"
 #include "imgui.h"
 #include "imgui_internal.h"
 using namespace Maths; 
@@ -90,14 +90,7 @@ void SceneGUI::DoUpdate()
 {
 
 
-	m_frameCount++;
-	m_elapsedTime += Input::deltaTime;
-	if (m_elapsedTime >= 1.0f)
-	{
-		m_fps = static_cast<float>(m_frameCount) / m_elapsedTime;
-		m_elapsedTime = 0.0f;
-		m_frameCount = 0;
-	}
+
 	using namespace Wrapper;
 	selectedClicked = false;
 	Input& input = Input::GetInstance();
@@ -122,8 +115,8 @@ void SceneGUI::DoUpdate()
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
 
-
-
+	//m_sceneCamera.
+	//Wrapper::drawGizmo()
 
 	GUI::SameLine();
 
@@ -136,5 +129,5 @@ void SceneGUI::DoUpdate()
 
 	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
 
-	//GUI::DisplayText("%.2f FPS", m_fps);
+	
 }

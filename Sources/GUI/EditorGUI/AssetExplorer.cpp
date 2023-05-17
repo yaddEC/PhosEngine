@@ -189,7 +189,9 @@ void AssetExplorer::DisplayFile(const string& file)
 
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
-	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
+	//GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
+
+
 	if (m_isRenaming != -1)
 	{
 		if (m_isRenaming == 0)
@@ -213,7 +215,7 @@ void AssetExplorer::DisplayFile(const string& file)
 			}
 			else
 			{
-				FileButton(file);
+				FileButton(file, cursorPos);
 			}
 
 		}
@@ -237,13 +239,13 @@ void AssetExplorer::DisplayFile(const string& file)
 			}
 			else
 			{
-				FileButton(file);
+				FileButton(file, cursorPos);
 			}
 		}
 	}
 	else
 	{
-		FileButton(file);
+		FileButton(file, cursorPos);
 
 		if (resource)
 		{
@@ -497,7 +499,7 @@ void EditorGUI::AssetExplorer::FolderButton(const std::string& folder)
 	GUI::EndGroup();
 }
 
-void EditorGUI::AssetExplorer::FileButton(const std::string& file)
+void EditorGUI::AssetExplorer::FileButton(const std::string& file, const Maths::Vec2& cursorPos)
 {
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
@@ -505,7 +507,7 @@ void EditorGUI::AssetExplorer::FileButton(const std::string& file)
 	if (GUI::TruncTextBySize(displayfilename, 90))
 		displayfilename += "...";
 
-
+	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
 
 	GUI::DisplayText(displayfilename.c_str());
 	GUI::EndGroup();

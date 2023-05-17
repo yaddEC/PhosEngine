@@ -30,8 +30,17 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 {
 	if (!m_gameobject) return;
 
-
+	GUI::BeginGroup();
 	Wrapper::GUI::DisplayText(m_gameobject->name.c_str());
+	
+	std::vector<std::string> layerNames = *Wrapper::Physics::GetLayerNames();
+	std::string selected = Wrapper::Physics::GetLayerName(m_gameobject->GetLayer());
+	if (GUI::Combo("Layer", layerNames, selected))
+	{
+		m_gameobject->SetLayer(Wrapper::Physics::GetLayerID(selected));
+	}
+	
+	GUI::EndGroup();
 	Wrapper::GUI::Separator();
 	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{

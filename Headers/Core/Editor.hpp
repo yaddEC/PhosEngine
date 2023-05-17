@@ -59,6 +59,8 @@ namespace Core
 
 		Wrapper::Window& m_window;
 
+		bool m_vsync;
+
 	};
 }
 
