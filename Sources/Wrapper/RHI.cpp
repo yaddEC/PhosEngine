@@ -65,11 +65,11 @@ void Wrapper::RHI::BindDepthTexture(unsigned int* textureKey, int width, int hei
 	glGenTextures(1, textureKey);
 	glBindTexture(GL_TEXTURE_2D, *textureKey);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 	float clampColor[4] = { 1, 1, 1, 1 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, clampColor);
@@ -141,7 +141,7 @@ void Wrapper::RHI::ShaderMat(const unsigned int& programKey, const std::string& 
 
 void Wrapper::RHI::ShaderMatList(const unsigned int& programKey, const std::string& uniformName, const std::vector<Maths::Mat4>& matList)
 {
-	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), matList.size(), true, &matList.at(0).data[0]);
+	glUniformMatrix4fv(glGetUniformLocation(programKey, uniformName.c_str()), static_cast<int>(matList.size()), true, &matList.at(0).data[0]);
 }
 
 void Wrapper::RHI::ShaderVec3(const unsigned int& programKey, const std::string& uniformName, const Maths::Vec3& vec3)
@@ -190,7 +190,7 @@ void Wrapper::RHI::RenderSubMesh(const unsigned int& VAO, const std::vector<unsi
 {
 	glBindVertexArray(VAO);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
@@ -237,7 +237,7 @@ void Wrapper::RHI::SetSubMeshData(unsigned int& VAO, unsigned int& VBO, unsigned
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	size_t size = sizeof(Resource::SkinnedVertex);
+	int size = sizeof(Resource::SkinnedVertex);
 	glBufferData(GL_ARRAY_BUFFER, skinnedVertices.size() * size, &skinnedVertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -297,10 +297,14 @@ void Wrapper::RHI::CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int*
 
 void Wrapper::RHI::BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateSize, bool useRenderBuffer)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
 	if (useRenderBuffer)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, frameBufferKey);
 		glBindRenderbuffer(GL_RENDERBUFFER, renderBufferKey);
+	}
+	else
+	{
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBufferKey);
 	}
 
 	glViewport(0, 0, width, height);
@@ -313,10 +317,10 @@ void Wrapper::RHI::UnbindFrameBuffer()
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
-void Wrapper::RHI::ClearFrameBuffer(const Maths::Vec4& clearColor)
+void Wrapper::RHI::ClearFrameBuffer(const Maths::Vec4& clearColor, bool onlyDepth)
 {
 	glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(onlyDepth ? GL_DEPTH_BUFFER_BIT: GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDepth)
@@ -327,7 +331,7 @@ void Wrapper::RHI::AttachTextureToFrameBuffer(unsigned int textureKey, unsigned 
 	if (useDepth)
 	{
 		glDrawBuffer(GL_NONE);
-		//glReadBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -353,8 +357,7 @@ void Wrapper::RHI::BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], 
 	{
 		if (data[i] && faces[i])
 		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]
 			);
 		}
 	}
@@ -396,8 +399,7 @@ int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& 
 
 	return shaderID;
 }
-
-unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
+std::array<char, 4> Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
 	glFlush();
 	glFinish();
@@ -411,8 +413,8 @@ unsigned char* Wrapper::RHI::GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2
 
 	MPos.y = -MPos.y + viewportSize.y;
 
-	unsigned char data[4];
-	glReadPixels(MPos.x, MPos.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	std::array<char, 4> data{0};
+	glReadPixels(static_cast<int>(MPos.x), static_cast<int>(MPos.y), 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
 	return data;
 }

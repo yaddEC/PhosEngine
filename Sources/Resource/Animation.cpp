@@ -27,8 +27,8 @@ void Resource::Animation::Load()
         return;
 
     auto animation = scene->mAnimations[0];
-    m_duration = animation->mDuration;
-    m_tickRate = animation->mTicksPerSecond;
+    m_duration = static_cast<float>(animation->mDuration);
+    m_tickRate = static_cast<float>(animation->mTicksPerSecond);
     ProcessBone(animation, scene);
 }
 
@@ -110,12 +110,6 @@ Resource::AnimBone* Resource::Animation::ProcessHierarchy(const aiNode* node,
             if (child)
                 return child;
         }
-        else
-        {
-            return nullptr;
-        }
-        
     }
-
-    
+    return nullptr;
 }

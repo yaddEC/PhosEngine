@@ -33,7 +33,6 @@ SubMesh::SubMesh(vector<SkinnedVertex> _vertices, vector<unsigned int> _indices)
 void SubMesh::Render(const ShaderProgram& shaderProgram, const class Material& material) const
 {
     material.SendDataToShader();
-
     Wrapper::RHI::RenderSubMesh(m_VAO, indices);
 }
 

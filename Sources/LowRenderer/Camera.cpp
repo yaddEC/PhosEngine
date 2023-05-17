@@ -151,7 +151,7 @@ void Camera::IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLig
         {
             glBindVertexArray(LightSMesh[j].GetVAO());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(LightSMesh[j].indices.size()), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
@@ -172,7 +172,7 @@ void Camera::IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLig
         {
             glBindVertexArray(LightSMesh[j].GetVAO());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(LightSMesh[j].indices.size()), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
@@ -193,7 +193,7 @@ void Camera::IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLig
         {
             glBindVertexArray(LightSMesh[j].GetVAO());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(LightSMesh[j].indices.size()), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
@@ -225,7 +225,7 @@ void Camera::RenderIcon(const std::vector<DirectionalLight*>& m_directionalLight
         {
             glBindVertexArray(LightSMesh[j].GetVAO());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(LightSMesh[j].indices.size()), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
@@ -241,7 +241,7 @@ void Camera::RenderIcon(const std::vector<DirectionalLight*>& m_directionalLight
         {
             glBindVertexArray(LightSMesh[j].GetVAO());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(LightSMesh[j].indices.size()), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
@@ -257,7 +257,7 @@ void Camera::RenderIcon(const std::vector<DirectionalLight*>& m_directionalLight
         {
             glBindVertexArray(LightSMesh[j].GetVAO());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDrawElements(GL_TRIANGLES, LightSMesh[j].indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(LightSMesh[j].indices.size()), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
         }
     }
@@ -279,7 +279,7 @@ void Camera::OnGUI()
     using namespace Wrapper;
     {
         transform->OnGUI();
-        GUI::EditFloat("Field of View : ", fov, 0.1f, 1, 180);
+        GUI::EditFloat("Field of View : ", fov, 1, true, 180);
 
 
         static std::vector<std::string> bgModeName = { "Skybox", "Solid Color" };

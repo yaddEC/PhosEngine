@@ -12,16 +12,16 @@
 
 #include "Wrapper/RHI.hpp"
 
-#define TEXTURE_EXPORTS
 #include "Resource/Texture.hpp"
 
 using namespace Resource;
 
 Texture::Texture(unsigned char* _data, int _width, int _height, int _nrChannels)
 	: IResource()
-	, m_data(_data)
+	, m_textureKey(0)
 	, m_width(_width)
 	, m_height(_height)
+	, m_data(_data)
 	, m_nrChannels(_nrChannels)
 {
 
@@ -60,6 +60,13 @@ void Texture::Unload()
 void Resource::Texture::GUIUpdate()
 {
 	Wrapper::GUI::DisplayText("Size : %d, %d", m_width, m_height);
+	if(m_nrChannels == 1)
+		Wrapper::GUI::DisplayText("Format : Grey");
+	if (m_nrChannels == 3)
+		Wrapper::GUI::DisplayText("Format : RGB");
+	if (m_nrChannels == 4)
+		Wrapper::GUI::DisplayText("Format : RGBA");
+
 	Wrapper::GUI::Image(*this, Maths::Vec2(150, 150));
 }
 
@@ -82,8 +89,8 @@ void Texture::DisplayImage(float maxSize)
 {
 	float max = Maths::Max(m_width, m_height);
 
-	float displayWidth = maxSize * (float)m_width / max;
-	float displayHeight = maxSize * (float)m_height / max;
+	float displayWidth = maxSize * static_cast<float>(m_width / max);
+	float displayHeight = maxSize * static_cast<float>(m_height / max);
 
 	//GUI::SetCursorPos(Maths::Vec2(GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)), 0));
 	Wrapper::GUI::SetCursorPos(Maths::Vec2(Wrapper::GUI::GetCursorPos().x + ((maxSize * 0.5f) - (displayWidth * 0.5f)),
