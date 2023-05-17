@@ -29,5 +29,6 @@ namespace LowRenderer
 		Maths::Vec3 p_color ;
 		float p_intensity = 1;
 		Maths::Vec3 p_direction;
+		bool p_useShadow;
 	};
 }
