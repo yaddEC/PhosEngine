@@ -2,7 +2,7 @@
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/GUI.hpp"
 #include "Engine/Scene.hpp"
-
+#include <string>
 
 
 EditorGUI::PlayStateGUI::PlayStateGUI()

@@ -82,10 +82,10 @@ Editor::~Editor()
 
 bool Editor::Init()
 {
-    /*typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::high_resolution_clock Time;
     typedef std::chrono::milliseconds ms;
     typedef std::chrono::duration<float> fsec;
-    auto t0 = Time::now();*/
+    auto t0 = Time::now();
     
     static bool popUp = false;
     CreateGuiIni();
@@ -97,13 +97,13 @@ bool Editor::Init()
     rm.SetStaticResource();
     
 
-    rm.Reload();
+    rm.LoadAll();
 
-    /*auto t1 = Time::now();
+    auto t1 = Time::now();
     fsec fs = t1 - t0;
     ms d = std::chrono::duration_cast<ms>(fs);
     std::cout << fs.count() << "s\n";
-    std::cout << d.count() << "ms\n";*/
+    std::cout << d.count() << "ms\n";
 
     Engine::Input::GetInstance().Init(m_window.GetWindow());
     InitEditorGUI();
@@ -229,7 +229,9 @@ void Core::Editor::UpdateEditorGUI()
     }
     else if (m_sceneGUI->selectedClicked)
     {
-        m_Inspector->SetGameObjectToDisplay(m_sceneGUI->GetSelected());
+        Engine::GameObject* selected = m_sceneGUI->GetSelected();
+        m_Inspector->SetGameObjectToDisplay(selected);
+        m_Hierarchy->SetSelected(selected);
     }
     
     m_RendererGUI->Update();

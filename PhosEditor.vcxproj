@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/;External/ImGuizmo/Header/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -177,6 +177,11 @@
     <ClCompile Include="External\ImGUI\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="External\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="External\ImGUI\Source\imgui_widgets.cpp" />
+	<ClCompile Include="External\ImGuizmo\Source\GraphEditor.cpp" />
+    <ClCompile Include="External\ImGuizmo\Source\ImCurveEdit.cpp" />
+    <ClCompile Include="External\ImGuizmo\Source\ImGradient.cpp" />
+    <ClCompile Include="External\ImGuizmo\Source\ImGuizmo.cpp" />
+    <ClCompile Include="External\ImGuizmo\Source\ImSequencer.cpp" />
     <ClCompile Include="Sources\Core\App.cpp" />
     <ClCompile Include="Sources\Core\Editor.cpp" />
     <ClCompile Include="Sources\Core\ProjectManager.cpp" />
@@ -190,6 +195,7 @@
     <ClCompile Include="Sources\GUI\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\GUI\ProjectManagerGUI\ProjectManagerGUI.cpp" />
+    <ClCompile Include="Sources\Wrapper\GUI_Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\GLFW\glfw3.h" />
@@ -219,23 +225,37 @@
     <ClInclude Include="External\PhosEngine\LowRenderer\Renderer.hpp" />
     <ClInclude Include="External\PhosEngine\Maths\Maths.hpp" />
     <ClInclude Include="External\PhosEngine\Reflection\ClassMetaData.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\Animation.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\AnimBone.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\Armature.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\CubeMap.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\File.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\FileManager.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\IResource.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\IShader.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Material.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Mesh.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\Parser.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\PostProcessingShader.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\Prefab.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\ResourceIncludes.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\ResourceManager.hpp" />
+    <ClInclude Include="External\PhosEngine\Resource\ShaderInfo.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\ShaderProgram.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\SubMesh.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Texture.hpp" />
+    <ClInclude Include="External\PhosEngine\Threading\AtomicMutex.hpp" />
+    <ClInclude Include="External\PhosEngine\Threading\PoolSystem.hpp" />
+    <ClInclude Include="External\PhosEngine\Threading\Thread.hpp" />
     <ClInclude Include="External\PhosEngine\Wrapper\GUI.hpp" />
     <ClInclude Include="External\PhosEngine\Wrapper\RHI.hpp" />
-	<ClInclude Include="External\PhosEngine\Wrapper\PhysicsWrapper.hpp" />
-	<ClInclude Include="External\PhosEngine\Physic\PhysicsManager.hpp" />
+    <ClInclude Include="External\PhosEngine\Wrapper\PhysicsWrapper.hpp" />
+    <ClInclude Include="External\PhosEngine\Physic\PhysicsManager.hpp" />
     <ClInclude Include="Headers\Core\App.hpp" />
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\Core\ProjectManager.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
-	<ClInclude Include="Headers\GUI\EditorGUI\PlayStateGUI.hpp" />
+    <ClInclude Include="Headers\GUI\EditorGUI\PlayStateGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\HierarchyGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\PhysicsSettingsGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\RendererGUI.hpp" />
@@ -243,6 +263,7 @@
     <ClInclude Include="Headers\GUI\EditorGUI\InspectorGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\SceneGUI.hpp" />
     <ClInclude Include="Headers\GUI\ProjectManagerGUI\ProjectManagerGUI.hpp" />
+    <ClInclude Include="Headers\Wrapper\GUI_Editor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\PhosCore.dll" />

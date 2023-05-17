@@ -14,13 +14,12 @@ namespace Resource
 
 		virtual void Load() {}
 		virtual void Bind() {}
-		virtual void Unload() { p_isLoaded = false; }
+		virtual void Unload() { isLoaded = false; }
 		virtual void Save() {}
 		virtual void GUIUpdate() {};
 
 		virtual std::string GetTypeName() { return "IResource"; }
-
-		inline bool GetIsLoaded() { return p_isLoaded; }
+		
 		std::string GetFilePath() { return p_directory + "\\" + p_name; }
 		std::string GetName() { return p_name; }
 		std::string GetDirectory() { return p_directory; }
@@ -29,9 +28,11 @@ namespace Resource
 		// Do not call every frame
 		virtual class Texture* GenerateFileIcon() { return nullptr; }
 
+		bool isBinded = false;
+		bool isLoaded = false;
+
 	protected:
 
-		bool p_isLoaded = false;
 
 		std::string p_directory;
 		std::string p_name;

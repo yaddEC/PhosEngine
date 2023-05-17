@@ -5,7 +5,7 @@
 #include "Engine/GameObject.hpp"
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/Window.hpp"
-
+#include "Wrapper/GUI_Editor.hpp"
 #include "imgui.h"
 #include "imgui_internal.h"
 using namespace Maths; 
@@ -115,8 +115,8 @@ void SceneGUI::DoUpdate()
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
 
-
-
+	//m_sceneCamera.
+	//Wrapper::drawGizmo()
 
 	GUI::SameLine();
 

@@ -3,8 +3,10 @@
 #include <string>
 #include <filesystem>
 #include <iostream>
+#include <chrono>
+#include <queue>
 
-
+#include "Threading/AtomicMutex.hpp"
 #include "IResource.hpp"
 
 
@@ -31,8 +33,8 @@ namespace Resource
 	public:
 		ResourceManager(const ResourceManager&) = delete;
 
-		void Init(const std::string& rootAseetsPath);
-		void Reload();
+		void Init(const std::string& rootAssetPath);
+		void LoadAll();
 		void Save();
 
 		void SetStaticResource();
@@ -171,6 +173,8 @@ namespace Resource
 
 		void SetCurrentScene(Engine::Scene* currentScene); 
 
+		std::queue<IResource*> GetQueueToBeBinded() const { return m_toBeBinded; }
+
 		// Static resource
 
 		ShaderProgram* skyboxShader = nullptr;
@@ -181,9 +185,16 @@ namespace Resource
 		Mesh* cube = nullptr;
 		Mesh* quad = nullptr;
 
+		Threading::AtomicMutex m_queueMutex;
+
 	private:
 
+		std::queue<IResource*> m_toBeBinded;
+
 		ResourceManager() {}
+
+		void AddResourceByExtension(const std::filesystem::directory_entry& entry,
+			const std::string& rootAssetPath);
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
 		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
@@ -191,7 +202,7 @@ namespace Resource
 
 		Engine::Scene* m_currentScene = nullptr;
 
-		
+		std::chrono::system_clock::duration lastRefreshTime;
 	};
 	
 	

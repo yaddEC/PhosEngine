@@ -36,14 +36,12 @@ string GetFileExtension(const string& filename)
 
 void AssetExplorer::Reload()
 {
-	cout << "Reloading..." << endl;
 	for (const auto& entry : fs::recursive_directory_iterator(m_assetsRootDirectory))
 	{
 		string entryName = entry.path().u8string();
 		Resource::IResource* resource = Resource::ResourceManager::GetInstance().GetResource<Resource::IResource>(entryName);
 		if (resource && m_fileIcons.count(entryName) == 0)
 		{
-			cout << entryName << endl;
 			m_fileIcons.emplace(entryName, resource->GenerateFileIcon());
 		}
 	}
@@ -113,10 +111,12 @@ void AssetExplorer::DoUpdate()
 		GUI::OpenPopup("my_select_popup");
 		isTherePopUp = true;
 	}
+
 	if (isTherePopUp && (input.IsMouseButtonDown(GLFW_MOUSE_BUTTON_2) || input.IsMouseButtonDown(GLFW_MOUSE_BUTTON_1)))
 	{
 		isTherePopUp = false;
 	}
+
 	if (GUI::BeginPopup("my_select_popup"))
 	{
 	
@@ -145,6 +145,7 @@ void AssetExplorer::DoUpdate()
 		}
 		GUI::EndPopup();
 	}
+
 	if (resource)
 	{
 		GUI::OpenPopup("New_Resource_Popup");
@@ -188,7 +189,9 @@ void AssetExplorer::DisplayFile(const string& file)
 
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
-	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
+	//GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
+
+
 	if (m_isRenaming != -1)
 	{
 		if (m_isRenaming == 0)
@@ -212,7 +215,7 @@ void AssetExplorer::DisplayFile(const string& file)
 			}
 			else
 			{
-				FileButton(file);
+				FileButton(file, cursorPos);
 			}
 
 		}
@@ -236,13 +239,13 @@ void AssetExplorer::DisplayFile(const string& file)
 			}
 			else
 			{
-				FileButton(file);
+				FileButton(file, cursorPos);
 			}
 		}
 	}
 	else
 	{
-		FileButton(file);
+		FileButton(file, cursorPos);
 
 		if (resource)
 		{
@@ -274,47 +277,36 @@ void AssetExplorer::DisplayFile(const string& file)
 
 		Input& input = Input::GetInstance();
 		int selected = -1;
-		const char* names[] = { "Rename", "Copy", "Delete" };
-		bool toggles[] = { true, false, false };
 
 
 		GUI::SameLine();
-		GUI::TextUnformatted(selected == -1 ? "<None>" : names[selected]);
 
 		if (GUI::BeginPopup(popup_id))
 		{
-			for (int i = 0; i < IM_ARRAYSIZE(names); i++)
+			if (GUI::Selectable("Rename", false))
 			{
-				if (GUI::Selectable(names[i], false))
-				{
-					selected = i;
-					switch (selected)
-					{
-					case 0:
-						RenameFile(file);
-						break;
-					case 1:
-						//WIP
-						break;
-					case 2:
-						fs::remove(file);
-						break;
-					default:
-						break;
-					}
-
-				}
+				selected = 0;
+				RenameFile(file);
+			}
+			if (GUI::Selectable("Copy", false))
+			{
+				selected = 1;
+			}
+			if (GUI::Selectable("Delete", false))
+			{
+				selected = 2;
+				fs::remove(file);
+			}
+			GUI::Separator();
+			if (GUI::Selectable("Reload", false))
+			{
+				resource->Unload();
+				resource->Load();
+				resource->Bind();
 			}
 			GUI::EndPopup();
 		}
 	}
-
-
-
-
-	
-
-
 }
 
 
@@ -507,7 +499,7 @@ void EditorGUI::AssetExplorer::FolderButton(const std::string& folder)
 	GUI::EndGroup();
 }
 
-void EditorGUI::AssetExplorer::FileButton(const std::string& file)
+void EditorGUI::AssetExplorer::FileButton(const std::string& file, const Maths::Vec2& cursorPos)
 {
 	std::string displayfilename = file;
 	displayfilename = displayfilename.substr(displayfilename.find_last_of('\\') + 1);
@@ -515,7 +507,7 @@ void EditorGUI::AssetExplorer::FileButton(const std::string& file)
 	if (GUI::TruncTextBySize(displayfilename, 90))
 		displayfilename += "...";
 
-
+	GUI::SetCursorPos(Maths::Vec2(cursorPos.x + (100 - GUI::CalcTextSize(displayfilename).x) * 0.5f, cursorPos.y + 110));
 
 	GUI::DisplayText(displayfilename.c_str());
 	GUI::EndGroup();
