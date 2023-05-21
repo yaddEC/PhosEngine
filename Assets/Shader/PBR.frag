@@ -40,6 +40,8 @@ struct DirLight {
 
     vec3 color;
     float intensity;
+
+    bool useShadow; 
     sampler2D shadowMap;
 };  
 #define MAX_DIR_LIGHTS 3
@@ -74,6 +76,7 @@ struct SpotLight {
     float linear;
     float quadratic;
 
+    bool useShadow; 
     sampler2D shadowMap;
 }; 
 #define MAX_SPOT_LIGHTS 6
@@ -96,22 +99,20 @@ vec3 GetColorMapColor(ColorMap map)
     }
 }
 // ----------------------------------------------------------------------------
-vec3 getNormalFromMap()
+float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap)
 {
-    // vec3 tangentNormal = GetColorMapColor(material.normalMap) * 2.0 - 1.0;
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float shadow = currentDepth < closestDepth  ? 1.0 : 0.0;
 
-    // vec3 Q1  = dFdx(FragPos);
-    // vec3 Q2  = dFdy(FragPos);
-    // vec2 st1 = dFdx(texCoord);
-    // vec2 st2 = dFdy(texCoord);
-
-    // vec3 N   = normalize(Normal);
-    // vec3 T  = normalize(Q1 * st2.t - Q2 * st1.t);
-    // vec3 B  = -normalize(cross(N, T));
-    // mat3 TBN = mat3(T, B, N);
-
-    // return normalize(TBN * tangentNormal);
-    return vec3(0);
+    return shadow;
 }
 // ----------------------------------------------------------------------------
 float DistributionGGX(vec3 N, vec3 H, float roughness)
@@ -290,7 +291,16 @@ void main ()
     }
     for(int i = 0; i < lenghtSpotLight; i++)
     {
-        Lo += CalcSpotLight(spotLights[i], normal, viewDir, F0, metallic, roughness, albedo);
+        float shadow = ShadowCalculation(FragPosSpot[i], spotLights[i].shadowMap);
+        if(spotLights[i].useShadow)
+        {
+            Lo += CalcSpotLight(spotLights[i], normal, viewDir, F0, metallic, roughness, albedo) * shadow; 
+
+        }
+        else
+        {
+            CalcSpotLight(spotLights[i], normal, viewDir, F0, metallic, roughness, albedo);
+        }
     }
 
     

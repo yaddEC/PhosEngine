@@ -1,4 +1,0 @@
-t_alb Assets\Texture\Ch46_1001_Diffuse.png
-shader Assets\Shader\PBRShader.prog
-v_meta 0
-v_rough 0

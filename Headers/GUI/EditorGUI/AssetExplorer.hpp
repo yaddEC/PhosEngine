@@ -57,7 +57,7 @@ namespace EditorGUI
 		void CreateNewFolder(const std::string& path);
 		void CreateNewFile(const std::string& path);
 		void FolderButton(const std::string& folder);
-		void FileButton(const std::string& file);
+		void FileButton(const std::string& file, const Maths::Vec2& cursorPos);
 		void RenameFile(const std::string& file);
 		void RenameFolder(const std::string& folder);
 

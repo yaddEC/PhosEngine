@@ -1,345 +1,11 @@
-name "Girl"
-id 1
-transform 10 0 0 0 3.14159 0 0 0 0
-component "Mesh Renderer"
-	Mesh Assets\Model\Walking.fbx
-	Material Assets\Material\NewMaterial.phmat
-	end
-component "Animator"
-	Speed 1.000000
-	end
-child
-	name "mixamorig:Hips"
-	id 2
-	transform 0 0 0 0 0 0 1 1 1
-	child
-		name "mixamorig:Spine"
-		id 3
-		transform 0 0 0 0 0 0 1 1 1
-		child
-			name "mixamorig:Spine1"
-			id 4
-			transform 0 0 0 0 0 0 1 1 1
-			child
-				name "mixamorig:Spine2"
-				id 5
-				transform 0 0 0 0 0 0 1 1 1
-				child
-					name "mixamorig:Neck"
-					id 6
-					transform 0 0 0 0 0 0 1 1 1
-					child
-						name "mixamorig:Head"
-						id 7
-						transform 0 0 0 0 0 0 1 1 1
-						child
-							name "mixamorig:HeadTop_End"
-							id 8
-							transform 0 0 0 0 0 0 1 1 1
-							end
-						end
-					end
-				child
-					name "mixamorig:LeftShoulder"
-					id 9
-					transform 0 0 0 0 0 0 1 1 1
-					child
-						name "mixamorig:LeftArm"
-						id 10
-						transform 0 0 0 0 0 0 1 1 1
-						child
-							name "mixamorig:LeftForeArm"
-							id 11
-							transform 0 0 0 0 0 0 1 1 1
-							child
-								name "mixamorig:LeftHand"
-								id 12
-								transform 0 0 0 0 0 0 1 1 1
-								child
-									name "mixamorig:LeftHandThumb1"
-									id 13
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:LeftHandThumb2"
-										id 14
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:LeftHandThumb3"
-											id 15
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:LeftHandThumb4"
-												id 16
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:LeftHandIndex1"
-									id 17
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:LeftHandIndex2"
-										id 18
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:LeftHandIndex3"
-											id 19
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:LeftHandIndex4"
-												id 20
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:LeftHandMiddle1"
-									id 21
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:LeftHandMiddle2"
-										id 22
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:LeftHandMiddle3"
-											id 23
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:LeftHandMiddle4"
-												id 24
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:LeftHandRing1"
-									id 25
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:LeftHandRing2"
-										id 26
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:LeftHandRing3"
-											id 27
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:LeftHandRing4"
-												id 28
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:LeftHandPinky1"
-									id 29
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:LeftHandPinky2"
-										id 30
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:LeftHandPinky3"
-											id 31
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:LeftHandPinky4"
-												id 32
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								end
-							end
-						end
-					end
-				child
-					name "mixamorig:RightShoulder"
-					id 33
-					transform 0 0 0 0 0 0 1 1 1
-					child
-						name "mixamorig:RightArm"
-						id 34
-						transform 0 0 0 0 0 0 1 1 1
-						child
-							name "mixamorig:RightForeArm"
-							id 35
-							transform 0 0 0 0 0 0 1 1 1
-							child
-								name "mixamorig:RightHand"
-								id 36
-								transform 0 0 0 0 0 0 1 1 1
-								child
-									name "mixamorig:RightHandThumb1"
-									id 37
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:RightHandThumb2"
-										id 38
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:RightHandThumb3"
-											id 39
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:RightHandThumb4"
-												id 40
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:RightHandIndex1"
-									id 41
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:RightHandIndex2"
-										id 42
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:RightHandIndex3"
-											id 43
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:RightHandIndex4"
-												id 44
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:RightHandMiddle1"
-									id 45
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:RightHandMiddle2"
-										id 46
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:RightHandMiddle3"
-											id 47
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:RightHandMiddle4"
-												id 48
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:RightHandRing1"
-									id 49
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:RightHandRing2"
-										id 50
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:RightHandRing3"
-											id 51
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:RightHandRing4"
-												id 52
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								child
-									name "mixamorig:RightHandPinky1"
-									id 53
-									transform 0 0 0 0 0 0 1 1 1
-									child
-										name "mixamorig:RightHandPinky2"
-										id 54
-										transform 0 0 0 0 0 0 1 1 1
-										child
-											name "mixamorig:RightHandPinky3"
-											id 55
-											transform 0 0 0 0 0 0 1 1 1
-											child
-												name "mixamorig:RightHandPinky4"
-												id 56
-												transform 0 0 0 0 0 0 1 1 1
-												end
-											end
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-			end
-		end
-	child
-		name "mixamorig:LeftUpLeg"
-		id 57
-		transform 0 0 0 0 0 0 1 1 1
-		child
-			name "mixamorig:LeftLeg"
-			id 58
-			transform 0 0 0 0 0 0 1 1 1
-			child
-				name "mixamorig:LeftFoot"
-				id 59
-				transform 0 0 0 0 0 0 1 1 1
-				child
-					name "mixamorig:LeftToeBase"
-					id 60
-					transform 0 0 0 0 0 0 1 1 1
-					child
-						name "mixamorig:LeftToe_End"
-						id 61
-						transform 0 0 0 0 0 0 1 1 1
-						end
-					end
-				end
-			end
-		end
-	child
-		name "mixamorig:RightUpLeg"
-		id 62
-		transform 0 0 0 0 0 0 1 1 1
-		child
-			name "mixamorig:RightLeg"
-			id 63
-			transform 0 0 0 0 0 0 1 1 1
-			child
-				name "mixamorig:RightFoot"
-				id 64
-				transform 0 0 0 0 0 0 1 1 1
-				child
-					name "mixamorig:RightToeBase"
-					id 65
-					transform 0 0 0 0 0 0 1 1 1
-					child
-						name "mixamorig:RightToe_End"
-						id 66
-						transform 0 0 0 0 0 0 1 1 1
-						end
-					end
-				end
-			end
-		end
-	end
-end
 name "Ground"
-id 67
+id 1
+layer 0
+tag 0
 transform -5.25 -3 -1.55 0 0 0 50 1 100
 component "Mesh Renderer"
 	Mesh Assets\Model\cube.obj
-	Material Assets\Material\Blaziken.phmat
+	Material Assets\Material\Material.phmat
 	end
 component "Box Collider"
 	isTrigger  0
@@ -348,7 +14,9 @@ component "Box Collider"
 	end
 end
 name "testMat"
-id 68
+id 2
+layer 0
+tag 0
 transform 0 0 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
@@ -356,7 +24,9 @@ component "Mesh Renderer"
 	end
 end
 name "SpotLight"
-id 69
+id 3
+layer 0
+tag 0
 transform -23.8 55.95 0 0 0 0 1 1 1
 component "Spot Light"
 	Color 1.000000 1.000000 1.000000
@@ -367,7 +37,9 @@ component "Spot Light"
 	end
 end
 name "test"
-id 70
+id 4
+layer 0
+tag 0
 transform -0.75 10 0 0 0 1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -386,7 +58,9 @@ component "Sphere Collider"
 	end
 end
 name "Boo 3"
-id 71
+id 5
+layer 0
+tag 0
 transform -17.8 21.45 0 0 0 -1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -405,7 +79,9 @@ component "Sphere Collider"
 	end
 end
 name "Boo 4"
-id 72
+id 6
+layer 0
+tag 0
 transform -0.55 15.1 -25.9 0 0 1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -424,7 +100,9 @@ component "Sphere Collider"
 	end
 end
 name "Boo 6"
-id 73
+id 7
+layer 0
+tag 0
 transform -30.7 9.8 -11.05 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
@@ -443,26 +121,568 @@ component "Sphere Collider"
 	end
 end
 name "Cube"
-id 74
-transform -4.7 2.75 -6.65 0 0 0 1 1 1
+id 8
+layer 0
+tag 0
+transform 45.3 2.75 -6.65 0 0 0 0.2 0.2 0.2
 component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
+	Mesh Assets\Model\Walking.fbx
+	Material Assets\Material\GirlMat.phmat
+	end
+child
+	name "mixamorig:Hips"
+	id 9
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	child
+		name "mixamorig:Spine"
+		id 10
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "mixamorig:Spine1"
+			id 11
+			layer 0
+			tag 0
+			transform 0 0 0 0 0 0 1 1 1
+			child
+				name "mixamorig:Spine2"
+				id 12
+				layer 0
+				tag 0
+				transform 0 0 0 0 0 0 1 1 1
+				child
+					name "mixamorig:Neck"
+					id 13
+					layer 0
+					tag 0
+					transform 0 0 0 0 0 0 1 1 1
+					child
+						name "mixamorig:Head"
+						id 14
+						layer 0
+						tag 0
+						transform 0 0 0 0 0 0 1 1 1
+						child
+							name "mixamorig:HeadTop_End"
+							id 15
+							layer 0
+							tag 0
+							transform 0 0 0 0 0 0 1 1 1
+							child
+								name "mixamorig:HeadTop_End_end"
+								id 16
+								layer 0
+								tag 0
+								transform 0 0 0 0 0 0 1 1 1
+								end
+							end
+						end
+					end
+				child
+					name "mixamorig:LeftShoulder"
+					id 17
+					layer 0
+					tag 0
+					transform 0 0 0 0 0 0 1 1 1
+					child
+						name "mixamorig:LeftArm"
+						id 18
+						layer 0
+						tag 0
+						transform 0 0 0 0 0 0 1 1 1
+						child
+							name "mixamorig:LeftForeArm"
+							id 19
+							layer 0
+							tag 0
+							transform 0 0 0 0 0 0 1 1 1
+							child
+								name "mixamorig:LeftHand"
+								id 20
+								layer 0
+								tag 0
+								transform 0 0 0 0 0 0 1 1 1
+								child
+									name "mixamorig:LeftHandThumb1"
+									id 21
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:LeftHandThumb2"
+										id 22
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:LeftHandThumb3"
+											id 23
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:LeftHandThumb4"
+												id 24
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:LeftHandThumb4_end"
+													id 25
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:LeftHandIndex1"
+									id 26
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:LeftHandIndex2"
+										id 27
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:LeftHandIndex3"
+											id 28
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:LeftHandIndex4"
+												id 29
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:LeftHandIndex4_end"
+													id 30
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:LeftHandMiddle1"
+									id 31
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:LeftHandMiddle2"
+										id 32
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:LeftHandMiddle3"
+											id 33
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:LeftHandMiddle4"
+												id 34
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:LeftHandMiddle4_end"
+													id 35
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:LeftHandRing1"
+									id 36
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:LeftHandRing2"
+										id 37
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:LeftHandRing3"
+											id 38
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:LeftHandRing4"
+												id 39
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:LeftHandRing4_end"
+													id 40
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:LeftHandPinky1"
+									id 41
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:LeftHandPinky2"
+										id 42
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:LeftHandPinky3"
+											id 43
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:LeftHandPinky4"
+												id 44
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:LeftHandPinky4_end"
+													id 45
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				child
+					name "mixamorig:RightShoulder"
+					id 46
+					layer 0
+					tag 0
+					transform 0 0 0 0 0 0 1 1 1
+					child
+						name "mixamorig:RightArm"
+						id 47
+						layer 0
+						tag 0
+						transform 0 0 0 0 0 0 1 1 1
+						child
+							name "mixamorig:RightForeArm"
+							id 48
+							layer 0
+							tag 0
+							transform 0 0 0 0 0 0 1 1 1
+							child
+								name "mixamorig:RightHand"
+								id 49
+								layer 0
+								tag 0
+								transform 0 0 0 0 0 0 1 1 1
+								child
+									name "mixamorig:RightHandThumb1"
+									id 50
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:RightHandThumb2"
+										id 51
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:RightHandThumb3"
+											id 52
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:RightHandThumb4"
+												id 53
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:RightHandThumb4_end"
+													id 54
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:RightHandIndex1"
+									id 55
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:RightHandIndex2"
+										id 56
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:RightHandIndex3"
+											id 57
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:RightHandIndex4"
+												id 58
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:RightHandIndex4_end"
+													id 59
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:RightHandMiddle1"
+									id 60
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:RightHandMiddle2"
+										id 61
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:RightHandMiddle3"
+											id 62
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:RightHandMiddle4"
+												id 63
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:RightHandMiddle4_end"
+													id 64
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:RightHandRing1"
+									id 65
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:RightHandRing2"
+										id 66
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:RightHandRing3"
+											id 67
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:RightHandRing4"
+												id 68
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:RightHandRing4_end"
+													id 69
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								child
+									name "mixamorig:RightHandPinky1"
+									id 70
+									layer 0
+									tag 0
+									transform 0 0 0 0 0 0 1 1 1
+									child
+										name "mixamorig:RightHandPinky2"
+										id 71
+										layer 0
+										tag 0
+										transform 0 0 0 0 0 0 1 1 1
+										child
+											name "mixamorig:RightHandPinky3"
+											id 72
+											layer 0
+											tag 0
+											transform 0 0 0 0 0 0 1 1 1
+											child
+												name "mixamorig:RightHandPinky4"
+												id 73
+												layer 0
+												tag 0
+												transform 0 0 0 0 0 0 1 1 1
+												child
+													name "mixamorig:RightHandPinky4_end"
+													id 74
+													layer 0
+													tag 0
+													transform 0 0 0 0 0 0 1 1 1
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	child
+		name "mixamorig:LeftUpLeg"
+		id 75
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "mixamorig:LeftLeg"
+			id 76
+			layer 0
+			tag 0
+			transform 0 0 0 0 0 0 1 1 1
+			child
+				name "mixamorig:LeftFoot"
+				id 77
+				layer 0
+				tag 0
+				transform 0 0 0 0 0 0 1 1 1
+				child
+					name "mixamorig:LeftToeBase"
+					id 78
+					layer 0
+					tag 0
+					transform 0 0 0 0 0 0 1 1 1
+					child
+						name "mixamorig:LeftToe_End"
+						id 79
+						layer 0
+						tag 0
+						transform 0 0 0 0 0 0 1 1 1
+						child
+							name "mixamorig:LeftToe_End_end"
+							id 80
+							layer 0
+							tag 0
+							transform 0 0 0 0 0 0 1 1 1
+							end
+						end
+					end
+				end
+			end
+		end
+	child
+		name "mixamorig:RightUpLeg"
+		id 81
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "mixamorig:RightLeg"
+			id 82
+			layer 0
+			tag 0
+			transform 0 0 0 0 0 0 1 1 1
+			child
+				name "mixamorig:RightFoot"
+				id 83
+				layer 0
+				tag 0
+				transform 0 0 0 0 0 0 1 1 1
+				child
+					name "mixamorig:RightToeBase"
+					id 84
+					layer 0
+					tag 0
+					transform 0 0 0 0 0 0 1 1 1
+					child
+						name "mixamorig:RightToe_End"
+						id 85
+						layer 0
+						tag 0
+						transform 0 0 0 0 0 0 1 1 1
+						child
+							name "mixamorig:RightToe_End_end"
+							id 86
+							layer 0
+							tag 0
+							transform 0 0 0 0 0 0 1 1 1
+							end
+						end
+					end
+				end
+			end
+		end
 	end
 end
 name "Directional Light"
-id 75
+id 87
+layer 0
+tag 0
 transform 0 0 0 -0.808087 0 0 1 1 1
 component "Directional Light"
 	Color 1.000000 1.000000 1.000000
 	Intensity 1.000000
-	end
-end
-name "Cube"
-id 76
-transform 0 0 0 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\blaziken.obj
-	Material Assets\Material\Blaziken.phmat
 	end
 end
