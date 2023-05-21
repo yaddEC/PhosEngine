@@ -34,6 +34,7 @@ component "Spot Light"
 	Angle 12.000000
 	Linear Attenuation 0.090000
 	Quadratic Attenuation 0.032000
+	Use Shadow  1
 	end
 end
 name "test"

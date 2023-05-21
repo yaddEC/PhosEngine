@@ -33,8 +33,9 @@ namespace Resource
 	public:
 		ResourceManager(const ResourceManager&) = delete;
 
-		void Init(const std::string& rootAssetPath);
+		void Init(const std::string& rootAseetsPath);
 		void LoadAll();
+		void Reload(const std::string& rootAseetsPath);
 		void Save();
 
 		void SetStaticResource();
@@ -192,9 +193,9 @@ namespace Resource
 		std::queue<IResource*> m_toBeBinded;
 
 		ResourceManager() {}
-
 		void AddResourceByExtension(const std::filesystem::directory_entry& entry,
 			const std::string& rootAssetPath);
+
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
 		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,

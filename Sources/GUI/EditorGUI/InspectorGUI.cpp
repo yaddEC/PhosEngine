@@ -35,7 +35,6 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 	Wrapper::GUI::DisplayText(m_gameobject->name.c_str());
 	
 	std::vector<std::string> layerNames = *Wrapper::Physics::GetLayerNames();
-<<<<<<< HEAD
 	std::string layerSelected = Wrapper::Physics::GetLayerName(m_gameobject->GetLayer());
 	std::string tagSelected = Engine::Scene::GetTagName(m_gameobject->GetTag());
 	GUI::BeginGroup();
@@ -57,15 +56,7 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 	}
 	GUI::EndGroup();
 	GUI::EndGroup();
-=======
-	std::string selected = Wrapper::Physics::GetLayerName(m_gameobject->GetLayer());
-	if (GUI::Combo("Layer", layerNames, selected))
-	{
-		m_gameobject->SetLayer(Wrapper::Physics::GetLayerID(selected));
-	}
-	
-	GUI::EndGroup();
->>>>>>> f66a5d30acae09ebbf4b1dbae6d85e9883e5d9bd
+
 	Wrapper::GUI::Separator();
 	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{

@@ -12,8 +12,8 @@
 
 namespace Resource
 {
-	class Texture; 
-	class Mesh; 
+	class Texture;
+	class Mesh;
 	class Material;
 	class PostProcessingShader;
 }
@@ -73,11 +73,13 @@ namespace Wrapper
 		static Maths::Vec2 CalcTextSize(const std::string& text);
 		static bool TruncTextBySize(std::string& text, float maxLength);
 
+		static bool SliderFloat(const std::string& label, float& value, bool text = true, float min = 0, float max = 0);
 		static bool EditFloat(const std::string& label, float& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditVec2(const std::string& label, Maths::Vec2& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditVec3(const std::string& label, Maths::Vec3& value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditColorRGB(const std::string& label, Maths::Vec3& value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text = true);
+
 
 		static bool EditFloat(const std::string& label, float* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
 		static bool EditVec2(const std::string& label, Maths::Vec2* value, bool text = true, float speed = 1.f, float min = 0, float max = 0);
@@ -85,16 +87,17 @@ namespace Wrapper
 		static bool EditColorRGB(const std::string& label, Maths::Vec3* value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text = true);
 
+		static bool PickTexture(const std::string& label, Resource::Texture** texture, bool text = true);
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 
-		static void DisplayText(const char* format,...);
+		static void DisplayText(const char* format, ...);
 		static void DisplayFloat(const std::string& label, float value);
 		static void DisplayVec2(const std::string& label, const Maths::Vec2& value);
 		static void DisplayVec3(const std::string& label, const Maths::Vec3& value);
 
-		static bool InputString(const std::string& label, std::string& value, bool enterTrue = true , bool hiddenName = false);
+		static bool InputString(const std::string& label, std::string& value, bool enterTrue = true, bool hiddenName = false);
 		static bool Button(const std::string& label, const Maths::Vec2& size = Maths::Vec2(0, 0));
 		static bool CheckBox(const std::string& label, bool* isChecked, bool hiddenName = false);
 		static bool Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size = Maths::Vec2(0, 0));
