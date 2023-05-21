@@ -276,6 +276,56 @@ bool Wrapper::GUI::TruncTextBySize(std::string& text, float maxLength)
 	return trunced;
 }
 
+bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text, float min, float max)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	return ImGui::SliderFloat(("##" + label).c_str(), &value, min, max, "%.2f");
+}
+
+bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** texture, bool text)
+{
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine();
+	}
+	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Texture>();
+	std::string currentTextureName = *texture ? (*texture)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentTextureName.c_str()))
+	{
+		if (ImGui::Selectable("None", !texture))
+		{
+			*texture = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto str : meshNameList)
+		{
+			if (ImGui::Selectable(str.c_str(), str == currentTextureName))
+			{
+				*texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(str);
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+	}
+	if (Resource::Texture** newTexture = (Resource::Texture**)DragDropTarget("Texture"))
+	{
+		*texture = *newTexture;
+		return true;
+	}
+
+	return false;
+}
+
+
 bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
 {
 	if (text)
@@ -375,6 +425,7 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, b
 	}
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value->x);
 }
+
 
 bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, bool text)
 {
@@ -505,13 +556,14 @@ void Wrapper::GUI::DisplayText(const char* format, ...)
 	ImGui::Text(buffer);
 }
 
+
 bool Wrapper::GUI::InputString(const std::string& label, std::string& value, bool enterTrue, bool hiddenName)
 {
 	const int bufferSize = 256;
 	char buffer[bufferSize];
 
 	strncpy_s(buffer, bufferSize, value.c_str(), _TRUNCATE);
-	ImGuiInputTextFlags inputTextFlags =  ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_AlwaysInsertMode;
+	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_AlwaysInsertMode;
 
 	if (enterTrue)
 		inputTextFlags |= ImGuiInputTextFlags_EnterReturnsTrue;
@@ -525,7 +577,7 @@ bool Wrapper::GUI::InputString(const std::string& label, std::string& value, boo
 		return checkbox;
 	}
 	else
-	{ 
+	{
 		if (ImGui::InputText(label.c_str(), buffer, bufferSize, inputTextFlags))
 		{
 			value = std::string(buffer);
