@@ -39,10 +39,6 @@ namespace Resource
 
 		std::string GetName() const { return m_name; }
 
-		void AddChild(AnimBone* child) { m_children.push_back(child); }
-		void SetParent(AnimBone* parent) { m_parent = parent; }
-		AnimBone* GetParent() const { return m_parent; }
-		std::vector<AnimBone*> GetChildren() const { return m_children; }
 
 		void SetArmatureIndex(int i) { m_ArmatureIndex = i; }
 		int GetArmatureIndex() const { return m_ArmatureIndex; }
@@ -52,15 +48,9 @@ namespace Resource
 		Maths::Vec3 GetInterpolationScale(float animationTime) const;
 
 	private:
-
-		
-
-
 		std::string m_name;
 
 		int m_ArmatureIndex;
-		AnimBone* m_parent;
-		std::vector<AnimBone*> m_children;
 
 
 		std::vector<AnimBonePosition> m_positionList;

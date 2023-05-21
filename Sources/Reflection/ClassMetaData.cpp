@@ -73,7 +73,14 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		break;
 	}
 
-	case MemberType::T_BOOL:  break;
+	case MemberType::T_BOOL:  
+	{
+		if (GUI::CheckBox(name, (bool*)((size_t)classPtr + ptr), false))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		break;
+	}
 
 	case MemberType::T_VEC3:
 	{

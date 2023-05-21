@@ -850,71 +850,18 @@ Maths::Mat4 Maths::Mat4::CreateViewMatrix(const Vec3& position, float pitch, flo
 
 Maths::Mat4 Maths::Mat4::LookAt(const Vec3& pos, const Vec3& point, const Vec3& up)
 {
-	// May be optimized eventually.
+	Vec3 f = (point - pos).GetNormalized();
+	Vec3 s = (f.CrossProduct(up)).GetNormalized();
+	Vec3 u = s.CrossProduct(f);
+	float tab[16] = { s.x, s.y, s.z, 0.f,
+					  u.x, u.y, u.z, 0.f,
+					  -f.x, -f.y, -f.z, 0.f,
+					-Vec3::DotProduct(s, pos), -Vec3::DotProduct(u, pos), Vec3::DotProduct(f, pos) , 1.f };
+	Mat4 res1(tab);
+	res1 = res1.GetTranspose();
 
-	//look at nb 1
-	//Vec3 Up = up / up.GetMagnitude();
-	//Vec3 F = (pos - point).GetNormalized();
-	//Vec3 L = (Up.CrossProduct(F)).GetNormalized();
-	//Vec3 U = (F.CrossProduct(L)).GetNormalized();
-	//Vec3 T =  (-(L * pos), -(U * pos), -(F * pos) );
-	//float matRot[16] = { L.x, L.y, L.z, T.x,
-	//					   U.x, U.y, U.z, T.y,
-	//					   F.x, F.y, F.z, T.z,
-	//					   0, 0, 0, 1 };
-	//return Mat4{ matRot };
+	return res1;
 
-
-	//look at nb 2
-	//Vec3 f = (point - pos).GetNormalized();
-	//Vec3 s = (f.CrossProduct(up)).GetNormalized();
-	//Vec3 u = s.CrossProduct(f);
-	//Mat4 res;
-	//res.data_4_4[0][0] = s.x;
-	//res.data_4_4[1][0] = s.y;
-	//res.data_4_4[2][0] = s.z;
-	//res.data_4_4[0][1] = u.x;
-	//res.data_4_4[1][1] = u.y;
-	//res.data_4_4[2][1] = u.z;
-	//res.data_4_4[0][2] = -f.x;
-	//res.data_4_4[1][2] = -f.y;
-	//res.data_4_4[2][2] = -f.z;
-	//res.data_4_4[3][1] = -Vec3::DotProduct(u, pos);
-	//res.data_4_4[3][2] = Vec3::DotProduct(f, pos);
-	//res = res.GetTranspose();
-	//return res;
-
-	//look at nb 3
-	Mat4 translation = CreateTranslationMatrix(-pos);
-	Vec3 N = point;
-	N = N.GetNormalized();\
-	Vec3 U = up.CrossProduct(N);
-	U = U.GetNormalized();
-	Vec3 V = N.CrossProduct(U);
-	float res[16] = { U.x, U.y, U.z, 0,
-					  V.x, V.y, V.z, 0,
-					  N.x, N.y, N.z, 0,
-					    0,   0,   0, 1 };
-	Mat4 rotTrans(res);
-	return rotTrans * translation;
-
-	//look at nb 4
-	//Vec3 Z = (point - pos);
-	//Z.Normalize();
-	//Vec3 X = Z.CrossProduct(up);
-	//X.Normalize();
-	//Vec3 Y = X.CrossProduct(Z);\
-	//float tab[16] = { X.x, Y.x, -Z.x, 0.f ,
-	//				  X.y, Y.y, -Z.y, 0.f ,
-	//				  X.z, Y.z, -Z.z, 0.f ,
-	//				 -X.DotProduct(pos), -Y.DotProduct(pos), Z.DotProduct(pos), 1.f }; 
-	//
-	////float tab[16] = { X.x, Y.x, -Z.x, -X.DotProduct(pos) ,
-	////				  X.y, Y.y, -Z.y, -Y.DotProduct(pos) ,
-	////				  X.z, Y.z, -Z.z, Z.DotProduct(pos) ,
-	////				 0, 0, 0, 1.f };
-	//Mat4 result(tab);
-	//return result;
 }
 
 Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Vec3& rotation, const Vec3& scale)
@@ -926,23 +873,12 @@ Maths::Mat4 Maths::Mat4::CreateTransformMatrix(const Vec3& translation, const Ve
 
 Maths::Mat4 Maths::Mat4::CreateProjectionMatrix(float _fov, float _near, float _far, float _aspectRatio)
 {
-	float view = tanf((_fov * 0.5f) * (float)DEG2RAD);
-
-	float projectionData[16] =
-	{
-		(1 / view * (_aspectRatio)),	0,		    0,			0,
-		0,						1 / view,		0,			0,
-		0,						0,				((-_near - _far) / (_near - _far)), ((2 * _far * _near) / (_near - _far)),
-		0,						0,				1,			0
-	};
-
-
 	float S = 1 / tanf(_fov / 2 * (float)DEG2RAD);
 	float result[16] = { S * _aspectRatio, 0, 0, 0,
 						0, S, 0, 0,
 						0, 0, (_far / (_far - _near)), -((_far * _near) / (_far - _near)),
 						0, 0, 1, 0 };
-	return Mat4(projectionData);
+	return Mat4(result);
 
 }
 

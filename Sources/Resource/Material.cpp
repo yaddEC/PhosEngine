@@ -25,7 +25,6 @@ void Resource::Material::Load()
 
 void Resource::Material::Bind()
 {
-	p_isLoaded = true;
 }
 
 void Resource::Material::Unload()
@@ -107,7 +106,7 @@ void Resource::Material::SendDataToShader() const
 
 	if (m_normalMap)
 	{
-		m_shader->SetTexture("material.normalMap.texture", 2, *m_normalMap);
+		m_shader->SetTexture("material.normalMap.texture", 8, *m_normalMap);
 		m_shader->SetUniformBool("material.normalMap.useTexture", true);
 	}
 	else
@@ -118,7 +117,7 @@ void Resource::Material::SendDataToShader() const
 
 
 	if (m_roughness.useTexture)
-		m_shader->SetTexture("material.roughness.texture", 3, *m_roughness.texture);
+		m_shader->SetTexture("material.roughness.texture", 1, *m_roughness.texture);
 	else
 		m_shader->SetUniformVec3("material.roughness.color", Maths::Vec3(m_roughness.value, 0, 0));
 	m_shader->SetUniformBool("material.roughness.useTexture", m_roughness.useTexture);

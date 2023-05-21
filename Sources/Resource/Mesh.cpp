@@ -41,7 +41,6 @@ void Mesh::Bind()
     {
         mesh.SetUpSubMesh();
     }
-    p_isLoaded = true;
 }
 
 void Mesh::Unload()

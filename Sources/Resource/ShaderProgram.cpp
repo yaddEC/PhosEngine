@@ -61,7 +61,6 @@ void ShaderProgram::Load()
 void ShaderProgram::Bind()
 {
 	Wrapper::RHI::BindShader(&m_programKey, m_shaderList);
-	p_isLoaded = true;
 }
 
 void ShaderProgram::Use()
@@ -132,6 +131,11 @@ void Resource::ShaderProgram::SetUniformMatrixArray(const std::string& uniformNa
 
 void ShaderProgram::Unload()
 {
+	for (auto shader : m_shaderList)
+	{
+		Wrapper::RHI::UnloadShader(&shader.key);
+	}
+	m_shaderList.clear();
 	Wrapper::RHI::UnloadShaderProgram(&m_programKey);
 }
 

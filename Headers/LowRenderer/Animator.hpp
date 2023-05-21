@@ -21,16 +21,15 @@ namespace LowRenderer
 
 		void Start() override;
 		void Update() override;
-		void GUIUpdate() override;
-		void OnDestroy() override;
+		void OnInspector() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 
 	private:
 
-		void ComputeAnimBoneMatrices(Maths::Mat4 parentMatrix, Resource::AnimBone* bone);
+		void SetAnimObjects();
 
+		std::vector<Engine::Transform*> animObjectList;
 		Resource::Animation* m_currentAnimation;
-		MeshRenderer* m_meshRenderer;
 
 		float m_timeline = 0;
 		float m_speed = 1;

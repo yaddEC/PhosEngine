@@ -14,7 +14,7 @@
 #include "Physic/Rigidbody.hpp"
 #include "Engine/GameObject.hpp"
 
-
+#define PHYSICSWRAPPER_EXPORTS
 #include "Wrapper/PhysicsWrapper.hpp"
 
 
@@ -80,7 +80,94 @@ void  Wrapper::Physics::SetLayerCollision(std::string layerA, std::string layerB
     (*layerInteractionMatrix)[std::make_pair(layerNameToIndexMap[layerB], layerNameToIndexMap[layerA])] = shouldCollide;
 }
 
+void  Wrapper::Physics::saveLayerInfo()
+{
+    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
 
+    std::ofstream out("CollisionSettings.phs");
+    if (!out) {
+        std::cerr << "Failed to open CollisionSettings.phs for writing.\n";
+        return;
+    }
+
+    out << layerNames->size() << '\n';
+    for (const auto& name : *layerNames) {
+        out << name << '\n';
+    }
+
+    out << layerNameToIndexMap->size() << '\n';
+    for (const auto& kv : *layerNameToIndexMap) {
+        out << kv.first << ' ' << kv.second << '\n';
+    }
+
+    out << layerInteractionMatrix->size() << '\n';
+    for (const auto& kv : *layerInteractionMatrix) {
+        out << kv.first.first << ' ' << kv.first.second << ' ' << kv.second << '\n';
+    }
+}
+
+
+void Wrapper::Physics::LoadLayerInfo()
+{
+
+    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
+   
+    std::ifstream in("CollisionSettings.phs");
+    if (!in) {
+        std::cerr << "Failed to open CollisionSettings.phs for reading.\n";
+        std::ofstream out("CollisionSettings.phs");
+        layerNames->push_back("Default");
+        (*layerNameToIndexMap)["Default"] = 0;
+        (*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
+        return;
+    }
+    if (in.peek() == std::ifstream::traits_type::eof())
+    {
+        layerNames->push_back("Default");
+        (*layerNameToIndexMap)["Default"] = 0;
+        (*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
+        return;
+    }
+
+    layerNames->clear();
+    layerNameToIndexMap->clear();
+    layerInteractionMatrix->clear();
+
+    std::size_t numNames;
+    in >> numNames;
+    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    layerNames->resize(numNames);
+    for (std::string& name : *layerNames) {
+        std::getline(in, name);
+    }
+
+    std::size_t numMappings;
+    in >> numMappings;
+    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    for (std::size_t i = 0; i < numMappings; ++i) {
+        std::string name;
+        PxU32 index;
+        in >> name >> index;
+        (*layerNameToIndexMap)[name] = index;
+        in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    }
+
+    std::size_t numInteractions;
+    in >> numInteractions;
+    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    for (std::size_t i = 0; i < numInteractions; ++i) {
+        PxU32 key1, key2;
+        bool value;
+        in >> key1 >> key2 >> value;
+        (*layerInteractionMatrix)[std::make_pair(key1, key2)] = value;
+        (*layerInteractionMatrix)[std::make_pair(key2, key1)] = value;
+        in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+    }
+}
 
 std::vector<std::string>* Wrapper::Physics::GetLayerNames()
 {

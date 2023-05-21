@@ -15,7 +15,8 @@ void Resource::AnimBone::Load(const aiNodeAnim* channel)
 	for (size_t i = 0; i < channel->mNumPositionKeys; i++)
 	{
 		AnimBonePosition pos;
-		pos.position = Parser::ConvertVec3(&channel->mPositionKeys[i].mValue.x);
+		aiVector3D aiPosition = channel->mPositionKeys[i].mValue;
+		pos.position = Maths::Vec3(aiPosition.x, aiPosition.y, aiPosition.z);
 		pos.timeStamp = channel->mPositionKeys[i].mTime;
 		m_positionList.push_back(pos);
 	}
@@ -34,8 +35,9 @@ void Resource::AnimBone::Load(const aiNodeAnim* channel)
 	for (size_t i = 0; i < channel->mNumScalingKeys; i++)
 	{
 		AnimBoneScale scale;
-		scale.scale = Parser::ConvertVec3(&channel->mPositionKeys[i].mValue.x);
-		scale.timeStamp = channel->mPositionKeys[i].mTime;
+		aiVector3D aiScale = channel->mScalingKeys[i].mValue;
+		scale.scale = Maths::Vec3(aiScale.x, aiScale.y, aiScale.z);
+		scale.timeStamp = channel->mScalingKeys[i].mTime;
 		m_scaleList.push_back(scale);
 	}
 }

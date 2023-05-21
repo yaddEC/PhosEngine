@@ -84,7 +84,7 @@ std::string Resource::Parser::WriteVec3(const std::string& label, const Maths::V
 
 Maths::Vec3 Resource::Parser::ConvertVec3(const float* vec3_ptr)
 {
-	return Maths::Vec3(*vec3_ptr, *(vec3_ptr + 1), *(vec3_ptr + 2));
+	return Maths::Vec3(*vec3_ptr, *(vec3_ptr + 4), *(vec3_ptr + 8));
 }
 
 Maths::Mat4 Resource::Parser::ConvertMat4(const float* mat4_ptr)

@@ -1,3 +1,4 @@
+#include "..\..\..\PhosEditor\External\PhosEngine\Resource\ResourceManager.hpp"
 // include needed
 #include <utility>
 #include <limits>
@@ -7,9 +8,17 @@
 #include "Resource/ResourceIncludes.hpp"
 #include "Wrapper/GUI.hpp"
 
+#include "Threading/PoolSystem.hpp"
+#include "Threading/Thread.hpp"
+
 #include "Resource/ResourceManager.hpp"
 
 using namespace Resource;
+
+typedef std::chrono::high_resolution_clock Time;
+typedef std::chrono::milliseconds ms;
+typedef std::chrono::duration<float> fsec;
+typedef std::chrono::system_clock::duration duration;
 
 namespace fs = std::filesystem;
 
@@ -17,78 +26,79 @@ std::string GetExtension(const fs::directory_entry& entry)
 {
 	if (entry.path().u8string().find_last_of('.') == std::string::npos)
 		return "";
-	return strrchr(entry.path().u8string().c_str(), '.') + 1;
+	return strrchr(entry.path().string().c_str(), '.') + 1;
 }
 
 std::string GetRelativePath(const fs::directory_entry& entry, const std::string& rootDirectory)
 {
-	std::string pathStr = entry.path().u8string().substr();
+	std::string pathStr = entry.path().string().substr();
 	return pathStr.substr(pathStr.find(rootDirectory));
 }
 
-void ResourceManager::Init(const std::string& rootAseetsPath)
+void Resource::ResourceManager::Init(const std::string& rootAssetPath)
 {
-
-	for (const auto& entry : fs::recursive_directory_iterator(rootAseetsPath))
+	for (const auto& entry : fs::recursive_directory_iterator(rootAssetPath))
 	{
 		if (!fs::is_directory(entry))
 		{
-			std::string extension = GetExtension(entry);
-
-			if (extension == "png" || extension == "PNG" || extension == "jpg" || extension == "JPG" || extension == "rgba")
-			{
-				CreateResource<Texture>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "obj" || extension == "OBJ" || extension == "fbx" || extension == "FBX")
-			{
-				CreateResource<Mesh>(GetRelativePath(entry, rootAseetsPath));
-				//CreateResource<Animation>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "anim" || extension == "ANIM")
-			{
-				CreateResource<Animation>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "prog" || extension == "PROG")
-			{
-				CreateResource<ShaderProgram>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "phmat" || extension == "PHMAT")
-			{
-				CreateResource<Material>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "phcm" || extension == "PHCM")
-			{
-				CreateResource<CubeMap>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "phprefab" || extension == "PHPREFAB")
-			{
-				CreateResource<Prefab>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "phscene" || extension == "PHSCENE")
-			{
-				CreateResource<Engine::Scene>(GetRelativePath(entry, rootAseetsPath));
-			}
-			else if (extension == "phppro" || extension == "PHPPRO")
-			{
-				CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAseetsPath));
-			}
+			AddResourceByExtension(entry, rootAssetPath);
 		}
 	}
 }
 
-void Resource::ResourceManager::Reload()
+void Resource::ResourceManager::LoadAll()
 {
-	for (auto resource : m_resourceMap)
+	Threading::Pool pool;
+
+	for (int i = 0; i < 5; i++)
 	{
-		if (resource.second->GetTypeName() != "Scene")
-			resource.second->Load();
+		pool.registerThread(new Threading::Thread(pool, std::to_string(i)));
 	}
+
+	pool.startPool();
 
 	for (auto resource : m_resourceMap)
 	{
-		resource.second->Bind();
+		if (resource.second->GetTypeName() != "Scene" && !resource.second->isLoaded)
+		{
+			pool.registerTask(Threading::ResourceTask
+				{
+					[](void* resource)
+					{
+						((IResource*)resource)->Load();
+						((IResource*)resource)->isLoaded = true;
+					},
+					resource.second
+				});
+		}
 	}
+
+	while (true)
+	{
+		bool allResourceAreLoaded = true;
+		for (auto resource : m_resourceMap)
+		{
+			if (resource.second->isLoaded && !resource.second->isBinded)
+			{
+				resource.second->Bind();
+				resource.second->isBinded = true;
+			}
+			if (!resource.second->isLoaded && resource.second->GetTypeName() != "Scene")
+				allResourceAreLoaded = false;
+		}
+
+		if (allResourceAreLoaded)
+		{
+			break;
+		}
+	}
+	pool.stopPool();
+	pool.~Pool();
+
+	lastRefreshTime = std::chrono::system_clock::now().time_since_epoch();
 }
+
+
 
 void Resource::ResourceManager::Save()
 {
@@ -115,6 +125,48 @@ void Resource::ResourceManager::SetStaticResource()
 void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene) 
 {
 	m_currentScene = currentScene;
+}
+
+void Resource::ResourceManager::AddResourceByExtension(const fs::directory_entry& entry, const std::string& rootAssetPath)
+{
+	std::string extension = GetExtension(entry);
+
+	if (extension == "png" || extension == "PNG" || extension == "jpg" || extension == "JPG" || extension == "rgba")
+	{
+		CreateResource<Texture>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "obj" || extension == "OBJ" || extension == "fbx" || extension == "FBX")
+	{
+		CreateResource<Mesh>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "anim" || extension == "ANIM")
+	{
+		CreateResource<Animation>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "prog" || extension == "PROG")
+	{
+		CreateResource<ShaderProgram>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "phmat" || extension == "PHMAT")
+	{
+		CreateResource<Material>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "phcm" || extension == "PHCM")
+	{
+		CreateResource<CubeMap>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "phprefab" || extension == "PHPREFAB")
+	{
+		CreateResource<Prefab>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "phscene" || extension == "PHSCENE")
+	{
+		CreateResource<Engine::Scene>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "phppro" || extension == "PHPPRO")
+	{
+		CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAssetPath));
+	}
 }
 
 

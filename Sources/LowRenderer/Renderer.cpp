@@ -20,13 +20,20 @@
 
 #include "Wrapper/RHI.hpp"
 
-#define RENDERER_EXPORTS
 #include "LowRenderer/Renderer.hpp"
 
 using namespace LowRenderer;
 
 void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
 {
+	for (MeshRenderer* rend : m_meshRenderers)
+	{
+		if (rend->GetMesh()->GetArmature())
+		{
+			rend->SetSkinningMatrices();
+		}
+	}
+
 	ComputeShadowMap();
 	std::vector<Resource::ShaderProgram*> shaderList;
 	for (MeshRenderer* rend : m_meshRenderers)
@@ -93,13 +100,15 @@ void Renderer::ComputeShadowMap()
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glDepthFunc(GL_LEQUAL);
+	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	for (int i = 0; i < m_spotLights.size(); i++)
 	{
 		m_spotLights[i]->RenderShadowMap();
 		rm.shadowShader->Use();
-		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		for (MeshRenderer* meshRender : m_meshRenderers)
 		{  
+			Maths::Mat4 test = meshRender->transform->GetGlobalMatrix() * m_spotLights[i]->GetVP();
+			rm.shadowShader->SetUniformMatrix("mvp", test);
 			rm.shadowShader->SetUniformMatrix("lightMat", m_spotLights[i]->GetVP());
 			rm.shadowShader->SetUniformMatrix("model", meshRender->transform->GetGlobalMatrix());
 			meshRender->GetMesh()->RenderShadowMap();
