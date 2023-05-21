@@ -35,7 +35,7 @@ namespace Engine
 		~Scene();
 
 		void Update();
-		
+
 		GameObject* Instantiate(GameObject* newGameObject);
 		GameObject* InstantiatePrefab(const Resource::Prefab& prefab);
 
@@ -57,8 +57,16 @@ namespace Engine
 		void Save() override;
 		void GUIUpdate() override {}
 
+		static void SaveSettings();
+		static void LoadSettings();
+
 		std::string GetTypeName() { return "Scene"; }
 		Resource::Texture* GenerateFileIcon() override { return nullptr; }
+
+		static void CreateTag(const std::string tagName);
+		static std::string GetTagName(unsigned int Layer);
+		static std::vector<std::string> tagNames;
+		static std::map<std::string, unsigned int> tagNameToIndexMap;
 
 
 	private:

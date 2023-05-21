@@ -21,7 +21,7 @@ namespace LowRenderer
 		void Bind(bool useRenderBuffer = true, int _width = 0, int _height = 0);
 
 		// Only call AFTER Bind()
-		void Clear(Maths::Vec4 clearColor = Maths::Vec4());
+		void Clear(Maths::Vec4 clearColor = Maths::Vec4(), bool onlyDepth = false);
 		void AttachTexture(Resource::Texture* texture, bool useDepth = false);
 		void DetachTexture();
 

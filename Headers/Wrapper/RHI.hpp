@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <array>
 
 #include "Maths/Maths.hpp"
 
@@ -57,14 +58,14 @@ namespace Wrapper
 		static void CreateFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey, bool useRenderBuffer = true);
 		static void BindFrameBuffer(unsigned int frameBufferKey, unsigned int renderBufferKey, int width, int height, bool updateize = false, bool useRenderBuffer = true);
 		static void UnbindFrameBuffer();
-		static void ClearFrameBuffer(const Maths::Vec4& clearColor);
+		static void ClearFrameBuffer(const Maths::Vec4& clearColor, bool onlyDepth = false);
 		static void AttachTextureToFrameBuffer(unsigned int textureKey, unsigned int frameBufferKey, bool useDepth = false);
 		static void DetachTextureToFrameBuffer(unsigned int frameBufferKey, bool useDepth = false);
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
 		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
 
-		static unsigned char* GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
+		static std::array<char, 4> GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 
 	private:
 		static int GetCompiledShader(unsigned int shaderType, const std::string& shaderSource);

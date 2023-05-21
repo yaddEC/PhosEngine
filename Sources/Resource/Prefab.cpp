@@ -113,7 +113,7 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		}
 		else if (tokens[0] == "id")
 		{
-			newGameObject->SetID(std::stof(tokens[1]));
+			newGameObject->SetID(static_cast<unsigned int>(std::stof(tokens[1])));
 		}
 		else if (tokens[0] == "transform")
 		{
@@ -136,6 +136,7 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 			return newGameObject;
 		}
 	}
+	return nullptr;
 }
 
 

@@ -14,7 +14,7 @@
 #include "Physic/Rigidbody.hpp"
 #include "Engine/GameObject.hpp"
 
-#define PHYSICSWRAPPER_EXPORTS
+
 #include "Wrapper/PhysicsWrapper.hpp"
 
 
@@ -28,11 +28,11 @@ MySimulationEventCallback::~MySimulationEventCallback()
 {
 }
 
-void  Wrapper::Physics::CreateLayer(const std::string& layerName)
+void  Wrapper::Physics::CreateLayer(const std::string layerName)
 {
     std::vector<std::string>* layerNames =Wrapper::Physics::GetLayerNames();
     std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
-    PxU32 newLayerIndex = layerNames->size();
+    PxU32 newLayerIndex = static_cast<unsigned int>(layerNames->size());
     layerNames->push_back(layerName);
     (*layerNameToIndexMap)[layerName] = newLayerIndex;
 
@@ -41,6 +41,28 @@ void  Wrapper::Physics::CreateLayer(const std::string& layerName)
         PxU32 otherLayerIndex = (*layerNameToIndexMap)[otherLayerName];
         SetLayerCollision(layerName, otherLayerName, true);
     }
+}
+
+std::string Wrapper::Physics::GetLayerName(unsigned int Layer)
+{
+    std::map<std::string, PxU32> layerNameToIndexMap = *Wrapper::Physics::GetNameToIndex();
+    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+
+    for (const auto& pair : layerNameToIndexMap) {
+        if (pair.second == Layer) {
+           return pair.first;
+            break;
+        }
+    }
+
+    return "Default";
+    
+}
+
+unsigned int Wrapper::Physics::GetLayerID(const std::string layerName)
+{
+    std::map<std::string, PxU32> layerNameToIndexMap = *Wrapper::Physics::GetNameToIndex();
+    return layerNameToIndexMap[layerName];
 }
 
 bool  Wrapper::Physics::GetLayerCollision(std::string layerA, std::string layerB)
@@ -55,85 +77,10 @@ void  Wrapper::Physics::SetLayerCollision(std::string layerA, std::string layerB
     std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
     std::map<std::string, PxU32> layerNameToIndexMap = *Wrapper::Physics::GetNameToIndex();
     (*layerInteractionMatrix)[std::make_pair(layerNameToIndexMap[layerA], layerNameToIndexMap[layerB])] = shouldCollide;
-    (*layerInteractionMatrix)[std::make_pair(layerNameToIndexMap[layerA], layerNameToIndexMap[layerB])] = shouldCollide;
-}
-
-void  Wrapper::Physics::saveLayerInfo()
-{
-    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
-    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
-    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
-
-    std::ofstream out("CollisionSettings.phs");
-    if (!out) {
-        std::cerr << "Failed to open CollisionSettings.phs for writing.\n";
-        return;
-    }
-
-    out << layerNames->size() << '\n';
-    for (const auto& name : *layerNames) {
-        out << name << '\n';
-    }
-
-    out << layerNameToIndexMap->size() << '\n';
-    for (const auto& kv : *layerNameToIndexMap) {
-        out << kv.first << ' ' << kv.second << '\n';
-    }
-
-    out << layerInteractionMatrix->size() << '\n';
-    for (const auto& kv : *layerInteractionMatrix) {
-        out << kv.first.first << ' ' << kv.first.second << ' ' << kv.second << '\n';
-    }
+    (*layerInteractionMatrix)[std::make_pair(layerNameToIndexMap[layerB], layerNameToIndexMap[layerA])] = shouldCollide;
 }
 
 
-void Wrapper::Physics::LoadLayerInfo()
-{
-
-    std::map < std::pair<PxU32, PxU32>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
-    std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
-    std::map<std::string, PxU32>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
-   
-    std::ifstream in("CollisionSettings.phs");
-    if (!in) {
-        std::cerr << "Failed to open CollisionSettings.phs for reading.\n";
-        return;
-    }
-
-    layerNames->clear();
-    layerNameToIndexMap->clear();
-    layerInteractionMatrix->clear();
-
-    std::size_t numNames;
-    in >> numNames;
-    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-    layerNames->resize(numNames);
-    for (std::string& name : *layerNames) {
-        std::getline(in, name);
-    }
-
-    std::size_t numMappings;
-    in >> numMappings;
-    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-    for (std::size_t i = 0; i < numMappings; ++i) {
-        std::string name;
-        PxU32 index;
-        in >> name >> index;
-        (*layerNameToIndexMap)[name] = index;
-        in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-    }
-
-    std::size_t numInteractions;
-    in >> numInteractions;
-    in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-    for (std::size_t i = 0; i < numInteractions; ++i) {
-        PxU32 key1, key2;
-        bool value;
-        in >> key1 >> key2 >> value;
-        (*layerInteractionMatrix)[std::make_pair(key1, key2)] = value;
-        in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-    }
-}
 
 std::vector<std::string>* Wrapper::Physics::GetLayerNames()
 {
@@ -168,14 +115,14 @@ PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterD
 
         }
     }
-    else //if (layerInteractionMatrix[std::make_pair(filterData0.word0, filterData1.word0)])
+    else if (layerInteractionMatrix[std::make_pair(filterData0.word0, filterData1.word0)])
     {
         pairFlags = PxPairFlag::eCONTACT_DEFAULT;
     }
-    /*else
+    else
     {
         return PxFilterFlag::eSUPPRESS;
-    }*/
+    }
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
@@ -439,7 +386,9 @@ namespace Wrapper
             m_shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
             m_shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
         }
-
+        PxFilterData filterData;
+        filterData.word0 = collider->gameobject->GetLayer();
+        m_shape->setSimulationFilterData(filterData);
         Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->addActor(*m_physxActor);
 
     }
@@ -502,6 +451,9 @@ namespace Wrapper
             PxShape* shapes[1];
             m_physxActor->getShapes(shapes, 1);
             shapes[0]->setFlag(PxShapeFlag::eTRIGGER_SHAPE, collider->GetTriggerState());
+            PxFilterData filterData;
+            filterData.word0 = collider->gameobject->GetLayer();
+            shapes[0]->setSimulationFilterData(filterData);
             Maths::Vec3 collCenter = collider->GetCenter();
             PxVec3 position = PxVec3(worldModel.data_4_4[0][3] + collCenter.x, worldModel.data_4_4[1][3] + collCenter.y, worldModel.data_4_4[2][3] + collCenter.z);
             m_physxActor->setGlobalPose(PxTransform(position));
@@ -636,7 +588,7 @@ namespace Wrapper
 
     void Wrapper::PhysicsRigidbody::OnGuiChanged()
     {
-        if (this)
+        if (this && m_physxActor)
         {
             m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
         }

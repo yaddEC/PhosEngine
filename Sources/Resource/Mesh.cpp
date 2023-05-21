@@ -7,6 +7,8 @@
 #include <algorithm>
 
 #include "Wrapper/GUI.hpp"
+#include "Wrapper/RHI.hpp"
+
 #include "Resource/SubMesh.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
@@ -69,6 +71,14 @@ void Mesh::Render(const ShaderProgram& shaderProgram, const class Material& mate
     for (SubMesh mesh : m_subMeshes)
     {
         mesh.Render(shaderProgram, material);
+    }
+}
+
+void Mesh::RenderShadowMap() const 
+{
+    for (SubMesh mesh : m_subMeshes)
+    {
+        Wrapper::RHI::RenderSubMesh(mesh.GetVAO(), mesh.indices);
     }
 }
 

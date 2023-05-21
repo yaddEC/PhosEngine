@@ -51,9 +51,9 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 		shader->SetUniformVec3("ambientColor", m_ambient);
 		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
 
-		shader->SetUniformInt("lenghtDirLight", m_directionalLights.size());
-		shader->SetUniformInt("lenghtPointLight", m_pointLights.size());
-		shader->SetUniformInt("lenghtSpotLight", m_spotLights.size());
+		shader->SetUniformInt("lenghtDirLight", static_cast<int>(m_directionalLights.size()));
+		shader->SetUniformInt("lenghtPointLight", static_cast<int>(m_pointLights.size()));
+		shader->SetUniformInt("lenghtSpotLight", static_cast<int>(m_spotLights.size()));
 
 		for (int i = 0; i < m_directionalLights.size(); i++)
 		{
@@ -95,12 +95,14 @@ void Renderer::ComputeShadowMap()
 	glDepthFunc(GL_LEQUAL);
 	for (int i = 0; i < m_spotLights.size(); i++)
 	{
-		rm.shadowShader->Use();
 		m_spotLights[i]->RenderShadowMap();
+		rm.shadowShader->Use();
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-		for (MeshRenderer* mesh : m_meshRenderers)
+		for (MeshRenderer* meshRender : m_meshRenderers)
 		{  
-			mesh->Render(m_spotLights[i]->GetVP());
+			rm.shadowShader->SetUniformMatrix("lightMat", m_spotLights[i]->GetVP());
+			rm.shadowShader->SetUniformMatrix("model", meshRender->transform->GetGlobalMatrix());
+			meshRender->GetMesh()->RenderShadowMap();
 		}
 		Wrapper::RHI::UnbindFrameBuffer();
 	}
@@ -120,7 +122,7 @@ int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2
 	rm.iconShaderForPicking->Use();
 	mainCamera->IdPickerIcon(m_directionalLights, m_pointLights, m_spotLights, viewportSize);
 
-	unsigned char* pixelColor = Wrapper::RHI::GetPixelColor(viewportSize, TabPos);
+	std::array<char, 4> pixelColor = Wrapper::RHI::GetPixelColor(viewportSize, TabPos);
 	int pickedID =
 		pixelColor[0] +
 		pixelColor[1] * 256 +

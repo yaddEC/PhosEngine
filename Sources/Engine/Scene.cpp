@@ -22,10 +22,15 @@
 #include "Wrapper/PhysicsWrapper.hpp"
 #include "Resource/Parser.hpp"
 
+//#include "Engine/Scene.hpp"
+
 using namespace Engine;
 using namespace LowRenderer;
 using namespace Resource;
 using namespace Physic;
+
+std::vector<std::string> Scene::tagNames;
+std::map<std::string, unsigned int> Scene::tagNameToIndexMap;
 
 Scene::Scene() : m_renderer(nullptr)
 {
@@ -34,7 +39,6 @@ Scene::Scene() : m_renderer(nullptr)
 
 Engine::Scene::~Scene()
 {
-	//Physic::PhysicsManager::GetInstance().Cleanup();
 	delete m_renderer;
 }
 
@@ -160,12 +164,162 @@ void Engine::Scene::Save()
 	}
 }
 
+void Engine::Scene::SaveSettings()
+{
+	std::map < std::pair<unsigned int, unsigned int>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+	std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+	std::map<std::string, unsigned int>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
+
+	std::ofstream out("settings.phs");
+	if (!out) {
+		std::cerr << "Failed to open settings.phs for writing.\n";
+		return;
+	}
+
+	out << layerNames->size() << '\n';
+	for (const auto& name : *layerNames) {
+		out << name << '\n';
+	}
+
+	out << layerNameToIndexMap->size() << '\n';
+	for (const auto& kv : *layerNameToIndexMap) {
+		out << kv.first << ' ' << kv.second << '\n';
+	}
+
+	out << layerInteractionMatrix->size() << '\n';
+	for (const auto& kv : *layerInteractionMatrix) {
+		out << kv.first.first << ' ' << kv.first.second << ' ' << kv.second << '\n';
+	}
+;
+	
+	out << tagNames.size() << '\n';
+	for (const auto& name : tagNames) {
+		out << name << '\n';
+	}
+
+	out << tagNameToIndexMap.size() << '\n';
+	for (const auto& kv : tagNameToIndexMap) {
+		out << kv.first << ' ' << kv.second << '\n';
+	}
+}
+
+void Engine::Scene::LoadSettings()
+{
+
+	std::map < std::pair< unsigned int, unsigned int>, bool>* layerInteractionMatrix = Wrapper::Physics::GetLayerInteractions();
+	std::vector<std::string>* layerNames = Wrapper::Physics::GetLayerNames();
+	std::map<std::string, unsigned int>* layerNameToIndexMap = Wrapper::Physics::GetNameToIndex();
+
+	std::ifstream in("settings.phs");
+	if (!in ) {
+		std::cerr << "Failed to open settings.phs for reading.\n";
+		std::ofstream out("settings.phs");
+		layerNames->push_back("Default");
+		(*layerNameToIndexMap)["Default"] = 0;
+		(*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
+		tagNames.push_back("Default");
+		(tagNameToIndexMap)["Default"] = 0;
+		return;
+	}
+	else if (in.peek() == std::ifstream::traits_type::eof())
+	{
+		layerNames->push_back("Default");
+		(*layerNameToIndexMap)["Default"] = 0;
+		(*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
+		tagNames.push_back("Default");
+		(tagNameToIndexMap)["Default"] = 0;
+		return;
+	}
+
+	layerNames->clear();
+	layerNameToIndexMap->clear();
+	layerInteractionMatrix->clear();
+
+	std::size_t numNames;
+	in >> numNames;
+	in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	layerNames->resize(numNames);
+	for (std::string& name : *layerNames) {
+		std::getline(in, name);
+	}
+
+	std::size_t numMappings;
+	in >> numMappings;
+	in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	for (std::size_t i = 0; i < numMappings; ++i) {
+		std::string name;
+		unsigned int index;
+		in >> name >> index;
+		(*layerNameToIndexMap)[name] = index;
+		in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	}
+
+	std::size_t numInteractions;
+	in >> numInteractions;
+	in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	for (std::size_t i = 0; i < numInteractions; ++i) {
+		unsigned int key1, key2;
+		bool value;
+		in >> key1 >> key2 >> value;
+		(*layerInteractionMatrix)[std::make_pair(key1, key2)] = value;
+		(*layerInteractionMatrix)[std::make_pair(key2, key1)] = value;
+		in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	}
+
+
+	tagNames.clear();
+	tagNameToIndexMap.clear();
+
+	std::size_t numTags;
+	in >> numTags;
+	in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	tagNames.resize(numTags);
+	for (std::string& name : tagNames) {
+		std::getline(in, name);
+	}
+
+	std::size_t numTagMappings;
+	in >> numTagMappings;
+	in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	for (std::size_t i = 0; i < numTagMappings; ++i) {
+		std::string name;
+		unsigned int index;
+		in >> name >> index;
+		(tagNameToIndexMap)[name] = index;
+		in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+	}
+
+}
+
+void Engine::Scene::CreateTag(const std::string tagName)
+{
+	unsigned int newTagIndex = static_cast<unsigned int>(tagNames.size());
+	tagNames.push_back(tagName);
+	tagNameToIndexMap[tagName] = newTagIndex;
+}
+
+std::string Engine::Scene::GetTagName(unsigned int tag)
+{
+
+
+	for (const auto& pair : tagNameToIndexMap) {
+		if (pair.second == tag) {
+			return pair.first;
+			break;
+		}
+	}
+
+	return "Default";
+}
+
 void Engine::Scene::SaveGameObject(Engine::GameObject* gameObject, std::fstream& file, int depth)
 {
 	std::string tab = std::string(depth, '\t');
 	gameObject->transform->SetRotation(gameObject->transform->rotationEuler);
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
+		<< tab << "layer " << gameObject->GetLayer() << '\n'
+		<< tab << "tag " << gameObject->GetTag() << '\n'
 		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z
 		<< ' ' << gameObject->transform->rotationEuler.x << ' ' << gameObject->transform->rotationEuler.y << ' ' << gameObject->transform->rotationEuler.z
 		<< ' ' << gameObject->transform->scale.x << ' ' << gameObject->transform->scale.y << ' ' << gameObject->transform->scale.z << '\n';
@@ -197,6 +351,14 @@ GameObject* Engine::Scene::ParseGameObject(const std::vector<std::string>& fileD
 		{
 			newGameObject->SetID((unsigned int)std::stof(tokens[1]));
 		}
+		else if (tokens[0] == "layer")
+		{
+			newGameObject->SetLayer((unsigned int)std::stof(tokens[1]));
+		}
+		else if (tokens[0] == "tag")
+		{
+			newGameObject->SetTag((unsigned int)std::stof(tokens[1]));
+		}
 		else if (tokens[0] == "transform")
 		{
 			newGameObject->transform->position = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
@@ -219,6 +381,7 @@ GameObject* Engine::Scene::ParseGameObject(const std::vector<std::string>& fileD
 			return newGameObject;
 		}
 	}
+	return nullptr;
 }
 
 

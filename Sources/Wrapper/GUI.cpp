@@ -5,6 +5,7 @@
 #include "pch.h"
 //----------------
 
+#include <cstdint> 
 
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -250,7 +251,7 @@ void Wrapper::GUI::SetKeyboardFocusHere()
 
 void Wrapper::GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
 {
-	ImGui::Image((ImTextureID)texture.GetTextureKey(), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(texture.GetTextureKey())), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
 }
 
 void Wrapper::GUI::TextUnformatted(const std::string& text, const std::string& text_end)
@@ -504,19 +505,32 @@ void Wrapper::GUI::DisplayText(const char* format, ...)
 	ImGui::Text(buffer);
 }
 
-bool Wrapper::GUI::InputString(const std::string& label, std::string& value)
+bool Wrapper::GUI::InputString(const std::string& label, std::string& value, bool enterTrue, bool hiddenName)
 {
 	const int bufferSize = 256;
 	char buffer[bufferSize];
 
 	strncpy_s(buffer, bufferSize, value.c_str(), _TRUNCATE);
-	ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
+	ImGuiInputTextFlags inputTextFlags =  ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_AlwaysInsertMode;
 
+	if (enterTrue)
+		inputTextFlags |= ImGuiInputTextFlags_EnterReturnsTrue;
 
-	if (ImGui::InputText(label.c_str(), buffer, bufferSize, inputTextFlags))
+	if (hiddenName)
 	{
+		ImGui::PushID(label.c_str() + 1);
+		bool checkbox = ImGui::InputText("", buffer, bufferSize, inputTextFlags);
 		value = std::string(buffer);
-		return true;
+		ImGui::PopID();
+		return checkbox;
+	}
+	else
+	{ 
+		if (ImGui::InputText(label.c_str(), buffer, bufferSize, inputTextFlags))
+		{
+			value = std::string(buffer);
+			return true;
+		}
 	}
 	return false;
 }
@@ -542,9 +556,21 @@ bool Wrapper::GUI::Button(const std::string& label, const Maths::Vec2& size)
 }
 
 
-bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked)
+bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked, bool hiddenName)
 {
-	return ImGui::Checkbox(label.c_str(), isChecked);
+	if (hiddenName)
+	{
+		ImGui::PushID(label.c_str() + 1);
+		bool checkbox = ImGui::Checkbox("", isChecked);
+		ImGui::PopID();
+		return checkbox;
+	}
+	else
+	{
+		return ImGui::Checkbox(label.c_str(), isChecked);
+	}
+
+
 }
 
 bool Wrapper::GUI::Selectable(const std::string& label, bool isSelected, const Maths::Vec2& size)
@@ -581,8 +607,8 @@ bool Wrapper::GUI::Combo(const std::string& label, const std::vector<std::string
 			}
 		}
 		ImGui::EndCombo();
-		return false;
 	}
+	return false;
 }
 
 bool Wrapper::GUI::TreeNode(const std::string& label, bool isSelected, bool leaf)

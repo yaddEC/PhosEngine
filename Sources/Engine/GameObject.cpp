@@ -15,6 +15,8 @@ using namespace Engine;
 
 Engine::GameObject::GameObject()
 {
+	m_tag = 0;
+	m_layer = 0;
 	transform = new Transform();
 	transform->SetGameObject(this);
 	// transform.gameobject = this;
@@ -100,6 +102,14 @@ void Engine::GameObject::OnTriggerEnter(GameObject* gameobject)
 	for (MonoBehaviour* comp : m_components)
 	{
 		comp->OnTriggerEnter(gameobject);
+	}
+}
+
+void Engine::GameObject::OnGuiChanged()
+{
+	for (MonoBehaviour* component : m_components)
+	{
+		component->GUIUpdate();
 	}
 }
 
