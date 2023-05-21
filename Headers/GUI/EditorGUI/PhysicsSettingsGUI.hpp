@@ -31,7 +31,6 @@ namespace EditorGUI
 
 	private:
 
-		std::string newLayerName;
 		void DoUpdate() override;
 		
 	};

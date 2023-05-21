@@ -19,6 +19,7 @@ namespace EditorGUI
 	class RendererGUI;
 	class PhysicsSettingsGUI;
 	class PlayStateGUI;
+	class GeneralSettingsGUI;
 }
 
 
@@ -54,10 +55,13 @@ namespace Core
 		EditorGUI::RendererGUI* m_RendererGUI;
 		EditorGUI::PhysicsSettingsGUI* m_PhysicsSettingsGUI;
 		EditorGUI::PlayStateGUI* m_PlayStateGUI;
+		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
 
 		Engine::Scene* m_mainScene; // TEMP
 
 		Wrapper::Window& m_window;
+
+		bool m_vsync;
 
 	};
 }

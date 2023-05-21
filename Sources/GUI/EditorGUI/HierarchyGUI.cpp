@@ -131,6 +131,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 		{
 			Engine::GameObject* newObject = new Engine::GameObject();
 			newObject->name = "New GameObject";
+			newObject->SetLayer(0);
+			newObject->SetTag(0);
 			if (current) newObject->transform->SetParent(current->transform);
 			m_currentScene->Instantiate(newObject);
 		}
@@ -140,6 +142,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			{
 				Engine::GameObject* newObject = new Engine::GameObject();
 				newObject->name = "Directional Light";
+				newObject->SetLayer(0);
+				newObject->SetTag(0);
 				if (current) newObject->transform->SetParent(current->transform);
 				newObject->AddComponent<LowRenderer::DirectionalLight>();
 				m_currentScene->Instantiate(newObject);
@@ -148,6 +152,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			{
 				Engine::GameObject* newObject = new Engine::GameObject();
 				newObject->name = "Point Light";
+				newObject->SetLayer(0);
+				newObject->SetTag(0);
 				if (current) newObject->transform->SetParent(current->transform);
 				newObject->AddComponent<LowRenderer::PointLight>();
 				m_currentScene->Instantiate(newObject);
@@ -156,6 +162,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			{
 				Engine::GameObject* newObject = new Engine::GameObject();
 				newObject->name = "Spot Light";
+				newObject->SetLayer(0);
+				newObject->SetTag(0);
 				if (current) newObject->transform->SetParent(current->transform);
 				newObject->AddComponent<LowRenderer::SpotLight>();
 				m_currentScene->Instantiate(newObject);
@@ -168,6 +176,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			{
 				Engine::GameObject* newObject = new Engine::GameObject();
 				newObject->name = "Cube";
+				newObject->SetLayer(0);
+				newObject->SetTag(0);
 				if(current) newObject->transform->SetParent(current->transform);
 				LowRenderer::MeshRenderer* mr = newObject->AddComponent<LowRenderer::MeshRenderer>();
 				mr->SetMesh(rm.GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitiveCube.obj"));
@@ -178,6 +188,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			{
 				Engine::GameObject* newObject = new Engine::GameObject();
 				newObject->name = "Sphere";
+				newObject->SetLayer(0);
+				newObject->SetTag(0);
 				if (current) newObject->transform->SetParent(current->transform);
 				LowRenderer::MeshRenderer* mr = newObject->AddComponent<LowRenderer::MeshRenderer>();
 				mr->SetMesh(rm.GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitiveSphere.obj"));
@@ -188,6 +200,8 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			{
 				Engine::GameObject* newObject = new Engine::GameObject();
 				newObject->name = "Capsule";
+				newObject->SetLayer(0);
+				newObject->SetTag(0);
 				if (current) newObject->transform->SetParent(current->transform);
 				LowRenderer::MeshRenderer* mr = newObject->AddComponent<LowRenderer::MeshRenderer>();
 				mr->SetMesh(rm.GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitiveCapsule.obj"));

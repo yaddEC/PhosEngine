@@ -90,14 +90,7 @@ void SceneGUI::DoUpdate()
 {
 
 
-	m_frameCount++;
-	m_elapsedTime += Input::deltaTime;
-	if (m_elapsedTime >= 1.0f)
-	{
-		m_fps = static_cast<float>(m_frameCount) / m_elapsedTime;
-		m_elapsedTime = 0.0f;
-		m_frameCount = 0;
-	}
+
 	using namespace Wrapper;
 	selectedClicked = false;
 	Input& input = Input::GetInstance();
@@ -136,5 +129,5 @@ void SceneGUI::DoUpdate()
 
 	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
 
-	//GUI::DisplayText("%.2f FPS", m_fps);
+	
 }

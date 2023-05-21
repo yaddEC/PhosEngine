@@ -24,13 +24,13 @@ namespace Engine
 	public:
 
 		GameObject();
-
 		std::string name;
+
 
 		Transform* transform;
 
 		void Start();
-		void Update(); 
+		void Update();
 		void Destroy();
 		void OnCollisionEnter(GameObject* gameobject);
 		void OnCollisionStay(GameObject* gameobject);
@@ -38,6 +38,8 @@ namespace Engine
 		void OnTriggerEnter(GameObject* gameobject);
 		void OnTriggerStay(GameObject* gameobject);
 		void OnTriggerExit(GameObject* gameobject);
+
+		void OnGuiChanged();
 
 		Scene* GetScene() { return m_scene; }
 		void SetScene(Scene* _scene) { m_scene = _scene; }
@@ -77,6 +79,11 @@ namespace Engine
 
 		unsigned int GetID() { return m_ID; }
 		void SetID(unsigned int id) { m_ID = id; }
+		unsigned int GetTag() { return m_tag; }
+		void SetTag(unsigned int tag) { m_tag = tag; }
+		unsigned int GetLayer() { return m_layer; }
+		void SetLayer(unsigned int gameLayer) { m_layer = gameLayer; }
+
 
 	private:
 		std::vector<MonoBehaviour*> m_components;
@@ -84,6 +91,8 @@ namespace Engine
 		Scene* m_scene = nullptr;
 
 		unsigned int m_ID;
+		unsigned int m_tag;
+		unsigned int m_layer;
 
 	};
 }

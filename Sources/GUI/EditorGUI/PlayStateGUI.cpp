@@ -19,6 +19,16 @@ void EditorGUI::PlayStateGUI::DoUpdate()
 
 void EditorGUI::PlayStateGUI::PlayStateButton()
 {
+	m_frameCount++;
+	m_elapsedTime += Engine::Input::deltaTime;
+	if (m_elapsedTime >= 1.0f)
+	{
+		m_fps = static_cast<float>(m_frameCount) / m_elapsedTime;
+		m_elapsedTime = 0.0f;
+		m_frameCount = 0;
+	}
+	if(showFps)
+		Wrapper::GUI::DisplayText("%.2f FPS", m_fps);
 	Wrapper::GUI::BeginGroupCentered((0, 20));
 	if (m_currentScene->GetIsGameMode())
 	{

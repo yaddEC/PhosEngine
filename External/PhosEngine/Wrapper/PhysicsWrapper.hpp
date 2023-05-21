@@ -73,11 +73,12 @@ namespace Wrapper
         inline PxScene* GetScene() const { return m_scene; }
 
 
-        static void CreateLayer(const std::string& layerName);
+        static void CreateLayer(const std::string layerName);
+        static std::string GetLayerName(unsigned int Layer);
+        static unsigned int GetLayerID(const std::string layerName);
         static bool GetLayerCollision(std::string layerA, std::string layerB);
         static void SetLayerCollision(std::string layerA, std::string layerB, bool shouldCollide);
-        static void saveLayerInfo();
-        static void LoadLayerInfo();
+
 
         static std::vector<std::string>* GetLayerNames();
         static std::map<std::pair<PxU32, PxU32>, bool>* GetLayerInteractions();

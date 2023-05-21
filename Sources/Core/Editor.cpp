@@ -10,6 +10,7 @@
 #include "GUI/EditorGUI/RendererGUI.hpp"
 #include "GUI/EditorGUI/PhysicsSettingsGUI.hpp"
 #include "GUI/EditorGUI/PlayStateGUI.hpp"
+#include "GUI/EditorGUI/GeneralSettingsGUI.hpp"
 
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -56,13 +57,12 @@ void Editor::Top()
     }
     if (Wrapper::GUI::BeginMenu("Settings"))
     {
-        if (Wrapper::GUI::MenuItem("Physics Settings", NULL))
-        {
-            m_PhysicsSettingsGUI->isOpen = true;
-        }
-        if (Wrapper::GUI::MenuItem("Visual Settings", NULL)) {}
+
+        if (Wrapper::GUI::MenuItem("Physics Settings", NULL)){m_PhysicsSettingsGUI->isOpen = true;}
+        if (Wrapper::GUI::MenuItem("Show FPS", NULL, m_PlayStateGUI->showFps)) { m_PlayStateGUI->showFps = !m_PlayStateGUI->showFps; }
+        if (Wrapper::GUI::MenuItem("VSync", NULL, m_vsync)) { m_vsync = !m_vsync; Wrapper::Window::SetSwapInterval(m_vsync); }
         Wrapper::GUI::Separator();
-        if (Wrapper::GUI::MenuItem("General Settings", NULL)) {}
+        if (Wrapper::GUI::MenuItem("General Settings", NULL)) { m_GeneralSettingsGUI->isOpen = true; }
         Wrapper::GUI::EndMenu();
     }
     Wrapper::GUI::BeginGroupCentered((40.f, 20.f));
@@ -154,7 +154,7 @@ void Editor::Destroy()
     delete m_RendererGUI;
     delete m_PhysicsSettingsGUI;
     delete m_PlayStateGUI;
-
+    delete m_GeneralSettingsGUI;
 }
 
 bool Core::Editor::InitEditorGUI()
@@ -166,6 +166,7 @@ bool Core::Editor::InitEditorGUI()
     m_RendererGUI = new EditorGUI::RendererGUI();
     m_PhysicsSettingsGUI = new EditorGUI::PhysicsSettingsGUI();
     m_PlayStateGUI = new EditorGUI::PlayStateGUI();
+    m_GeneralSettingsGUI = new EditorGUI::GeneralSettingsGUI();
     return true;
 }
 
@@ -237,6 +238,7 @@ void Core::Editor::UpdateEditorGUI()
     m_Inspector->Update();
     Wrapper::GUI::MenuBar([this]() { this->Top(); });
     m_PhysicsSettingsGUI->Update();
+    m_GeneralSettingsGUI->Update();
 
 }
 

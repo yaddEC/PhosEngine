@@ -3,6 +3,7 @@
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
 #include "Engine/MonoBehaviour.hpp"
+#include "Engine/Scene.hpp"
 #include <typeinfo>
 
 
@@ -30,8 +31,31 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 {
 	if (!m_gameobject) return;
 
-
+	GUI::BeginGroup();
 	Wrapper::GUI::DisplayText(m_gameobject->name.c_str());
+	
+	std::vector<std::string> layerNames = *Wrapper::Physics::GetLayerNames();
+	std::string layerSelected = Wrapper::Physics::GetLayerName(m_gameobject->GetLayer());
+	std::string tagSelected = Engine::Scene::GetTagName(m_gameobject->GetTag());
+	GUI::BeginGroup();
+	Wrapper::GUI::DisplayText("Tag");
+	GUI::SetNextItemWidth(GUI::GetWindowSize().x * 0.4f);
+	if (GUI::Combo("Tag", Engine::Scene::tagNames, tagSelected))
+	{
+		m_gameobject->SetTag(Engine::Scene::tagNameToIndexMap[tagSelected]);
+	}
+	
+	GUI::EndGroup();
+	GUI::SameLine();
+	GUI::BeginGroup();
+	Wrapper::GUI::DisplayText("Layer");
+	GUI::SetNextItemWidth(GUI::GetWindowSize().x*0.4f);
+	if (GUI::Combo("Layer", layerNames, layerSelected))
+	{
+		m_gameobject->SetLayer(Wrapper::Physics::GetLayerID(layerSelected));
+	}
+	GUI::EndGroup();
+	GUI::EndGroup();
 	Wrapper::GUI::Separator();
 	if (Wrapper::GUI::CollapsingHeader("Transform"))
 	{

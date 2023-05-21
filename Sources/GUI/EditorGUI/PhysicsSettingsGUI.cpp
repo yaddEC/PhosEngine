@@ -13,41 +13,56 @@ using namespace Engine;
 EditorGUI::PhysicsSettingsGUI::PhysicsSettingsGUI()
 	:IGUI("Physics settings", false,false,true)
 {
-    Wrapper::Physics::LoadLayerInfo();
+   
 }
 
 EditorGUI::PhysicsSettingsGUI::~PhysicsSettingsGUI()
 {
-    Wrapper::Physics::saveLayerInfo();
+   
 }
 
 
 
 void EditorGUI::PhysicsSettingsGUI::DoUpdate()
 {
+    GUI::BeginGroup();
+    GUI::EndGroup();
     std::vector<std::string> layernames = *Wrapper::Physics::GetLayerNames();
-    for (const auto& layer1Name : layernames)
+    if(layernames.size()>0)
+    { 
+    GUI::BeginGroup();
+    GUI::BeginGroup();
+    GUI::DisplayText("\n \n");
+    GUI::EndGroup();
+    for (int i = 0; i < layernames.size(); i++)
     {
-        GUI::DisplayText("%s", layer1Name.c_str());
+    GUI::SameLine();
+    GUI::BeginGroup();
+    
+        GUI::DisplayText("%s\n\n", layernames[i].c_str());
 
-        for (const auto& layer2Name : layernames)
+        for (int j = 0; j<=i; j++)
         {
-           
-            std::string checkBoxID = layer1Name + " vs " + layer2Name;
-            bool shouldCollide = Wrapper::Physics::GetLayerCollision(layer1Name, layer2Name);
-            
-            if (GUI::CheckBox(checkBoxID.c_str(), &shouldCollide))
-            {     
-                    Wrapper::Physics::SetLayerCollision(layer1Name, layer2Name, shouldCollide);
+            bool hiddenName = true;
+            std::string checkBoxID = layernames[j] + to_string(j) + to_string(i);;
+            if (i == layernames.size() - 1)
+            {
+                hiddenName = false;
+                checkBoxID = layernames[j];
             }
+                
+            bool shouldCollide = Wrapper::Physics::GetLayerCollision(layernames[i], layernames[j]);
+            if (GUI::CheckBox(checkBoxID.c_str(), &shouldCollide,hiddenName))
+            {     
+                    Wrapper::Physics::SetLayerCollision(layernames[i], layernames[j], shouldCollide);
+            }
+
+            
+
         }
+    GUI::EndGroup();
     }
 
-    GUI::InputString("New Layer Name", newLayerName);
-
-    if (GUI::Button("Create Layer"))
-    {
-        Wrapper::Physics::CreateLayer(newLayerName);
-        //newLayerName = "";
+    GUI::EndGroup();
     }
 }
