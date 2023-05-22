@@ -5,7 +5,6 @@
 #include "Engine/GameObject.hpp"
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/Window.hpp"
-#include "Wrapper/GUI_Editor.hpp"
 #include "imgui.h"
 #include "imgui_internal.h"
 using namespace Maths; 
@@ -114,9 +113,9 @@ void SceneGUI::DoUpdate()
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, p_size - Vec2(10, 35), false);
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
-
+	
+	//GetSelected()->transform->GetGlobalMatrix().data
 	//m_sceneCamera.
-	//Wrapper::drawGizmo()
 
 	GUI::SameLine();
 
@@ -127,6 +126,12 @@ void SceneGUI::DoUpdate()
 		m_sceneCamera.OnGUI();
 	}
 
+	if (GetSelected() != nullptr)
+	{
+		//float* temp = GetSelected()->transform->GetGlobalMatrix().data;
+		GUI::drawGizmo(m_sceneCamera.GetCameraView(), m_sceneCamera.GetCameraProj(p_size - Vec2(10, 35)), GetSelected()->transform->GetGlobalMatrix().data, false);
+		//GetSelected()->transform->ComputeGlobalMatrix(temp);
+	}
 	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
 
 	
