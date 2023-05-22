@@ -77,7 +77,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 	}
 	else
 	{
-		opened = GUI::TreeNode(current->name + " " + std::to_string(current->GetID()), m_selected == current, children.size() == 0);
+		opened = GUI::TreeNode(current->name, m_selected == current, children.size() == 0);
 	}
 
 	AddObjectPopup(current);

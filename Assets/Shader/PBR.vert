@@ -10,10 +10,18 @@ layout (location = 6) in vec4 aBoneWeight;
 out vec2 texCoord;
 out vec3 FragPos;
 out mat3 TBN;
+out vec4 FragPosPoint[6];
+out vec4 FragPosSpot[6];
+out vec4 FragPosDir[3];
+
 
 uniform mat4 mvp;
 uniform mat4 model;
 uniform mat4 viewProj;
+
+uniform mat4 spotLightSpace[6];
+uniform mat4 pointLightSpace[6];
+uniform mat4 dirLightSpace[3];
 
 uniform mat4 skinMat[95];
 
@@ -67,4 +75,15 @@ void main()
 	{
 		NonSkinnedMesh();
 	}
+
+    for(int i = 0; i < 6; i ++)
+	{
+		FragPosPoint[i] = pointLightSpace[i] * vec4(FragPos, 1.0);
+		FragPosSpot[i] = spotLightSpace[i] * vec4(FragPos, 1.0);
+        if (i < 3)
+        {
+		    FragPosDir[i] = dirLightSpace[i] * vec4(FragPos, 1.0);
+        }
+	}
+
 }

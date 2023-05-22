@@ -110,7 +110,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap)
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float shadow = currentDepth < closestDepth  ? 1.0 : 0.0;
+    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
 
     return shadow;
 }
@@ -217,7 +217,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 F0, float 
     return (kD * albedo / PI + specular) * radiance * NdotL;
 }
 // ----------------------------------------------------------------------------
-vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 F0, float metallic, float roughness, vec3 albedo)
+vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 F0, float metallic, float roughness, vec3 albedo, int nbLight)
 {
     // calculate per-light radiance
     vec3 L = normalize(light.position - FragPos);
@@ -249,7 +249,13 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 F0, float me
         kD *= 1.0 - metallic;
 
         float NdotL = max(dot(normal, L), 0.0);
+        float shadow = ShadowCalculation(FragPosSpot[nbLight], light.shadowMap);
+        if (light.useShadow)
+        {
+            return (1 - shadow) * ((kD * albedo / PI + specular * attenuation) * radiance * NdotL);
+        }
         return (kD * albedo / PI + specular * attenuation) * radiance * NdotL;
+
     }
     return vec3(0);
 }
@@ -291,16 +297,7 @@ void main ()
     }
     for(int i = 0; i < lenghtSpotLight; i++)
     {
-        float shadow = ShadowCalculation(FragPosSpot[i], spotLights[i].shadowMap);
-        if(spotLights[i].useShadow)
-        {
-            Lo += CalcSpotLight(spotLights[i], normal, viewDir, F0, metallic, roughness, albedo) * shadow; 
-
-        }
-        else
-        {
-            CalcSpotLight(spotLights[i], normal, viewDir, F0, metallic, roughness, albedo);
-        }
+        Lo += CalcSpotLight(spotLights[i], normal, viewDir, F0, metallic, roughness, albedo, i);
     }
 
     
