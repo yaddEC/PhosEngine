@@ -19,17 +19,21 @@ namespace EditorGUI
 		void SetDebugCamera(bool setter) { m_drawCameraData = setter; }
 
 		void DoUpdate() override;
+		void SetSelected(Engine::GameObject* selected);
 
 		bool selectedClicked;
 	
 	private:
+
+		Engine::GameObject* FindSelectedObject(unsigned int ID);
 		void UpdateCamera(Engine::Input& input);
 		LowRenderer::Camera m_sceneCamera;
 		Engine::Scene* m_currentScene;
 
+		Engine::GameObject* m_selectedObject;
+		LowRenderer::MeshRenderer* m_selectedRenderer;
 
 		float m_speedModifier;
-		unsigned int m_selectedId;
 		bool m_drawCameraData = false;
 	};
 }

@@ -127,5 +127,6 @@ namespace Wrapper
 		static void PopFontSize();
 		static void SetWindowFontSize(float size);
 
+		static void drawGizmo(float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition);
 	};
 }

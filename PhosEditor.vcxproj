@@ -196,7 +196,6 @@
     <ClCompile Include="Sources\GUI\EditorGUI\SceneGUI.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\GUI\ProjectManagerGUI\ProjectManagerGUI.cpp" />
-    <ClCompile Include="Sources\Wrapper\GUI_Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\GLFW\glfw3.h" />
@@ -256,6 +255,7 @@
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\Core\ProjectManager.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
+    <ClInclude Include="Headers\GUI\EditorGUI\GameGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\GeneralSettingsGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\PlayStateGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\HierarchyGUI.hpp" />
@@ -265,7 +265,6 @@
     <ClInclude Include="Headers\GUI\EditorGUI\InspectorGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\SceneGUI.hpp" />
     <ClInclude Include="Headers\GUI\ProjectManagerGUI\ProjectManagerGUI.hpp" />
-    <ClInclude Include="Headers\Wrapper\GUI_Editor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DLL\PhosCore.dll" />

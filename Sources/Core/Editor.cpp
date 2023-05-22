@@ -224,6 +224,7 @@ void Core::Editor::UpdateEditorGUI()
     if (m_Hierarchy->selectedClicked)
     {
         m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());
+        m_sceneGUI->SetSelected(m_Hierarchy->GetSelected());
     }
     else if (m_AssetExplorer->GetSelected())
     {
