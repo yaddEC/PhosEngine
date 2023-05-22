@@ -285,7 +285,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;Externals;Externals/ImGuizmo/Header/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -456,6 +456,11 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGUI\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGUI\Source\imgui_widgets.cpp" />
+    <ClCompile Include="Externals\ImGuizmo\Source\GraphEditor.cpp" />
+    <ClCompile Include="Externals\ImGuizmo\Source\ImCurveEdit.cpp" />
+    <ClCompile Include="Externals\ImGuizmo\Source\ImGradient.cpp" />
+    <ClCompile Include="Externals\ImGuizmo\Source\ImGuizmo.cpp" />
+    <ClCompile Include="Externals\ImGuizmo\Source\ImSequencer.cpp" />
     <ClCompile Include="Sources\LowRenderer\Animator.cpp" />
     <ClCompile Include="Sources\Reflection\ClassMetaData.cpp" />
     <ClCompile Include="Sources\Resource\Animation.cpp" />
