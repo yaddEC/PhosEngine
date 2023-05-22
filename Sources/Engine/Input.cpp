@@ -25,7 +25,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void Input::Init(GLFWwindow* _window)
 {
-	mouseMap = 0;
 	timeStep = 1/60.f ;
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
@@ -61,25 +60,21 @@ Vec2 Input::GetMouseDelta() {
 	return mouseDelta;
 }
 
-void Input::Update() {
+void Input::Update()
+{
 
-	//deltaTime 
-
-
-		auto currentFrameTime = Wrapper::Window::GetTime();
-		static auto lastFrameTime = Wrapper::Window::GetTime();
-		float temp = static_cast<float>(currentFrameTime - lastFrameTime);
-		if (temp> timeStep)//
-		{
-			deltaTime = timeStep;
-		}
-		else
-		{
-			deltaTime = temp;
-		}
+	auto currentFrameTime = Wrapper::Window::GetTime();
+	static auto lastFrameTime = Wrapper::Window::GetTime();
+	float temp = static_cast<float>(currentFrameTime - lastFrameTime);
+	if (temp> timeStep)//
+	{
+		deltaTime = timeStep;
+	}
+	else
+	{
+		deltaTime = temp;
+	}
 		
-
-
 	lastFrameTime = currentFrameTime;
 
 	double mousePosX, mousePosY;
@@ -102,6 +97,16 @@ void Input::Update() {
 		}
 	}
 
+	for (int i = 0; i < 3; i++) {
+		if (glfwGetMouseButton(window, i) == GLFW_PRESS) {
+			if (mouseMap[i] == 0) { mouseMap[i] = 2; }
+			else mouseMap[i] = 1;
+		}
+		if (glfwGetMouseButton(window, i) == GLFW_RELEASE) {
+			mouseMap[i] = 0;
+		}
+	}
+
 }
 
 bool Input::IsKeyPressed(int key) {
@@ -119,7 +124,7 @@ bool Input::IsAnyKeyDown() {
 
 bool Input::IsMouseButtonPressed(int mouseButton) {
 	
-	bool mouseBool = glfwGetMouseButton(window, mouseButton);
+	/*bool mouseBool = glfwGetMouseButton(window, mouseButton);
 	if (mouseBool)
 	{
 		if (mouseMap == 0)
@@ -133,35 +138,16 @@ bool Input::IsMouseButtonPressed(int mouseButton) {
 		mouseMap = 0;
 	}
 
-	return false;
-
+	return false;*/
+	return mouseMap[mouseButton] > 0;
 }
 
 bool Input::IsMouseButtonDown(int mouseButton) {
 	
-	return glfwGetMouseButton(window, mouseButton);
+	return mouseMap[mouseButton] == 2;
 
 }
 
-bool Input::IsMouseButtonReleased(int mouseButton) {
-
-	bool mouseBool = glfwGetMouseButton(window, mouseButton);
-	if (!mouseBool)
-	{
-		if (mouseMap == 1)
-		{
-			mouseMap = 0;
-			return true;
-		}
-
-	}
-	else
-	{
-		mouseMap = 1;
-	}
-	return false;
-
-}
 
 
 

@@ -59,6 +59,37 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj) const
 
 }
 
+void LowRenderer::MeshRenderer::RenderOutline(const Maths::Mat4& viewProj) const
+{
+	ShaderProgram* outlineShader = Resource::ResourceManager::GetInstance().outlineShader;
+
+	
+
+	outlineShader->Use();
+	outlineShader->SetUniformMatrix("model", transform->GetGlobalMatrix());
+	outlineShader->SetUniformMatrix("viewProj", viewProj);
+	outlineShader->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
+	if (m_mesh->GetArmature())
+	{
+		outlineShader->SetUniformMatrixArray("skinMat", m_animatedBoneMatrices);
+		outlineShader->SetUniformBool("isSkinned", true);
+	}
+	else
+	{
+		outlineShader->SetUniformBool("isSkinned", false);
+	}
+
+	glCullFace(GL_BACK);
+	glDepthFunc(GL_LEQUAL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glLineWidth(4);
+
+	m_mesh->Render(*outlineShader, *m_material);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 
 void LowRenderer::MeshRenderer::SetSkinningMatrices()
 {

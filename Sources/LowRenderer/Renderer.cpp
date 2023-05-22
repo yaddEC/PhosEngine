@@ -85,10 +85,11 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 		for (Camera* cam : m_cameras)
 		{
 			if (cam == mainCamera) continue;
+			cam->ComputeViewProjMatrix(viewportSize);
 			cam->Render(m_meshRenderers, viewportSize, m_skybox);
 		}
 	}
-
+	mainCamera->ComputeViewProjMatrix(viewportSize);
 	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	
 }
@@ -122,7 +123,8 @@ void Renderer::ComputeShadowMap()
 
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
-	
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 	rm.pickingShader->Use();
 

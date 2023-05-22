@@ -50,12 +50,8 @@ void Resource::ResourceManager::LoadAll()
 {
 	Threading::Pool pool;
 
-	for (int i = 0; i < 5; i++)
-	{
-		pool.registerThread(new Threading::Thread(pool, std::to_string(i)));
-	}
+	
 
-	pool.startPool();
 
 	for (auto resource : m_resourceMap)
 	{
@@ -70,8 +66,17 @@ void Resource::ResourceManager::LoadAll()
 					},
 					resource.second
 				});
+			//std::cout << pool.GetTasks().size() << std::endl;
 		}
 	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		pool.registerThread(new Threading::Thread(pool, std::to_string(i)));
+	}
+	pool.startPool();
+
+	int count = 0;
 
 	while (true)
 	{
@@ -82,6 +87,8 @@ void Resource::ResourceManager::LoadAll()
 			{
 				resource.second->Bind();
 				resource.second->isBinded = true;
+				//std::cout << resource.second->GetName() << " " << count << std::endl;
+				count++;
 			}
 			if (!resource.second->isLoaded && resource.second->GetTypeName() != "Scene")
 				allResourceAreLoaded = false;
@@ -92,6 +99,7 @@ void Resource::ResourceManager::LoadAll()
 			break;
 		}
 	}
+	std::cout << "All resources are loaded" << std::endl;
 	pool.stopPool();
 	pool.~Pool();
 
@@ -118,6 +126,7 @@ void Resource::ResourceManager::SetStaticResource()
 	pickingShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\PickingShader\\PickingShader.prog");
 	iconShaderForPicking = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\IconShaderForPicking\\IconShaderForPicking.prog");
 	iconShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\BillboardShader\\BillboardShader.prog");
+	outlineShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\OutlineShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 	shadowShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\ShadowShader.prog");
 }
