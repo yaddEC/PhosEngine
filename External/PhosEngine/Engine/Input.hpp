@@ -53,7 +53,7 @@ namespace Engine
 		int scrollDelta;
 
 		int keyMap[348] = {0};
-		int mouseMap;
+		int mouseMap[3] = {0};
 		float timeStep ;
 		bool anyKeyDown = false;
 

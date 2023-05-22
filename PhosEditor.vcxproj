@@ -256,6 +256,7 @@
     <ClInclude Include="Headers\Core\Editor.hpp" />
     <ClInclude Include="Headers\Core\ProjectManager.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
+    <ClInclude Include="Headers\GUI\EditorGUI\GameGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\GeneralSettingsGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\PlayStateGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\HierarchyGUI.hpp" />

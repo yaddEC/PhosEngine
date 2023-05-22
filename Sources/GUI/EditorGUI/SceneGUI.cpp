@@ -2,6 +2,7 @@
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "LowRenderer/Renderer.hpp"
+#include "LowRenderer/MeshRenderer.hpp"
 #include "Engine/GameObject.hpp"
 #include "Wrapper/RHI.hpp"
 #include "Wrapper/Window.hpp"
@@ -17,6 +18,8 @@ SceneGUI::SceneGUI() : IGUI("Scene",true), m_speedModifier(1.000f)
 {
 	
 }
+
+
 
 void SceneGUI::UpdateCamera(Input& input)
 {
@@ -69,40 +72,45 @@ void SceneGUI::UpdateCamera(Input& input)
 
 Engine::GameObject* EditorGUI::SceneGUI::GetSelected()
 {
-	if (m_selectedId == 0) return nullptr;
+	return m_selectedObject;
+}
+
+Engine::GameObject* EditorGUI::SceneGUI::FindSelectedObject(unsigned int ID)
+{
+	if (ID == 0) return nullptr;
 	std::vector<Engine::GameObject*> GObject = m_currentScene->GetGameObjects();
 	for (int i = 0; i < GObject.size(); i++)
 	{
-		if (GObject[i]->GetID() == m_selectedId)
+		if (GObject[i]->GetID() == ID)
 		{
 			//m_selectedId = 0;
 			return GObject[i];
 		}
 	}
 	return nullptr;
-
 }
-
-
 
 
 void SceneGUI::DoUpdate()
 {
-
-
-
 	using namespace Wrapper;
 	selectedClicked = false;
 	Input& input = Input::GetInstance();
 
 	if (p_isOnFocus)
 	{
+		
 		UpdateCamera(input);
-		if (input.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
+		if (input.IsMouseButtonDown(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
 		{
-			m_selectedId = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, p_size - Vec2(10, 35),
+			unsigned int objectID = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, p_size - Vec2(10, 35),
 				GUI::GetWindowPos(*Window::GetCurrentContext()));
-			selectedClicked = true;
+			m_selectedObject = FindSelectedObject(objectID);
+			if (m_selectedObject)
+			{
+				m_selectedRenderer = m_selectedObject->GetComponent<LowRenderer::MeshRenderer>();
+				selectedClicked = true;
+			}
 		}
 
 	}
@@ -114,20 +122,26 @@ void SceneGUI::DoUpdate()
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, p_size - Vec2(10, 35), false);
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
-
-	//m_sceneCamera.
-	//Wrapper::drawGizmo()
+	if (m_selectedRenderer)
+	{
+		m_selectedRenderer->RenderOutline(m_sceneCamera.GetViewMatrix() * m_sceneCamera.GetProjMatrix());
+	}
 
 	GUI::SameLine();
-
-
 
 	if (m_drawCameraData)
 	{
 		m_sceneCamera.OnGUI();
 	}
-
 	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
+	if(m_selectedObject)
+		GUI::DisplayText("%d", (int)m_selectedObject->GetID());
 
 	
+}
+
+void EditorGUI::SceneGUI::SetSelected(Engine::GameObject* selected)
+{
+	m_selectedObject = selected;
+	m_selectedRenderer = m_selectedObject->GetComponent<LowRenderer::MeshRenderer>();
 }
