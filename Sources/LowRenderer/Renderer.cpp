@@ -55,7 +55,6 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	{
 		if (!shader)continue;
 		shader->Use();
-		shader->SetUniformVec3("ambientColor", m_ambient);
 		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
 
 		shader->SetUniformInt("lenghtDirLight", static_cast<int>(m_directionalLights.size()));
@@ -108,10 +107,7 @@ void Renderer::ComputeShadowMap()
 		rm.shadowShader->Use();
 		for (MeshRenderer* meshRender : m_meshRenderers)
 		{  
-			Maths::Mat4 test = meshRender->transform->GetGlobalMatrix() * m_spotLights[i]->GetVP();
-			rm.shadowShader->SetUniformMatrix("mvp", test);
-			rm.shadowShader->SetUniformMatrix("lightMat", m_spotLights[i]->GetVP());
-			rm.shadowShader->SetUniformMatrix("model", meshRender->transform->GetGlobalMatrix());
+			rm.shadowShader->SetUniformMatrix("mvp", meshRender->transform->GetGlobalMatrix() * m_spotLights[i]->GetVP());
 			meshRender->GetMesh()->RenderShadowMap();
 		}
 		Wrapper::RHI::UnbindFrameBuffer();
