@@ -328,31 +328,38 @@ bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** tex
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	return ImGui::DragFloat(("##" + label).c_str(), &value, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool text, float speed, float min, float max)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	return ImGui::DragFloat2(("##" + label).c_str(), &value.x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, bool text, float speed, float min, float max)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
+
 	return ImGui::DragFloat3(("##" + label).c_str(), &value.x, speed, min, max);
 }
 
@@ -368,60 +375,72 @@ bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3& value, bo
 
 bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value.x);
 }
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float* value, bool text, float speed, float min, float max)
 {
+	const float widgetOffset = 150.0f; 
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
+
 	return ImGui::DragFloat(("##" + label).c_str(), value, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2* value, bool text, float speed, float min, float max)
 {
+	const float widgetOffset = 150.0f;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	return ImGui::DragFloat2(("##" + label).c_str(), &value->x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3* value, bool text, float speed, float min, float max)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(150.0f);
 	}
 	return ImGui::DragFloat3(("##" + label).c_str(), &value->x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3* value, bool text)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	return ImGui::ColorEdit3(("##" + label).c_str(), &value->x);
 }
 
 bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value->x);
 }
@@ -429,10 +448,13 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, b
 
 bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, bool text)
 {
+
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Mesh>();
 	std::string currentMeshName = (*mesh)->GetName();
@@ -467,10 +489,11 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 
 bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** material, bool text)
 {
+	const float widgetOffset = 150.0f;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Material>();
 	std::string currentMeshName = (*material)->GetName();

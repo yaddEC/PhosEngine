@@ -75,7 +75,9 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 
 	case MemberType::T_BOOL:  
 	{
-		if (GUI::CheckBox(name, (bool*)((size_t)classPtr + ptr), false))
+		GUI::DisplayText(name.c_str());
+		GUI::SameLine();
+		if (GUI::CheckBox(name, (bool*)((size_t)classPtr + ptr), true))
 		{
 			monoBehavior->GUIUpdate();
 		}
