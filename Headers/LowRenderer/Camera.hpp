@@ -54,7 +54,8 @@ namespace LowRenderer
 		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform,
 			const Engine::Transform& camTransform, const Resource::Material& material, float fov = 50.f);
 
-		float* GetCameraView();
+		float* GetCameraView() const;
+		float* GetCameraProj(const Maths::Vec2& viewportSize) const;
 	private:
 
 		LowRenderer::FrameBuffer m_framebuffer;

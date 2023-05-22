@@ -339,8 +339,13 @@ Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, con
 
     return result;
 }
-float* LowRenderer::Camera::GetCameraView()
+float* LowRenderer::Camera::GetCameraView() const
 {
     Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
     return view.data;
+}
+float* LowRenderer::Camera::GetCameraProj(const Vec2& viewportSize) const
+{
+    Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
+    return proj.data;
 }
