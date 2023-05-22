@@ -339,3 +339,8 @@ Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, con
 
     return result;
 }
+float* LowRenderer::Camera::GetCameraView()
+{
+    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
+    return view.data;
+}
