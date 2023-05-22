@@ -65,8 +65,17 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 
 	for (Engine::MonoBehaviour* component : m_gameobject->GetComponents())
 	{
+		GUI::BeginGroup();
 		component->OnInspector();
+		GUI::EndGroup();
 	}
+
+	GUI::BeginGroup();
+	if (GUI::Button("Add Component"))
+	{
+		printf("test\n");
+	}
+	GUI::EndGroup();
 }
 
 void EditorGUI::InspectorGUI::DisplayResource()
