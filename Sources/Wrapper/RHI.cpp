@@ -189,7 +189,7 @@ void Wrapper::RHI::ActivateCubeMap(const Resource::CubeMap& cubeMap, int value)
 void Wrapper::RHI::RenderSubMesh(const unsigned int& VAO, const std::vector<unsigned int> indices)
 {
 	glBindVertexArray(VAO);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

@@ -20,6 +20,8 @@
 #include "Wrapper/Window.hpp"
 #include "LowRenderer/Framebuffer.hpp"
 
+#include "ImGuizmo/Header/ImGuizmo.h"
+
 #define GUI_EXPORTS
 #include "Wrapper/GUI.hpp"
 
@@ -861,4 +863,26 @@ void Wrapper::GUI::PopFontSize()
 void Wrapper::GUI::SetWindowFontSize(float size)
 {
 	ImGui::SetWindowFontScale(size);
+}
+
+void Wrapper::GUI::drawGizmo(float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
+{
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
+	static bool useSnap = false;
+	static float snap[3] = { 1.f, 1.f, 1.f };
+	static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
+	static float boundsSnap[] = { 0.1f, 0.1f, 0.1f };
+	static bool boundSizing = false;
+	static bool boundSizingSnap = false;
+
+	ImGuizmo::SetDrawlist();
+	float windowWidth = (float)ImGui::GetWindowWidth();
+	float windowHeight = (float)ImGui::GetWindowHeight();
+	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+	//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
+	//ImGuizmo::DrawCubes(cameraView, cameraProjection, &objectMatrix[0][0], 1);
+	ImGuizmo::Manipulate(cameraView, cameraProjection, ImGuizmo::TRANSLATE, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
+
+	//ImGuizmo::ViewManipulate(cameraView, 8.f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), (ImU32)0x10101010);
 }

@@ -36,6 +36,7 @@ namespace Threading
 
 		taskMtx.lock();
 		tasks.push(task);
+		//std::cout << tasks.size() << std::endl;
 		taskMtx.unlock();
 
 		tasks_cond.notify_one();

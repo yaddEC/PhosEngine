@@ -38,7 +38,6 @@ void LowRenderer::SpotLight::Render(const Resource::ShaderProgram& shaderProg, i
 {
 	if (isActive)
 	{
-		//shaderProg.SetUniformInt("spotLights[" + std::to_string(number) + "].shadowMap", m_shadowTexture->GetTextureKey());
 		shaderProg.SetUniformVec3("spotLights[" + std::to_string(number) + "].position", transform->position);
 		shaderProg.SetUniformVec3("spotLights[" + std::to_string(number) + "].direction", p_direction);
 
@@ -54,6 +53,9 @@ void LowRenderer::SpotLight::Render(const Resource::ShaderProgram& shaderProg, i
 
 		shaderProg.SetUniformBool("spotLights[" + std::to_string(number) + "].useShadow", p_useShadow);
 		shaderProg.SetTexture("spotLights[" + std::to_string(number) + "].shadowMap", number + 10, *m_shadowTexture);
+
+		//shaderProg.SetUniformMatrix("spotLightSpace[" + std::to_string(number) + "]", g);
+		shaderProg.SetUniformMatrix("spotLightSpace[" + std::to_string(number) + "]", m_VP);
 	}
 }
 
@@ -84,7 +86,7 @@ void LowRenderer::SpotLight::Update()
 
 	Maths::Mat4 proj = Maths::Mat4::CreateProjectionMatrix(90.f, 1.f, 15000.f, 1.f);
 	Maths::Mat4 view = Maths::Mat4::LookAt(globalPos , globalPos - p_direction, Up);
-	m_VP = view * proj;
+	m_VP =  view * proj;
 }
 
 

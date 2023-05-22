@@ -42,6 +42,7 @@ namespace LowRenderer
 		Maths::Vec3 GetAmbient() const;
 		Resource::CubeMap* GetSkybox() const { return m_skybox; }
 		void SetSkybox(Resource::CubeMap* cubeMap) { m_skybox = cubeMap; }
+		
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;

@@ -51,14 +51,12 @@ Camera::~Camera()
 
 void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& viewportSize, const Resource::CubeMap* skybox)
 {
-
-    Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
-    Mat4 view = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
-    Mat4 viewProj = view * proj;
+    Mat4 viewProj = m_viewMatrix * m_projMatrix;
    
 
     m_framebuffer.Bind(true, (int)viewportSize.x, (int)viewportSize.y);
     m_framebuffer.Clear(m_backgroundColor);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     if (skybox && m_backgroundMode == BackGround::BG_Skybox) // Skybox
     {
@@ -68,13 +66,13 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
         glCullFace(GL_BACK);
         glDepthMask(GL_FALSE);
 
-        Mat4 skyBoxView = view;
+        Mat4 skyBoxView = m_viewMatrix;
         skyBoxView.data4V[0].w = 0;
         skyBoxView.data4V[1].w = 0;
         skyBoxView.data4V[2].w = 0;
 
         rm.skyboxShader->SetCubeMap("skybox", 0, *skybox);
-        rm.skyboxShader->SetUniformMatrix("ViewProj", (skyBoxView * proj));
+        rm.skyboxShader->SetUniformMatrix("ViewProj", (skyBoxView * m_projMatrix));
 
         Wrapper::RHI::RenderSubMesh(rm.cube->GetSubMesh(0).GetVAO(), rm.cube->GetSubMesh(0).indices);
     }
@@ -113,7 +111,6 @@ void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Ve
     for (MeshRenderer* rend : rendList)
     {
         rend->IdPickerRender(viewProj);
-
     }
 
     // unbind the framebuffer
@@ -338,4 +335,10 @@ Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, con
     framebuffer.DetachTexture();
 
     return result;
+}
+
+void LowRenderer::Camera::ComputeViewProjMatrix(const Maths::Vec2& viewportSize)
+{
+    m_projMatrix = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
+    m_viewMatrix = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
 }
