@@ -69,6 +69,8 @@ namespace Wrapper
         void Update(float deltaTime);
         void Cleanup();
 
+        static void SetGravity(Maths::Vec3 gravity);
+
         inline PxPhysics* GetPhysics() const { return m_physics; }
         inline PxScene* GetScene() const { return m_scene; }
 
@@ -115,6 +117,7 @@ namespace Wrapper
 
         void Init();
         void Update();
+        void UpdateType();
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void OnGuiChanged();
 

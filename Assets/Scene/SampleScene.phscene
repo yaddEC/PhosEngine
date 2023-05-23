@@ -22,6 +22,17 @@ component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material Assets\Material\MetalGrid.phmat
 	end
+component "Box Collider"
+	isTrigger  0
+	Center  0.000000 0.000000 0.000000
+	Size  1.000000 1.000000 1.000000
+	end
+component "RigidBody"
+	Gravity  0.000000 -20.000000 0.000000
+	Velocity  0.000000 0.000000 0.000000
+	mass 1.000000
+	reset  0
+	end
 end
 name "SpotLight"
 id 3
