@@ -50,7 +50,7 @@ namespace Physic
         Maths::Vec3 p_center;
     };
 
-    class BoxCollider : public Collider
+    class PHOSENGINE_API BoxCollider : public Collider
     {
     public:
         BoxCollider(Maths::Vec3 _size = Maths::Vec3(1, 1, 1));

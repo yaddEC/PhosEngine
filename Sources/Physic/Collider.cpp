@@ -20,11 +20,12 @@ namespace Physic {
         physicsCollider->collider = this;
 
         Rigidbody* rigidbody = gameobject->GetComponent<Rigidbody>();
+            rb = rigidbody;
         if (rigidbody)
         {
-            rb = rigidbody;
             rb->col = this;
         }
+
         physicsCollider->Init();
     }
 
