@@ -39,7 +39,10 @@ void Resource::Animation::Bind()
 
 void Resource::Animation::Unload()
 {
-
+    for (AnimBone* bone : m_AnimBones)
+    {
+        delete bone;
+    }
 }
 
 void Resource::Animation::GUIUpdate()
@@ -80,7 +83,8 @@ void Resource::Animation::ProcessBone(const aiAnimation* anim, const aiScene* sc
     {
         ProcessHierarchy(scene->mRootNode->mChildren[i], boneMap, nullptr, ++index);
     }
-    std::sort(m_AnimBones.begin(), m_AnimBones.end(), [](const AnimBone* a, const AnimBone* b) { return a->GetArmatureIndex() < b->GetArmatureIndex(); });
+    boneMap.clear();
+    std::sort(m_AnimBones.begin(), m_AnimBones.end(), [](const AnimBone* a, const AnimBone* b){ return a->GetArmatureIndex() < b->GetArmatureIndex(); });
 }
 
 Resource::AnimBone* Resource::Animation::ProcessHierarchy(const aiNode* node, 

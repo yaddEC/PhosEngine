@@ -247,17 +247,18 @@ namespace Wrapper
 
     void Physics::Cleanup()
     {
-        if (m_scene)
-            m_scene->release();
+        //if (m_scene)
+        //    m_scene->release();
 
-        if (m_physics)
-            m_physics->release();
+        //if (m_physics)
+        //    m_physics->release();
 
-        if (m_pvd)
-            m_pvd->release();
+        //if (m_pvd)
+        //    m_pvd->release();
 
-        if (m_foundation)
-            m_foundation->release();
+        //if (m_foundation)
+        //    m_foundation->release();
+        //delete m_scene.simulationEventCallback;
     }
 
     void Physics::SetGravity(Maths::Vec3 gravity)
@@ -337,6 +338,7 @@ namespace Wrapper
         const int numThreads = std::thread::hardware_concurrency();
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(numThreads);
         sceneDesc.solverType = PxSolverType::eTGS;
+
         m_scene = m_physics->createScene(sceneDesc);
         if (!m_scene)
             throw std::runtime_error("createScene failed!");

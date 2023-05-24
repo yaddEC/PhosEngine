@@ -38,7 +38,11 @@ void Resource::Prefab::Bind()
 
 void Resource::Prefab::Unload()
 {
-
+	for (Engine::GameObject* go : m_gameObjectList)
+	{
+		delete go;
+	}
+	m_gameObjectList.clear();
 }
 
 void Resource::Prefab::Save()

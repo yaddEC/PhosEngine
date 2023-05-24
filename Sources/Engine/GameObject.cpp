@@ -156,8 +156,10 @@ void Engine::GameObject::Destroy()
 	{
 		if (m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->OnDestroy();
+		//delete comp;
 	}
 	transform->Destroy();
+	delete transform;
 	m_scene->DeleteGameObjectFromList(this);
 }
 

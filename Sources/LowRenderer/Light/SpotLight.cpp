@@ -50,43 +50,17 @@ void LowRenderer::SpotLight::Render(const Resource::ShaderProgram& shaderProg, i
 		shaderProg.SetUniformFloat("spotLights[" + std::to_string(number) + "].constant", m_constantAttenuation);
 		shaderProg.SetUniformFloat("spotLights[" + std::to_string(number) + "].linear", m_linearAttenuation);
 		shaderProg.SetUniformFloat("spotLights[" + std::to_string(number) + "].quadratic", m_quadraticAttenuation);
-
-		shaderProg.SetUniformBool("spotLights[" + std::to_string(number) + "].useShadow", p_useShadow);
-		shaderProg.SetTexture("spotLights[" + std::to_string(number) + "].shadowMap", number + 10, *m_shadowTexture);
-
-		//shaderProg.SetUniformMatrix("spotLightSpace[" + std::to_string(number) + "]", g);
-		shaderProg.SetUniformMatrix("spotLightSpace[" + std::to_string(number) + "]", m_VP);
 	}
-}
-
-void LowRenderer::SpotLight::RenderShadowMap()
-{
-	p_shadowFrame->Bind(false);
-	p_shadowFrame->Clear(Maths::Vec4(), true);
 }
 
 void LowRenderer::SpotLight::Start()
 {
 	gameobject->GetScene()->GetRenderer()->AddSpotLight(this);
-	p_shadowFrame = new FrameBuffer(512, 512, false);
-	m_shadowTexture = new Resource::Texture();
-	m_shadowTexture->SetData(nullptr, 512, 512, 1);
-
-	m_shadowTexture->BindDepth();
-	p_shadowFrame->AttachTexture(m_shadowTexture, true);
-
-	p_useShadow = true;
 }
 
 void LowRenderer::SpotLight::Update()
 {
 	p_direction = (gameobject->transform->GetGlobalMatrix() * Maths::Vec4(0, -1, 0, 0)).xyz();
-	Maths::Vec3 Up = -p_direction == Maths::Vec3(0, 1, 0) || p_direction == Maths::Vec3(0, -1, 0) ? Maths::Vec3(0, 0, -1) : Maths::Vec3(0, 1, 0);
-	Maths::Vec3 globalPos = gameobject->transform->position;
-
-	Maths::Mat4 proj = Maths::Mat4::CreateProjectionMatrix(90.f, 1.f, 15000.f, 1.f);
-	Maths::Mat4 view = Maths::Mat4::LookAt(globalPos , globalPos - p_direction, Up);
-	m_VP =  view * proj;
 }
 
 
@@ -123,7 +97,6 @@ Reflection::ClassMetaData& LowRenderer::SpotLight::GetMetaData()
 			ClassMemberInfo("Angle", offsetof(SpotLight, SpotLight::m_angle), MemberType::T_FLOAT, 0.01f, 0, 90),
 			ClassMemberInfo("Linear Attenuation", offsetof(SpotLight, SpotLight::m_linearAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1),
 			ClassMemberInfo("Quadratic Attenuation", offsetof(SpotLight, SpotLight::m_quadraticAttenuation), MemberType::T_FLOAT, 0.005f, 0, 1),
-			ClassMemberInfo("Use Shadow", offsetof(SpotLight, SpotLight::p_useShadow), MemberType::T_BOOL)
 		};
 		result.PosTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("DefaultAssets\\LightIcon.png");
 		result.PosModelForTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitivePlane.obj");

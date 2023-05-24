@@ -36,7 +36,7 @@ namespace Physic
         void OnCollisionStay(Engine::GameObject* go) override {};
         void OnCollisionExit(Engine::GameObject* go) override {};
         void GUIUpdate() override ;
-        void OnDestroy() override {};
+        void OnDestroy() override ;
         Maths::Vec3 GetGravity() { return m_gravity; };
         Maths::Vec3 GetVelocity() { return m_velocity; };
         float GetMass() { return m_mass; };

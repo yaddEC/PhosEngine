@@ -1,4 +1,3 @@
-#include "..\..\..\PhosEditor\External\PhosEngine\Resource\ResourceManager.hpp"
 // include needed
 #include <utility>
 #include <limits>
@@ -119,6 +118,20 @@ void Resource::ResourceManager::Save()
 		m_currentScene->Save();
 }
 
+void Resource::ResourceManager::Unload()
+{
+	m_currentScene->Unload();
+	for (auto resource : m_resourceMap)
+	{
+		if (resource.second->isLoaded && resource.second->isBinded)
+		{
+			resource.second->Unload();
+		}
+		delete resource.second;
+	}
+	m_resourceMap.clear();
+}
+
 void Resource::ResourceManager::SetStaticResource()
 {
 	cube = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCube.obj");
@@ -128,7 +141,6 @@ void Resource::ResourceManager::SetStaticResource()
 	iconShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\BillboardShader\\BillboardShader.prog");
 	outlineShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\OutlineShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
-	shadowShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\ShadowShader.prog");
 }
 
 void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene) 

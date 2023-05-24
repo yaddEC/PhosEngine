@@ -11,7 +11,6 @@ using namespace LowRenderer;
 
 ILight::ILight() : Engine::MonoBehaviour(true)
 {
-	p_useShadow = false;
 }
 
 
