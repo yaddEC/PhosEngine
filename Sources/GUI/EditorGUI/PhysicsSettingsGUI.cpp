@@ -65,4 +65,10 @@ void EditorGUI::PhysicsSettingsGUI::DoUpdate()
 
     GUI::EndGroup();
     }
+    GUI::DisplayText("\n \n \n");
+    GUI::DisplayText("Gravity");
+    if (GUI::EditVec3("Gravity", m_gravity,false))
+    {
+        Wrapper::Physics::SetGravity(m_gravity);
+    }
 }

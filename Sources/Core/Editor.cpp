@@ -114,6 +114,7 @@ bool Editor::Init()
     m_sceneGUI->SetCurrentScene(m_mainScene);
     rm.SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
+    m_gameGUI->SetCurrentScene(m_mainScene);
     m_RendererGUI->SetCurrentScene(m_mainScene);
     rm.SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
@@ -124,11 +125,8 @@ bool Editor::Init()
 
 void Editor::Run()
 {
- 
-    /* Loop until the user closes the window */
     while (!m_window.ShouldClose())
     {
-
         /* Poll for and process events */
         m_window.PollEvents();
 
@@ -147,7 +145,6 @@ void Editor::Run()
 
 void Editor::Destroy()
 {
-
     delete m_sceneGUI;
     delete m_gameGUI;
     delete m_mainScene;
@@ -221,6 +218,7 @@ void Core::Editor::UpdateEditorGUI()
         m_mainScene->Unload();
         m_mainScene = newScene;
         m_mainScene->Load();
+        m_gameGUI->SetCurrentScene(m_mainScene);
         m_sceneGUI->SetCurrentScene(m_mainScene);
         m_Hierarchy->SetCurrentScene(m_mainScene);
         m_RendererGUI->SetCurrentScene(m_mainScene);

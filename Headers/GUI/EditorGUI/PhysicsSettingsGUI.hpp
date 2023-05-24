@@ -32,7 +32,7 @@ namespace EditorGUI
 	private:
 
 		void DoUpdate() override;
-		
+		Maths::Vec3 m_gravity = Maths::Vec3(0,-9.81f,0);
 	};
 }
 

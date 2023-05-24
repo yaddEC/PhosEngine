@@ -8,9 +8,9 @@ component "Mesh Renderer"
 	Material Assets\Material\Material.phmat
 	end
 component "Box Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Size  1.000000 1.000000 1.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
 	end
 end
 name "testMat"
@@ -21,6 +21,17 @@ transform 0 0 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material Assets\Material\MetalGrid.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	end
+component "RigidBody"
+	Gravity 0.000000 -20.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
+	mass 1.000000
+	reset 0
 	end
 end
 name "SpotLight"
@@ -34,7 +45,7 @@ component "Spot Light"
 	Angle 12.000000
 	Linear Attenuation 0.090000
 	Quadratic Attenuation 0.032000
-	Use Shadow  1
+	Use Shadow 1
 	end
 end
 name "test"
@@ -47,14 +58,14 @@ component "Mesh Renderer"
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
+	Gravity 0.000000 -20.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	reset 0
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
 	end
 end
@@ -68,14 +79,14 @@ component "Mesh Renderer"
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -90.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
+	Gravity 0.000000 -90.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	reset 0
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
 	end
 end
@@ -89,14 +100,14 @@ component "Mesh Renderer"
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
+	Gravity 0.000000 -20.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	reset 0
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
 	end
 end
@@ -110,14 +121,14 @@ component "Mesh Renderer"
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
+	Gravity 0.000000 -20.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	reset 0
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 2.000000 0.000000
+	isTrigger 0
+	Center 0.000000 2.000000 0.000000
 	Radius 2.000000
 	end
 end
@@ -125,10 +136,22 @@ name "Cube"
 id 8
 layer 0
 tag 0
-transform 45.3 2.75 -6.65 0 0 0 0.2 0.2 0.2
+transform 20.45 2.75 -6.65 0 0 0 0.2 0.2 0.2
 component "Mesh Renderer"
 	Mesh Assets\Model\Walking.fbx
 	Material Assets\Material\GirlMat.phmat
+	end
+component "RigidBody"
+	Gravity 0.000000 -20.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
+	mass 1.000000
+	reset 0
+	end
+component "Capsule Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Height 1.000000
+	Radius 1.000000
 	end
 child
 	name "mixamorig:Hips"
@@ -685,5 +708,38 @@ transform 0 0 0 -0.808087 0 0 1 1 1
 component "Directional Light"
 	Color 1.000000 1.000000 1.000000
 	Intensity 1.000000
+	end
+end
+name "Capsule"
+id 88
+layer 0
+tag 0
+transform 0 17.3 -47.45 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCapsule.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Capsule Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Height 1.000000
+	Radius 1.000000
+	end
+component "RigidBody"
+	Gravity 0.000000 -20.000000 0.000000
+	Velocity 0.000000 0.000000 0.000000
+	mass 1.000000
+	reset 0
+	end
+end
+name "Camera"
+id 89
+layer 0
+tag 0
+transform 0 8.95 27.2 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.845560 0.293824 0.293824
 	end
 end
