@@ -904,7 +904,7 @@ bool Wrapper::GUI::drawGizmo(int mode, float* cameraView, float* cameraProjectio
 	//std::cout << ImGuizmo::GetRora << "\n"
 	//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
 	//ImGuizmo::DrawCubes(cameraView, cameraProjection, &objectMatrix[0][0], 1);
-	return ImGuizmo::Manipulate(cameraView, cameraProjection, ImGuizmo::ROTATE, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
+	return ImGuizmo::Manipulate(cameraView, cameraProjection, gizMod, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 }
 void Wrapper::GUI::GizmoDecomposeMatrixToComponents(const float* matrix, float* translation, float* rotation, float* scale)
 {
