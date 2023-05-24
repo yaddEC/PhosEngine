@@ -25,6 +25,18 @@ EditorGUI::InspectorGUI::InspectorGUI() : IGUI("Inspector", true)
 
 }
 
+void EditorGUI::InspectorGUI::DeselectCurrentObject()
+{
+	if (m_typeToDisplay == ObjectType::GAME_OBJECT)
+	{
+		m_gameobject = nullptr;
+	}
+	else if (m_typeToDisplay == ObjectType::RESOURCE)
+	{
+		m_resource = nullptr;
+	}
+}
+
 void EditorGUI::InspectorGUI::DoUpdate()
 {
 	if (m_typeToDisplay == ObjectType::GAME_OBJECT)

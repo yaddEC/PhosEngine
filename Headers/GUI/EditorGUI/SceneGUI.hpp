@@ -17,7 +17,7 @@ namespace EditorGUI
 		Engine::GameObject* GetSelected();
 		bool GetDebugCamera() { return m_drawCameraData; };
 		void SetDebugCamera(bool setter) { m_drawCameraData = setter; }
-
+		void DeselectCurrentObject();
 		void DoUpdate() override;
 		void SetSelected(Engine::GameObject* selected);
 

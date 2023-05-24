@@ -90,6 +90,12 @@ Engine::GameObject* EditorGUI::SceneGUI::FindSelectedObject(unsigned int ID)
 }
 
 
+void EditorGUI::SceneGUI::DeselectCurrentObject()
+{
+	m_selectedObject = nullptr;
+	m_selectedRenderer = nullptr;
+}
+
 void SceneGUI::DoUpdate()
 {
 	using namespace Wrapper;
