@@ -16,6 +16,7 @@
 
 
 #include "Wrapper/PhysicsWrapper.hpp"
+#include <thread>
 
 
 
@@ -259,6 +260,11 @@ namespace Wrapper
             m_foundation->release();
     }
 
+    void Physics::SetGravity(Maths::Vec3 gravity)
+    {
+        Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->setGravity(PxVec3(gravity.x, gravity.y, gravity.z));
+    }
+
     PxMaterial* CreateMaterialByType( PxPhysics* physics, MaterialType type)
     {
         PxReal staticFriction, dynamicFriction, restitution;
@@ -328,10 +334,14 @@ namespace Wrapper
         sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
         sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
         sceneDesc.simulationEventCallback = mySimulationEventCallback;
-        sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
+        const int numThreads = std::thread::hardware_concurrency();
+        sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(numThreads);
+        sceneDesc.solverType = PxSolverType::eTGS;
         m_scene = m_physics->createScene(sceneDesc);
         if (!m_scene)
             throw std::runtime_error("createScene failed!");
+
+
     }
 
     void Physics::SetupVisualDebugger()
@@ -347,50 +357,7 @@ namespace Wrapper
     void PhysicsCollider::Init()
     {
         collider->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
-        if (collider->rb) {
-            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
-            m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidDynamic(pose);
-            collider->rb->physicsRigidbody->SetRigidActor(m_physxActor);
-            collider->rb->physicsRigidbody->Init();
-        }
-        else {
-            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
-            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat( rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a));
-            m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidStatic(pose);
-        }
-        m_physxActor->userData = collider->gameobject;
-        Maths::Quaternion rotCol = collider->transform->rotation.ToQuaternion(collider->transform->rotationEuler);
-        rotCol.Conjugate();
-        Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix() * rotCol.ToRotationMatrix() ;
-        PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
-        if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
-        {
-            Maths::Vec3 boxSize = boxCollider->GetSize();
-            m_geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxSize.x , worldModel.data_4_4[1][1] * boxSize.y , worldModel.data_4_4[2][2] * boxSize.z );
-            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.box, *material);
-        }
-        else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
-        {
-            m_geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->GetRadius());
-            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.sphere, *material);
-        }
-        else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
-        {
-            m_geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->GetRadius(), worldModel.data_4_4[1][1] * capsuleCollider->GetHeight()  * 0.5f);
-            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.capsule, *material);
-        }
-        
-        if (collider->GetTriggerState())
-        {
-            m_shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
-            m_shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
-        }
-        PxFilterData filterData;
-        filterData.word0 = collider->gameobject->GetLayer();
-        m_shape->setSimulationFilterData(filterData);
-        Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->addActor(*m_physxActor);
-
+        UpdateType();
     }
 
     int countRigidActors(PxScene* scene) {
@@ -440,6 +407,57 @@ namespace Wrapper
 
     void PhysicsCollider::Update()
     {
+
+    }
+
+    void PhysicsCollider::UpdateType()
+    {
+        if(m_physxActor)
+            Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->removeActor(*m_physxActor);
+
+        if (collider->rb) {
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
+            m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidDynamic(pose);
+            collider->rb->physicsRigidbody->SetRigidActor(m_physxActor);
+            collider->rb->physicsRigidbody->Init();
+        }
+        else {
+            Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
+            Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
+            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a));
+            m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidStatic(pose);
+        }
+        m_physxActor->userData = collider->gameobject;
+        Maths::Quaternion rotCol = collider->transform->rotation.ToQuaternion(collider->transform->rotationEuler);
+        rotCol.Conjugate();
+        Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix() * rotCol.ToRotationMatrix();
+        PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
+        if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
+        {
+            Maths::Vec3 boxSize = boxCollider->GetSize();
+            m_geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxSize.x, worldModel.data_4_4[1][1] * boxSize.y, worldModel.data_4_4[2][2] * boxSize.z);
+            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.box, *material);
+        }
+        else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
+        {
+            m_geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->GetRadius());
+            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.sphere, *material);
+        }
+        else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
+        {
+            m_geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->GetRadius(), worldModel.data_4_4[1][1] * capsuleCollider->GetHeight() * 0.5f);
+            m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.capsule, *material);
+        }
+
+        if (collider->GetTriggerState())
+        {
+            m_shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+            m_shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
+        PxFilterData filterData;
+        filterData.word0 = collider->gameobject->GetLayer();
+        m_shape->setSimulationFilterData(filterData);
+        Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->addActor(*m_physxActor);
 
     }
 

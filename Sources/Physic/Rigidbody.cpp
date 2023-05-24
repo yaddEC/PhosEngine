@@ -12,12 +12,33 @@
 namespace Physic {
 
     Rigidbody::Rigidbody()
-        : MonoBehaviour(true) {
+        : MonoBehaviour(false) {
         physicsRigidbody = new Wrapper::PhysicsRigidbody();
         physicsRigidbody->rigidbody = this;
     }
 
     void Rigidbody::Init() {}
+
+    void Rigidbody::Start()
+    {
+        Collider* collider = gameobject->GetComponent<BoxCollider>();
+        if (!collider)
+        {
+            collider = gameobject->GetComponent<SphereCollider>();
+            if (!collider)
+            {
+                collider = gameobject->GetComponent<CapsuleCollider>();
+            }
+        }
+        col = collider;
+
+        if (col)
+        {
+            col->rb = this;
+            if(col->physicsCollider)
+                col->physicsCollider->UpdateType();
+        }
+    }
 
     void Rigidbody::Update() {
         physicsRigidbody->Update();
