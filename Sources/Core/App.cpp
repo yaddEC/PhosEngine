@@ -30,6 +30,7 @@ void Core::App::DestroyApp()
 {
 	Wrapper::GUI::DestroyGUI();
 	m_window.Destroy();
+	Wrapper::Window::TernimateGLFW();
 }
 
 

@@ -37,6 +37,7 @@ namespace Resource
 		void LoadAll();
 		void Reload(const std::string& rootAseetsPath);
 		void Save();
+		void Unload();
 
 		void SetStaticResource();
 
@@ -182,7 +183,6 @@ namespace Resource
 		ShaderProgram* pickingShader = nullptr;
 		ShaderProgram* iconShaderForPicking = nullptr;
 		ShaderProgram* iconShader = nullptr;
-		ShaderProgram* shadowShader = nullptr;
 		ShaderProgram* outlineShader = nullptr;
 		Mesh* cube = nullptr;
 		Mesh* quad = nullptr;

@@ -146,9 +146,9 @@ void Editor::Run()
 
 void Editor::Destroy()
 {
-
+    Resource::ResourceManager::GetInstance().Unload();
     delete m_sceneGUI;
-    delete m_mainScene;
+    //delete m_mainScene;
     delete m_AssetExplorer;
     delete m_Hierarchy;
     delete m_RendererGUI;

@@ -37,8 +37,8 @@ namespace Physic
         void OnCollisionEnter(Engine::GameObject* go) override {};
         void OnCollisionStay(Engine::GameObject* go) override {};
         void OnCollisionExit(Engine::GameObject* go) override {};
-        void GUIUpdate() override ;
-        void OnDestroy() override {};
+        void GUIUpdate() override;
+        void OnDestroy() override;
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void SetTriggerState(bool isTrigger);
         bool GetTriggerState() { return p_isTrigger; };
