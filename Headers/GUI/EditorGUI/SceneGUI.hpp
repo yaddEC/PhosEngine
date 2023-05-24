@@ -22,7 +22,7 @@ namespace EditorGUI
 		void SetSelected(Engine::GameObject* selected);
 
 		bool selectedClicked;
-	
+		int gizMode = 0;
 	private:
 
 		Engine::GameObject* FindSelectedObject(unsigned int ID);
