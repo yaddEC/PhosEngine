@@ -866,8 +866,25 @@ void Wrapper::GUI::SetWindowFontSize(float size)
 }
 
 
-bool Wrapper::GUI::drawGizmo(float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
+bool Wrapper::GUI::drawGizmo(int mode, float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
 {
+	ImGuizmo::OPERATION gizMod;
+	switch (mode)
+	{
+	case 0:
+		gizMod = ImGuizmo::TRANSLATE;
+		break;
+	case 1:
+		gizMod = ImGuizmo::ROTATE;
+		break;
+	case 2:
+		gizMod = ImGuizmo::SCALE;
+		break;
+	default:
+		gizMod = ImGuizmo::TRANSLATE;
+		break;
+	}
+
 	ImGuizmo::SetID(0);
 
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
