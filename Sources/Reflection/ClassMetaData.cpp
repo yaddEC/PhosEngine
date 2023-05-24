@@ -9,6 +9,7 @@
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
 #include "Resource/Material.hpp"
@@ -141,9 +142,9 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 
 	case MemberType::T_FLOAT: result += std::to_string(*(float*)(classPtr + ptr)); break;
 
-	case MemberType::T_BOOL: result += ' ' + std::to_string(*(bool*)(classPtr + ptr)); break;
+	case MemberType::T_BOOL: result += std::to_string(*(bool*)(classPtr + ptr)); break;
 
-	case MemberType::T_VEC3: result += ' ' +std::to_string(*(float*)(classPtr + ptr))
+	case MemberType::T_VEC3: result += std::to_string(*(float*)(classPtr + ptr))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 4))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 8)); break;
 
@@ -167,7 +168,7 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 {
 	switch (type)
 	{
-	case MemberType::T_INT: break;
+	case MemberType::T_INT: *(int*)(classPtr + ptr) = std::stoi(tokens[1]); break;
 
 	case MemberType::T_FLOAT: *(float*)(classPtr + ptr) = std::stof(tokens[1]);  break;
 
@@ -318,6 +319,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Animator")
 	{
 		return gameObject->AddComponent<LowRenderer::Animator>();
+	}
+	if (componentName == "Camera Component")
+	{
+		return gameObject->AddComponent<LowRenderer::CameraComponent>();
 	}
 
 	return nullptr;

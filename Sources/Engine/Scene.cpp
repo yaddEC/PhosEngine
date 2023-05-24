@@ -80,6 +80,8 @@ void Scene::Update()
 	{
 		go->Update();
 	}
+
+	m_renderer->PreComputeShaderData();
 }
 
 GameObject* Engine::Scene::Instantiate(GameObject* newGameObject)

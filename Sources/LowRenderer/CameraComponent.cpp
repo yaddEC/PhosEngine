@@ -4,14 +4,40 @@
 #include "pch.h"
 //----------------
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include "Engine/Scene.hpp"
+#include "Resource/ResourceManager.hpp"
+#include "Resource/ResourceIncludes.hpp"
+#include "LowRenderer/Renderer.hpp"
 #include "LowRenderer/CameraComponent.hpp"
+#include "LowRenderer/MeshRenderer.hpp"
+#include "Resource/Texture.hpp"
+#include "Wrapper/RHI.hpp"
+
+LowRenderer::CameraComponent::CameraComponent()
+    : MonoBehaviour(true)
+    , m_framebuffer(FrameBuffer(10, 10))
+    , m_postProFramebuffer(FrameBuffer(10, 10))
+    , m_renderTexture(Resource::Texture())
+    , m_postProRenderTexture(Resource::Texture())
+{
+    m_renderTexture.Bind();
+    m_framebuffer.AttachTexture(&m_renderTexture);
+
+    m_postProRenderTexture.Bind();
+    m_postProFramebuffer.AttachTexture(&m_postProRenderTexture);
+}
 
 void LowRenderer::CameraComponent::Start()
 {
+	gameobject->GetScene()->GetRenderer()->AddCamera(this);
 }
 
 void LowRenderer::CameraComponent::OnDestroy()
 {
+	gameobject->GetScene()->GetRenderer()->DeleteCamera(this);
 }
 
 Reflection::ClassMetaData& LowRenderer::CameraComponent::GetMetaData()
@@ -25,9 +51,9 @@ Reflection::ClassMetaData& LowRenderer::CameraComponent::GetMetaData()
 		result.name = "Camera Component";
 		result.memberList =
 		{
-			ClassMemberInfo("Field of view", offsetof(CameraComponent, CameraComponent::m_fov), MemberType::T_FLOAT),
-			ClassMemberInfo("Use Skybox", offsetof(CameraComponent, CameraComponent::m_useSkybox), MemberType::T_BOOL),
-			ClassMemberInfo("BackGround Color", offsetof(CameraComponent, CameraComponent::m_backgroundColor), MemberType::T_COLOR),
+			ClassMemberInfo("FOV", offsetof(CameraComponent, CameraComponent::m_fov), MemberType::T_FLOAT),
+			ClassMemberInfo("UseSkybox", offsetof(CameraComponent, CameraComponent::m_useSkybox), MemberType::T_BOOL),
+			ClassMemberInfo("BackGroundColor", offsetof(CameraComponent, CameraComponent::m_backgroundColor), MemberType::T_COLOR),
 		};
 		computed = true;
 	}
@@ -36,12 +62,52 @@ Reflection::ClassMetaData& LowRenderer::CameraComponent::GetMetaData()
 
 void LowRenderer::CameraComponent::Render(const std::vector<LowRenderer::MeshRenderer*>& rendList, const Maths::Vec2& viewportSize, const Resource::CubeMap* skybox)
 {
+    using namespace Maths;
 
+    Mat4 viewProj = m_viewMatrix * m_projMatrix;
+    m_framebuffer.Bind(true, (int)viewportSize.x, (int)viewportSize.y);
+    m_framebuffer.Clear(Maths::Vec4(m_backgroundColor.x, m_backgroundColor.y, m_backgroundColor.z, 1));
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    if (skybox && m_useSkybox) // Skybox
+    {
+        Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+        rm.skyboxShader->Use();
+
+        glCullFace(GL_BACK);
+        glDepthMask(GL_FALSE);
+
+        Mat4 skyBoxView = m_viewMatrix;
+        skyBoxView.data4V[0].w = 0;
+        skyBoxView.data4V[1].w = 0;
+        skyBoxView.data4V[2].w = 0;
+
+        rm.skyboxShader->SetCubeMap("skybox", 0, *skybox);
+        rm.skyboxShader->SetUniformMatrix("ViewProj", (skyBoxView * m_projMatrix));
+
+        Wrapper::RHI::RenderSubMesh(rm.cube->GetSubMesh(0).GetVAO(), rm.cube->GetSubMesh(0).indices);
+    }
+
+    glCullFace(GL_FRONT);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+
+    for (MeshRenderer* rend : rendList)
+    {
+        rend->Render(viewProj, transform->position);
+    }
+
+    if (m_postPro)
+    {
+        glCullFace(GL_BACK);
+        ApplyPostProcessing(viewportSize);
+    }
+    // unbind the framebuffer
+    Wrapper::RHI::UnbindFrameBuffer();
 }
 
 Resource::Texture& LowRenderer::CameraComponent::GetRenderTexture()
 {
-	// TODO: insérer une instruction return ici
 	return m_renderTexture;
 }
 

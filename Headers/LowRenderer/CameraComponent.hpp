@@ -20,6 +20,8 @@ namespace LowRenderer
 	{
 	public:
 
+		CameraComponent();
+
 		void Start() override;
 
 		void OnDestroy() override;

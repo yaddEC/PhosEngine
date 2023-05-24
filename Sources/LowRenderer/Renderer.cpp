@@ -15,30 +15,27 @@
 #include "Resource/ShaderProgram.hpp"
 
 #include "Maths/Maths.hpp"
-
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
-
 #include "Wrapper/RHI.hpp"
-
 #include "LowRenderer/Renderer.hpp"
 
 using namespace LowRenderer;
 
-void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
+void LowRenderer::Renderer::PreComputeShaderData()
 {
 	for (MeshRenderer* rend : m_meshRenderers)
 	{
-		if (rend->GetMesh()->GetArmature())
+		if (rend->GetMesh() && rend->GetMesh()->GetArmature())
 		{
 			rend->SetSkinningMatrices();
 		}
 	}
 
-	ComputeShadowMap();
 	std::vector<Resource::ShaderProgram*> shaderList;
 	for (MeshRenderer* rend : m_meshRenderers)
 	{
+		if (!rend->GetMesh() || !rend->GetMaterial()) continue;
 		bool isShaderInList = false;
 		for (Resource::ShaderProgram* shader : shaderList)
 		{
@@ -56,7 +53,6 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	{
 		if (!shader)continue;
 		shader->Use();
-		//shader->SetUniformVec3("viewPos", mainCamera->transform->position);
 
 		shader->SetUniformInt("lenghtDirLight", static_cast<int>(m_directionalLights.size()));
 		shader->SetUniformInt("lenghtPointLight", static_cast<int>(m_pointLights.size()));
@@ -77,9 +73,10 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 			m_spotLights[i]->Render(*shader, i);
 		}
 	}
+}
 
-	
-
+void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
+{
 	if (renderAllCameras)
 	{
 		for (CameraComponent* cam : m_cameras)

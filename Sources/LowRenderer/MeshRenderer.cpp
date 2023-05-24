@@ -41,6 +41,8 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Render(const Maths::Mat4& viewProj, const Maths::Vec3& viewPos) const
 {
+	if (!m_mesh || !m_material) return;
+
 	m_material->GetShader()->Use();
 	m_material->GetShader()->SetUniformVec3("viewPos", viewPos);
 	m_material->GetShader()->SetUniformMatrix("model", transform->GetGlobalMatrix());
@@ -62,9 +64,9 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj, const Maths::Vec3& viewPo
 
 void LowRenderer::MeshRenderer::RenderOutline(const Maths::Mat4& viewProj) const
 {
-	ShaderProgram* outlineShader = Resource::ResourceManager::GetInstance().outlineShader;
-
+	if (!m_mesh) return;
 	
+	ShaderProgram* outlineShader = Resource::ResourceManager::GetInstance().outlineShader;
 
 	outlineShader->Use();
 	outlineShader->SetUniformMatrix("model", transform->GetGlobalMatrix());
@@ -127,6 +129,8 @@ void LowRenderer::MeshRenderer::AssignBoneObject(Engine::Transform* tr)
 
 void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
 {
+	if (!m_mesh) return;
+
 	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 	rm.pickingShader->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);
 
@@ -146,6 +150,7 @@ void MeshRenderer::IdPickerRender(const Maths::Mat4& viewProj) const
 void LowRenderer::MeshRenderer::Start()
 {
 	gameobject->GetScene()->GetRenderer()->AddMeshRenderer(this);
+	if (!m_mesh) return;
 	if (m_mesh->GetArmature())
 	{
 		for (auto bone : m_mesh->GetArmature()->boneMap)

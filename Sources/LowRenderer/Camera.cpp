@@ -16,7 +16,6 @@
 #include "Resource/ResourceManager.hpp"
 #include "Wrapper/GUI.hpp"
 
-#define CAMERA_EXPORTS
 #include "LowRenderer/Camera.hpp"
 
 using namespace LowRenderer;
