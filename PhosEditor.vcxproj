@@ -186,6 +186,7 @@
     <ClCompile Include="Sources\Core\Editor.cpp" />
     <ClCompile Include="Sources\Core\ProjectManager.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\AssetExplorer.cpp" />
+    <ClCompile Include="Sources\GUI\EditorGUI\GameGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\GeneralSettingsGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\HierarchyGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\PhysicsSettingsGUI.cpp" />

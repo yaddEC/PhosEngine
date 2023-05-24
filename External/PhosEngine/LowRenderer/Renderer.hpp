@@ -12,6 +12,7 @@ namespace Resource
 namespace LowRenderer
 {
 	class Camera;
+	class CameraComponent;
 	class MeshRenderer;
 	class DirectionalLight;
 	class PointLight;
@@ -28,6 +29,9 @@ namespace LowRenderer
 
 		void AddMeshRenderer(MeshRenderer* rend) { m_meshRenderers.push_back(rend); }
 		void DeleteMeshRenderer(MeshRenderer* rend);
+
+		void AddCamera(CameraComponent* cam) { m_cameras.push_back(cam); }
+		void DeleteCamera(CameraComponent* cam);
 
 		void AddDirLight(DirectionalLight* dir) { m_directionalLights.push_back(dir); }
 		void DeleteDirLight(DirectionalLight* dir);
@@ -46,7 +50,7 @@ namespace LowRenderer
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
-		std::vector<Camera*> m_cameras;
+		std::vector<CameraComponent*> m_cameras;
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;

@@ -20,6 +20,7 @@ namespace EditorGUI
 	class PhysicsSettingsGUI;
 	class PlayStateGUI;
 	class GeneralSettingsGUI;
+	class GameGUI;
 }
 
 
@@ -49,6 +50,7 @@ namespace Core
 		//class AssetsExplorer* assetsExplorer;
 
 		EditorGUI::SceneGUI* m_sceneGUI;
+		EditorGUI::GameGUI* m_gameGUI;
 		EditorGUI::AssetExplorer* m_AssetExplorer;
 		EditorGUI::HierarchyGUI* m_Hierarchy;
 		EditorGUI::InspectorGUI* m_Inspector;

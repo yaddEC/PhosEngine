@@ -4,6 +4,7 @@
 #include <chrono>
 
 #include "GUI/EditorGUI/SceneGUI.hpp"
+#include "GUI/EditorGUI/GameGUI.hpp"
 #include "GUI/EditorGUI/AssetExplorer.hpp"
 #include "GUI/EditorGUI/HierarchyGUI.hpp"
 #include "GUI/EditorGUI/InspectorGUI.hpp"
@@ -148,8 +149,10 @@ void Editor::Destroy()
 {
 
     delete m_sceneGUI;
+    delete m_gameGUI;
     delete m_mainScene;
     delete m_AssetExplorer;
+    delete m_Inspector;
     delete m_Hierarchy;
     delete m_RendererGUI;
     delete m_PhysicsSettingsGUI;
@@ -160,6 +163,7 @@ void Editor::Destroy()
 bool Core::Editor::InitEditorGUI()
 {
     m_sceneGUI = new EditorGUI::SceneGUI();
+    m_gameGUI = new EditorGUI::GameGUI();
     m_Hierarchy = new EditorGUI::HierarchyGUI();
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     m_Inspector = new EditorGUI::InspectorGUI();
@@ -206,6 +210,7 @@ void Core::Editor::UpdateEditorGUI()
 
     m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
     m_PlayStateGUI->Update();
+    m_gameGUI->Update();
     m_sceneGUI->Update();
 
     m_Hierarchy->Update();
