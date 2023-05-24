@@ -23,7 +23,7 @@ namespace Engine
 		void Update();
 
 		void Init(GLFWwindow* _window);
-		
+
 		void ScrollBackDoor(int value);
 
 		float GetHorizontalAxis();
@@ -31,12 +31,14 @@ namespace Engine
 
 		bool IsKeyPressed(int key);
 		bool IsKeyDown(int key);
+		bool IsKeyReleased(int key);
 		bool IsAnyKeyDown();
 
 
 
 		bool IsMouseButtonPressed(int mouseButton);
 		bool IsMouseButtonDown(int mouseButton);
+		bool IsMouseButtonUp(int mouseButton);
 		bool IsMouseButtonReleased(int mouseButton);
 
 		Maths::Vec2 GetMouseDelta();
@@ -52,9 +54,9 @@ namespace Engine
 		Maths::Vec2 mouseDelta;
 		int scrollDelta;
 
-		int keyMap[348] = {0};
-		int mouseMap[3] = {0};
-		float timeStep ;
+		int keyMap[348] = { 0 };
+		int mouseMap[3] = { 0 };
+		float timeStep;
 		bool anyKeyDown = false;
 
 		void DisplayGUI();

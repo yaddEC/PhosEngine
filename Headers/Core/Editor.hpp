@@ -36,7 +36,6 @@ namespace Core
 		void Run();
 		void Destroy();
 		
-
 	private:
 		bool InitEditorGUI();
 		void UpdateEditorGUI();

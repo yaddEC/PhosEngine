@@ -135,10 +135,28 @@ name "Cube"
 id 8
 layer 0
 tag 0
-transform 45.3 2.75 -6.65 0 0 0 0.2 0.2 0.2
+transform 8.15 2.75 -6.65 0 0 0 0.2 0.2 0.2
 component "Mesh Renderer"
 	Mesh Assets\Model\Walking.fbx
 	Material Assets\Material\GirlMat.phmat
+	end
+component "RigidBody"
+	Gravity  0.000000 -20.000000 0.000000
+	Velocity  0.000000 0.000000 0.000000
+	mass 1.000000
+	reset  0
+	end
+component "Capsule Collider"
+	isTrigger  0
+	Center  0.000000 0.000000 0.000000
+	Height 1.000000
+	Radius 1.000000
+	end
+component "RigidBody"
+	Gravity  0.000000 -20.000000 0.000000
+	Velocity  0.000000 0.000000 0.000000
+	mass 1.000000
+	reset  0
 	end
 child
 	name "mixamorig:Hips"
@@ -695,5 +713,37 @@ transform 0 0 0 -0.808087 0 0 1 1 1
 component "Directional Light"
 	Color 1.000000 1.000000 1.000000
 	Intensity 1.000000
+	end
+end
+name "Cube"
+id 88
+layer 0
+tag 0
+transform 22.4 12.15 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "RigidBody"
+	Gravity  0.000000 -20.000000 0.000000
+	Velocity  0.000000 0.000000 0.000000
+	mass 1.000000
+	reset  0
+	end
+end
+name "Cube"
+id 89
+layer 0
+tag 0
+transform 0 14.95 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "RigidBody"
+	Gravity  0.000000 -20.000000 0.000000
+	Velocity  0.000000 0.000000 0.000000
+	mass 1.000000
+	reset  0
 	end
 end

@@ -90,6 +90,12 @@ Engine::GameObject* EditorGUI::SceneGUI::FindSelectedObject(unsigned int ID)
 }
 
 
+void EditorGUI::SceneGUI::DeselectCurrentObject()
+{
+	m_selectedObject = nullptr;
+	m_selectedRenderer = nullptr;
+}
+
 void SceneGUI::DoUpdate()
 {
 	using namespace Wrapper;
@@ -100,7 +106,7 @@ void SceneGUI::DoUpdate()
 	{
 		
 		UpdateCamera(input);
-		if (input.IsMouseButtonDown(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
+		if (input.IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
 		{
 			unsigned int objectID = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, p_size - Vec2(10, 35),
 				GUI::GetWindowPos(*Window::GetCurrentContext()));
@@ -109,6 +115,10 @@ void SceneGUI::DoUpdate()
 			{
 				m_selectedRenderer = m_selectedObject->GetComponent<LowRenderer::MeshRenderer>();
 				selectedClicked = true;
+			}
+			else
+			{
+				DeselectCurrentObject();
 			}
 		}
 
@@ -132,7 +142,58 @@ void SceneGUI::DoUpdate()
 	{
 		m_sceneCamera.OnGUI();
 	}
+
 	GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
+	GameObject* selected = GetSelected();
+	static GameObject* lastSelected;
+	if (selected != nullptr )
+	{
+
+		if (input.IsKeyPressed(84))
+			gizMode = 0;
+		else if (input.IsKeyPressed(82))
+			gizMode = 1;
+		else if (input.IsKeyPressed(83))
+			gizMode = 2;
+			
+		float* temp = selected->transform->GetGlobalMatrix().GetTranspose().data;
+
+		if (GUI::drawGizmo(gizMode, m_sceneCamera.GetViewMatrix().GetTranspose().data, m_sceneCamera.GetProjMatrix().GetTranspose().data, temp, false) && (selected == lastSelected ))
+		{
+			Vec3 position;
+			Vec3 rotation;
+			Vec3 scale;
+
+			GUI::GizmoDecomposeMatrixToComponents(temp, position.xyz, rotation.xyz, scale.xyz);
+
+			if (selected->transform->position != position)
+			{
+				selected->OnGuiChanged();
+				selected->transform->position = position;
+			}
+			if (selected->transform->scale != scale)
+			{
+				selected->OnGuiChanged();
+				selected->transform->scale = scale;
+			}
+			if (selected->transform->rotationEuler != rotation * DEG2RAD)
+			{
+				selected->OnGuiChanged();
+				selected->transform->rotationEuler = rotation * DEG2RAD;
+				Quaternion newQuat = selected->transform->rotation.ToQuaternion(selected->transform->rotationEuler);
+				selected->transform->SetRotation(newQuat);
+			}
+			lastSelected = nullptr;
+		}
+		else
+		{
+				lastSelected = GetSelected();
+		}
+	}
+	
+
+	
+	//GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
 	if(m_selectedObject)
 		GUI::DisplayText("%d", (int)m_selectedObject->GetID());
 
