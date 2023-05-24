@@ -228,6 +228,10 @@ void Core::Editor::UpdateEditorGUI()
         m_sceneGUI->DeselectCurrentObject();
         m_PlayStateGUI->isStatePressed = false;
     }
+    if (!m_sceneGUI->GetSelected())
+    {
+        m_Inspector->DeselectCurrentObject();
+    }
     m_PlayStateGUI->Update();
     if (m_Hierarchy->selectedClicked)
     {
