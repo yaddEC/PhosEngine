@@ -39,9 +39,10 @@ MeshRenderer::~MeshRenderer()
 	delete m_mesh;
 }
 
-void MeshRenderer::Render(const Maths::Mat4& viewProj) const
+void MeshRenderer::Render(const Maths::Mat4& viewProj, const Maths::Vec3& viewPos) const
 {
 	m_material->GetShader()->Use();
+	m_material->GetShader()->SetUniformVec3("viewPos", viewPos);
 	m_material->GetShader()->SetUniformMatrix("model", transform->GetGlobalMatrix());
 	m_material->GetShader()->SetUniformMatrix("viewProj", viewProj);
 	m_material->GetShader()->SetUniformMatrix("mvp", transform->GetGlobalMatrix() * viewProj);

@@ -410,6 +410,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\framework.h" />
     <ClInclude Include="Headers\LowRenderer\Animator.hpp" />
     <ClInclude Include="Headers\LowRenderer\Camera.hpp" />
+    <ClInclude Include="Headers\LowRenderer\CameraComponent.hpp" />
     <ClInclude Include="Headers\LowRenderer\Framebuffer.hpp" />
     <ClInclude Include="Headers\LowRenderer\Light\DirectionalLight.hpp" />
     <ClInclude Include="Headers\LowRenderer\Light\ILight.hpp" />
@@ -462,6 +463,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGuizmo\Source\ImGuizmo.cpp" />
     <ClCompile Include="Externals\ImGuizmo\Source\ImSequencer.cpp" />
     <ClCompile Include="Sources\LowRenderer\Animator.cpp" />
+    <ClCompile Include="Sources\LowRenderer\CameraComponent.cpp" />
     <ClCompile Include="Sources\Reflection\ClassMetaData.cpp" />
     <ClCompile Include="Sources\Resource\Animation.cpp" />
     <ClCompile Include="Sources\Resource\AnimBone.cpp" />

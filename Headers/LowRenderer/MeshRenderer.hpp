@@ -29,7 +29,7 @@ namespace LowRenderer
 		virtual ~MeshRenderer();
 
 
-		void Render(const Maths::Mat4& viewProj) const;
+		void Render(const Maths::Mat4& viewProj, const Maths::Vec3& viewPos) const;
 		void RenderOutline(const Maths::Mat4& viewProj) const;
 		void IdPickerRender(const Maths::Mat4& viewProj) const;
 

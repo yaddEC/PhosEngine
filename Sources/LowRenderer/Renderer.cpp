@@ -5,6 +5,7 @@
 //----------------
 
 #include "LowRenderer/Camera.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
@@ -55,7 +56,7 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	{
 		if (!shader)continue;
 		shader->Use();
-		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
+		//shader->SetUniformVec3("viewPos", mainCamera->transform->position);
 
 		shader->SetUniformInt("lenghtDirLight", static_cast<int>(m_directionalLights.size()));
 		shader->SetUniformInt("lenghtPointLight", static_cast<int>(m_pointLights.size()));
@@ -81,15 +82,17 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 
 	if (renderAllCameras)
 	{
-		for (Camera* cam : m_cameras)
+		for (CameraComponent* cam : m_cameras)
 		{
-			if (cam == mainCamera) continue;
 			cam->ComputeViewProjMatrix(viewportSize);
 			cam->Render(m_meshRenderers, viewportSize, m_skybox);
 		}
 	}
-	mainCamera->ComputeViewProjMatrix(viewportSize);
-	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
+	if (mainCamera)
+	{
+		mainCamera->ComputeViewProjMatrix(viewportSize);
+		mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
+	}
 	
 }
 
@@ -152,6 +155,18 @@ void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
 		if (*it == rend)
 		{
 			it = m_meshRenderers.erase(it);
+			return;
+		}
+	}
+}
+
+void LowRenderer::Renderer::DeleteCamera(CameraComponent* cam)
+{
+	for (std::vector<CameraComponent*>::iterator it = m_cameras.begin(); it != m_cameras.end(); ++it)
+	{
+		if (*it == cam)
+		{
+			it = m_cameras.erase(it);
 			return;
 		}
 	}
