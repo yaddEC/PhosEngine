@@ -31,12 +31,14 @@ namespace Engine
 
 		bool IsKeyPressed(int key);
 		bool IsKeyDown(int key);
+		bool IsKeyReleased(int key);
 		bool IsAnyKeyDown();
 
 
 
 		bool IsMouseButtonPressed(int mouseButton);
 		bool IsMouseButtonDown(int mouseButton);
+		bool IsMouseButtonUp(int mouseButton);
 		bool IsMouseButtonReleased(int mouseButton);
 
 		Maths::Vec2 GetMouseDelta();
