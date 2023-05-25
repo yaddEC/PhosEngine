@@ -853,9 +853,9 @@ Maths::Mat4 Maths::Mat4::LookAt(const Vec3& pos, const Vec3& point, const Vec3& 
 	Vec3 f = (point - pos).GetNormalized();
 	Vec3 s = (f.CrossProduct(up)).GetNormalized();
 	Vec3 u = s.CrossProduct(f);
-	float tab[16] = { s.x, s.y, s.z, 0.f,
-					  u.x, u.y, u.z, 0.f,
-					  -f.x, -f.y, -f.z, 0.f,
+	float tab[16] = { s.x, u.x, -f.x, 0.f,
+					  s.y, u.y, -f.y, 0.f,
+					  s.z, u.z, -f.z, 0.f,
 					-Vec3::DotProduct(s, pos), -Vec3::DotProduct(u, pos), Vec3::DotProduct(f, pos) , 1.f };
 	Mat4 res1(tab);
 	res1 = res1.GetTranspose();

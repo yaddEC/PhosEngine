@@ -64,6 +64,7 @@ namespace Wrapper
 		static void UnloadFrameBuffer(unsigned int* frameBufferKey, unsigned int* renderBufferKey);
 
 		static void BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], Resource::Texture* faces[]);
+		static void UnloadCubeMap(const unsigned int* cubeMapKey);
 
 		static std::array<char, 4> GetPixelColor(Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 

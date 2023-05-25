@@ -49,6 +49,7 @@ void Mesh::Unload()
     {
         mesh.Unload();
     }
+    //delete m_armature;
 }
 
 void Resource::Mesh::GUIUpdate()
@@ -61,7 +62,6 @@ void Resource::Mesh::GUIUpdate()
 
 Mesh::~Mesh()
 {
-    delete m_armature;
     Unload();
 }
 

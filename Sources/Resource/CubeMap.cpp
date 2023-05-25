@@ -37,6 +37,7 @@ void Resource::CubeMap::Bind()
 
 void Resource::CubeMap::Unload()
 {
+	Wrapper::RHI::UnloadCubeMap(&m_cubeMapKey);
 }
 
 void Resource::CubeMap::Save()
@@ -51,6 +52,7 @@ void Resource::CubeMap::Save()
 			progFile << i << ' ' << (m_faces[i] ? m_faces[i]->GetFilePath() : "NULL") << '\n';
 		}
 	}
+	progFile.close();
 }
 
 void Resource::CubeMap::GUIUpdate()

@@ -13,7 +13,6 @@ namespace LowRenderer
 		~DirectionalLight();
 
 		void Render(const Resource::ShaderProgram& shaderProg, int number) override;
-		void RenderShadowMap() override {};
 
 		void Start() override;
 		void Update() override;

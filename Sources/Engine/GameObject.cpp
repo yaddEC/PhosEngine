@@ -8,7 +8,6 @@
 #include "Engine/Transform.hpp"
 #include "Engine/MonoBehaviour.hpp"
 
-#define GAMEOBJECT_EXPORTS
 #include "Engine/GameObject.hpp"
 
 using namespace Engine;
@@ -19,7 +18,11 @@ Engine::GameObject::GameObject()
 	m_layer = 0;
 	transform = new Transform();
 	transform->SetGameObject(this);
-	// transform.gameobject = this;
+}
+
+Engine::GameObject::~GameObject()
+{
+	delete transform;
 }
 
 void Engine::GameObject::Start()
@@ -156,6 +159,7 @@ void Engine::GameObject::Destroy()
 	{
 		if (m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->OnDestroy();
+		//delete comp;
 	}
 	transform->Destroy();
 	m_scene->DeleteGameObjectFromList(this);

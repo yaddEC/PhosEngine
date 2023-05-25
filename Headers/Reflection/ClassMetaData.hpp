@@ -21,6 +21,7 @@ namespace Reflection
 		T_MATERIAL,
 		T_MATERIAL_LIST,
 		T_GAME_OBJECT
+		T_POSTPROCESSINGSHADER
 	};
 
 

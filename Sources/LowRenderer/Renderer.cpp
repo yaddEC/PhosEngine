@@ -5,6 +5,7 @@
 //----------------
 
 #include "LowRenderer/Camera.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
@@ -14,30 +15,27 @@
 #include "Resource/ShaderProgram.hpp"
 
 #include "Maths/Maths.hpp"
-
 #include "Engine/Transform.hpp"
 #include "Resource/ResourceManager.hpp"
-
 #include "Wrapper/RHI.hpp"
-
 #include "LowRenderer/Renderer.hpp"
 
 using namespace LowRenderer;
 
-void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
+void LowRenderer::Renderer::PreComputeShaderData()
 {
 	for (MeshRenderer* rend : m_meshRenderers)
 	{
-		if (rend->GetMesh()->GetArmature())
+		if (rend->GetMesh() && rend->GetMesh()->GetArmature())
 		{
 			rend->SetSkinningMatrices();
 		}
 	}
 
-	ComputeShadowMap();
 	std::vector<Resource::ShaderProgram*> shaderList;
 	for (MeshRenderer* rend : m_meshRenderers)
 	{
+		if (!rend->GetMesh() || !rend->GetMaterial()) continue;
 		bool isShaderInList = false;
 		for (Resource::ShaderProgram* shader : shaderList)
 		{
@@ -55,7 +53,6 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	{
 		if (!shader)continue;
 		shader->Use();
-		shader->SetUniformVec3("viewPos", mainCamera->transform->position);
 
 		shader->SetUniformInt("lenghtDirLight", static_cast<int>(m_directionalLights.size()));
 		shader->SetUniformInt("lenghtPointLight", static_cast<int>(m_pointLights.size()));
@@ -76,45 +73,24 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 			m_spotLights[i]->Render(*shader, i);
 		}
 	}
+}
 
-	
-
+void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
+{
 	if (renderAllCameras)
 	{
-		for (Camera* cam : m_cameras)
+		for (CameraComponent* cam : m_cameras)
 		{
-			if (cam == mainCamera) continue;
 			cam->ComputeViewProjMatrix(viewportSize);
 			cam->Render(m_meshRenderers, viewportSize, m_skybox);
 		}
 	}
-	mainCamera->ComputeViewProjMatrix(viewportSize);
-	mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
-	
-}
-
-void Renderer::ComputeShadowMap()
-{
-	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-	glCullFace(GL_BACK);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LEQUAL);
-	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-	for (int i = 0; i < m_spotLights.size(); i++)
+	if (mainCamera)
 	{
-		m_spotLights[i]->RenderShadowMap();
-		rm.shadowShader->Use();
-		for (MeshRenderer* meshRender : m_meshRenderers)
-		{  
-			rm.shadowShader->SetUniformMatrix("mvp", meshRender->transform->GetGlobalMatrix() * m_spotLights[i]->GetVP());
-			meshRender->GetMesh()->RenderShadowMap();
-		}
-		Wrapper::RHI::UnbindFrameBuffer();
+		mainCamera->ComputeViewProjMatrix(viewportSize);
+		mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	}
-	glCullFace(GL_FRONT);
-	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
+	
 }
 
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
@@ -152,6 +128,18 @@ void LowRenderer::Renderer::DeleteMeshRenderer(MeshRenderer* rend)
 		if (*it == rend)
 		{
 			it = m_meshRenderers.erase(it);
+			return;
+		}
+	}
+}
+
+void LowRenderer::Renderer::DeleteCamera(CameraComponent* cam)
+{
+	for (std::vector<CameraComponent*>::iterator it = m_cameras.begin(); it != m_cameras.end(); ++it)
+	{
+		if (*it == cam)
+		{
+			it = m_cameras.erase(it);
 			return;
 		}
 	}

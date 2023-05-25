@@ -39,6 +39,11 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
+    void Collider::OnDestroy()
+    {
+        delete physicsCollider;
+    }
+
     void Collider::Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material)
     {
         physicsCollider->Setup(center, size, trigger, material);

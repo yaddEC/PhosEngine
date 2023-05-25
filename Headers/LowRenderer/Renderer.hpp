@@ -12,6 +12,7 @@ namespace Resource
 namespace LowRenderer
 {
 	class Camera;
+	class CameraComponent;
 	class MeshRenderer;
 	class DirectionalLight;
 	class PointLight;
@@ -21,13 +22,20 @@ namespace LowRenderer
 	{
 	public:
 		
-		void ComputeShadowMap(); // Empty for now
+		void ComputeShadowMap();
+
+		void PreComputeShaderData();
 		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras);
 		int IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 		void RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize);
 
 		void AddMeshRenderer(MeshRenderer* rend) { m_meshRenderers.push_back(rend); }
 		void DeleteMeshRenderer(MeshRenderer* rend);
+
+		void AddCamera(CameraComponent* cam) { m_cameras.push_back(cam); }
+		void DeleteCamera(CameraComponent* cam);
+		std::vector<CameraComponent*> GetCameraList() const { return m_cameras; }
+
 
 		void AddDirLight(DirectionalLight* dir) { m_directionalLights.push_back(dir); }
 		void DeleteDirLight(DirectionalLight* dir);
@@ -46,7 +54,7 @@ namespace LowRenderer
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
-		std::vector<Camera*> m_cameras;
+		std::vector<CameraComponent*> m_cameras;
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;

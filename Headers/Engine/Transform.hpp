@@ -47,6 +47,7 @@ namespace Engine
 		Maths::Vec3 GetForwardVector();
 		Maths::Vec3 GetUpVector();
 		Maths::Vec3 GetRightVector();
+		Maths::Vec3 GetGlobalPosition();
 
 		void ComputeGlobalMatrix(const Maths::Mat4& parentMatrix = Maths::Mat4::CreateDiagonalMatrix(1)); // Recursive
 

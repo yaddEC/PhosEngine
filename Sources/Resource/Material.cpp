@@ -60,6 +60,7 @@ void Resource::Material::Save()
 		else
 			progFile << "v_rough " << m_roughness.value << '\n';
 	}
+	progFile.close();
 }
 
 void Resource::Material::GUIUpdate()
@@ -186,6 +187,7 @@ void Resource::Material::SetProperties(const std::string& filepath)
 			}
 		}
 	}
+	progFile.close();
 }
 
 void Resource::Material::SetProperties(const ColorMap& albedo, const ColorMap& specular, float shininess, ShaderProgram* shader)

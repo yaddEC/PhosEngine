@@ -53,6 +53,7 @@ void ShaderProgram::Load()
 				return;
 			}
 			m_shaderList.push_back(info);
+			file.close();
 		}
 	}
 	progFile.close();

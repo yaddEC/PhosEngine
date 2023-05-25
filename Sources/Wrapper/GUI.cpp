@@ -22,7 +22,6 @@
 
 #include "ImGuizmo/Header/ImGuizmo.h"
 
-#define GUI_EXPORTS
 #include "Wrapper/GUI.hpp"
 
 bool Wrapper::GUI::InitGUI(GLFWwindow* window)
@@ -330,7 +329,7 @@ bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** tex
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -342,7 +341,7 @@ bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, 
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -354,7 +353,7 @@ bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool t
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -377,7 +376,7 @@ bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3& value, bo
 
 bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -389,7 +388,7 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value, b
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float* value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 150.0f; 
+	const float widgetOffset = 130.0f; 
 
 	if (text)
 	{
@@ -402,7 +401,7 @@ bool Wrapper::GUI::EditFloat(const std::string& label, float* value, bool text, 
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2* value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
@@ -413,7 +412,7 @@ bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2* value, bool t
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3* value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -425,7 +424,7 @@ bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3* value, bool t
 
 bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3* value, bool text)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -437,7 +436,7 @@ bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3* value, bo
 
 bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -451,7 +450,7 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, b
 bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, bool text)
 {
 
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 
 	if (text)
 	{
@@ -459,7 +458,7 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 		ImGui::SameLine(widgetOffset);
 	}
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Mesh>();
-	std::string currentMeshName = (*mesh)->GetName();
+	std::string currentMeshName = (*mesh) ? (*mesh)->GetName() : "None";
 
 	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
 	{
@@ -491,14 +490,14 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 
 bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** material, bool text)
 {
-	const float widgetOffset = 150.0f;
+	const float widgetOffset = 130.0f;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
 		ImGui::SameLine(widgetOffset);
 	}
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Material>();
-	std::string currentMeshName = (*material)->GetName();
+	std::string currentMeshName = (*material) ? (*material)->GetName() : "None";
 
 	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
 	{

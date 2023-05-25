@@ -16,7 +16,6 @@
 #include "Resource/ResourceManager.hpp"
 #include "Wrapper/GUI.hpp"
 
-#define CAMERA_EXPORTS
 #include "LowRenderer/Camera.hpp"
 
 using namespace LowRenderer;
@@ -83,7 +82,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     
     for (MeshRenderer* rend : rendList)
     {
-        rend->Render(viewProj);
+        rend->Render(viewProj, transform->position);
     }
 
     if (m_postPro)
@@ -292,7 +291,7 @@ void Camera::OnGUI()
     }
 }
 
-void LowRenderer::Camera::ApplyPostProcessing(Maths::Vec2 viewPort)
+void LowRenderer::Camera::ApplyPostProcessing(const Maths::Vec2& viewPort)
 {
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
     m_postProFramebuffer.Bind(true, (int)viewPort.x, (int)viewPort.y);

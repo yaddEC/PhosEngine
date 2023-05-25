@@ -9,7 +9,6 @@
 #include "Engine/GameObject.hpp"
 #include "Resource/Parser.hpp"
 
-#define TRANSFORM_EXPORTS
 #include "Engine/Transform.hpp"
 
 using namespace Maths;
@@ -81,6 +80,12 @@ Maths::Vec3 Engine::Transform::GetRightVector()
 	Vec3 RightVector3 = Vec3(RightdVector4.x, RightdVector4.y, RightdVector4.z);
 	RightVector3.Normalize();
 	return RightVector3;
+}
+
+Maths::Vec3 Engine::Transform::GetGlobalPosition()
+{
+	//return (m_globalMatrix * Maths::Vec4(position.x, position.y, position.z, 1)).xyz();
+	return Maths::Vec3(m_globalMatrix.data_4_4[0][3], m_globalMatrix.data_4_4[1][3], m_globalMatrix.data_4_4[2][3]);
 }
 
 

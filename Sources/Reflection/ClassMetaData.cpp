@@ -5,16 +5,17 @@
 //----------------
 
 #include "Wrapper/GUI.hpp"
-#include "Resource/Mesh.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
 #include "Physic/Joint.hpp"
 #include "Engine/Scene.hpp"
 #include "Resource/Material.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
+#include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
 #include <iostream>
@@ -146,6 +147,13 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		}
 		break;
 	}
+	case MemberType::T_POSTPROCESSINGSHADER:
+		if (GUI::PickPostProcessing(name, (Resource::PostProcessingShader**)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		break;
+
 	default: break;
 	}
 }
@@ -161,9 +169,9 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 
 	case MemberType::T_FLOAT: result += std::to_string(*(float*)(classPtr + ptr)); break;
 
-	case MemberType::T_BOOL: result += ' ' + std::to_string(*(bool*)(classPtr + ptr)); break;
+	case MemberType::T_BOOL: result += std::to_string(*(bool*)(classPtr + ptr)); break;
 
-	case MemberType::T_VEC3: result += ' ' +std::to_string(*(float*)(classPtr + ptr))
+	case MemberType::T_VEC3: result += std::to_string(*(float*)(classPtr + ptr))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 4))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 8)); break;
 
@@ -171,14 +179,19 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 4))
 		+ ' ' + std::to_string(*(float*)(classPtr + ptr + 8)); break;
 
-	case MemberType::T_MESH: result += (*(Resource::Mesh**)(classPtr + ptr))->GetFilePath(); break;
+	case MemberType::T_MESH: 
+		result += (*(Resource::Mesh**)(classPtr + ptr)) ? (*(Resource::Mesh**)(classPtr + ptr))->GetFilePath() : "None"; break;
 
-	case MemberType::T_MATERIAL: result += (*(Resource::Material**)(classPtr + ptr))->GetFilePath(); break;
+	case MemberType::T_MATERIAL:
+		result += (*(Resource::Material**)(classPtr + ptr)) ? (*(Resource::Material**)(classPtr + ptr))->GetFilePath() : "None"; break;
 
 	case MemberType::T_MATERIAL_LIST:
 		break;
 
 	case MemberType::T_GAME_OBJECT: result += std::to_string(*( int*)(classPtr + ptr)); break;
+
+	case MemberType::T_POSTPROCESSINGSHADER:
+		result += (*(Resource::PostProcessingShader**)(classPtr + ptr)) ? (*(Resource::PostProcessingShader**)(classPtr + ptr))->GetFilePath() : "None"; break;
 
 	default: break;
 	}
@@ -214,6 +227,9 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 
 	case MemberType::T_GAME_OBJECT: *( int*)(classPtr + ptr) = std::stoi(tokens[1]); break;
 
+	case MemberType::T_POSTPROCESSINGSHADER: (*(Resource::PostProcessingShader**)(classPtr + ptr))
+		= Resource::ResourceManager::GetInstance().GetResource<Resource::PostProcessingShader>(tokens[1]); break;
+
 	default: break;
 	}
 }
@@ -222,7 +238,7 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 {
 	switch (type)
 	{
-	case MemberType::T_INT: break;
+	case MemberType::T_INT: *(int*)(target + ptr) = *(int*)(source + ptr); break;
 
 	case MemberType::T_FLOAT: *(float*)(target + ptr) = *(float*)(source + ptr);  break;
 
@@ -236,8 +252,9 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 
 	case MemberType::T_GAME_OBJECT: *( int*)(target + ptr) = *( int*)(source + ptr); break;
 
-	case MemberType::T_MATERIAL_LIST:
-		break;
+	case MemberType::T_MATERIAL_LIST: break;
+
+	case MemberType::T_POSTPROCESSINGSHADER: *(Resource::PostProcessingShader**)(target + ptr) = *(Resource::PostProcessingShader**)(source + ptr); break;
 
 	default: break;
 	}
@@ -348,6 +365,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Fixed Joint")
 	{
 		return gameObject->AddComponent<Physic::FixedJoint>();
+	}
+	if (componentName == "Camera Component")
+	{
+		return gameObject->AddComponent<LowRenderer::CameraComponent>();
 	}
 
 	return nullptr;
