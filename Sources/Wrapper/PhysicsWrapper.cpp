@@ -244,17 +244,17 @@ namespace Wrapper
 
     void Physics::Cleanup()
     {
-        //if (m_scene)
-        //    m_scene->release();
+        if (m_scene)
+           m_scene->release();
 
-        //if (m_physics)
-        //    m_physics->release();
+        if (m_physics)
+            m_physics->release();
 
-        //if (m_pvd)
-        //    m_pvd->release();
+        if (m_pvd)
+            m_pvd->release();
 
-        //if (m_foundation)
-        //    m_foundation->release();
+        if (m_foundation)
+            m_foundation->release();
         //delete m_scene.simulationEventCallback;
     }
 

@@ -66,7 +66,7 @@ namespace Physic {
 
     void Rigidbody::OnDestroy()
     {
-        delete physicsRigidbody;
+        //delete physicsRigidbody;
     }
 
     void Rigidbody::GUIUpdate()
