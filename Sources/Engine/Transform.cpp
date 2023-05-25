@@ -84,7 +84,8 @@ Maths::Vec3 Engine::Transform::GetRightVector()
 
 Maths::Vec3 Engine::Transform::GetGlobalPosition()
 {
-	return (m_globalMatrix * Maths::Vec4(position.x, position.y, position.z, 1)).xyz();
+	//return (m_globalMatrix * Maths::Vec4(position.x, position.y, position.z, 1)).xyz();
+	return Maths::Vec3(m_globalMatrix.data_4_4[0][3], m_globalMatrix.data_4_4[1][3], m_globalMatrix.data_4_4[2][3]);
 }
 
 

@@ -369,6 +369,11 @@ void Wrapper::RHI::BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], 
 
 }
 
+void Wrapper::RHI::UnloadCubeMap(const unsigned int* cubeMapKey)
+{
+	glDeleteTextures(1, cubeMapKey);
+}
+
 int Wrapper::RHI::GetCompiledShader(unsigned int shaderType, const std::string& shaderSource)
 {
 	//compile shader

@@ -420,6 +420,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\LowRenderer\Renderer.hpp" />
     <ClInclude Include="Headers\Maths\Maths.hpp" />
     <ClInclude Include="Headers\pch.h" />
+    <ClInclude Include="Headers\Physic\Joint.hpp" />
     <ClInclude Include="Headers\Reflection\ClassMetaData.hpp" />
     <ClInclude Include="Headers\Resource\Animation.hpp" />
     <ClInclude Include="Headers\Resource\AnimBone.hpp" />
@@ -464,6 +465,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Externals\ImGuizmo\Source\ImSequencer.cpp" />
     <ClCompile Include="Sources\LowRenderer\Animator.cpp" />
     <ClCompile Include="Sources\LowRenderer\CameraComponent.cpp" />
+    <ClCompile Include="Sources\Physic\Joint.cpp" />
     <ClCompile Include="Sources\Reflection\ClassMetaData.cpp" />
     <ClCompile Include="Sources\Resource\Animation.cpp" />
     <ClCompile Include="Sources\Resource\AnimBone.cpp" />

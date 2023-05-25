@@ -15,6 +15,7 @@
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/Texture.hpp"
 #include "Wrapper/RHI.hpp"
+#include "Wrapper/GUI.hpp"
 
 LowRenderer::CameraComponent::CameraComponent()
     : MonoBehaviour(true)
@@ -33,6 +34,13 @@ LowRenderer::CameraComponent::CameraComponent()
 void LowRenderer::CameraComponent::Start()
 {
 	gameobject->GetScene()->GetRenderer()->AddCamera(this);
+}
+
+void LowRenderer::CameraComponent::OnInspector()
+{
+    MonoBehaviour::OnInspector();
+    Wrapper::GUI::DisplayVec3("Forward", transform->GetForwardVector());
+    Wrapper::GUI::DisplayVec3("Global Pos", transform->GetGlobalPosition());
 }
 
 void LowRenderer::CameraComponent::OnDestroy()
@@ -54,6 +62,7 @@ Reflection::ClassMetaData& LowRenderer::CameraComponent::GetMetaData()
 			ClassMemberInfo("FOV", offsetof(CameraComponent, CameraComponent::m_fov), MemberType::T_FLOAT),
 			ClassMemberInfo("UseSkybox", offsetof(CameraComponent, CameraComponent::m_useSkybox), MemberType::T_BOOL),
 			ClassMemberInfo("BackGroundColor", offsetof(CameraComponent, CameraComponent::m_backgroundColor), MemberType::T_COLOR),
+            ClassMemberInfo("PostProcessingShader", offsetof(CameraComponent, CameraComponent::m_postPro), MemberType::T_POSTPROCESSINGSHADER)
 		};
 		computed = true;
 	}
@@ -108,15 +117,18 @@ void LowRenderer::CameraComponent::Render(const std::vector<LowRenderer::MeshRen
 
 Resource::Texture& LowRenderer::CameraComponent::GetRenderTexture()
 {
-	return m_renderTexture;
+    if (m_postPro)
+        return m_postProRenderTexture;
+    else
+        return m_renderTexture;
 }
 
 void LowRenderer::CameraComponent::ComputeViewProjMatrix(const Maths::Vec2& viewportSize)
 {
 	m_projMatrix = Maths::Mat4::CreateProjectionMatrix(m_fov, 0.01f, 400, viewportSize.y / viewportSize.x);
 	m_viewMatrix = Maths::Mat4::LookAt(transform->GetGlobalPosition(),
-		transform->GetGlobalPosition() + transform->GetForwardVector(),
-		transform->GetGlobalPosition() + transform->GetUpVector());
+		transform->GetGlobalPosition() - transform->GetForwardVector(),
+        transform->GetUpVector());
 }
 
 void LowRenderer::CameraComponent::ApplyPostProcessing(const Maths::Vec2& viewPort)
