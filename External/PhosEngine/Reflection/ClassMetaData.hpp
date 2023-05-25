@@ -19,7 +19,8 @@ namespace Reflection
 		T_COLOR,
 		T_MESH,
 		T_MATERIAL,
-		T_MATERIAL_LIST
+		T_MATERIAL_LIST,
+		T_POSTPROCESSINGSHADER
 	};
 
 

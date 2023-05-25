@@ -16,6 +16,7 @@ namespace EditorGUI
 
 		void SetGameObjectToDisplay(Engine::GameObject* gameObject) { m_gameobject = gameObject; m_typeToDisplay = ObjectType::GAME_OBJECT; }
 		void SetResourceToDisplay(Resource::IResource* resource) { m_resource = resource; m_typeToDisplay = ObjectType::RESOURCE; }
+		void DeselectCurrentObject();
 		void DoUpdate() override;
 
 
@@ -34,6 +35,7 @@ namespace EditorGUI
 		};
 
 		ObjectType m_typeToDisplay;
+
 
 		void DisplayGameObject();
 		void DisplayResource();

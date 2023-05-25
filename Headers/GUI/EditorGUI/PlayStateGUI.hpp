@@ -19,6 +19,7 @@ namespace EditorGUI
 		void DoUpdate() override;
 
 		bool showFps;
+		bool isStatePressed;
 
 	private:
 		unsigned int m_frameCount = 0;

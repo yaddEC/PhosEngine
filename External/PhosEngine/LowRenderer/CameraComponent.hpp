@@ -23,7 +23,7 @@ namespace LowRenderer
 		CameraComponent();
 
 		void Start() override;
-
+		void OnInspector() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 
@@ -41,7 +41,7 @@ namespace LowRenderer
 
 		LowRenderer::FrameBuffer m_framebuffer;
 		LowRenderer::FrameBuffer m_postProFramebuffer;
-		Resource::PostProcessingShader* m_postPro;
+		Resource::PostProcessingShader* m_postPro = nullptr;
 
 		Resource::Texture m_renderTexture;
 		Resource::Texture m_postProRenderTexture;

@@ -37,7 +37,6 @@ namespace Core
 		void Run();
 		void Destroy();
 		
-
 	private:
 		bool InitEditorGUI();
 		void UpdateEditorGUI();
@@ -59,7 +58,7 @@ namespace Core
 		EditorGUI::PlayStateGUI* m_PlayStateGUI;
 		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
 
-		Engine::Scene* m_mainScene; // TEMP
+		Engine::Scene* m_mainScene;
 
 		Wrapper::Window& m_window;
 

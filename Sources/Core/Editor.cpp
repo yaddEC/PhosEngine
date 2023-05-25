@@ -125,6 +125,8 @@ bool Editor::Init()
 
 void Editor::Run()
 {
+    m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
+    /* Loop until the user closes the window */
     while (!m_window.ShouldClose())
     {
         /* Poll for and process events */
@@ -213,8 +215,9 @@ void Core::Editor::UpdateEditorGUI()
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
 
-    if (Engine::Scene* newScene = m_AssetExplorer->GetNewScene())
+    if (Engine::Scene* newScene = m_AssetExplorer->GetNewScene() )
     {
+        m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
         m_mainScene->Unload();
         m_mainScene = newScene;
         m_mainScene->Load();
@@ -223,7 +226,16 @@ void Core::Editor::UpdateEditorGUI()
         m_Hierarchy->SetCurrentScene(m_mainScene);
         m_RendererGUI->SetCurrentScene(m_mainScene);
         Resource::ResourceManager::GetInstance().SetCurrentScene(m_mainScene);
+        m_Inspector->DeselectCurrentObject();
+        m_sceneGUI->DeselectCurrentObject();
     }
+    if (m_PlayStateGUI->isStatePressed)
+    {
+        m_Inspector->DeselectCurrentObject();
+        m_sceneGUI->DeselectCurrentObject();
+        m_PlayStateGUI->isStatePressed = false;
+    }
+    m_PlayStateGUI->Update();
     if (m_Hierarchy->selectedClicked)
     {
         m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());

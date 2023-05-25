@@ -35,6 +35,7 @@ void EditorGUI::PlayStateGUI::PlayStateButton()
 		if (Wrapper::GUI::Button(u8"\u2009\u2009\u25A0\u2009"))
 		{
 			m_currentScene->StopGameMode();
+			isStatePressed = true;
 		}
 	}
 	else
@@ -42,6 +43,7 @@ void EditorGUI::PlayStateGUI::PlayStateButton()
 		if (Wrapper::GUI::Button(u8"\u2009\u25BA"))
 		{
 			m_currentScene->StartGameMode();
+			isStatePressed = true;
 		}
 	}
 	Wrapper::GUI::SameLine();
