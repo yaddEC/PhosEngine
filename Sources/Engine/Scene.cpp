@@ -39,7 +39,7 @@ Scene::Scene() : m_renderer(nullptr)
 
 Engine::Scene::~Scene()
 {
-	delete m_renderer;
+	//delete m_renderer;
 }
 
 void Scene::GameObjectFromBuffer()
@@ -146,6 +146,10 @@ void Engine::Scene::Unload()
 		if (!go->transform->GetParent())
 			go->Destroy();
 	}
+	for (GameObject* go : m_gameObjects)
+	{
+		delete go;
+	}
 	delete m_renderer;
 	Physic::PhysicsManager::GetInstance().Cleanup();
 }
@@ -164,6 +168,7 @@ void Engine::Scene::Save()
 				SaveGameObject(go, progFile);
 		}
 	}
+	progFile.close();
 }
 
 void Engine::Scene::SaveSettings()
@@ -203,6 +208,8 @@ void Engine::Scene::SaveSettings()
 	for (const auto& kv : tagNameToIndexMap) {
 		out << kv.first << ' ' << kv.second << '\n';
 	}
+
+	out.close();
 }
 
 void Engine::Scene::LoadSettings()
@@ -291,6 +298,7 @@ void Engine::Scene::LoadSettings()
 		in.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 	}
 
+	in.close();
 }
 
 void Engine::Scene::CreateTag(const std::string tagName)

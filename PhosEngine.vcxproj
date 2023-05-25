@@ -445,6 +445,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Threading\AtomicMutex.hpp" />
     <ClInclude Include="Headers\Threading\PoolSystem.hpp" />
     <ClInclude Include="Headers\Threading\Thread.hpp" />
+    <ClInclude Include="Headers\UI\Canvas.hpp" />
     <ClInclude Include="Headers\Wrapper\GUI.hpp" />
     <ClInclude Include="Headers\Wrapper\PhysicsWrapper.hpp" />
     <ClInclude Include="Headers\Wrapper\RHI.hpp" />

@@ -29,13 +29,10 @@ MeshRenderer::MeshRenderer(Mesh* _mesh)
 	: MonoBehaviour(true)
 {
 	m_mesh = _mesh;
-	transform = new Transform();
-
 }
 
 MeshRenderer::~MeshRenderer()
 {
-	delete transform;
 	delete m_mesh;
 }
 

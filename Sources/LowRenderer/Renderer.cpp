@@ -93,30 +93,6 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	
 }
 
-void Renderer::ComputeShadowMap()
-{
-	Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
-	glCullFace(GL_BACK);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LEQUAL);
-	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-	for (int i = 0; i < m_spotLights.size(); i++)
-	{
-		m_spotLights[i]->RenderShadowMap();
-		rm.shadowShader->Use();
-		for (MeshRenderer* meshRender : m_meshRenderers)
-		{  
-			rm.shadowShader->SetUniformMatrix("mvp", meshRender->transform->GetGlobalMatrix() * m_spotLights[i]->GetVP());
-			meshRender->GetMesh()->RenderShadowMap();
-		}
-		Wrapper::RHI::UnbindFrameBuffer();
-	}
-	glCullFace(GL_FRONT);
-	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-}
-
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

@@ -58,7 +58,7 @@ void Resource::PostProcessingShader::Load()
 			info.source += '\n' + sourceLine;
 		m_postProShaderList.push_back(info);
 	}
-
+	progFile.close();
 }
 
 void Resource::PostProcessingShader::Bind()

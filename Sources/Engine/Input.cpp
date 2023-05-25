@@ -93,7 +93,10 @@ void Input::Update()
 			else keyMap[i] = 1;
 		}
 		if (glfwGetKey(window, i) == GLFW_RELEASE) {
-			keyMap[i] = 0;
+			if (keyMap[i] > 0)
+				keyMap[i] = -1;
+			else
+				keyMap[i] = 0;
 		}
 	}
 
@@ -103,7 +106,10 @@ void Input::Update()
 			else mouseMap[i] = 1;
 		}
 		if (glfwGetMouseButton(window, i) == GLFW_RELEASE) {
-			mouseMap[i] = 0;
+			if(mouseMap[i] > 0)
+				mouseMap[i] = -1;
+			else
+				mouseMap[i] = 0;
 		}
 	}
 
@@ -115,6 +121,11 @@ bool Input::IsKeyPressed(int key) {
 
 bool Input::IsKeyDown(int key) {
 	return keyMap[key] == 2;
+}
+
+bool Engine::Input::IsKeyReleased(int key)
+{
+	return keyMap[key] == -1;
 }
 
 bool Input::IsAnyKeyDown() {
@@ -148,6 +159,15 @@ bool Input::IsMouseButtonDown(int mouseButton) {
 
 }
 
+bool Engine::Input::IsMouseButtonReleased(int mouseButton)
+{
+	return mouseMap[mouseButton] == -1;
+}
+
+bool Engine::Input::IsMouseButtonUp(int mouseButton)
+{
+	return mouseMap[mouseButton] == 0;
+}
 
 
 

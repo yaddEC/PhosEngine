@@ -31,7 +31,7 @@ std::vector<std::string> Resource::Parser::ConvertFileToStringArray(const std::s
 			fileData.push_back(line);
 		}
 	}
-
+	progFile.close();
 	return fileData;
 }
 
@@ -52,7 +52,7 @@ std::vector<std::string> Resource::Parser::Tokenize(const std::string& text, cha
 			if (!token.empty())
 			{
 				result.push_back(token);
-				token.clear();
+				token = "";
 			}
 		}
 		else if (c == toIgnore)
