@@ -8,6 +8,15 @@
 
 namespace Engine
 {
+	struct GamepadInput
+	{
+		// -1 is disconnect
+		int IDconnexion = -1;
+
+		float axis[6] = { 0 };
+		int button[15] = { 0 };
+	};
+
 	class PHOSENGINE_API Input
 	{
 	public:
@@ -21,6 +30,7 @@ namespace Engine
 		}
 
 		void Update();
+		void UpdateGamePad();
 
 		void Init(GLFWwindow* _window);
 		
@@ -35,7 +45,6 @@ namespace Engine
 		bool IsAnyKeyDown();
 
 
-
 		bool IsMouseButtonPressed(int mouseButton);
 		bool IsMouseButtonDown(int mouseButton);
 		bool IsMouseButtonUp(int mouseButton);
@@ -44,6 +53,10 @@ namespace Engine
 		Maths::Vec2 GetMouseDelta();
 		int GetScrollDelta();
 		Maths::Vec2 GetMousePos() { return mousePosition; }
+
+		void DisplayGUI();
+		void ShowDataGP(const GamepadInput& GpInput);
+
 
 		static float deltaTime;
 	private:
@@ -54,12 +67,13 @@ namespace Engine
 		Maths::Vec2 mouseDelta;
 		int scrollDelta;
 
+		GamepadInput GpInput[2] = { 0 };
+
 		int keyMap[348] = {0};
 		int mouseMap[3] = {0};
 		float timeStep ;
 		bool anyKeyDown = false;
 
-		void DisplayGUI();
 
 	};
 }
