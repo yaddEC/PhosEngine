@@ -11,6 +11,8 @@
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
+#include "Physic/Joint.hpp"
+#include "Engine/Scene.hpp"
 #include "Resource/Material.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -48,6 +50,8 @@ void Reflection::ClassMemberInfo::DisplayMemberInfo(size_t classPtr)
 		}
 		std::cout << " }";
 		break;
+
+	case MemberType::T_GAME_OBJECT: std::cout << *( int*)(classPtr + ptr) << std::endl; break;
 
 	default: break;
 	}
@@ -126,6 +130,22 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 	case MemberType::T_MATERIAL_LIST:
 		break;
 
+	case MemberType::T_GAME_OBJECT:
+	{
+		int* gameObjectIdPtr = (int*)((size_t)classPtr + ptr);
+		Engine::GameObject* linkedGameObject = nullptr;
+		if (*gameObjectIdPtr != -1)
+		{
+			linkedGameObject = monoBehavior->gameobject->GetScene()->FindGameObjectWithId(*gameObjectIdPtr);
+		}
+
+		std::string gameObjectName = linkedGameObject ? linkedGameObject->name : "None";
+		if (GUI::PickGameObject(name, gameObjectName, gameObjectIdPtr, true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		break;
+	}
 	default: break;
 	}
 }
@@ -158,6 +178,8 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 	case MemberType::T_MATERIAL_LIST:
 		break;
 
+	case MemberType::T_GAME_OBJECT: result += std::to_string(*( int*)(classPtr + ptr)); break;
+
 	default: break;
 	}
 	return result + '\n';
@@ -167,7 +189,7 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 {
 	switch (type)
 	{
-	case MemberType::T_INT: break;
+	case MemberType::T_INT: *(int*)(classPtr + ptr) = std::stoi(tokens[1]); break;
 
 	case MemberType::T_FLOAT: *(float*)(classPtr + ptr) = std::stof(tokens[1]);  break;
 
@@ -190,6 +212,8 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 	case MemberType::T_MATERIAL_LIST:
 		break;
 
+	case MemberType::T_GAME_OBJECT: *( int*)(classPtr + ptr) = std::stoi(tokens[1]); break;
+
 	default: break;
 	}
 }
@@ -209,6 +233,8 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 	case MemberType::T_MESH: *(Resource::Mesh**)(target + ptr) = *(Resource::Mesh**)(source + ptr); break;
 
 	case MemberType::T_MATERIAL: *(Resource::Material**)(target + ptr) = *(Resource::Material**)(source + ptr); break;
+
+	case MemberType::T_GAME_OBJECT: *( int*)(target + ptr) = *( int*)(source + ptr); break;
 
 	case MemberType::T_MATERIAL_LIST:
 		break;
@@ -318,6 +344,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Animator")
 	{
 		return gameObject->AddComponent<LowRenderer::Animator>();
+	}
+	if (componentName == "Fixed Joint")
+	{
+		return gameObject->AddComponent<Physic::FixedJoint>();
 	}
 
 	return nullptr;

@@ -291,6 +291,19 @@ void Engine::Scene::LoadSettings()
 
 }
 
+GameObject* Engine::Scene::FindGameObjectWithId(unsigned int id)
+{
+	
+	for (GameObject* go : m_gameObjects)
+	{
+		if (go->GetID() == id)
+		{
+			return go;
+		}
+	}
+	return nullptr;
+}
+
 void Engine::Scene::CreateTag(const std::string tagName)
 {
 	unsigned int newTagIndex = static_cast<unsigned int>(tagNames.size());

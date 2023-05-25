@@ -60,6 +60,8 @@ namespace Engine
 		static void SaveSettings();
 		static void LoadSettings();
 
+		GameObject* FindGameObjectWithId(unsigned int id);
+
 		std::string GetTypeName() { return "Scene"; }
 		Resource::Texture* GenerateFileIcon() override { return nullptr; }
 
