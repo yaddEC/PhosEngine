@@ -27,8 +27,6 @@ namespace Engine
 		~GameObject();
 
 		std::string name;
-
-
 		Transform* transform;
 
 		void Start();

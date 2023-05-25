@@ -12,6 +12,7 @@
 #include "GUI/EditorGUI/PhysicsSettingsGUI.hpp"
 #include "GUI/EditorGUI/PlayStateGUI.hpp"
 #include "GUI/EditorGUI/GeneralSettingsGUI.hpp"
+#include "GUI/EditorGUI/InputGUI.hpp"
 
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -46,6 +47,7 @@ void Editor::Top()
         if (Wrapper::GUI::MenuItem("Renderer", NULL, m_RendererGUI->isOpen)) { m_RendererGUI->isOpen = !m_RendererGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Scene", NULL, m_sceneGUI->isOpen)) { m_sceneGUI->isOpen = !m_sceneGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Debug Camera", NULL, m_sceneGUI->GetDebugCamera())) { m_sceneGUI->SetDebugCamera(!m_sceneGUI->GetDebugCamera()) ; }
+        if (Wrapper::GUI::MenuItem("Input", NULL, m_InputGUI->isOpen)) { m_InputGUI->isOpen = !m_InputGUI->isOpen; }
         Wrapper::GUI::EndMenu();
     }
     if (Wrapper::GUI::BeginMenu("Help"))
@@ -158,6 +160,7 @@ void Editor::Destroy()
     delete m_PhysicsSettingsGUI;
     delete m_PlayStateGUI;
     delete m_GeneralSettingsGUI;
+    delete m_InputGUI;
 }
 
 bool Core::Editor::InitEditorGUI()
@@ -171,6 +174,7 @@ bool Core::Editor::InitEditorGUI()
     m_PhysicsSettingsGUI = new EditorGUI::PhysicsSettingsGUI();
     m_PlayStateGUI = new EditorGUI::PlayStateGUI();
     m_GeneralSettingsGUI = new EditorGUI::GeneralSettingsGUI();
+    m_InputGUI = new EditorGUI::InputGUI();
     return true;
 }
 
@@ -212,6 +216,7 @@ void Core::Editor::UpdateEditorGUI()
     m_PlayStateGUI->Update();
     m_gameGUI->Update();
     m_sceneGUI->Update();
+    m_InputGUI->Update();
 
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
