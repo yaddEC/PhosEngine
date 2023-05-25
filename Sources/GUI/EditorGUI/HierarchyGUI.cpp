@@ -234,8 +234,7 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 					m_selected = nullptr;
 					selectedClicked = true;
 				}
-				
-
+				delete current;
 			}
 		}
 		GUI::EndPopup();

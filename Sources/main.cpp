@@ -1,8 +1,13 @@
 #include <iostream>
 #include "Core/App.hpp"
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#include <stdlib.h>
 
-int main(int argc, char** argv)
+
+void Main()
 {
+
 	Core::App app;
 
 	app.InitApp();
@@ -16,6 +21,12 @@ int main(int argc, char** argv)
 	app.DestroyEditor();
 
 	app.DestroyApp();
+}
 
+int main(int argc, char** argv)
+{
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(11425);
+	Main();
 	return 0;
 }

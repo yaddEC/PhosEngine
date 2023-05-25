@@ -147,9 +147,10 @@ void Editor::Run()
 
 void Editor::Destroy()
 {
+    Resource::ResourceManager::GetInstance().Unload();
     delete m_sceneGUI;
+    //delete m_mainScene;
     delete m_gameGUI;
-    delete m_mainScene;
     delete m_AssetExplorer;
     delete m_Inspector;
     delete m_Hierarchy;
@@ -234,6 +235,10 @@ void Core::Editor::UpdateEditorGUI()
         m_Inspector->DeselectCurrentObject();
         m_sceneGUI->DeselectCurrentObject();
         m_PlayStateGUI->isStatePressed = false;
+    }
+    if (!m_sceneGUI->GetSelected())
+    {
+        m_Inspector->DeselectCurrentObject();
     }
     m_PlayStateGUI->Update();
     if (m_Hierarchy->selectedClicked)

@@ -42,7 +42,8 @@ void AssetExplorer::Reload()
 		Resource::IResource* resource = Resource::ResourceManager::GetInstance().GetResource<Resource::IResource>(entryName);
 		if (resource && m_fileIcons.count(entryName) == 0)
 		{
-			m_fileIcons.emplace(entryName, resource->GenerateFileIcon());
+			//m_fileIcons.emplace(entryName, resource->GenerateFileIcon());
+			m_fileIcons.emplace(entryName, nullptr);
 		}
 	}
 

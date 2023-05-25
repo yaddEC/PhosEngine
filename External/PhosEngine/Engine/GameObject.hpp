@@ -24,6 +24,8 @@ namespace Engine
 	public:
 
 		GameObject();
+		~GameObject();
+
 		std::string name;
 
 
