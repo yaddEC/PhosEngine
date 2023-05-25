@@ -82,7 +82,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 
 	AddObjectPopup(current);
 
-	if (GUI::IsItemClicked(0))
+	if (GUI::IsItemReleased(0) && GUI::IsWindowHovered())
 	{
 		m_selected = current;
 		selectedClicked = true;

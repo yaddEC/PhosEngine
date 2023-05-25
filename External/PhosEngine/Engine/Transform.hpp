@@ -53,8 +53,8 @@ namespace Engine
 		void OnGUI();
 
 		typedef std::function<void()> TransformChangedCallback;
-
 		void RegisterTransformChangedCallback(TransformChangedCallback callback);
+		std::vector<TransformChangedCallback> transformChangedCallbacks;
 	private:
 		Maths::Mat4 m_globalMatrix;
 
@@ -62,8 +62,8 @@ namespace Engine
 
 		Transform* m_parent = nullptr;
 		std::vector<Transform*> m_children;
-		GameObject* m_gameObject{nullptr};
-		std::vector<TransformChangedCallback> m_transformChangedCallbacks;
+		GameObject* m_gameObject{ nullptr };
+
 
 		void RemoveChild(Transform* child);
 	};

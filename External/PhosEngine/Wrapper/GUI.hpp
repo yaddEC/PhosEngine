@@ -7,6 +7,7 @@
 
 #include "Maths/Maths.hpp"
 #include "Engine/Input.hpp"
+#include "Engine/GameObject.hpp"
 
 #include "dllInclude.hpp"
 
@@ -90,6 +91,7 @@ namespace Wrapper
 		static bool PickTexture(const std::string& label, Resource::Texture** texture, bool text = true);
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
+		static bool PickGameObject(const std::string& label, const std::string& buttonLabel, int* gameObject, bool text);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 
 		static void DisplayText(const char* format, ...);
@@ -105,6 +107,7 @@ namespace Wrapper
 
 		static bool IsItemHovered();
 		static bool IsItemDown(int mouseButton);
+		static bool IsItemReleased(int mouseButton);
 		static bool IsItemClicked(int mouseButton);
 		static bool IsItemDoubleClicked(int mouseButton);
 

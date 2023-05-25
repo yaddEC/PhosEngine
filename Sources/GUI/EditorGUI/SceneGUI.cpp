@@ -148,7 +148,6 @@ void SceneGUI::DoUpdate()
 	static GameObject* lastSelected;
 	if (selected != nullptr )
 	{
-
 		if (input.IsKeyPressed(84))
 			gizMode = 0;
 		else if (input.IsKeyPressed(82))
@@ -158,37 +157,51 @@ void SceneGUI::DoUpdate()
 			
 		float* temp = selected->transform->GetGlobalMatrix().GetTranspose().data;
 
+		if(m_guizmoSelected && input.IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1))
+			m_guizmoSelected = false;
+
 		if (GUI::drawGizmo(gizMode, m_sceneCamera.GetViewMatrix().GetTranspose().data, m_sceneCamera.GetProjMatrix().GetTranspose().data, temp, false) && (selected == lastSelected ))
 		{
+			
 			Vec3 position;
 			Vec3 rotation;
 			Vec3 scale;
+			m_guizmoSelected = true;
+
 
 			GUI::GizmoDecomposeMatrixToComponents(temp, position.xyz, rotation.xyz, scale.xyz);
-
+			
 			if (selected->transform->position != position)
 			{
-				selected->OnGuiChanged();
 				selected->transform->position = position;
 			}
 			if (selected->transform->scale != scale)
 			{
-				selected->OnGuiChanged();
 				selected->transform->scale = scale;
 			}
 			if (selected->transform->rotationEuler != rotation * DEG2RAD)
 			{
-				selected->OnGuiChanged();
 				selected->transform->rotationEuler = rotation * DEG2RAD;
 				Quaternion newQuat = selected->transform->rotation.ToQuaternion(selected->transform->rotationEuler);
 				selected->transform->SetRotation(newQuat);
 			}
+			for (auto& callback : selected->transform->transformChangedCallbacks)
+			{
+				printf("lol\n");
+				callback();
+			}
 			lastSelected = nullptr;
+			
 		}
 		else
 		{
 				lastSelected = GetSelected();
 		}
+
+		
+			
+
+		
 	}
 	
 
