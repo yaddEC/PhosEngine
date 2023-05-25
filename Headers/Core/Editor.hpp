@@ -20,6 +20,8 @@ namespace EditorGUI
 	class PhysicsSettingsGUI;
 	class PlayStateGUI;
 	class GeneralSettingsGUI;
+	class GameGUI;
+	class InputGUI;
 }
 
 
@@ -48,6 +50,7 @@ namespace Core
 		//class AssetsExplorer* assetsExplorer;
 
 		EditorGUI::SceneGUI* m_sceneGUI;
+		EditorGUI::GameGUI* m_gameGUI;
 		EditorGUI::AssetExplorer* m_AssetExplorer;
 		EditorGUI::HierarchyGUI* m_Hierarchy;
 		EditorGUI::InspectorGUI* m_Inspector;
@@ -55,8 +58,9 @@ namespace Core
 		EditorGUI::PhysicsSettingsGUI* m_PhysicsSettingsGUI;
 		EditorGUI::PlayStateGUI* m_PlayStateGUI;
 		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
+		EditorGUI::InputGUI* m_InputGUI;
 
-		Engine::Scene* m_mainScene; // TEMP
+		Engine::Scene* m_mainScene;
 
 		Wrapper::Window& m_window;
 

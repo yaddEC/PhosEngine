@@ -22,13 +22,9 @@ namespace LowRenderer
 		ILight();
 
 		virtual void Render(const Resource::ShaderProgram& shaderProg, int number) = 0;
-		virtual void RenderShadowMap() = 0;
-		FrameBuffer* GetFrameBuffer() const { return p_shadowFrame; }
 	protected:
-		FrameBuffer* p_shadowFrame;
 		Maths::Vec3 p_color ;
 		float p_intensity = 1;
 		Maths::Vec3 p_direction;
-		bool p_useShadow;
 	};
 }

@@ -55,7 +55,7 @@ namespace Resource
 
 		std::vector<SubMesh> m_subMeshes;
 		Maths::Vec3 m_boundingBoxMin, m_boundingBoxMax;
-		Armature* m_armature;
+		Armature* m_armature = nullptr;
 		
 		void ProcessNode(aiNode* node, const aiScene* scene, const std::string& filepath);
 		SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::string& filepath);

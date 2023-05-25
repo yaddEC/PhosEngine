@@ -1,6 +1,7 @@
 #include "GUI/EditorGUI/InspectorGUI.hpp"
 #include "Engine/Transform.hpp"
 #include "Engine/MonoBehaviour.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Texture.hpp"
 #include "Physic/Collider.hpp"
@@ -154,6 +155,10 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		if (GUI::Selectable("Mesh Renderer", false))
 		{
 			m_gameobject->AddComponent<LowRenderer::MeshRenderer>();
+		}
+		if (GUI::Selectable("Camera Component", false))
+		{
+			m_gameobject->AddComponent<LowRenderer::CameraComponent>();
 		}
 		GUI::EndPopup();
 	}

@@ -203,18 +203,11 @@ void SceneGUI::DoUpdate()
 
 		
 	}
-	
-
-	
-	//GUI::Image(m_sceneCamera.GetRenderTexture(), Maths::Vec2(p_size.x , p_size.y - 35));
-	if(m_selectedObject)
-		GUI::DisplayText("%d", (int)m_selectedObject->GetID());
-
-	
 }
 
 void EditorGUI::SceneGUI::SetSelected(Engine::GameObject* selected)
 {
 	m_selectedObject = selected;
-	m_selectedRenderer = m_selectedObject->GetComponent<LowRenderer::MeshRenderer>();
+	if(m_selectedObject)
+		m_selectedRenderer = m_selectedObject->GetComponent<LowRenderer::MeshRenderer>();
 }

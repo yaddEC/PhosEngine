@@ -1,5 +1,6 @@
 #include "GUI/EditorGUI/HierarchyGUI.hpp"
 #include "Engine/Transform.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
@@ -119,6 +120,7 @@ void EditorGUI::HierarchyGUI::DisplayHierarchy(Engine::GameObject* current)
 		GUI::TreePop();
 	}
 }
+
 void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 {
 	if (GUI::BeginPopupContextItem("GameObject Popup " + (current ? current->name : "null")))
@@ -211,6 +213,16 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 
 			GUI::EndMenu();
 		}
+		if (GUI::Selectable("Camera", false))
+		{
+			Engine::GameObject* newObject = new Engine::GameObject();
+			newObject->name = "Camera";
+			newObject->SetLayer(0);
+			newObject->SetTag(0);
+			newObject->AddComponent<LowRenderer::CameraComponent>();
+			if (current) newObject->transform->SetParent(current->transform);
+			m_currentScene->Instantiate(newObject);
+		}
 		if (current)
 		{
 			GUI::Separator();
@@ -222,7 +234,7 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 					m_selected = nullptr;
 					selectedClicked = true;
 				}
-
+				delete current;
 			}
 		}
 		GUI::EndPopup();

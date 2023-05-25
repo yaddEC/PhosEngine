@@ -4,6 +4,7 @@
 #include <chrono>
 
 #include "GUI/EditorGUI/SceneGUI.hpp"
+#include "GUI/EditorGUI/GameGUI.hpp"
 #include "GUI/EditorGUI/AssetExplorer.hpp"
 #include "GUI/EditorGUI/HierarchyGUI.hpp"
 #include "GUI/EditorGUI/InspectorGUI.hpp"
@@ -11,6 +12,7 @@
 #include "GUI/EditorGUI/PhysicsSettingsGUI.hpp"
 #include "GUI/EditorGUI/PlayStateGUI.hpp"
 #include "GUI/EditorGUI/GeneralSettingsGUI.hpp"
+#include "GUI/EditorGUI/InputGUI.hpp"
 
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -45,6 +47,7 @@ void Editor::Top()
         if (Wrapper::GUI::MenuItem("Renderer", NULL, m_RendererGUI->isOpen)) { m_RendererGUI->isOpen = !m_RendererGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Scene", NULL, m_sceneGUI->isOpen)) { m_sceneGUI->isOpen = !m_sceneGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Debug Camera", NULL, m_sceneGUI->GetDebugCamera())) { m_sceneGUI->SetDebugCamera(!m_sceneGUI->GetDebugCamera()) ; }
+        if (Wrapper::GUI::MenuItem("Input", NULL, m_InputGUI->isOpen)) { m_InputGUI->isOpen = !m_InputGUI->isOpen; }
         Wrapper::GUI::EndMenu();
     }
     if (Wrapper::GUI::BeginMenu("Help"))
@@ -113,6 +116,7 @@ bool Editor::Init()
     m_sceneGUI->SetCurrentScene(m_mainScene);
     rm.SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
+    m_gameGUI->SetCurrentScene(m_mainScene);
     m_RendererGUI->SetCurrentScene(m_mainScene);
     rm.SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
@@ -127,7 +131,6 @@ void Editor::Run()
     /* Loop until the user closes the window */
     while (!m_window.ShouldClose())
     {
-
         /* Poll for and process events */
         m_window.PollEvents();
 
@@ -146,20 +149,24 @@ void Editor::Run()
 
 void Editor::Destroy()
 {
-
+    Resource::ResourceManager::GetInstance().Unload();
     delete m_sceneGUI;
-    delete m_mainScene;
+    //delete m_mainScene;
+    delete m_gameGUI;
     delete m_AssetExplorer;
+    delete m_Inspector;
     delete m_Hierarchy;
     delete m_RendererGUI;
     delete m_PhysicsSettingsGUI;
     delete m_PlayStateGUI;
     delete m_GeneralSettingsGUI;
+    delete m_InputGUI;
 }
 
 bool Core::Editor::InitEditorGUI()
 {
     m_sceneGUI = new EditorGUI::SceneGUI();
+    m_gameGUI = new EditorGUI::GameGUI();
     m_Hierarchy = new EditorGUI::HierarchyGUI();
     m_AssetExplorer = new EditorGUI::AssetExplorer("Assets");
     m_Inspector = new EditorGUI::InspectorGUI();
@@ -167,6 +174,7 @@ bool Core::Editor::InitEditorGUI()
     m_PhysicsSettingsGUI = new EditorGUI::PhysicsSettingsGUI();
     m_PlayStateGUI = new EditorGUI::PlayStateGUI();
     m_GeneralSettingsGUI = new EditorGUI::GeneralSettingsGUI();
+    m_InputGUI = new EditorGUI::InputGUI();
     return true;
 }
 
@@ -204,7 +212,11 @@ void Core::Editor::UpdateEditorGUI()
 
     GUI::DockingSpace();
 
+    m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
+    m_PlayStateGUI->Update();
+    m_gameGUI->Update();
     m_sceneGUI->Update();
+    m_InputGUI->Update();
 
     m_Hierarchy->Update();
     m_AssetExplorer->Update();
@@ -215,6 +227,7 @@ void Core::Editor::UpdateEditorGUI()
         m_mainScene->Unload();
         m_mainScene = newScene;
         m_mainScene->Load();
+        m_gameGUI->SetCurrentScene(m_mainScene);
         m_sceneGUI->SetCurrentScene(m_mainScene);
         m_Hierarchy->SetCurrentScene(m_mainScene);
         m_RendererGUI->SetCurrentScene(m_mainScene);

@@ -49,7 +49,7 @@ namespace LowRenderer
 
 		Resource::Texture& GetRenderTexture();
 		void OnGUI();
-		void ApplyPostProcessing(Maths::Vec2 viewPort);
+		void ApplyPostProcessing(const Maths::Vec2& viewPort);
 
 		static Resource::Texture* TakePhoto(const  Resource::Mesh& mesh, const Engine::Transform& meshTransform,
 			const Engine::Transform& camTransform, const Resource::Material& material, float fov = 50.f);
