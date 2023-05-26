@@ -27,8 +27,8 @@ namespace EditorGUI
 	{
 	public:
 		AssetExplorer(const std::string& rootDirectory);
-
 		~AssetExplorer();
+
 
 		void Reload();
 

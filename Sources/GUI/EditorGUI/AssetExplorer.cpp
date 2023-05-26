@@ -24,9 +24,10 @@ AssetExplorer::~AssetExplorer()
 {
 	for (auto icon : m_fileIcons)
 	{
-		delete icon.second;
+		if (icon.second) delete icon.second;
 	}
 }
+
 
 string GetFileExtension(const string& filename)
 {
@@ -42,8 +43,8 @@ void AssetExplorer::Reload()
 		Resource::IResource* resource = Resource::ResourceManager::GetInstance().GetResource<Resource::IResource>(entryName);
 		if (resource && m_fileIcons.count(entryName) == 0)
 		{
-			//m_fileIcons.emplace(entryName, resource->GenerateFileIcon());
-			m_fileIcons.emplace(entryName, nullptr);
+			m_fileIcons.emplace(entryName, resource->GenerateFileIcon());
+			//m_fileIcons.emplace(entryName, nullptr);
 		}
 	}
 
