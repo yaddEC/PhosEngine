@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include <Maths/Maths.hpp>
 #include <Engine/MonoBehaviour.hpp>
 
@@ -6,8 +6,7 @@
 
 namespace Wrapper
 {
-    class PhysicsCollider;
-    enum class MaterialType;
+    class PhysicsJoint;
 }
 
 namespace Engine
@@ -24,6 +23,7 @@ namespace Physic
     {
     public:
         Joint();
+        ~Joint();
 
         void Update() override;
         void Start() override;
@@ -31,7 +31,13 @@ namespace Physic
         void OnDestroy() override {};
   
         Reflection::ClassMetaData& GetMetaData() override;
+
+        Wrapper::PhysicsJoint* physicsJoint;
     protected:
+
+        unsigned int p_gameObjectId;
+        Rigidbody* p_selfRigidbody;
+        Rigidbody* p_otherRigidbody;
 
     };
 
@@ -55,10 +61,10 @@ namespace Physic
 
     };
 
-    class PHOSENGINE_API CharacterJoint : public Joint
+    class PHOSENGINE_API ConfigurableJoint : public Joint
     {
     public:
-        CharacterJoint();
+        ConfigurableJoint();
         Reflection::ClassMetaData& GetMetaData() override;
 
     private:
@@ -77,4 +83,4 @@ namespace Physic
 
 
 
-}*/
+}

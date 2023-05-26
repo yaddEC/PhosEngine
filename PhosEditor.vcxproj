@@ -189,6 +189,7 @@
     <ClCompile Include="Sources\GUI\EditorGUI\GameGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\GeneralSettingsGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\HierarchyGUI.cpp" />
+    <ClCompile Include="Sources\GUI\EditorGUI\InputGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\PhysicsSettingsGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\PlayStateGUI.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\RendererGUI.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\GameGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\GeneralSettingsGUI.hpp" />
+    <ClInclude Include="Headers\GUI\EditorGUI\InputGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\PlayStateGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\HierarchyGUI.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\PhysicsSettingsGUI.hpp" />

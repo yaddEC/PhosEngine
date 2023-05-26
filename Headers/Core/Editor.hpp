@@ -21,6 +21,7 @@ namespace EditorGUI
 	class PlayStateGUI;
 	class GeneralSettingsGUI;
 	class GameGUI;
+	class InputGUI;
 }
 
 
@@ -57,6 +58,7 @@ namespace Core
 		EditorGUI::PhysicsSettingsGUI* m_PhysicsSettingsGUI;
 		EditorGUI::PlayStateGUI* m_PlayStateGUI;
 		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
+		EditorGUI::InputGUI* m_InputGUI;
 
 		Engine::Scene* m_mainScene;
 

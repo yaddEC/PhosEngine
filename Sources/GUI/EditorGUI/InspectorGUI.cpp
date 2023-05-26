@@ -6,6 +6,7 @@
 #include "Resource/Texture.hpp"
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
+#include "Physic/Joint.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
@@ -121,7 +122,7 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		}
 		if (GUI::Selectable("Fixed Joints", false))
 		{
-
+			m_gameobject->AddComponent<Physic::FixedJoint>();
 		}
 		if (GUI::Selectable("Hinge Joints", false))
 		{

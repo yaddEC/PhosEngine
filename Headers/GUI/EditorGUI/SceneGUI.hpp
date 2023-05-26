@@ -20,7 +20,6 @@ namespace EditorGUI
 		void DeselectCurrentObject();
 		void DoUpdate() override;
 		void SetSelected(Engine::GameObject* selected);
-
 		bool selectedClicked;
 		int gizMode = 0;
 	private:
@@ -35,6 +34,7 @@ namespace EditorGUI
 
 		float m_speedModifier;
 		bool m_drawCameraData = false;
+		bool m_guizmoSelected;
 	};
 }
 
