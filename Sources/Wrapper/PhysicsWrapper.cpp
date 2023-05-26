@@ -9,10 +9,12 @@
 #include <limits>
 #include "Engine/Transform.hpp"
 #include "Engine/Scene.hpp"
+#include "Engine/GameObject.hpp"
+#include "Engine/Input.hpp"
 #include "Physx/PxPhysicsAPI.h"
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
-#include "Engine/GameObject.hpp"
+#include "Physic/Joint.hpp"
 
 
 #include "Wrapper/PhysicsWrapper.hpp"
@@ -55,9 +57,7 @@ std::string Wrapper::Physics::GetLayerName(unsigned int Layer)
             break;
         }
     }
-
     return "Default";
-    
 }
 
 unsigned int Wrapper::Physics::GetLayerID(const std::string layerName)
@@ -186,9 +186,6 @@ void MySimulationEventCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
         {
             triggerActor->OnTriggerExit(otherActor);
         }
-
-    
-
     }
 
 }
@@ -247,17 +244,17 @@ namespace Wrapper
 
     void Physics::Cleanup()
     {
-        //if (m_scene)
-        //    m_scene->release();
+        if (m_scene)
+           m_scene->release();
 
-        //if (m_physics)
-        //    m_physics->release();
+        if (m_physics)
+            m_physics->release();
 
-        //if (m_pvd)
-        //    m_pvd->release();
+        if (m_pvd)
+            m_pvd->release();
 
-        //if (m_foundation)
-        //    m_foundation->release();
+        if (m_foundation)
+            m_foundation->release();
         //delete m_scene.simulationEventCallback;
     }
 
@@ -518,7 +515,6 @@ namespace Wrapper
             Maths::Vec3 collCenter = collider->GetCenter();
             position = PxVec3(worldModel.data_4_4[0][3] + collCenter.x, worldModel.data_4_4[1][3] + collCenter.y, worldModel.data_4_4[2][3] + collCenter.z);
             m_physxActor->setGlobalPose(PxTransform(position, pxRotation));
-
             PxShape* shape;
             m_physxActor->getShapes(&shape, 1);
 
@@ -550,6 +546,28 @@ namespace Wrapper
       
     }
 
+
+    Wrapper::PhysicsJoint::PhysicsJoint()
+    {
+
+    }
+
+    Wrapper::PhysicsJoint::~PhysicsJoint()
+    {
+    }
+
+    void Wrapper::PhysicsJoint::Setup()
+    {
+    }
+
+    void Wrapper::PhysicsJoint::Init()
+    {
+    }
+
+    void Wrapper::PhysicsJoint::OnGuiChanged()
+    {
+    }
+
     void PhysicsRigidbody::Init()
     {
         rigidbody->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
@@ -577,9 +595,13 @@ namespace Wrapper
         {
             if ( m_physxActor && m_physxActor->is<PxRigidDynamic>())
             {
+
+                PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+
                 if (!m_transformChangedExternally)
                 {
-                    PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+                    if (dynamicActor->isSleeping())
+                        dynamicActor->wakeUp();
                     Maths::Vec3 velocity = rigidbody->GetVelocity();
                     PxVec3 force = PxVec3(velocity.x, velocity.y, velocity.z) * rigidbody->GetMass();
 
@@ -597,9 +619,13 @@ namespace Wrapper
                     rigidbody->gameobject->transform->rotationEuler = newRotation.ToEulerAngles();
                     
                 }
-                else
+                else if (m_transformChangedExternally)
                 {
-                    m_transformChangedExternally = false;
+                    dynamicActor->putToSleep();
+                    rigidbody->SetVelocity(Maths::Vec3(0, 0, 0));
+                    m_delay -= Engine::Input::deltaTime;
+                    if(m_delay<=0)
+                        m_transformChangedExternally = false;
                 }
             }
 
@@ -618,7 +644,10 @@ namespace Wrapper
     {
         if (this)
         {
+
             m_transformChangedExternally = true;
+
+            m_delay = 2;
         }
     }
 

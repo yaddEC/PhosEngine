@@ -107,7 +107,7 @@ void Transform::OnGUI()
 
 	if (positionChanged || rotChange || scaleChanged)
 	{
-		for (auto& callback : m_transformChangedCallbacks)
+		for (auto& callback : transformChangedCallbacks)
 		{
 			callback();
 		}
@@ -124,7 +124,7 @@ void Transform::OnGUI()
 
 void Engine::Transform::RegisterTransformChangedCallback(TransformChangedCallback callback)
 {
-	m_transformChangedCallbacks.push_back(callback);
+	transformChangedCallbacks.push_back(callback);
 }
 
 void Transform::SetParent(Transform* _parent)

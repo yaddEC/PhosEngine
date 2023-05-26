@@ -530,10 +530,12 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 
 bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostProcessingShader** postPro, bool text)
 {
+	const float widgetOffset = 150.0f;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine(widgetOffset);
 	}
 	std::vector<std::string> postProNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::PostProcessingShader>();
 	std::string currentPostProName = (*postPro) ? (*postPro)->GetName() : "None";
@@ -562,6 +564,30 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 	if (Resource::PostProcessingShader** mat = (Resource::PostProcessingShader**)DragDropTarget("Post Processing"))
 	{
 		*postPro = *mat;
+	}
+
+	return false;
+}
+
+bool Wrapper::GUI::PickGameObject(const std::string& label, const std::string& buttonLabel ,int* gameObject, bool text)
+{
+	const float widgetOffset = 150.0f;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(widgetOffset);
+	}
+
+	if (GUI::Button(buttonLabel.c_str(), Maths::Vec2(100, 20)))
+	{
+		*gameObject = -1;
+	}
+
+	if (Engine::GameObject** go = (Engine::GameObject**)DragDropTarget("GameObject"))
+	{
+		*gameObject = (*go)->GetID();
+		return true;
 	}
 
 	return false;
@@ -705,6 +731,7 @@ void Wrapper::GUI::TreePop()
 
 bool Wrapper::GUI::CollapsingHeader(const std::string& label)
 {
+	//ImGUITreeNodeFlags
 	return ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
 }
 
@@ -726,6 +753,11 @@ bool Wrapper::GUI::IsItemHovered()
 bool Wrapper::GUI::IsItemDown(int mouseButton)
 {
 	return IsItemHovered() && Engine::Input::GetInstance().IsMouseButtonDown(mouseButton);
+}
+
+bool Wrapper::GUI::IsItemReleased(int mouseButton)
+{
+	return IsItemHovered() && Engine::Input::GetInstance().IsMouseButtonReleased(mouseButton);
 }
 
 bool Wrapper::GUI::IsItemClicked(int mouseButton)

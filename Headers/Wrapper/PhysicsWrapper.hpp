@@ -9,6 +9,7 @@ namespace Physic
 {
     class Collider;
     class Rigidbody;
+    class Joint;
 }
 
 namespace Engine
@@ -150,6 +151,27 @@ namespace Wrapper
         Maths::Vec3 impactPos;
     };
 
+    class PHOSENGINE_API PhysicsJoint
+    {
+
+    public:
+
+        PhysicsJoint();
+        ~PhysicsJoint();
+
+        void Setup();
+        void Init();
+
+        void OnGuiChanged();
+
+        Joint* joint;
+
+        PxD6Joint* d6joint;
+    private:
+
+
+    };
+
     class PHOSENGINE_API PhysicsRigidbody
     {
     public:
@@ -169,6 +191,7 @@ namespace Wrapper
         void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
         bool m_transformChangedExternally = false;
+        float m_delay;
     };
 
     bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
