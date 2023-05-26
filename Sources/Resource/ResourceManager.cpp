@@ -188,6 +188,10 @@ void Resource::ResourceManager::AddResourceByExtension(const fs::directory_entry
 	{
 		CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAssetPath));
 	}
+	else if (extension == "phcanvas" || extension == "PHCANVAS")
+	{
+		CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAssetPath));
+	}
 }
 
 

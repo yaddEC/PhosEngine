@@ -35,7 +35,6 @@ namespace Resource
 
 		void Init(const std::string& rootAseetsPath);
 		void LoadAll();
-		void Reload(const std::string& rootAseetsPath);
 		void Save();
 		void Unload();
 
