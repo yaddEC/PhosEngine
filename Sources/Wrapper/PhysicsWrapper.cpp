@@ -221,7 +221,7 @@ namespace Wrapper
 
     Physics::~Physics()
     {
-        Cleanup();
+        //Cleanup();
     }
 
     void Physics::Init()

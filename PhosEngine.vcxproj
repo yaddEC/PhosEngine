@@ -266,6 +266,7 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\UI\" "$(SolutionDir)External\PhosEngine\UI\"
 xcopy /y /d "$(ProjectDir)Headers\Threading\" "$(SolutionDir)External\PhosEngine\Threading\"
 xcopy /y /d "$(ProjectDir)Headers\Reflection\" "$(SolutionDir)External\PhosEngine\Reflection\"
 xcopy /y /d "$(ProjectDir)Headers\dllInclude.hpp" "$(SolutionDir)External\PhosEngine\"
