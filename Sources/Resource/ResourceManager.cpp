@@ -140,6 +140,7 @@ void Resource::ResourceManager::SetStaticResource()
 	iconShaderForPicking = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\IconShaderForPicking\\IconShaderForPicking.prog");
 	iconShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\BillboardShader\\BillboardShader.prog");
 	outlineShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\OutlineShader.prog");
+	UIShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\UIShader\\UIShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 }
 
@@ -190,7 +191,7 @@ void Resource::ResourceManager::AddResourceByExtension(const fs::directory_entry
 	}
 	else if (extension == "phcanvas" || extension == "PHCANVAS")
 	{
-		CreateResource<PostProcessingShader>(GetRelativePath(entry, rootAssetPath));
+		CreateResource<UI::Canvas>(GetRelativePath(entry, rootAssetPath));
 	}
 }
 

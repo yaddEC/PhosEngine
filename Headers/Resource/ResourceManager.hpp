@@ -183,6 +183,7 @@ namespace Resource
 		ShaderProgram* iconShaderForPicking = nullptr;
 		ShaderProgram* iconShader = nullptr;
 		ShaderProgram* outlineShader = nullptr;
+		ShaderProgram* UIShader = nullptr;
 		Mesh* cube = nullptr;
 		Mesh* quad = nullptr;
 
