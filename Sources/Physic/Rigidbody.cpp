@@ -92,6 +92,17 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    bool Rigidbody::IsGravityDifferent()
+    {
+        return m_differentGravity;
+    }
+
+    void Rigidbody::setDifferentGravity(bool ownGravity)
+    {
+        m_differentGravity = ownGravity;
+        physicsRigidbody->OnGuiChanged();
+    }
+
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {
         using namespace Reflection;
 
@@ -100,10 +111,11 @@ namespace Physic {
         if (!computed) {
             result.name = "RigidBody";
             result.memberList = {
-                ClassMemberInfo("Gravity", offsetof(Rigidbody, m_gravity), MemberType::T_VEC3),
                 ClassMemberInfo("Velocity", offsetof(Rigidbody, m_velocity), MemberType::T_VEC3),
                 ClassMemberInfo("mass", offsetof(Rigidbody, m_mass), MemberType::T_FLOAT),
-                ClassMemberInfo("reset", offsetof(Rigidbody, reset), MemberType::T_BOOL),
+                ClassMemberInfo("Different_Gravity", offsetof(Rigidbody, m_differentGravity), MemberType::T_BOOL),
+                ClassMemberInfo("Gravity", offsetof(Rigidbody, m_gravity), MemberType::T_VEC3),
+                
             };
             computed = true;
         }

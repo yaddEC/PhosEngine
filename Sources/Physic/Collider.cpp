@@ -55,6 +55,12 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
+    void Collider::SetMaterial(Wrapper::MaterialType material)
+    {
+        p_material = material;
+        physicsCollider->OnGuiChanged();
+    }
+
     void Collider::SetCenter(Maths::Vec3 center)
     {
         p_center = center;
@@ -95,6 +101,7 @@ namespace Physic {
                 ClassMemberInfo("isTrigger", offsetof(BoxCollider, p_isTrigger), MemberType::T_BOOL),
                 ClassMemberInfo("Center", offsetof(BoxCollider, p_center), MemberType::T_VEC3),
                 ClassMemberInfo("Size", offsetof(BoxCollider, m_size), MemberType::T_VEC3),
+                ClassMemberInfo("MaterialType", offsetof(BoxCollider,p_material), MemberType::T_PHYSIC_MATERIAL),
             };
             computed = true;
         }
@@ -126,6 +133,7 @@ namespace Physic {
                 ClassMemberInfo("isTrigger", offsetof(SphereCollider, p_isTrigger), MemberType::T_BOOL),
                 ClassMemberInfo("Center", offsetof(SphereCollider, p_center), MemberType::T_VEC3),
                 ClassMemberInfo("Radius", offsetof(SphereCollider, m_radius), MemberType::T_FLOAT),
+                ClassMemberInfo("MaterialType", offsetof(SphereCollider,p_material), MemberType::T_PHYSIC_MATERIAL),
             };
             computed = true;
         }
@@ -159,6 +167,7 @@ namespace Physic {
                 ClassMemberInfo("Center", offsetof(CapsuleCollider, p_center), MemberType::T_VEC3),
                 ClassMemberInfo("Height", offsetof(CapsuleCollider, m_height), MemberType::T_FLOAT),
                 ClassMemberInfo("Radius", offsetof(CapsuleCollider, m_radius), MemberType::T_FLOAT),
+                ClassMemberInfo("MaterialType", offsetof(CapsuleCollider,p_material), MemberType::T_PHYSIC_MATERIAL)
             };
             computed = true;
         }

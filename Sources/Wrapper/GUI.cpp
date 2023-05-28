@@ -528,6 +528,45 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 	return false;
 }
 
+bool Wrapper::GUI::PickMaterialType(const std::string& label, MaterialType* materialType, bool text)
+{
+	const float widgetOffset = 130.0f;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(widgetOffset);
+	}
+
+	std::vector<std::string> materialTypeList = {
+		"WOOD",
+		"BOUNCY_BALL",
+		"ICE",
+		"RUBBER",
+		"ROCK",
+		"METAL",
+		"GLASS"
+	};
+
+	std::string currentMaterialType = Wrapper::ToString(*materialType) ;
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentMaterialType.c_str()))
+	{
+		for (auto str : materialTypeList)
+		{
+			if (ImGui::Selectable(str.c_str(), str == currentMaterialType))
+			{
+				*materialType = Wrapper::ToMaterialType(str);
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	return false;
+}
+
 bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostProcessingShader** postPro, bool text)
 {
 	const float widgetOffset = 150.0f;

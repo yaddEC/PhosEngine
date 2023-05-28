@@ -62,7 +62,7 @@ Reflection::ClassMetaData& LowRenderer::CameraComponent::GetMetaData()
 			ClassMemberInfo("FOV", offsetof(CameraComponent, CameraComponent::m_fov), MemberType::T_FLOAT),
 			ClassMemberInfo("UseSkybox", offsetof(CameraComponent, CameraComponent::m_useSkybox), MemberType::T_BOOL),
 			ClassMemberInfo("BackGroundColor", offsetof(CameraComponent, CameraComponent::m_backgroundColor), MemberType::T_COLOR),
-            ClassMemberInfo("PostProcessingShader", offsetof(CameraComponent, CameraComponent::m_postPro), MemberType::T_POSTPROCESSINGSHADER)
+            ClassMemberInfo("PostProcessingShader", offsetof(CameraComponent, CameraComponent::m_postPro), MemberType::T_POST_PROCESSING_SHADER)
 		};
 		computed = true;
 	}

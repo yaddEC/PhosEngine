@@ -42,10 +42,13 @@ namespace Physic
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void SetTriggerState(bool isTrigger);
         bool GetTriggerState() { return p_isTrigger; };
+        void SetMaterial(Wrapper::MaterialType material);
+        Wrapper::MaterialType GetMaterial() { return p_material; };
         void SetCenter(Maths::Vec3 center);
         Maths::Vec3 GetCenter() { return p_center; };
         Reflection::ClassMetaData& GetMetaData() override;
     protected:
+        Wrapper::MaterialType p_material;
         bool p_isTrigger = false;
         Maths::Vec3 p_center;
     };

@@ -5,6 +5,7 @@
 //----------------
 
 #include "Wrapper/GUI.hpp"
+#include "Wrapper/PhysicsWrapper.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
@@ -53,6 +54,8 @@ void Reflection::ClassMemberInfo::DisplayMemberInfo(size_t classPtr)
 		break;
 
 	case MemberType::T_GAME_OBJECT: std::cout << *( int*)(classPtr + ptr) << std::endl; break;
+
+	case MemberType::T_PHYSIC_MATERIAL: std::cout << static_cast<int>(*(Wrapper::MaterialType*)(classPtr + ptr)) << std::endl; break;
 
 	default: break;
 	}
@@ -147,12 +150,19 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		}
 		break;
 	}
-	case MemberType::T_POSTPROCESSINGSHADER:
+	case MemberType::T_POST_PROCESSING_SHADER:
 		if (GUI::PickPostProcessing(name, (Resource::PostProcessingShader**)((size_t)classPtr + ptr), true))
 		{
 			monoBehavior->GUIUpdate();
 		}
 		break;
+
+	case MemberType::T_PHYSIC_MATERIAL: 
+		if (GUI::PickMaterialType(name, (MaterialType*)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+	break;
 
 	default: break;
 	}
@@ -190,9 +200,10 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 
 	case MemberType::T_GAME_OBJECT: result += std::to_string(*( int*)(classPtr + ptr)); break;
 
-	case MemberType::T_POSTPROCESSINGSHADER:
+	case MemberType::T_POST_PROCESSING_SHADER:
 		result += (*(Resource::PostProcessingShader**)(classPtr + ptr)) ? (*(Resource::PostProcessingShader**)(classPtr + ptr))->GetFilePath() : "None"; break;
 
+	case MemberType::T_PHYSIC_MATERIAL: result += std::to_string(static_cast<int>(*(Wrapper::MaterialType*)(classPtr + ptr))); break;
 	default: break;
 	}
 	return result + '\n';
@@ -227,8 +238,10 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 
 	case MemberType::T_GAME_OBJECT: *( int*)(classPtr + ptr) = std::stoi(tokens[1]); break;
 
-	case MemberType::T_POSTPROCESSINGSHADER: (*(Resource::PostProcessingShader**)(classPtr + ptr))
+	case MemberType::T_POST_PROCESSING_SHADER: (*(Resource::PostProcessingShader**)(classPtr + ptr))
 		= Resource::ResourceManager::GetInstance().GetResource<Resource::PostProcessingShader>(tokens[1]); break;
+
+	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(classPtr + ptr) = static_cast<Wrapper::MaterialType>(std::stoi(tokens[1])); break;
 
 	default: break;
 	}
@@ -254,7 +267,9 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 
 	case MemberType::T_MATERIAL_LIST: break;
 
-	case MemberType::T_POSTPROCESSINGSHADER: *(Resource::PostProcessingShader**)(target + ptr) = *(Resource::PostProcessingShader**)(source + ptr); break;
+	case MemberType::T_POST_PROCESSING_SHADER: *(Resource::PostProcessingShader**)(target + ptr) = *(Resource::PostProcessingShader**)(source + ptr); break;
+
+	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(target + ptr) = *(Wrapper::MaterialType*)(source + ptr); break;
 
 	default: break;
 	}

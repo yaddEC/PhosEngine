@@ -46,6 +46,7 @@ void  Wrapper::Physics::CreateLayer(const std::string layerName)
     }
 }
 
+
 std::string Wrapper::Physics::GetLayerName(unsigned int Layer)
 {
     std::map<std::string, PxU32> layerNameToIndexMap = *Wrapper::Physics::GetNameToIndex();
@@ -269,9 +270,14 @@ namespace Wrapper
 
         switch (type) {
         case MaterialType::BOUNCY_BALL:
+            staticFriction = 1;
+            dynamicFriction = 1;
+            restitution = 1;
+            break;
+        case MaterialType::ROCK:
             staticFriction = 0.5f;
             dynamicFriction = 0.3f;
-            restitution = 0.8f;
+            restitution = 0.2f;
             break;
         case MaterialType::ICE:
             staticFriction = 0.1f;
@@ -298,10 +304,10 @@ namespace Wrapper
             dynamicFriction = 0.5f;
             restitution = 0.2f;
             break;
-        default: //MaterialType::ROCK
-            staticFriction = 0.5f;
-            dynamicFriction = 0.3f;
-            restitution = 0.8f;
+        default: //MaterialType::WOOD
+            staticFriction = 0.6f;
+            dynamicFriction = 0.4f;
+            restitution = 0.3f;
             break;
         }
      
@@ -379,6 +385,49 @@ namespace Wrapper
         return rigidActorCount;
     }
 
+    std::string ToString(MaterialType materialType)
+    {
+        switch (materialType)
+        {
+        case MaterialType::ROCK:
+            return "ROCK";
+        case MaterialType::BOUNCY_BALL:
+            return "BOUNCY_BALL";
+        case MaterialType::ICE:
+            return "ICE";
+        case MaterialType::RUBBER:
+            return "RUBBER";
+        case MaterialType::WOOD:
+            return "WOOD";
+        case MaterialType::METAL:
+            return "METAL";
+        case MaterialType::GLASS:
+            return "GLASS";
+        default:
+            return "";
+        }
+    }
+
+    MaterialType ToMaterialType(const std::string& str)
+    {
+        if (str == "ROCK")
+            return MaterialType::ROCK;
+        else if (str == "BOUNCY_BALL")
+            return MaterialType::BOUNCY_BALL;
+        else if (str == "ICE")
+            return MaterialType::ICE;
+        else if (str == "RUBBER")
+            return MaterialType::RUBBER;
+        else if (str == "WOOD")
+            return MaterialType::WOOD;
+        else if (str == "METAL")
+            return MaterialType::METAL;
+        else if (str == "GLASS")
+            return MaterialType::GLASS;
+        else
+            return MaterialType::WOOD;
+    }
+
 
  
     void PhysicsCollider::Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material)
@@ -430,6 +479,7 @@ namespace Wrapper
         Maths::Quaternion rotCol = collider->transform->rotation.ToQuaternion(collider->transform->rotationEuler);
         rotCol.Conjugate();
         Maths::Mat4 worldModel = collider->transform->GetGlobalMatrix() * rotCol.ToRotationMatrix();
+        m_physxMaterial = collider->GetMaterial();
         PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
@@ -474,7 +524,10 @@ namespace Wrapper
             Maths::Vec3 collCenter = collider->GetCenter();
             PxVec3 position = PxVec3(worldModel.data_4_4[0][3] + collCenter.x, worldModel.data_4_4[1][3] + collCenter.y, worldModel.data_4_4[2][3] + collCenter.z);
             m_physxActor->setGlobalPose(PxTransform(position));
-
+            m_physxMaterial = collider->GetMaterial();
+            PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
+            PxMaterial* materials[] = { material };
+            shapes[0]->setMaterials(materials, 1);
             if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
             {
                 Maths::Vec3 boxSize = boxCollider->GetSize();
@@ -549,15 +602,127 @@ namespace Wrapper
 
     Wrapper::PhysicsJoint::PhysicsJoint()
     {
-
+        d6joint = nullptr;
     }
 
     Wrapper::PhysicsJoint::~PhysicsJoint()
     {
+        if (d6joint)
+        {
+            d6joint->release();
+            d6joint = nullptr;
+        }
     }
 
     void Wrapper::PhysicsJoint::Setup()
     {
+        PxPhysics *gPhysics = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics();
+        PxRigidActor* selfRigidActor = joint->GetSelfRigidbody()->physicsRigidbody->GetRigidActor();
+
+        if (FixedJoint* fixedJoint = dynamic_cast<FixedJoint*>(joint))
+        {
+            d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, PxTransform(PxVec3(0)), nullptr, PxTransform(PxVec3(0)));
+            d6joint->setMotion(PxD6Axis::eX, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eY, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eZ, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eTWIST, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING1, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING2, PxD6Motion::eLOCKED);
+
+        }
+        else if (HingeJoint* hingeJoint = dynamic_cast<HingeJoint*>(joint))
+        {
+            PxVec3 anchor = PxVec3(hingeJoint->GetAnchor().x, hingeJoint->GetAnchor().y, hingeJoint->GetAnchor().z);
+            Maths::Quaternion axisQuat = Maths::Quaternion::ToQuaternion(hingeJoint->GetAxis());
+            PxQuat axis = PxQuat(axisQuat.b, axisQuat.c, axisQuat.d, axisQuat.a);
+            PxVec3 connectedAnchor = PxVec3(hingeJoint->GetConnectedAnchor().x, hingeJoint->GetConnectedAnchor().y, hingeJoint->GetConnectedAnchor().z);
+
+            d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, PxTransform(anchor,axis), nullptr, PxTransform(connectedAnchor));
+
+            d6joint->setMotion(PxD6Axis::eX, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eY, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eZ, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eTWIST, PxD6Motion::eFREE);
+            d6joint->setMotion(PxD6Axis::eSWING1, PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING2, PxD6Motion::eLOCKED);
+
+            PxD6JointDrive drive(hingeJoint->GetMotorForce(), hingeJoint->GetMotorSpeed(), true);
+            d6joint->setDrive(PxD6Drive::eTWIST, drive);
+
+        }
+        else if (SpringJoint* springJoint = dynamic_cast<SpringJoint*>(joint))
+        {
+            PxTransform anchor(PxVec3(springJoint->GetAnchor().x, springJoint->GetAnchor().y, springJoint->GetAnchor().z));
+            d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, anchor, nullptr, PxTransform(PxVec3(0)));
+
+            d6joint->setMotion(PxD6Axis::eX, PxD6Motion::eFREE);
+            d6joint->setMotion(PxD6Axis::eY, PxD6Motion::eFREE);
+            d6joint->setMotion(PxD6Axis::eZ, PxD6Motion::eFREE);
+            d6joint->setMotion(PxD6Axis::eTWIST, PxD6Motion::eFREE);
+            d6joint->setMotion(PxD6Axis::eSWING1, PxD6Motion::eFREE);
+            d6joint->setMotion(PxD6Axis::eSWING2, PxD6Motion::eFREE);
+
+            PxSpring spring(springJoint->GetSpring().spring, springJoint->GetSpring().damper);
+            d6joint->setLinearLimit(PxD6Axis::eX, PxJointLinearLimitPair(springJoint->GetMinDistance(), springJoint->GetMaxDistance(), spring));
+            d6joint->setLinearLimit(PxD6Axis::eY, PxJointLinearLimitPair(springJoint->GetMinDistance(), springJoint->GetMaxDistance(), spring));
+            d6joint->setLinearLimit(PxD6Axis::eZ, PxJointLinearLimitPair(springJoint->GetMinDistance(), springJoint->GetMaxDistance(), spring));
+
+        }
+        else if (ConfigurableJoint* configurableJoint = dynamic_cast<ConfigurableJoint*>(joint))
+        {
+
+            PxTransform anchor(PxVec3(configurableJoint->GetAnchor().x, configurableJoint->GetAnchor().y, configurableJoint->GetAnchor().z));
+            PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
+
+            d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, anchor, nullptr, connectedAnchor);
+
+            // Set motion
+            d6joint->setMotion(PxD6Axis::eX, configurableJoint->GetMotion().x == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eY, configurableJoint->GetMotion().y == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eZ, configurableJoint->GetMotion().z == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eTWIST, configurableJoint->GetAngularMotion().x == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING1, configurableJoint->GetAngularMotion().y == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING2, configurableJoint->GetAngularMotion().z == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+
+            Spring linearLimitSpring = configurableJoint->GetLinearLimitSpring();
+            Limit linearLimit = configurableJoint->GetLinearLimit();
+
+            PxReal limitExtent = linearLimit.limit;
+            PxSpring limitSpring = { linearLimitSpring.spring, linearLimitSpring.damper };
+
+            PxJointLinearLimit linearLimitX(limitExtent, limitSpring);
+            PxJointLinearLimit linearLimitY(limitExtent, limitSpring);
+            PxJointLinearLimit linearLimitZ(limitExtent, limitSpring);
+
+            linearLimitX.contactDistance = linearLimit.contactDistance;
+            linearLimitX.bounceThreshold = linearLimit.bounciness;
+
+            linearLimitY.contactDistance = linearLimit.contactDistance;
+            linearLimitY.bounceThreshold = linearLimit.bounciness;
+
+            linearLimitZ.contactDistance = linearLimit.contactDistance;
+            linearLimitZ.bounceThreshold = linearLimit.bounciness;
+
+
+
+            // Set drive parameters
+            PxD6JointDrive driveX(configurableJoint->GetXDrive().positionSpring, configurableJoint->GetXDrive().positionDamper, configurableJoint->GetXDrive().maximumForce);
+            PxD6JointDrive driveY(configurableJoint->GetYDrive().positionSpring, configurableJoint->GetYDrive().positionDamper, configurableJoint->GetYDrive().maximumForce);
+            PxD6JointDrive driveZ(configurableJoint->GetZDrive().positionSpring, configurableJoint->GetZDrive().positionDamper, configurableJoint->GetZDrive().maximumForce);
+            PxD6JointDrive driveSwing(configurableJoint->GetAngularYZDrive().positionSpring, configurableJoint->GetAngularYZDrive().positionDamper, configurableJoint->GetAngularYZDrive().maximumForce);
+            PxD6JointDrive driveTwist(configurableJoint->GetAngularXDrive().positionSpring, configurableJoint->GetAngularXDrive().positionDamper, configurableJoint->GetAngularXDrive().maximumForce);
+            PxD6JointDrive driveSlerp(configurableJoint->GetAngularYDrive().positionSpring, configurableJoint->GetAngularYDrive().positionDamper, configurableJoint->GetAngularYDrive().maximumForce);
+            d6joint->setDrive(PxD6Drive::eX, driveX);
+            d6joint->setDrive(PxD6Drive::eY, driveY);
+            d6joint->setDrive(PxD6Drive::eZ, driveZ);
+            d6joint->setDrive(PxD6Drive::eSWING, driveSwing);
+            d6joint->setDrive(PxD6Drive::eTWIST, driveTwist);
+            d6joint->setDrive(PxD6Drive::eSLERP, driveSlerp);
+
+            //target+linear needed
+        }
+        d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
+        
     }
 
     void Wrapper::PhysicsJoint::Init()
@@ -572,12 +737,16 @@ namespace Wrapper
     {
         rigidbody->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
 
+        if (rigidbody->IsGravityDifferent())
+            m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+        else
+            m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
         Maths::Vec3 collCenter = rigidbody->col->GetCenter();
-       PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+collCenter.x, rigidbody->gameobject->transform->position.y + collCenter.y, rigidbody->gameobject->transform->position.z + collCenter.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
-       m_physxActor->setGlobalPose(pose);
-       m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
-
+        PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+collCenter.x, rigidbody->gameobject->transform->position.y + collCenter.y, rigidbody->gameobject->transform->position.z + collCenter.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
+        m_physxActor->setGlobalPose(pose);
+        m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
     }
 
     void UpdateRotationEuler(Maths::Vec3& rotationEuler, const Maths::Quaternion& newRotation) {
@@ -604,6 +773,12 @@ namespace Wrapper
                         dynamicActor->wakeUp();
                     Maths::Vec3 velocity = rigidbody->GetVelocity();
                     PxVec3 force = PxVec3(velocity.x, velocity.y, velocity.z) * rigidbody->GetMass();
+
+                    if (rigidbody->IsGravityDifferent())
+                    {
+                        Maths::Vec3 gravity = rigidbody->GetGravity();
+                        force += PxVec3(gravity.x, gravity.y, gravity.z);
+                    }
 
                     dynamicActor->addForce(force);
 
@@ -637,6 +812,11 @@ namespace Wrapper
         if (this && m_physxActor)
         {
             m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
+
+            if (rigidbody->IsGravityDifferent())
+                m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+            else
+                m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
         }
     }
 
@@ -647,7 +827,7 @@ namespace Wrapper
 
             m_transformChangedExternally = true;
 
-            m_delay = 2;
+            m_delay = 1.5f;
         }
     }
 
