@@ -44,14 +44,18 @@ namespace Wrapper
 
     enum class MaterialType
     {
-        ROCK,
+        WOOD,
         BOUNCY_BALL,
         ICE,
         RUBBER,
-        WOOD,
+        ROCK,
         METAL,
         GLASS
     };
+
+    std::string ToString(MaterialType materialType);
+
+    MaterialType ToMaterialType(const std::string& str);
 
     enum class ColliderType
     {

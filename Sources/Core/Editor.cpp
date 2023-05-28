@@ -120,7 +120,7 @@ bool Editor::Init()
     m_RendererGUI->SetCurrentScene(m_mainScene);
     rm.SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
-    
+    m_PlayStateGUI->setScene(m_mainScene);
 
     return true;
 }
@@ -212,8 +212,18 @@ void Core::Editor::UpdateEditorGUI()
 
     GUI::DockingSpace();
 
-    m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
+    
     m_PlayStateGUI->Update();
+    if (m_PlayStateGUI->isStatePressed)
+    {
+        m_Inspector->DeselectCurrentObject();
+        m_sceneGUI->DeselectCurrentObject();
+        m_PlayStateGUI->isStatePressed = false;
+    }
+    if (!m_sceneGUI->GetSelected())
+    {
+        m_Inspector->DeselectCurrentObject();
+    }
     m_gameGUI->Update();
     m_sceneGUI->Update();
     m_InputGUI->Update();
@@ -235,16 +245,7 @@ void Core::Editor::UpdateEditorGUI()
         m_Inspector->DeselectCurrentObject();
         m_sceneGUI->DeselectCurrentObject();
     }
-    if (m_PlayStateGUI->isStatePressed)
-    {
-        m_Inspector->DeselectCurrentObject();
-        m_sceneGUI->DeselectCurrentObject();
-        m_PlayStateGUI->isStatePressed = false;
-    }
-    if (!m_sceneGUI->GetSelected())
-    {
-        m_Inspector->DeselectCurrentObject();
-    }
+   
     m_PlayStateGUI->Update();
     if (m_Hierarchy->selectedClicked)
     {

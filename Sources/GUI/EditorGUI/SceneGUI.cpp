@@ -106,7 +106,7 @@ void SceneGUI::DoUpdate()
 	{
 		
 		UpdateCamera(input);
-		if (input.IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered())
+		if (input.IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered() && !m_guizmoSelected)
 		{
 			unsigned int objectID = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, p_size - Vec2(10, 35),
 				GUI::GetWindowPos(*Window::GetCurrentContext()));
@@ -148,13 +148,15 @@ void SceneGUI::DoUpdate()
 	static GameObject* lastSelected;
 	if (selected != nullptr )
 	{
-		if (input.IsKeyPressed(84))
-			gizMode = 0;
-		else if (input.IsKeyPressed(82))
-			gizMode = 1;
-		else if (input.IsKeyPressed(83))
-			gizMode = 2;
-			
+		if(input.IsMouseButtonUp(GLFW_MOUSE_BUTTON_2))
+		{ 
+			if (input.IsKeyPressed(87) )
+				gizMode = 0;//TRANSLATE
+			else if (input.IsKeyPressed(69))
+				gizMode = 1;//ROTATE
+			else if (input.IsKeyPressed(82))
+				gizMode = 2;//SCALE
+		}
 		float* temp = selected->transform->GetGlobalMatrix().GetTranspose().data;
 
 		if(m_guizmoSelected && input.IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1))

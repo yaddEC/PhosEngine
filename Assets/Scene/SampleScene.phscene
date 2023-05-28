@@ -11,6 +11,7 @@ component "Box Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
 	Size 1.000000 1.000000 1.000000
+	MaterialType 5
 	end
 end
 name "testMat"
@@ -26,12 +27,13 @@ component "Box Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
 	Size 1.000000 1.000000 1.000000
+	MaterialType 0
 	end
 component "RigidBody"
-	Gravity 0.000000 -20.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 1
+	Gravity 0.000000 1.000000 0.000000
 	end
 component "Fixed Joint"
 	Collider -1
@@ -54,84 +56,88 @@ name "test"
 id 4
 layer 0
 tag 0
-transform -0.75 10 0 0 0 1.5708 1 1 1
+transform -33.1444 41.9366 0 0 0 1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity 0.000000 -20.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 1
 	end
 end
 name "Boo 3"
 id 5
 layer 0
 tag 0
-transform -17.8 21.45 0 0 0 -1.5708 1 1 1
+transform -9.86066 17.3378 -19.7257 0 0 -1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity 0.000000 -90.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 0
+	Gravity 0.000000 -90.000000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
 	end
 end
 name "Boo 4"
 id 6
 layer 0
 tag 0
-transform -0.55 15.1 -25.9 0 0 1.5708 1 1 1
+transform -0.55 21.5386 -25.9 0 0 1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity 0.000000 -20.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 0
+	Gravity 0.000000 1.000000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
 	end
 end
 name "Boo 6"
 id 7
 layer 0
 tag 0
-transform -30.7 9.8 -11.05 0 0 0 1 1 1
+transform -9.42639 20.0011 -11.05 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity 0.000000 -20.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
 	Center 0.000000 2.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
 	end
 end
 name "Directional Light"
@@ -154,10 +160,10 @@ component "Mesh Renderer"
 	Material DefaultAssets\Material\DefaultMat.phmat
 	end
 component "RigidBody"
-	Gravity 0.000000 -20.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 end
 name "Cube"
@@ -170,9 +176,9 @@ component "Mesh Renderer"
 	Material DefaultAssets\Material\DefaultMat.phmat
 	end
 component "RigidBody"
-	Gravity 0.000000 -20.000000 0.000000
 	Velocity 0.000000 0.000000 0.000000
 	mass 1.000000
-	reset 0
+	Different_Gravity 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 end

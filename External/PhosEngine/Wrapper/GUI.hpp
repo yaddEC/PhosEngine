@@ -21,6 +21,7 @@ namespace Resource
 
 namespace Wrapper
 {
+	enum class MaterialType;
 	class Window;
 
 	class PHOSENGINE_API GUI
@@ -91,6 +92,7 @@ namespace Wrapper
 		static bool PickTexture(const std::string& label, Resource::Texture** texture, bool text = true);
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);
+		static bool PickMaterialType(const std::string& label, MaterialType* materialType, bool text);
 		static bool PickGameObject(const std::string& label, const std::string& buttonLabel, int* gameObject, bool text);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 

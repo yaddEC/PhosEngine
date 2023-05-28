@@ -20,7 +20,6 @@ namespace Physic
     public:
         Rigidbody();
         ~Rigidbody() {};
-        bool reset = false;
 
         Collider* col;
         Wrapper::PhysicsRigidbody* physicsRigidbody;
@@ -43,12 +42,16 @@ namespace Physic
         void SetGravity(Maths::Vec3 gravity);
         void SetVelocity(Maths::Vec3 velocity);
         void SetMass(float mass);
+        bool IsGravityDifferent();
+        void setDifferentGravity(bool ownGravity);
 
         Reflection::ClassMetaData& GetMetaData() override;
 
     private:
+        bool m_differentGravity ;
         Maths::Vec3 m_gravity = Maths::Vec3(0, -20, 0);
         Maths::Vec3 m_velocity;
         float m_mass = 1;
+
     };
 }
