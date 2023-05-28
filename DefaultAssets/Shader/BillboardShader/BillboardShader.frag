@@ -5,5 +5,8 @@ in vec2 texCoord;
 
 void main()
 {    
-    gl_FragColor = texture2D(Texture, texCoord);
+    vec4 color = texture2D(Texture, texCoord);
+    if(color.w < 0.1)
+        discard;
+    gl_FragColor =color;
 }

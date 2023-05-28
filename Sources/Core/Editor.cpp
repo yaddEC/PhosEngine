@@ -13,6 +13,7 @@
 #include "GUI/EditorGUI/PlayStateGUI.hpp"
 #include "GUI/EditorGUI/GeneralSettingsGUI.hpp"
 #include "GUI/EditorGUI/InputGUI.hpp"
+#include "GUI/EditorGUI/CanvasEditor.hpp"
 
 #include "Engine/Scene.hpp"
 #include "Resource/ResourceManager.hpp"
@@ -43,11 +44,13 @@ void Editor::Top()
     {
         if (Wrapper::GUI::MenuItem("Assets Explorer", NULL, m_AssetExplorer->isOpen)) { m_AssetExplorer->isOpen = !m_AssetExplorer->isOpen; }
         if (Wrapper::GUI::MenuItem("Hierarchy", NULL, m_Hierarchy->isOpen)) { m_Hierarchy->isOpen = !m_Hierarchy->isOpen; }
+        if (Wrapper::GUI::MenuItem("Game", NULL, m_gameGUI->isOpen)) { m_gameGUI->isOpen = !m_gameGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Inspector", NULL, m_Inspector->isOpen)) { m_Inspector->isOpen = !m_Inspector->isOpen; }
         if (Wrapper::GUI::MenuItem("Renderer", NULL, m_RendererGUI->isOpen)) { m_RendererGUI->isOpen = !m_RendererGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Scene", NULL, m_sceneGUI->isOpen)) { m_sceneGUI->isOpen = !m_sceneGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Debug Camera", NULL, m_sceneGUI->GetDebugCamera())) { m_sceneGUI->SetDebugCamera(!m_sceneGUI->GetDebugCamera()) ; }
         if (Wrapper::GUI::MenuItem("Input", NULL, m_InputGUI->isOpen)) { m_InputGUI->isOpen = !m_InputGUI->isOpen; }
+        if (Wrapper::GUI::MenuItem("Canvas Editor", NULL, m_canvasEditor->isOpen)) { m_canvasEditor->isOpen = !m_canvasEditor->isOpen; }
         Wrapper::GUI::EndMenu();
     }
     if (Wrapper::GUI::BeginMenu("Help"))
@@ -161,6 +164,7 @@ void Editor::Destroy()
     delete m_PlayStateGUI;
     delete m_GeneralSettingsGUI;
     delete m_InputGUI;
+    delete m_canvasEditor;
 }
 
 bool Core::Editor::InitEditorGUI()
@@ -175,6 +179,7 @@ bool Core::Editor::InitEditorGUI()
     m_PlayStateGUI = new EditorGUI::PlayStateGUI();
     m_GeneralSettingsGUI = new EditorGUI::GeneralSettingsGUI();
     m_InputGUI = new EditorGUI::InputGUI();
+    m_canvasEditor = new EditorGUI::CanvasEditor();
     return true;
 }
 
@@ -212,7 +217,7 @@ void Core::Editor::UpdateEditorGUI()
 
     GUI::DockingSpace();
 
-    
+    m_canvasEditor->Update();
     m_PlayStateGUI->Update();
     if (m_PlayStateGUI->isStatePressed)
     {
@@ -255,6 +260,8 @@ void Core::Editor::UpdateEditorGUI()
     else if (m_AssetExplorer->GetSelected())
     {
         m_Inspector->SetResourceToDisplay(m_AssetExplorer->GetSelected());
+        if (m_AssetExplorer->GetSelected()->GetTypeName() == "Canvas")
+            m_canvasEditor->SetCanvas((UI::Canvas*)m_AssetExplorer->GetSelected());
     }
     else if (m_sceneGUI->selectedClicked)
     {

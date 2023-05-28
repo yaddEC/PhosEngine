@@ -22,6 +22,7 @@ namespace EditorGUI
 	class GeneralSettingsGUI;
 	class GameGUI;
 	class InputGUI;
+	class CanvasEditor;
 }
 
 
@@ -59,6 +60,7 @@ namespace Core
 		EditorGUI::PlayStateGUI* m_PlayStateGUI;
 		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
 		EditorGUI::InputGUI* m_InputGUI;
+		EditorGUI::CanvasEditor* m_canvasEditor;
 
 		Engine::Scene* m_mainScene;
 

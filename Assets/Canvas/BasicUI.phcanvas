@@ -1,0 +1,3 @@
+SpriteRenderer "Sprite Renderer"
+RectTransform 2 4 0 0Sprite Assets\Texture\BlazikenTexture.png
+end
