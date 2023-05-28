@@ -451,7 +451,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\UI\Canvas.hpp" />
     <ClInclude Include="Headers\UI\RectTransform.hpp" />
     <ClInclude Include="Headers\UI\UIElement.hpp" />
-    <ClInclude Include="Headers\UI\UISprite.hpp" />
+    <ClInclude Include="Headers\UI\SpriteRenderer.hpp" />
     <ClInclude Include="Headers\Wrapper\GUI.hpp" />
     <ClInclude Include="Headers\Wrapper\PhysicsWrapper.hpp" />
     <ClInclude Include="Headers\Wrapper\RHI.hpp" />
@@ -522,6 +522,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Threading\PoolSystem.cpp" />
     <ClCompile Include="Sources\Threading\Thread.cpp" />
     <ClCompile Include="Sources\UI\Canvas.cpp" />
+    <ClCompile Include="Sources\UI\SpriteRenderer.cpp" />
     <ClCompile Include="Sources\Wrapper\GUI.cpp" />
     <ClCompile Include="Sources\Wrapper\PhysicsWrapper.cpp" />
     <ClCompile Include="Sources\Wrapper\RHI.cpp" />

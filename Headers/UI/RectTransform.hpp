@@ -18,7 +18,7 @@ namespace UI
 	public:
 
 		Maths::Vec2 position;
-		Maths::Vec2 scale;
+		Maths::Vec2 scale = Maths::Vec2(1, 1);
 		AnchorPoint anchor;
 	};
 }
