@@ -571,6 +571,7 @@ namespace Wrapper
             PxShape* shape;
             m_physxActor->getShapes(&shape, 1);
 
+
             if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
             {
                 Maths::Vec3 boxSize = boxCollider->GetSize();
@@ -628,6 +629,7 @@ namespace Wrapper
             d6joint->setMotion(PxD6Axis::eTWIST, PxD6Motion::eLOCKED);
             d6joint->setMotion(PxD6Axis::eSWING1, PxD6Motion::eLOCKED);
             d6joint->setMotion(PxD6Axis::eSWING2, PxD6Motion::eLOCKED);
+            //d6joint 
 
         }
         else if (HingeJoint* hingeJoint = dynamic_cast<HingeJoint*>(joint))
@@ -718,7 +720,8 @@ namespace Wrapper
 
             //target+linear needed
         }
-        d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
+        d6joint->setBreakForce(PX_MAX_F32, PX_MAX_F32);
+
         
     }
 
@@ -728,6 +731,58 @@ namespace Wrapper
 
     void Wrapper::PhysicsJoint::OnGuiChanged()
     {
+        unsigned int otherObjectId = joint->GetGameObjectId();
+        if (otherObjectId && otherObjectId != -1)
+        {
+            Engine::GameObject* otherObject = joint->gameobject->GetScene()->FindGameObjectWithId(otherObjectId);
+
+            if (!otherObject)
+            {
+                joint->SetGameObjectId(-1);
+                return;
+            }
+            else if(Rigidbody* otherRigidbody = otherObject->GetComponent<Rigidbody>())
+            {
+                Rigidbody* selfRigidbody = joint->GetSelfRigidbody();
+                PxRigidActor* selfActor = selfRigidbody->physicsRigidbody->GetRigidActor();
+                PxRigidActor* otherActor = otherRigidbody->physicsRigidbody->GetRigidActor();
+
+                if (selfActor == nullptr || otherActor == nullptr)
+                {
+                    printf("SELF OR OTHER ACTOR IS NULL \n");
+                    joint->SetGameObjectId(-1);
+                    return;
+                }
+
+                if (selfActor == otherActor)
+                {
+                    printf("SELF == OTHER \n");
+                    joint->SetGameObjectId(-1);
+                    return;
+                }
+
+                if (selfActor->is<PxRigidStatic>() && otherActor->is<PxRigidStatic>())
+                {
+                    printf("SELF == OTHER ACTOR \n");
+                    joint->SetGameObjectId(-1);
+                    return;
+                }
+
+                d6joint->setActors(selfActor, otherActor);
+                joint->SetOtherRigidbody(otherRigidbody);
+                PxTransform pose1(PxVec3(selfRigidbody->transform->position.x, selfRigidbody->transform->position.y, selfRigidbody->transform->position.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
+                PxTransform pose2(PxVec3(otherRigidbody->transform->position.x, otherRigidbody->transform->position.y, otherRigidbody->transform->position.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
+                d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse());
+                d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse());
+
+                d6joint->setActors(joint->GetSelfRigidbody()->physicsRigidbody->GetRigidActor(), joint->GetOtherRigidbody()->physicsRigidbody->GetRigidActor());
+            }
+            else
+            {
+                joint->SetGameObjectId(-1);
+                return;
+            }
+        }
     }
 
     void PhysicsRigidbody::Init()
@@ -738,6 +793,11 @@ namespace Wrapper
             m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
         else
             m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+      
+        if (rigidbody->IsKinematic())
+            m_physxActor->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+        else
+            m_physxActor->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
 
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
         Maths::Vec3 collCenter = rigidbody->col->GetCenter();
@@ -814,9 +874,6 @@ namespace Wrapper
                     PxQuat updatedRotation = updatedTransform.q;
                     
                     Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
-
-                    
-                      
                     rigidbody->gameobject->transform->rotation = newRotation;
                     rigidbody->gameobject->transform->rotationEuler = newRotation.ToEulerAngles();
                     
@@ -845,6 +902,13 @@ namespace Wrapper
                 m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
             else
                 m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+
+            if (rigidbody->IsKinematic())
+                m_physxActor->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+            else
+                m_physxActor->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
+
+           
         }
     }
 

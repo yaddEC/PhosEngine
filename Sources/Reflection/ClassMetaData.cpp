@@ -401,6 +401,18 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	{
 		return gameObject->AddComponent<Physic::FixedJoint>();
 	}
+	if (componentName == "Spring Joint")
+	{
+		return gameObject->AddComponent<Physic::SpringJoint>();
+	}
+	if (componentName == "Hinge Joint")
+	{
+		return gameObject->AddComponent<Physic::HingeJoint>();
+	}
+	if (componentName == "Configurable Joint")
+	{
+		return gameObject->AddComponent<Physic::ConfigurableJoint>();
+	}
 	if (componentName == "Camera Component")
 	{
 		return gameObject->AddComponent<LowRenderer::CameraComponent>();

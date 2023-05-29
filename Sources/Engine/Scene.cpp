@@ -78,6 +78,11 @@ void Scene::Update()
 
 	for (GameObject* go : m_gameObjects)
 	{
+		go->ComponentBufferLoad();
+	}
+
+	for (GameObject* go : m_gameObjects)
+	{
 		go->Update();
 	}
 

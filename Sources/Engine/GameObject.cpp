@@ -32,6 +32,7 @@ void Engine::GameObject::Start()
 		if(m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->Start();
 	}
+	SetLoadStatus(true);
 }
 
 template <class T>
@@ -57,18 +58,6 @@ T* Engine::GameObject::GetComponentInChildren(unsigned int index )
 
 void Engine::GameObject::Update()
 {
-	for (MonoBehaviour* comp : m_componentsBuffer)
-	{
-		m_components.push_back(comp);
-	}
-	for (MonoBehaviour* comp : m_componentsBuffer)
-	{
-		if (m_scene->GetIsGameMode() || comp->renderingComponent)
-			comp->Start();
-	}
-	m_componentsBuffer.clear();
-
-
 	for (MonoBehaviour* comp : m_components)
 	{
 		if (m_scene->GetIsGameMode() || comp->renderingComponent)
@@ -130,6 +119,20 @@ void Engine::GameObject::OnTriggerExit(GameObject* gameobject)
 	{
 		comp->OnTriggerExit(gameobject);
 	}
+}
+
+void Engine::GameObject::ComponentBufferLoad()
+{
+	for (MonoBehaviour* comp : m_componentsBuffer)
+	{
+		m_components.push_back(comp);
+	}
+	for (MonoBehaviour* comp : m_componentsBuffer)
+	{
+		if (m_scene->GetIsGameMode() || comp->renderingComponent)
+			comp->Start();
+	}
+	m_componentsBuffer.clear();
 }
 
 Engine::GameObject* Engine::GameObject::FindChildByName(const std::string& name)

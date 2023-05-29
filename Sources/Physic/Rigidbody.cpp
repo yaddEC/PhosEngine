@@ -125,6 +125,16 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    bool Rigidbody::IsKinematic()
+    {
+        return m_isKinematic;
+    }
+
+    void Rigidbody::setKinematic(bool kinematic)
+    {
+        m_isKinematic = kinematic;
+    }
+
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {
         using namespace Reflection;
 
@@ -135,6 +145,7 @@ namespace Physic {
             result.memberList = {
                 ClassMemberInfo("mass", offsetof(Rigidbody, m_mass), MemberType::T_FLOAT),
                 ClassMemberInfo("Different_Gravity", offsetof(Rigidbody, m_differentGravity), MemberType::T_BOOL),
+                ClassMemberInfo("isKinematic", offsetof(Rigidbody, m_isKinematic), MemberType::T_BOOL),
                 ClassMemberInfo("Gravity", offsetof(Rigidbody, m_gravity), MemberType::T_VEC3),
             };
             computed = true;

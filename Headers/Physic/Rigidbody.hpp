@@ -47,10 +47,14 @@ namespace Physic
         bool IsGravityDifferent();
         void setDifferentGravity(bool ownGravity);
 
+        bool IsKinematic();
+        void setKinematic(bool kinematic);
+
         Reflection::ClassMetaData& GetMetaData() override;
 
     private:
         bool m_differentGravity;
+        bool m_isKinematic;
         Maths::Vec3 m_gravity = Maths::Vec3(0, -20, 0);
         Maths::Vec3 m_velocity;
         float m_mass = 1;

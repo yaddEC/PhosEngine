@@ -51,14 +51,14 @@ namespace Physic
         Reflection::ClassMetaData& GetMetaData() override;
 
         unsigned int GetGameObjectId() const { return p_gameObjectId; }
-        Rigidbody* GetSelfRigidbody() const { return p_selfRigidbody; }
-        Rigidbody* GetOtherRigidbody() const { return p_otherRigidbody; }
+        Physic::Rigidbody* GetSelfRigidbody() const { return p_selfRigidbody; }
+        Physic::Rigidbody* GetOtherRigidbody() const { return p_otherRigidbody; }
         float GetBreakForce() const { return p_breakForce; }
         float GetBreakTorque() const { return p_breakTorque; }
 
         void SetGameObjectId(unsigned int gameObjectId) { p_gameObjectId = gameObjectId; }
-        void SetSelfRigidbody(Rigidbody* selfRigidbody) { p_selfRigidbody = selfRigidbody; }
-        void SetOtherRigidbody(Rigidbody* otherRigidbody) { p_otherRigidbody = otherRigidbody; }
+        void SetSelfRigidbody(Physic::Rigidbody* selfRigidbody) { p_selfRigidbody = selfRigidbody; }
+        void SetOtherRigidbody(Physic::Rigidbody* otherRigidbody) { p_otherRigidbody = otherRigidbody; }
         void SetBreakForce(float breakForce) { p_breakForce = breakForce; }
         void SetBreakTorque(float breakTorque) { p_breakTorque = breakTorque; }
 
@@ -66,8 +66,8 @@ namespace Physic
     protected:
 
         unsigned int p_gameObjectId;
-        Rigidbody* p_selfRigidbody;
-        Rigidbody* p_otherRigidbody;
+        Physic::Rigidbody* p_selfRigidbody;
+        Physic::Rigidbody* p_otherRigidbody;
         float p_breakForce;
         float p_breakTorque;
 
