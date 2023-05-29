@@ -6,6 +6,7 @@ namespace Threading
 {
     class AtomicMutex
     {
+    private: 
         std::atomic<bool> flag{ false };
 
     public:

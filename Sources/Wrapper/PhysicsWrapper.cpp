@@ -504,7 +504,8 @@ namespace Wrapper
             m_shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
         }
         PxFilterData filterData;
-        filterData.word0 = collider->gameobject->GetLayer();
+        if(collider)
+            filterData.word0 = collider->gameobject->GetLayer();
         m_shape->setSimulationFilterData(filterData);
         Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->addActor(*m_physxActor);
 
@@ -604,6 +605,7 @@ namespace Wrapper
     Wrapper::PhysicsJoint::PhysicsJoint()
     {
         d6joint = nullptr;
+        joint = nullptr;
     }
 
     Wrapper::PhysicsJoint::~PhysicsJoint()

@@ -102,7 +102,6 @@ void Resource::ResourceManager::LoadAll()
 	pool.stopPool();
 	pool.~Pool();
 
-	lastRefreshTime = std::chrono::system_clock::now().time_since_epoch();
 }
 
 
