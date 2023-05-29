@@ -186,6 +186,9 @@ namespace Wrapper
         void Update();
         void OnGuiChanged();
 
+        Maths::Vec3 GetVelocity();
+        void SetVelocity(Maths::Vec3 velocity);
+        void AddForce(Maths::Vec3 force);
         Rigidbody* rigidbody = nullptr;
 
         inline PxRigidActor* GetRigidActor() { return m_physxActor; }

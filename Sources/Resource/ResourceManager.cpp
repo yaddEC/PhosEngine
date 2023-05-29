@@ -192,6 +192,10 @@ void Resource::ResourceManager::AddResourceByExtension(const fs::directory_entry
 	{
 		CreateResource<UI::Canvas>(GetRelativePath(entry, rootAssetPath));
 	}
+	else if (extension == "wav" || extension == "WAV" || extension == "mp3" || extension == "MP3")
+	{
+		CreateResource<Audio>(GetRelativePath(entry, rootAssetPath));
+	}
 }
 
 
