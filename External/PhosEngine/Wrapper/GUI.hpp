@@ -17,6 +17,7 @@ namespace Resource
 	class Mesh;
 	class Material;
 	class PostProcessingShader;
+	class Audio;
 }
 
 namespace Wrapper
@@ -95,6 +96,7 @@ namespace Wrapper
 		static bool PickMaterialType(const std::string& label, MaterialType* materialType, bool text);
 		static bool PickGameObject(const std::string& label, const std::string& buttonLabel, int* gameObject, bool text);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
+		static bool PickAudio(const std::string& label, Resource::Audio** audio, bool text);
 
 		static void DisplayText(const char* format, ...);
 		static void DisplayFloat(const std::string& label, float value);
