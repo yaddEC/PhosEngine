@@ -703,9 +703,6 @@ namespace Wrapper
             linearLimitZ.contactDistance = linearLimit.contactDistance;
             linearLimitZ.bounceThreshold = linearLimit.bounciness;
 
-
-
-            // Set drive parameters
             PxD6JointDrive driveX(configurableJoint->GetXDrive().positionSpring, configurableJoint->GetXDrive().positionDamper, configurableJoint->GetXDrive().maximumForce);
             PxD6JointDrive driveY(configurableJoint->GetYDrive().positionSpring, configurableJoint->GetYDrive().positionDamper, configurableJoint->GetYDrive().maximumForce);
             PxD6JointDrive driveZ(configurableJoint->GetZDrive().positionSpring, configurableJoint->GetZDrive().positionDamper, configurableJoint->GetZDrive().maximumForce);
@@ -749,6 +746,37 @@ namespace Wrapper
         m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
     }
 
+    Maths::Vec3 PhysicsRigidbody::GetVelocity()
+    {
+        if (m_physxActor)
+        {
+            PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+            PxVec3 vel = dynamicActor->getLinearVelocity();
+            return Maths::Vec3(vel.x, vel.y, vel.z);
+        }
+
+
+    }
+
+    void Wrapper::PhysicsRigidbody::SetVelocity(Maths::Vec3 velocity)
+    {
+        if (m_physxActor)
+        {
+            PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+            dynamicActor->setLinearVelocity(PxVec3(velocity.x, velocity.y, velocity.z), false);
+        }
+    }
+
+    void Wrapper::PhysicsRigidbody::AddForce(Maths::Vec3 force)
+    {
+        if (m_physxActor)
+        {
+            PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+            dynamicActor->addForce(PxVec3(force.x, force.y, force.z));
+        }
+        
+    }
+
     void UpdateRotationEuler(Maths::Vec3& rotationEuler, const Maths::Quaternion& newRotation) {
         Maths::Vec3 newEulerAngles = newRotation.ToEulerAngles();
 
@@ -771,16 +799,14 @@ namespace Wrapper
                 {
                     if (dynamicActor->isSleeping())
                         dynamicActor->wakeUp();
-                    Maths::Vec3 velocity = rigidbody->GetVelocity();
-                    PxVec3 force = PxVec3(velocity.x, velocity.y, velocity.z) * rigidbody->GetMass();
 
                     if (rigidbody->IsGravityDifferent())
                     {
                         Maths::Vec3 gravity = rigidbody->GetGravity();
-                        force += PxVec3(gravity.x, gravity.y, gravity.z);
+                        PxVec3 force = PxVec3(gravity.x, gravity.y, gravity.z);
+                        dynamicActor->addForce(force);
                     }
 
-                    dynamicActor->addForce(force);
 
                     PxTransform updatedTransform = dynamicActor->getGlobalPose();
                     Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
@@ -789,6 +815,7 @@ namespace Wrapper
                     
                     Maths::Quaternion newRotation = Maths::Quaternion(updatedRotation.w, updatedRotation.x, updatedRotation.y, updatedRotation.z) ;
 
+                    
                       
                     rigidbody->gameobject->transform->rotation = newRotation;
                     rigidbody->gameobject->transform->rotationEuler = newRotation.ToEulerAngles();
@@ -798,6 +825,7 @@ namespace Wrapper
                 {
                     dynamicActor->putToSleep();
                     rigidbody->SetVelocity(Maths::Vec3(0, 0, 0));
+
                     m_delay -= Engine::Input::deltaTime;
                     if(m_delay<=0)
                         m_transformChangedExternally = false;
