@@ -21,6 +21,7 @@
 #include "Resource/Parser.hpp"
 #include <iostream>
 #include "LowRenderer/Animator.hpp"
+#include "Sound/SoundPlayer.hpp"
 #include "Reflection/ClassMetaData.hpp"
 
 const std::string typeToString[] = { "int", "float", "bool", "Vec3", "Color", "Mesh", "Material", "Material List"};
@@ -384,6 +385,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Camera Component")
 	{
 		return gameObject->AddComponent<LowRenderer::CameraComponent>();
+	}
+	if (componentName == "Sound")
+	{
+		return gameObject->AddComponent<Sound::SoundPlayer>();
 	}
 
 	return nullptr;
