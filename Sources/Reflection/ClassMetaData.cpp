@@ -21,6 +21,7 @@
 #include "Resource/Parser.hpp"
 #include <iostream>
 #include "LowRenderer/Animator.hpp"
+#include "Sound/SoundPlayer.hpp"
 #include "Reflection/ClassMetaData.hpp"
 
 const std::string typeToString[] = { "int", "float", "bool", "Vec3", "Color", "Mesh", "Material", "Material List"};
@@ -56,6 +57,8 @@ void Reflection::ClassMemberInfo::DisplayMemberInfo(size_t classPtr)
 	case MemberType::T_GAME_OBJECT: std::cout << *( int*)(classPtr + ptr) << std::endl; break;
 
 	case MemberType::T_PHYSIC_MATERIAL: std::cout << static_cast<int>(*(Wrapper::MaterialType*)(classPtr + ptr)) << std::endl; break;
+
+	case MemberType::T_AUDIO: std::cout << (*(Resource::Audio**)(classPtr + ptr))->GetFilePath() << std::endl; break;
 
 	default: break;
 	}
@@ -164,6 +167,16 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		}
 	break;
 
+	case MemberType::T_AUDIO:
+	{
+		if (GUI::PickAudio(name, (Resource::Audio**)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+
+		break;
+	}
+
 	default: break;
 	}
 }
@@ -204,6 +217,8 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 		result += (*(Resource::PostProcessingShader**)(classPtr + ptr)) ? (*(Resource::PostProcessingShader**)(classPtr + ptr))->GetFilePath() : "None"; break;
 
 	case MemberType::T_PHYSIC_MATERIAL: result += std::to_string(static_cast<int>(*(Wrapper::MaterialType*)(classPtr + ptr))); break;
+	case MemberType::T_AUDIO:
+		result += (*(Resource::Audio**)(classPtr + ptr)) ? (*(Resource::Audio**)(classPtr + ptr))->GetFilePath() : "None"; break;
 	default: break;
 	}
 	return result + '\n';
@@ -243,6 +258,9 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 
 	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(classPtr + ptr) = static_cast<Wrapper::MaterialType>(std::stoi(tokens[1])); break;
 
+	case MemberType::T_AUDIO: (*(Resource::Audio**)(classPtr + ptr))
+		= Resource::ResourceManager::GetInstance().GetResource<Resource::Audio>(tokens[1]); break;
+
 	default: break;
 	}
 }
@@ -270,6 +288,8 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 	case MemberType::T_POST_PROCESSING_SHADER: *(Resource::PostProcessingShader**)(target + ptr) = *(Resource::PostProcessingShader**)(source + ptr); break;
 
 	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(target + ptr) = *(Wrapper::MaterialType*)(source + ptr); break;
+
+	case MemberType::T_AUDIO: *(Resource::Audio**)(target + ptr) = *(Resource::Audio**)(source + ptr); break;
 
 	default: break;
 	}
@@ -384,6 +404,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Camera Component")
 	{
 		return gameObject->AddComponent<LowRenderer::CameraComponent>();
+	}
+	if (componentName == "Sound")
+	{
+		return gameObject->AddComponent<Sound::SoundPlayer>();
 	}
 
 	return nullptr;

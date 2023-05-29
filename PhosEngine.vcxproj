@@ -426,6 +426,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\Animation.hpp" />
     <ClInclude Include="Headers\Resource\AnimBone.hpp" />
     <ClInclude Include="Headers\Resource\Armature.hpp" />
+    <ClInclude Include="Headers\Resource\Audio.hpp" />
     <ClInclude Include="Headers\Resource\CubeMap.hpp" />
     <ClInclude Include="Headers\Physic\Collider.hpp" />
     <ClInclude Include="Headers\Physic\PhysicsManager.hpp" />
@@ -445,6 +446,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
+    <ClInclude Include="Headers\Sound\SoundPlayer.hpp" />
     <ClInclude Include="Headers\Threading\AtomicMutex.hpp" />
     <ClInclude Include="Headers\Threading\PoolSystem.hpp" />
     <ClInclude Include="Headers\Threading\Thread.hpp" />
@@ -477,6 +479,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Resource\Animation.cpp" />
     <ClCompile Include="Sources\Resource\AnimBone.cpp" />
     <ClCompile Include="Sources\Resource\Armature.cpp" />
+    <ClCompile Include="Sources\Resource\Audio.cpp" />
     <ClCompile Include="Sources\Resource\CubeMap.cpp" />
     <ClCompile Include="Sources\dllmain.cpp" />
     <ClCompile Include="Sources\Engine\GameObject.cpp" />
@@ -519,6 +522,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
     <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
+    <ClCompile Include="Sources\Sound\SoundPlayer.cpp" />
     <ClCompile Include="Sources\Threading\PoolSystem.cpp" />
     <ClCompile Include="Sources\Threading\Thread.cpp" />
     <ClCompile Include="Sources\UI\Canvas.cpp" />
