@@ -125,19 +125,15 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		}
 		if (GUI::Selectable("Hinge Joints", false))
 		{
-
+			m_gameobject->AddComponent<Physic::HingeJoint>();
 		}
 		if (GUI::Selectable("Spring Joints", false))
 		{
-
-		}
-		if (GUI::Selectable("Character Joints", false))
-		{
-
+			m_gameobject->AddComponent<Physic::SpringJoint>();
 		}
 		if (GUI::Selectable("Custom Joints", false))
 		{
-
+			m_gameobject->AddComponent<Physic::ConfigurableJoint>();
 		}
 		if (GUI::Selectable("Spot Light", false))
 		{

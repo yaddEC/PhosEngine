@@ -143,7 +143,6 @@ namespace Wrapper
         PxRigidActor* m_physxActor = nullptr;
         MaterialType m_physxMaterial = MaterialType::ROCK;
 
-
     };
 
     class PHOSENGINE_API RayCastHit

@@ -32,6 +32,7 @@ component "Box Collider"
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 0
+	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
 	end
 end
@@ -60,6 +61,7 @@ component "Mesh Renderer"
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 0
+	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
 	end
 component "Sphere Collider"
@@ -73,7 +75,7 @@ name "Boo 3"
 id 5
 layer 0
 tag 0
-transform -17.8 21.45 0 0 0 -1.5708 1 1 1
+transform -17.8 21.025 -6.04461 -6.13067e-06 1.12876 -1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
@@ -81,13 +83,17 @@ component "Mesh Renderer"
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 0
-	Gravity 0.000000 -90.000000 0.000000
+	isKinematic 0
+	Gravity 0.000000 0.000000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
 	MaterialType 0
+	end
+component "Fixed Joint"
+	Collider 7
 	end
 end
 name "Boo 4"
@@ -102,6 +108,7 @@ component "Mesh Renderer"
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 0
+	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
 	end
 component "Sphere Collider"
@@ -115,25 +122,26 @@ name "Boo 6"
 id 7
 layer 0
 tag 0
-transform -30.7 9.8 -11.05 0 0 0 1 1 1
+transform -19.9093 29.8158 -2.9281 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
 	mass 1.000000
-	Different_Gravity 0
-	Gravity 0.000000 -20.000000 0.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 7.700000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
-	Center 0.000000 2.000000 0.000000
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
 	MaterialType 0
 	end
 end
 name "Directional Light"
-id 87
+id 8
 layer 0
 tag 0
 transform 0 0 0 -0.808087 0 0 1 1 1
@@ -143,7 +151,7 @@ component "Directional Light"
 	end
 end
 name "Cube"
-id 88
+id 9
 layer 0
 tag 0
 transform 22.4 12.15 0 0 0 0 1 1 1
@@ -154,11 +162,12 @@ component "Mesh Renderer"
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 0
+	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
 	end
 end
 name "Cube"
-id 89
+id 10
 layer 0
 tag 0
 transform 0 14.95 0 0 0 0 1 1 1
@@ -169,6 +178,7 @@ component "Mesh Renderer"
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 0
+	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
 	end
 end
