@@ -195,7 +195,7 @@ namespace Wrapper
         void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
         bool m_transformChangedExternally = false;
-        float m_delay;
+        float m_delay = 0.f;
     };
 
     bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);
