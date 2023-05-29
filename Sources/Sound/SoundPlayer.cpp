@@ -10,9 +10,8 @@
 #include "Wrapper/GUI.hpp"
 
 Sound::SoundPlayer::SoundPlayer() : MonoBehaviour(true),
-	audio(nullptr),
-	selected("None"),
-	p_isLooping(false)
+	p_isLooping(false),
+	p_audio(nullptr)
 {
 }
 
@@ -30,17 +29,11 @@ void Sound::SoundPlayer::Start()
 void Sound::SoundPlayer::OnInspector()
 {
 	MonoBehaviour::OnInspector();
-	if (Wrapper::GUI::Combo("Skybox : ", Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Audio>(), selected, "None"))
-	{
-		if (selected != "None")
-		{
-			audio = Resource::ResourceManager::GetInstance().GetResource<Resource::Audio>(selected);
-		}
-	}
-	if (Wrapper::GUI::Button("Play") && audio != nullptr)
-		audio->Play(p_isLooping);
-	if (Wrapper::GUI::Button("Stop") && audio != nullptr)
-		audio->Stop();
+	
+	if (Wrapper::GUI::Button("Play") && p_audio != nullptr)
+		p_audio->Play(p_isLooping);
+	if (Wrapper::GUI::Button("Stop") && p_audio != nullptr)
+		p_audio->Stop();
 }
 void Sound::SoundPlayer::GUIUpdate()
 {
@@ -61,7 +54,8 @@ Reflection::ClassMetaData& Sound::SoundPlayer::GetMetaData()
 		result.name = "Sound";
 		result.memberList =
 		{
-			ClassMemberInfo("isLooping", offsetof(SoundPlayer, p_isLooping), MemberType::T_BOOL),
+			ClassMemberInfo("isLooping", offsetof(SoundPlayer, SoundPlayer::p_isLooping), MemberType::T_BOOL),
+			ClassMemberInfo("Audio", offsetof(SoundPlayer, SoundPlayer::p_audio), MemberType::T_AUDIO)
 		};
 		//result.PosTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("DefaultAssets\\LightIcon.png");
 		//result.PosModelForTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitivePlane.obj");

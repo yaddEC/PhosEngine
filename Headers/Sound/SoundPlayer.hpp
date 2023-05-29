@@ -12,7 +12,6 @@ namespace Sound
 		SoundPlayer();
 		~SoundPlayer();
 
-		Resource::Audio* audio;
 
 		void Update() override;
 		void Start() override;
@@ -21,7 +20,7 @@ namespace Sound
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 	protected :
-		std::string selected;
 		bool p_isLooping;
+		Resource::Audio* p_audio;
 	};
 }
