@@ -217,7 +217,6 @@ namespace Resource
 
 		Engine::Scene* m_currentScene = nullptr;
 
-		std::chrono::system_clock::duration lastRefreshTime;
 	};
 
 
