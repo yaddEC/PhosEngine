@@ -16,17 +16,17 @@ namespace EditorGUI
 
 		void SetGameObjectToDisplay(Engine::GameObject* gameObject) { m_gameobject = gameObject; m_typeToDisplay = ObjectType::GAME_OBJECT; }
 		void SetResourceToDisplay(Resource::IResource* resource) { m_resource = resource; m_typeToDisplay = ObjectType::RESOURCE; }
-		void DeselectCurrentObject();
+		void DeselectCurrentGameObject();
+		void DeselectCurrentAsset();
 		void DoUpdate() override;
 
 
 	private:
 
-		union
-		{
+		
 			Engine::GameObject* m_gameobject;
 			Resource::IResource* m_resource;
-		};
+		
 
 		enum class ObjectType
 		{
