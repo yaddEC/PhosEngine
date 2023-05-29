@@ -11,6 +11,7 @@
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
 #include "LowRenderer/Light/PointLight.hpp"
+#include "Sound/SoundPlayer.hpp"
 
 #include <typeinfo>
 
@@ -27,16 +28,14 @@ EditorGUI::InspectorGUI::InspectorGUI() : IGUI("Inspector", true)
 
 }
 
-void EditorGUI::InspectorGUI::DeselectCurrentObject()
+void EditorGUI::InspectorGUI::DeselectCurrentGameObject()
 {
-	if (m_typeToDisplay == ObjectType::GAME_OBJECT)
-	{
-		m_gameobject = nullptr;
-	}
-	else if (m_typeToDisplay == ObjectType::RESOURCE)
-	{
-		m_resource = nullptr;
-	}
+	m_gameobject = nullptr;
+}
+
+void EditorGUI::InspectorGUI::DeselectCurrentAsset()
+{
+	m_resource = nullptr;
 }
 
 void EditorGUI::InspectorGUI::DoUpdate()
@@ -159,6 +158,10 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		if (GUI::Selectable("Camera Component", false))
 		{
 			m_gameobject->AddComponent<LowRenderer::CameraComponent>();
+		}
+		if (GUI::Selectable("Sound", false))
+		{
+			m_gameobject->AddComponent<Sound::SoundPlayer>();
 		}
 		GUI::EndPopup();
 	}
