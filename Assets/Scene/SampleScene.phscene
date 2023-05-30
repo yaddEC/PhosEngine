@@ -747,7 +747,7 @@ component "Box Collider"
 	end
 end
 name "Cube"
-id 11
+id 90
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
@@ -763,7 +763,7 @@ component "Box Collider"
 	end
 end
 name "Camera"
-id 90
+id 91
 layer 0
 tag 0
 transform 4.05 2.9 -33.15 0 0 0 1 1 1
@@ -776,7 +776,7 @@ component "Camera Component"
 	end
 end
 name "Camera2"
-id 91
+id 92
 layer 0
 tag 0
 transform -1 10.55 -30.8 0 0 0 1 1 1
@@ -789,19 +789,14 @@ component "Camera Component"
 	end
 component "PlayerMovement"
 	Speed 1.500000
+	IdUser 0.000000
+	up 0
+	right 0
+	down 0
+	left 0
 	end
 end
 name "Sound"
-id 92
-layer 0
-tag 0
-transform 0 0 0 0 0 0 1 1 1
-component "Sound"
-	isLooping 0
-	Audio Assets\Audio\DebugSound.mp3
-	end
-end
-name "Sound2"
 id 93
 layer 0
 tag 0
@@ -809,10 +804,22 @@ transform 0 0 0 0 0 0 1 1 1
 component "Sound"
 	isLooping 0
 	Audio Assets\Audio\DebugSound.mp3
+	Volume 1.000000
+	end
+end
+name "Sound2"
+id 94
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Sound"
+	isLooping 0
+	Audio Assets\Audio\DebugSound.mp3
+	Volume 1.000000
 	end
 end
 name "Sphere"
-id 11
+id 95
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
@@ -825,6 +832,7 @@ component "Camera Component"
 	UseSkybox 1
 	BackGroundColor 0.000000 0.000000 0.000000
 	PostProcessingShader None
+	Canvas None
 	end
 component "PlayerMovement"
 	Speed 1.500000
