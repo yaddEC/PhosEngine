@@ -17,6 +17,7 @@ namespace Engine
 
 namespace Physic
 {
+    using namespace Wrapper;
     struct Spring {
         float spring;
         float damper;
@@ -62,7 +63,7 @@ namespace Physic
         void SetBreakForce(float breakForce) { p_breakForce = breakForce; }
         void SetBreakTorque(float breakTorque) { p_breakTorque = breakTorque; }
 
-        Wrapper::PhysicsJoint* physicsJoint;
+        PhysicsJoint* physicsJoint;
     protected:
 
         unsigned int p_gameObjectId;

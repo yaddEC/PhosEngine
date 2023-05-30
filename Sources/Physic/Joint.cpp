@@ -6,6 +6,8 @@
 Physic::Joint::Joint():MonoBehaviour(false)
 {
     physicsJoint = nullptr;
+    p_breakForce = INF;
+    p_breakTorque = INF;
 }
 
 Physic::Joint::~Joint()
@@ -67,8 +69,10 @@ Reflection::ClassMetaData& Physic::FixedJoint::GetMetaData()
         result.name = "Fixed Joint";
         result.memberList = {
             ClassMemberInfo("Collider", offsetof(FixedJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
-        };
-        computed = true;
+
+            ClassMemberInfo("BreakForce", offsetof(FixedJoint, p_breakForce), MemberType::T_INF_FLOAT),
+            ClassMemberInfo("BreakTorque", offsetof(FixedJoint, p_breakTorque), MemberType::T_INF_FLOAT),
+        };        computed = true;
     }
     return result;
 }
@@ -88,6 +92,9 @@ Reflection::ClassMetaData& Physic::HingeJoint::GetMetaData()
         result.name = "Hinge Joint";
         result.memberList = {
             ClassMemberInfo("Collider", offsetof(HingeJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
+
+            ClassMemberInfo("BreakForce", offsetof(HingeJoint, p_breakForce), MemberType::T_INF_FLOAT),
+            ClassMemberInfo("BreakTorque", offsetof(HingeJoint, p_breakTorque), MemberType::T_INF_FLOAT),
         };
         computed = true;
     }
@@ -109,6 +116,9 @@ Reflection::ClassMetaData& Physic::SpringJoint::GetMetaData()
         result.name = "Spring Joint";
         result.memberList = {
             ClassMemberInfo("Collider", offsetof(SpringJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
+
+            ClassMemberInfo("BreakForce", offsetof(SpringJoint, p_breakForce), MemberType::T_INF_FLOAT),
+            ClassMemberInfo("BreakTorque", offsetof(SpringJoint, p_breakTorque), MemberType::T_INF_FLOAT),
         };
         computed = true;
     }
@@ -130,6 +140,9 @@ Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
         result.name = "Configurable Joint";
         result.memberList = {
             ClassMemberInfo("Collider", offsetof(ConfigurableJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
+
+            ClassMemberInfo("BreakForce", offsetof(ConfigurableJoint, p_breakForce), MemberType::T_INF_FLOAT),
+            ClassMemberInfo("BreakTorque", offsetof(ConfigurableJoint, p_breakTorque), MemberType::T_INF_FLOAT),
         };
         computed = true;
     }
