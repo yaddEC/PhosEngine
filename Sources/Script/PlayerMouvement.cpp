@@ -42,13 +42,12 @@ void Script::PlayerMouvement::Update()
     }
     else
     {
-        transform->position.z += input.GetDeltaTime() * -input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_Y, user) * m_playerSpeed;
-        transform->position.x += input.GetDeltaTime() * input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_X, user) * m_playerSpeed;
+        transform->position.z += input.GetDeltaTime() * -input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_Y, m_idUser) * m_playerSpeed;
+        transform->position.x += input.GetDeltaTime() * input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_X, m_idUser) * m_playerSpeed;
     }
 
 
 }
-
 void Script::PlayerMouvement::GUIUpdate()
 {
 }
@@ -60,6 +59,11 @@ void Script::PlayerMouvement::OnInspector()
 
 void Script::PlayerMouvement::OnDestroy()
 {
+}
+
+void Script::PlayerMouvement::SetIdUser(int ID)
+{
+    m_idUser = ID;
 }
 
 Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()

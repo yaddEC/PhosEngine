@@ -61,6 +61,7 @@ namespace Engine
 		static void LoadSettings();
 
 		GameObject* FindGameObjectWithId(unsigned int id);
+		std::vector<GameObject*> FindAllGameObjectWithTag(const std::string tagName);
 
 		std::string GetTypeName() { return "Scene"; }
 		Resource::Texture* GenerateFileIcon() override { return nullptr; }
