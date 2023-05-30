@@ -622,14 +622,14 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 
 bool Wrapper::GUI::PickCanvas(const std::string& label, UI::Canvas** canvas, bool text)
 {
-	const float widgetOffset = 150.0f;
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
-
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
 	std::string currentPostProName = (*canvas) ? (*canvas)->GetName() : "None";
 
 	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
