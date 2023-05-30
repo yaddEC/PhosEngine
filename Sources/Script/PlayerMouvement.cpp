@@ -9,6 +9,7 @@
 Script::PlayerMouvement::PlayerMouvement()
 {
     m_playerSpeed = 1.5f;
+    user = 0;
 }
 
 Script::PlayerMouvement::~PlayerMouvement()
@@ -24,14 +25,28 @@ void Script::PlayerMouvement::Update()
 {
 	Engine::Input& input = Engine::Input::GetInstance();
 
-	if (input.IsKeyPressed(GLFW_KEY_W) || input.IsKeyPressed(GLFW_KEY_S))
+    up = false;
+    right = false;
+    down = false;
+    left = false;
+    if (m_idUser <= -1)
     {
-        transform->position.z += input.deltaTime * input.GetVerticalAxis() * m_playerSpeed;
+        if (input.IsKeyPressed(GLFW_KEY_W) || input.IsKeyPressed(GLFW_KEY_S))
+        {
+            transform->position.z += input.GetDeltaTime() * input.GetVerticalAxis() * m_playerSpeed;
+        }
+        if (input.IsKeyPressed(GLFW_KEY_A) || input.IsKeyPressed(GLFW_KEY_D))
+        {
+            transform->position.x += input.GetDeltaTime() * input.GetHorizontalAxis() * m_playerSpeed;
+        }
     }
-    if (input.IsKeyPressed(GLFW_KEY_A) || input.IsKeyPressed(GLFW_KEY_D))
-	{
-		transform->position.x += input.deltaTime * input.GetHorizontalAxis() * m_playerSpeed;
-	}
+    else
+    {
+        transform->position.z += input.GetDeltaTime() * -input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_Y, user) * m_playerSpeed;
+        transform->position.x += input.GetDeltaTime() * input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_X, user) * m_playerSpeed;
+    }
+
+
 }
 
 void Script::PlayerMouvement::GUIUpdate()
@@ -58,6 +73,11 @@ Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
         result.name = "PlayerMovement";
         result.memberList = {
             ClassMemberInfo("Speed", offsetof(PlayerMouvement, m_playerSpeed), MemberType::T_FLOAT),
+            ClassMemberInfo("IdUser", offsetof(PlayerMouvement, m_idUser), MemberType::T_FLOAT),
+            ClassMemberInfo("up", offsetof(PlayerMouvement, up), MemberType::T_BOOL),
+            ClassMemberInfo("right", offsetof(PlayerMouvement, right), MemberType::T_BOOL),
+            ClassMemberInfo("down", offsetof(PlayerMouvement, down), MemberType::T_BOOL),
+            ClassMemberInfo("left", offsetof(PlayerMouvement, left), MemberType::T_BOOL),
 
         };
         computed = true;
