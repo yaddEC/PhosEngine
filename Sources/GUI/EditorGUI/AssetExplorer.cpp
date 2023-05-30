@@ -168,6 +168,8 @@ void AssetExplorer::DoUpdate()
 		progFile.open((m_currentDirectory + "\\" + (*go)->name + ".phprefab").c_str(), std::fstream::out | std::fstream::trunc);
 		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
 		pr->SaveGameObjectAsPrefab(*go, progFile);
+		progFile.close();
+		pr->Load();
 	}
 
 }

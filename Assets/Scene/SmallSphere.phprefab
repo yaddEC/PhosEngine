@@ -1,8 +1,0 @@
-name "SmallSphere"
-id 4
-transform 0 0 0 0 0 0 1.4 1.4 1.4
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-end
