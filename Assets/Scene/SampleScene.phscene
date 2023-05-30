@@ -18,7 +18,7 @@ name "testMat"
 id 2
 layer 0
 tag 0
-transform 0 0 0 0 0 0 1 1 1
+transform 2.59307 -1 0.0340591 5.39213e-06 0.0663518 -1.257e-06 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material Assets\Material\MetalGrid.phmat
@@ -53,7 +53,7 @@ name "test"
 id 4
 layer 0
 tag 0
-transform -0.75 10 0 0 0 1.5708 1 1 1
+transform -67.4961 -98.3808 0 0 0 -1.29119 1 1 1
 component "Mesh Renderer"
 	Mesh None
 	Material None
@@ -75,7 +75,7 @@ name "Boo 3"
 id 5
 layer 0
 tag 0
-transform -17.8 21.025 -6.04461 -6.13067e-06 1.12876 -1.5708 1 1 1
+transform -15.3196 1.83005e-07 -10.1622 1.85201 1.5477 -0.75315 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
@@ -102,7 +102,7 @@ name "Boo 4"
 id 6
 layer 0
 tag 0
-transform -0.55 15.1 -25.9 0 0 1.5708 1 1 1
+transform -0.55 1.01602e-07 -25.9 0 0 1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
@@ -124,7 +124,7 @@ name "Boo 6"
 id 7
 layer 0
 tag 0
-transform -19.9093 29.8158 -2.9281 0 0 0 1 1 1
+transform -15.513 9.56105 -10.1139 -0.331137 -0.218162 -0.203855 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
@@ -728,7 +728,7 @@ name "Cube"
 id 89
 layer 0
 tag 0
-transform 0 14.95 0 0 0 0 1 1 1
+transform 3.58664 -1 -6.57101 1.5708 -1.4327 -1.99676e-06 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -765,8 +765,8 @@ end
 name "Camera"
 id 91
 layer 0
-tag 0
-transform 4.05 2.9 -33.15 0 0 0 1 1 1
+tag 2
+transform -43.4712 2.9 -13.2747 0 0 0 1 1 1
 component "Camera Component"
 	FOV 50.000000
 	UseSkybox 1
@@ -774,12 +774,20 @@ component "Camera Component"
 	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
 	Canvas Assets\Canvas\BasicUI.phcanvas
 	end
+component "PlayerMovement"
+	Speed 15.000000
+	IdUser 0.000000
+	up 0
+	right 0
+	down 0
+	left 0
+	end
 end
 name "Camera2"
 id 92
 layer 0
-tag 0
-transform -1 10.55 -30.8 0 0 0 1 1 1
+tag 2
+transform -1.42781 10.55 -27.5941 0 0 0 1 1 1
 component "Camera Component"
 	FOV 50.000000
 	UseSkybox 1
@@ -788,7 +796,7 @@ component "Camera Component"
 	Canvas None
 	end
 component "PlayerMovement"
-	Speed 1.500000
+	Speed 15.000000
 	IdUser 0.000000
 	up 0
 	right 0
@@ -818,28 +826,11 @@ component "Sound"
 	Volume 1.000000
 	end
 end
-name "Sphere"
-id 95
+name "InputManager"
+id 96
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader None
-	Canvas None
-	end
-component "PlayerMovement"
-	Speed 1.500000
-	IdUser 0.000000
-	up 0
-	right 0
-	down 0
-	left 0
+component "Input Manager"
 	end
 end
