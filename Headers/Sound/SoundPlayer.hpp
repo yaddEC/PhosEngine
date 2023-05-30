@@ -22,10 +22,9 @@ namespace Sound
 
 		void Play();
 		void Stop();
-
-
 	private :
 		bool m_isLooping;
 		Resource::Audio* m_audio;
+		float m_volume;
 	};
 }

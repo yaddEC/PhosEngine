@@ -11,6 +11,9 @@
 
 #include "dllInclude.hpp"
 
+#define NEXT_WIDTH 0.6
+#define WIDGET_OFFSET 0.3
+
 namespace Resource
 {
 	class Texture;
@@ -60,6 +63,7 @@ namespace Wrapper
 		static bool CollapsingHeader(const std::string& label);
 
 		static void PushID(int ID);
+		static void PushID(std::string ID);
 		static void PopID();
 
 		static Maths::Vec2 GetWindowSize();

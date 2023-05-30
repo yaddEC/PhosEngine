@@ -48,18 +48,25 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		
 		break;
 	}
-
 	case MemberType::T_BOOL:  
 	{
+		
 		GUI::DisplayText(name.c_str());
-		GUI::SameLine();
+		float textWidth = GUI::CalcTextSize(name.c_str()).x;
+		GUI::SameLine(0.58 * GUI::GetWindowSize().x -textWidth);
+		if (GUI::CheckBox(name, (bool*)((size_t)classPtr + ptr), true))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		break;
+
+
 		if (GUI::CheckBox(name, (bool*)((size_t)classPtr + ptr), true))
 		{
 			monoBehavior->GUIUpdate();
 		}
 		break;
 	}
-
 	case MemberType::T_VEC3:
 	{
 		if (GUI::EditVec3(name, (Maths::Vec3*)((size_t)classPtr + ptr), true, editSpeed, editMin, editMax))
@@ -78,7 +85,6 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		
 		break;
 	}
-
 	case MemberType::T_MESH: 
 	{
 		if (GUI::PickMesh(name, (Resource::Mesh**)((size_t)classPtr + ptr), true))
@@ -88,8 +94,6 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		
 		break;
 	}
-		
-
 	case MemberType::T_MATERIAL:
 	{
 		if (GUI::PickMaterial(name, (Resource::Material**)((size_t)classPtr + ptr), true))
@@ -119,18 +123,37 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		break;
 	}
 	case MemberType::T_POST_PROCESSING_SHADER:
+	{
 		if (GUI::PickPostProcessing(name, (Resource::PostProcessingShader**)((size_t)classPtr + ptr), true))
 		{
 			monoBehavior->GUIUpdate();
 		}
 		break;
-
+	}
 	case MemberType::T_PHYSIC_MATERIAL: 
+	{
 		if (GUI::PickMaterialType(name, (MaterialType*)((size_t)classPtr + ptr), true))
 		{
 			monoBehavior->GUIUpdate();
 		}
-	break;
+		break;
+	}
+	case MemberType::T_INF_FLOAT:
+	{
+		GUI::PushID(name);
+		if (GUI::EditFloat(name, (float*)((size_t)classPtr + ptr), true, editSpeed, editMin, editMax))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		GUI::SameLine();
+		if (GUI::Button("inf")) {
+			*((float*)((size_t)classPtr + ptr)) = INF;
+			monoBehavior->GUIUpdate();
+		}
+		GUI::PopID();
+		break;
+	}
+
 
 	case MemberType::T_AUDIO:
 	{
@@ -195,6 +218,9 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 
 	case MemberType::T_AUDIO:
 		result += (*(Resource::Audio**)(classPtr + ptr)) ? (*(Resource::Audio**)(classPtr + ptr))->GetFilePath() : "None"; break;
+
+	case MemberType::T_INF_FLOAT: result += std::to_string(*(float*)(classPtr + ptr)); break;
+
 	default: break;
 	}
 	return result + '\n';
@@ -237,6 +263,8 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 	case MemberType::T_AUDIO: (*(Resource::Audio**)(classPtr + ptr))
 		= Resource::ResourceManager::GetInstance().GetResource<Resource::Audio>(tokens[1]); break;
 
+	case MemberType::T_INF_FLOAT: *(float*)(classPtr + ptr) = std::stof(tokens[1]);  break;
+
 	case MemberType::T_CANVAS: (*(UI::Canvas**)(classPtr + ptr))
 		= Resource::ResourceManager::GetInstance().GetResource<UI::Canvas>(tokens[1]); break;
 
@@ -269,6 +297,8 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(target + ptr) = *(Wrapper::MaterialType*)(source + ptr); break;
 
 	case MemberType::T_AUDIO: *(Resource::Audio**)(target + ptr) = *(Resource::Audio**)(source + ptr); break;
+
+	case MemberType::T_INF_FLOAT: *(float*)(target + ptr) = *(float*)(source + ptr);  break;
 
 	case MemberType::T_CANVAS: *(UI::Canvas**)(target + ptr) = *(UI::Canvas**)(source + ptr); break;
 

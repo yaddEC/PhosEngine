@@ -1,4 +1,4 @@
-#include "..\..\..\PhosEditor\External\PhosEngine\Wrapper\GUI.hpp"
+
 // include needed
 #include <utility>
 #include <limits>
@@ -23,6 +23,7 @@
 #include "ImGuizmo/Header/ImGuizmo.h"
 
 #include "Wrapper/GUI.hpp"
+
 
 bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 {
@@ -279,6 +280,7 @@ bool Wrapper::GUI::TruncTextBySize(std::string& text, float maxLength)
 
 bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text, float min, float max)
 {
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
@@ -289,10 +291,11 @@ bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text
 
 bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** texture, bool text)
 {
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Texture>();
 	std::string currentTextureName = *texture ? (*texture)->GetName() : "None";
@@ -329,120 +332,126 @@ bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** tex
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+	
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::DragFloat(("##" + label).c_str(), &value, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 130.0f;
-
+	
+	
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine(  WIDGET_OFFSET* GUI::GetWindowSize().x* GUI::GetWindowSize().x- textWidth);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x - textWidth);
 	return ImGui::DragFloat2(("##" + label).c_str(), &value.x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
-
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::DragFloat3(("##" + label).c_str(), &value.x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3& value, bool text)
 {
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine();
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::ColorEdit3(("##" + label).c_str(), &value.x);
 }
 
 bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4& value, bool text)
 {
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value.x);
 }
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float* value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 130.0f; 
-
+	 
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
-
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::DragFloat(("##" + label).c_str(), value, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2* value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 130.0f;
+	
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::DragFloat2(("##" + label).c_str(), &value->x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3* value, bool text, float speed, float min, float max)
 {
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(150.0f);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::DragFloat3(("##" + label).c_str(), &value->x, speed, min, max);
 }
 
 bool Wrapper::GUI::EditColorRGB(const std::string& label, Maths::Vec3* value, bool text)
 {
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::ColorEdit3(("##" + label).c_str(), &value->x);
 }
 
 bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text)
 {
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value->x);
 }
 
@@ -450,13 +459,13 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, b
 bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, bool text)
 {
 
-	const float widgetOffset = 130.0f;
-
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Mesh>();
 	std::string currentMeshName = (*mesh) ? (*mesh)->GetName() : "None";
 
@@ -490,12 +499,14 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 
 bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** material, bool text)
 {
-	const float widgetOffset = 130.0f;
+	
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Material>();
 	std::string currentMeshName = (*material) ? (*material)->GetName() : "None";
 
@@ -530,14 +541,14 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 
 bool Wrapper::GUI::PickMaterialType(const std::string& label, MaterialType* materialType, bool text)
 {
-	const float widgetOffset = 130.0f;
-
+	
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
-
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	std::vector<std::string> materialTypeList = {
 		"WOOD",
 		"BOUNCY_BALL",
@@ -569,13 +580,14 @@ bool Wrapper::GUI::PickMaterialType(const std::string& label, MaterialType* mate
 
 bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostProcessingShader** postPro, bool text)
 {
-	const float widgetOffset = 150.0f;
 
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	std::vector<std::string> postProNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::PostProcessingShader>();
 	std::string currentPostProName = (*postPro) ? (*postPro)->GetName() : "None";
 
@@ -610,14 +622,14 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 
 bool Wrapper::GUI::PickCanvas(const std::string& label, UI::Canvas** canvas, bool text)
 {
-	const float widgetOffset = 150.0f;
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
-
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
 	std::string currentPostProName = (*canvas) ? (*canvas)->GetName() : "None";
 
 	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
@@ -656,14 +668,14 @@ bool Wrapper::GUI::PickCanvas(const std::string& label, UI::Canvas** canvas, boo
 
 bool Wrapper::GUI::PickGameObject(const std::string& label, const std::string& buttonLabel ,int* gameObject, bool text)
 {
-	const float widgetOffset = 150.0f;
-
+	
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
-
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	if (GUI::Button(buttonLabel.c_str(), Maths::Vec2(100, 20)))
 	{
 		*gameObject = -1;
@@ -680,13 +692,14 @@ bool Wrapper::GUI::PickGameObject(const std::string& label, const std::string& b
 
 bool Wrapper::GUI::PickAudio(const std::string& label, Resource::Audio** audio, bool text)
 {
-	const float widgetOffset = 130.0f;
-
+	
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(widgetOffset);
+		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
 	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Audio>();
 	std::string currentMeshName = (*audio) ? (*audio)->GetName() : "None";
 
@@ -785,9 +798,11 @@ bool Wrapper::GUI::Button(const std::string& label, const Maths::Vec2& size)
 
 bool Wrapper::GUI::CheckBox(const std::string& label, bool* isChecked, bool hiddenName)
 {
+
 	if (hiddenName)
 	{
 		ImGui::PushID(label.c_str() + 1);
+		ImGui::AlignTextToFramePadding();
 		bool checkbox = ImGui::Checkbox("", isChecked);
 		ImGui::PopID();
 		return checkbox;
@@ -863,6 +878,11 @@ bool Wrapper::GUI::CollapsingHeader(const std::string& label)
 void Wrapper::GUI::PushID(int ID)
 {
 	ImGui::PushID(ID);
+}
+
+void Wrapper::GUI::PushID(std::string ID)
+{
+	ImGui::PushID(ID.c_str());
 }
 
 void Wrapper::GUI::PopID()
@@ -1043,8 +1063,8 @@ bool Wrapper::GUI::drawGizmo(int mode, float* cameraView, float* cameraProjectio
 
 	ImGuizmo::SetID(0);
 
-	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	//static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
+	//static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
 	static bool useSnap = false;
 	static float snap[3] = { 1.f, 1.f, 1.f };
 	static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
