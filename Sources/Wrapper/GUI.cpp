@@ -608,6 +608,52 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 	return false;
 }
 
+bool Wrapper::GUI::PickCanvas(const std::string& label, UI::Canvas** canvas, bool text)
+{
+	const float widgetOffset = 150.0f;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(widgetOffset);
+	}
+
+	std::string currentPostProName = (*canvas) ? (*canvas)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
+	{
+		if (ImGui::Selectable("None", !canvas))
+		{
+			*canvas = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
+		{
+			if (resource.second->GetTypeName() == "Canvas")
+			{
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*canvas = Resource::ResourceManager::GetInstance().GetResource<UI::Canvas>(str);
+					ImGui::EndCombo();
+					return true;
+				}
+			}
+			
+		}
+		ImGui::EndCombo();
+	}
+
+	if (UI::Canvas** mat = (UI::Canvas**)DragDropTarget("Canvas"))
+	{
+		*canvas = *mat;
+	}
+
+	return false;
+}
+
 bool Wrapper::GUI::PickGameObject(const std::string& label, const std::string& buttonLabel ,int* gameObject, bool text)
 {
 	const float widgetOffset = 150.0f;

@@ -62,7 +62,8 @@ Reflection::ClassMetaData& LowRenderer::CameraComponent::GetMetaData()
 			ClassMemberInfo("FOV", offsetof(CameraComponent, CameraComponent::m_fov), MemberType::T_FLOAT),
 			ClassMemberInfo("UseSkybox", offsetof(CameraComponent, CameraComponent::m_useSkybox), MemberType::T_BOOL),
 			ClassMemberInfo("BackGroundColor", offsetof(CameraComponent, CameraComponent::m_backgroundColor), MemberType::T_COLOR),
-            ClassMemberInfo("PostProcessingShader", offsetof(CameraComponent, CameraComponent::m_postPro), MemberType::T_POST_PROCESSING_SHADER)
+            ClassMemberInfo("PostProcessingShader", offsetof(CameraComponent, CameraComponent::m_postPro), MemberType::T_POST_PROCESSING_SHADER),
+            ClassMemberInfo("Canvas", offsetof(CameraComponent, CameraComponent::m_canvas), MemberType::T_CANVAS)
 		};
 		computed = true;
 	}
@@ -111,6 +112,9 @@ void LowRenderer::CameraComponent::Render(const std::vector<LowRenderer::MeshRen
         glCullFace(GL_BACK);
         ApplyPostProcessing(viewportSize);
     }
+
+    if(m_canvas)
+        m_canvas->RenderUI(viewportSize);
     // unbind the framebuffer
     Wrapper::RHI::UnbindFrameBuffer();
 }
@@ -133,5 +137,11 @@ void LowRenderer::CameraComponent::ComputeViewProjMatrix(const Maths::Vec2& view
 
 void LowRenderer::CameraComponent::ApplyPostProcessing(const Maths::Vec2& viewPort)
 {
-
+    Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
+    m_postProFramebuffer.Bind(true, (int)viewPort.x, (int)viewPort.y);
+    m_postProFramebuffer.Clear();
+    m_postPro->Use();
+    m_postPro->SetTexture("screenTexture", 0, m_renderTexture);
+    Wrapper::RHI::RenderSubMesh(rm.quad->GetSubMesh(0).GetVAO(), rm.quad->GetSubMesh(0).indices);
+    //Wrapper::RHI::UnbindFrameBuffer();
 }

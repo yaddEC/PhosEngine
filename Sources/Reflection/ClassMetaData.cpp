@@ -25,41 +25,7 @@
 
 const std::string typeToString[] = { "int", "float", "bool", "Vec3", "Color", "Mesh", "Material", "Material List"};
 
-void Reflection::ClassMemberInfo::DisplayMemberInfo(size_t classPtr)
-{
-	std::cout << typeToString[(int)type] << ' ' << name << " = ";
 
-	switch (type)
-	{
-	case MemberType::T_INT: std::cout << *(int*)(classPtr + ptr) << std::endl; break;
-
-	case MemberType::T_FLOAT: std::cout << *(float*)(classPtr + ptr) << std::endl; break;
-
-	case MemberType::T_BOOL: std::cout << *(bool*)(classPtr + ptr) << std::endl; break;
-
-	case MemberType::T_VEC3: std::cout << *(float*)(classPtr + ptr) << ", " << *(float*)(classPtr + ptr + 4)
-		<< ", " << *(float*)(classPtr + ptr + 8) << std::endl; break;
-
-	case MemberType::T_MESH: std::cout << (*(Resource::Mesh**)(classPtr + ptr))->GetFilePath() << std::endl; break;
-
-	case MemberType::T_MATERIAL: std::cout << (*(Resource::Material**)(classPtr + ptr))->GetFilePath() << std::endl; break;
-
-	case MemberType::T_MATERIAL_LIST:
-		std::cout << "{ ";
-		for (Resource::Material mat : (*(std::vector<Resource::Material>*)(classPtr + ptr)))
-		{
-			std::cout << mat.GetName() << " ";
-		}
-		std::cout << " }";
-		break;
-
-	case MemberType::T_GAME_OBJECT: std::cout << *( int*)(classPtr + ptr) << std::endl; break;
-
-	case MemberType::T_PHYSIC_MATERIAL: std::cout << static_cast<int>(*(Wrapper::MaterialType*)(classPtr + ptr)) << std::endl; break;
-
-	default: break;
-	}
-}
 
 void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 {
@@ -164,6 +130,13 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 		}
 	break;
 
+	case MemberType::T_CANVAS:
+		if (GUI::PickCanvas(name, (UI::Canvas**)((size_t)classPtr + ptr)))
+		{
+			monoBehavior->GUIUpdate();
+		}
+		break;
+
 	default: break;
 	}
 }
@@ -204,6 +177,10 @@ std::string Reflection::ClassMemberInfo::Save(size_t classPtr)
 		result += (*(Resource::PostProcessingShader**)(classPtr + ptr)) ? (*(Resource::PostProcessingShader**)(classPtr + ptr))->GetFilePath() : "None"; break;
 
 	case MemberType::T_PHYSIC_MATERIAL: result += std::to_string(static_cast<int>(*(Wrapper::MaterialType*)(classPtr + ptr))); break;
+
+	case MemberType::T_CANVAS:
+		result += (*(UI::Canvas**)(classPtr + ptr)) ? (*(UI::Canvas**)(classPtr + ptr))->GetFilePath() : "None"; break;
+
 	default: break;
 	}
 	return result + '\n';
@@ -243,6 +220,9 @@ void Reflection::ClassMemberInfo::Parse(const std::vector<std::string>& tokens, 
 
 	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(classPtr + ptr) = static_cast<Wrapper::MaterialType>(std::stoi(tokens[1])); break;
 
+	case MemberType::T_CANVAS: (*(UI::Canvas**)(classPtr + ptr))
+		= Resource::ResourceManager::GetInstance().GetResource<UI::Canvas>(tokens[1]); break;
+
 	default: break;
 	}
 }
@@ -271,18 +251,13 @@ void Reflection::ClassMemberInfo::Copy(size_t source, size_t target)
 
 	case MemberType::T_PHYSIC_MATERIAL: *(Wrapper::MaterialType*)(target + ptr) = *(Wrapper::MaterialType*)(source + ptr); break;
 
+	case MemberType::T_CANVAS: *(UI::Canvas**)(target + ptr) = *(UI::Canvas**)(source + ptr); break;
+
 	default: break;
 	}
 }
 
-void Reflection::ClassMetaData::DisplayClassInfo(void* classPtr)
-{
-	std::cout << "class " << name << std::endl;
-	for (auto member : memberList)
-	{
-		member.DisplayMemberInfo((size_t)classPtr);
-	}
-}
+
 
 void Reflection::ClassMetaData::GUIUpdate(void* classPtr)
 {

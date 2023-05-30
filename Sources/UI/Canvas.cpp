@@ -4,6 +4,9 @@
 #include "pch.h"
 //----------------
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "UI/Canvas.hpp"
 #include "UI/UIElement.hpp"
 #include "Wrapper/GUI.hpp"
@@ -17,7 +20,9 @@ void UI::Canvas::Load()
 {
 	std::vector<std::string> fileData = Resource::Parser::ConvertFileToStringArray(GetFilePath());
 	
-	size_t lineIndex = 0;
+	auto tokens = Resource::Parser::Tokenize(fileData[0]);
+	m_baseResolution = Maths::Vec2(std::stof(tokens[0]), std::stof(tokens[1]));
+	size_t lineIndex = 1;
 	while (lineIndex < fileData.size() - 1)
 	{
 		ParseUIelement(fileData, lineIndex);
@@ -34,11 +39,12 @@ void UI::Canvas::Save()
 	std::fstream progFile;
 	progFile.open((p_directory + "\\" + p_name).c_str(), std::fstream::out | std::fstream::trunc);
 
+	progFile << m_baseResolution.x << ' ' << m_baseResolution.y << '\n';
 	for (auto element : m_uiElementList)
 	{
 		progFile << element.second->GetTypeName() << " \"" << element.first << "\"\n";
 		progFile << "RectTransform " << element.second->rectTransform.position.x << ' ' <<
-			element.second->rectTransform.position.y << ' ' << element.second->rectTransform.scale.x << ' ' << element.second->rectTransform.scale.y;
+			element.second->rectTransform.position.y << ' ' << element.second->rectTransform.scale.x << ' ' << element.second->rectTransform.scale.y << '\n';
 		progFile << element.second->Save() << "end";
 	}
 
@@ -47,21 +53,61 @@ void UI::Canvas::Save()
 
 void UI::Canvas::GUIUpdate()
 {
+	using namespace Wrapper;
+
+	GUI::EditVec2("Base Resolution", m_baseResolution, true);
+
+	GUI::Separator();
+
 	static UIElement* selected = nullptr;
 
 	if (selected)
 	{
-		Wrapper::GUI::EditVec2("Position", selected->rectTransform.position, true, 0.01f);
-		Wrapper::GUI::EditVec2("Scale", selected->rectTransform.scale, true, 0.01f);
+		std::string newName = selected->name;
+		if (GUI::InputString("Name", newName, true))
+		{
+			m_uiElementList.erase(selected->name);
+			selected->name = newName;
+			m_uiElementList.emplace(newName, selected);
+
+		}
+			
+		GUI::EditVec2("Position", selected->rectTransform.position, true, 0.01f);
+		GUI::EditVec2("Scale", selected->rectTransform.scale, true, 0.01f);
 		selected->OnInspector();
+		if (GUI::Button("Delete"))
+		{
+			m_uiElementList.erase(selected->name);
+			delete selected;
+			selected = nullptr;
+		}
 	}
 
-	Wrapper::GUI::Separator();
+	GUI::Separator();
 
 	for (auto element : m_uiElementList)
 	{
-		Wrapper::GUI::Selectable(element.first, element.second == selected);
-		if (Wrapper::GUI::IsItemClicked(0)) selected = element.second;
+		GUI::Selectable(element.first, element.second == selected);
+		if (GUI::IsItemClicked(0)) selected = element.second;
+	}
+
+	GUI::Separator();
+
+	if (GUI::BeginPopup("New Element Popup"))
+	{
+		if (GUI::Selectable("Sprite", false))
+		{
+			auto newElement = new SpriteRenderer();
+			newElement->name = "Sprite Renderer";
+			Instantiate(newElement);
+		}
+
+		GUI::EndPopup();
+	}
+
+	if (GUI::Button("New Element"))
+	{
+		GUI::OpenPopup("New Element Popup");
 	}
 }
 
@@ -69,7 +115,7 @@ void UI::Canvas::Instantiate(UIElement* element)
 {
 	if (m_uiElementList.count(element->name))
 	{
-		element->name += " ";
+		element->name += " 1";
 	}
 
 	int index = 1;
@@ -90,13 +136,20 @@ void UI::Canvas::RenderUI(const Maths::Vec2& viewportSize) const
 
 	program->Use();
 
+	float scaling {Maths::Lerp(viewportSize.x / m_baseResolution.x, viewportSize.y / m_baseResolution.y, 0.5f)};
+
+	Maths::Vec2 sizeRatio = Maths::Vec2(scaling / viewportSize.x , scaling / viewportSize.y);
+
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+
 	for (auto element : m_uiElementList)
 	{
-		program->SetUniformVec4("position_scale", Maths::Vec4(element.second->rectTransform.position.x,
-			element.second->rectTransform.position.y, element.second->rectTransform.scale.x, element.second->rectTransform.scale.y));
-
-		element.second->Render();
+		element.second->Render(sizeRatio);
 	}
+
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 }
 
 
@@ -108,6 +161,7 @@ void UI::Canvas::ParseUIelement(std::vector<std::string> fileData, size_t& lineI
 	if (tokens[0] == "SpriteRenderer")
 	{
 		newElement = new SpriteRenderer();
+		newElement->name = tokens[1];
 	}
 
 	newElement->Parse(fileData, lineIndex);
