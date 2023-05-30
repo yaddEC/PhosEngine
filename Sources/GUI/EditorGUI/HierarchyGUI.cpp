@@ -7,6 +7,7 @@
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/ResourceIncludes.hpp"
+#include "Wrapper/GUI.hpp"
 
 
 
@@ -52,6 +53,12 @@ void EditorGUI::HierarchyGUI::DoUpdate()
 		objectPair.first->transform->AddChild(objectPair.second->transform);
 	}
 	m_objectToParentBuffer.clear();
+	for (auto object : m_bufferToDestroy)
+	{
+		object->Destroy();
+		delete object;
+	}
+	m_bufferToDestroy.clear();
 }
 
 Engine::GameObject* EditorGUI::HierarchyGUI::GetSelected()
@@ -228,13 +235,12 @@ void EditorGUI::HierarchyGUI::AddObjectPopup(Engine::GameObject* current)
 			GUI::Separator();
 			if (GUI::Selectable("Delete", false))
 			{
-				current->Destroy();
+				m_bufferToDestroy.push_back(current);
 				if (m_selected == current)
 				{
 					m_selected = nullptr;
 					selectedClicked = true;
 				}
-				delete current;
 			}
 		}
 		GUI::EndPopup();
