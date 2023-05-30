@@ -40,6 +40,8 @@
 #define _freea(x)
 #endif
 
+#include <algorithm>
+
 // includes patches for multiview from
 // https://github.com/CedricGuillemet/ImGuizmo/issues/15
 
@@ -1545,7 +1547,7 @@ namespace ImGuizmo
             }
             float boundDistance = sqrtf(ImLengthSqr(worldBound1 - worldBound2));
             int stepCount = (int)(boundDistance / 10.f);
-            stepCount = min(stepCount, 1000);
+            stepCount = std::min(stepCount, 1000);
             float stepLength = 1.f / (float)stepCount;
             for (int j = 0; j < stepCount; j++)
             {
@@ -2034,12 +2036,12 @@ namespace ImGuizmo
             vec_t baseVector = gContext.mTranslationPlanOrigin - gContext.mModel.v.position;
             float ratio = Dot(axisValue, baseVector + delta) / Dot(axisValue, baseVector);
 
-            gContext.mScale[axisIndex] = max(ratio, 0.001f);
+            gContext.mScale[axisIndex] = std::max(ratio, 0.001f);
          }
          else
          {
             float scaleDelta = (io.MousePos.x - gContext.mSaveMousePosx) * 0.01f;
-            gContext.mScale.Set(max(1.f + scaleDelta, 0.001f));
+            gContext.mScale.Set(std::max(1.f + scaleDelta, 0.001f));
          }
 
          // snap
@@ -2051,7 +2053,7 @@ namespace ImGuizmo
 
          // no 0 allowed
          for (int i = 0; i < 3; i++)
-            gContext.mScale[i] = max(gContext.mScale[i], 0.001f);
+            gContext.mScale[i] = std::max(gContext.mScale[i], 0.001f);
 
          if (gContext.mScaleLast != gContext.mScale)
          {

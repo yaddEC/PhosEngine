@@ -17,7 +17,7 @@ namespace UI
 
 		Resource::Texture* sprite;
 
-		void Render() override;
+		void Render(const Maths::Vec2& sizeMult) override;
 		void OnInspector() override;
 		void Parse(std::vector<std::string> fileData, size_t& lineIndex) override;
 		std::string GetTypeName() { return "SpriteRenderer"; }

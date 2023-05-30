@@ -530,6 +530,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Threading\Thread.cpp" />
     <ClCompile Include="Sources\UI\Canvas.cpp" />
     <ClCompile Include="Sources\UI\SpriteRenderer.cpp" />
+    <ClCompile Include="Sources\UI\UIElement.cpp" />
     <ClCompile Include="Sources\Wrapper\GUI.cpp" />
     <ClCompile Include="Sources\Wrapper\PhysicsWrapper.cpp" />
     <ClCompile Include="Sources\Wrapper\RHI.cpp" />

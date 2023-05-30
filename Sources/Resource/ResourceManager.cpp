@@ -65,7 +65,6 @@ void Resource::ResourceManager::LoadAll()
 					},
 					resource.second
 				});
-			//std::cout << pool.GetTasks().size() << std::endl;
 		}
 	}
 
@@ -86,7 +85,6 @@ void Resource::ResourceManager::LoadAll()
 			{
 				resource.second->Bind();
 				resource.second->isBinded = true;
-				//std::cout << resource.second->GetName() << " " << count << std::endl;
 				count++;
 			}
 			if (!resource.second->isLoaded && resource.second->GetTypeName() != "Scene")
@@ -134,12 +132,15 @@ void Resource::ResourceManager::Unload()
 void Resource::ResourceManager::SetStaticResource()
 {
 	cube = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCube.obj");
+	sphere = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveSphere.obj");
+	capsule = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCapsule.obj");
 	skyboxShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\SkyboxShader\\SkyboxShader.prog");
 	pickingShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\PickingShader\\PickingShader.prog");
 	iconShaderForPicking = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\IconShaderForPicking\\IconShaderForPicking.prog");
 	iconShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\BillboardShader\\BillboardShader.prog");
 	outlineShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\OutlineShader.prog");
 	UIShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\UIShader\\UIShader.prog");
+	colorShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\ColorShader\\ColorShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 }
 

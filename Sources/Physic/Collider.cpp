@@ -3,9 +3,13 @@
 #include "pch.h"
 #include <Engine/GameObject.hpp>
 #include <Engine/Transform.hpp>
+#include "Engine/Scene.hpp"
+#include "LowRenderer/Renderer.hpp"
 #include <Wrapper/PhysicsWrapper.hpp>
 #include <Physic/Rigidbody.hpp>
 #include <Physic/Collider.hpp>
+#include "Resource/ResourceManager.hpp"
+#include "Resource/ResourceIncludes.hpp"
 
 namespace Physic {
 
@@ -82,6 +86,18 @@ namespace Physic {
         return result;
     }
 
+    void BoxCollider::Start()
+    {
+        Collider::Start();
+        gameobject->GetScene()->GetRenderer()->AddColliderMesh(this);
+    }
+
+    void BoxCollider::OnDestroy()
+    {
+        Collider::OnDestroy();
+        gameobject->GetScene()->GetRenderer()->DeleteColliderMesh(this);
+    }
+
     BoxCollider::BoxCollider(Maths::Vec3 _size)
         : Collider()
     {
@@ -112,6 +128,16 @@ namespace Physic {
     {
         m_size = size;
         physicsCollider->OnGuiChanged();
+    }
+
+    void SphereCollider::Start()
+    {
+        Collider::Start();
+    }
+
+    void SphereCollider::OnDestroy()
+    {
+        Collider::OnDestroy();
     }
 
     SphereCollider::SphereCollider(float _radius)
@@ -146,6 +172,16 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
+
+    void CapsuleCollider::Start()
+    {
+        Collider::Start();
+    }
+
+    void CapsuleCollider::OnDestroy()
+    {
+        Collider::OnDestroy();
+    }
 
     CapsuleCollider::CapsuleCollider(float _radius, float _height)
         : Collider()

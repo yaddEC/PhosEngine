@@ -21,7 +21,6 @@
 #include <thread>
 
 
-
 MySimulationEventCallback::MySimulationEventCallback()
 {
    
@@ -722,7 +721,7 @@ namespace Wrapper
 
             //target+linear needed
         }
-        d6joint->setBreakForce(PX_MAX_F32, PX_MAX_F32);
+        d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
 
         
     }

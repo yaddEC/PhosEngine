@@ -15,6 +15,7 @@
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Wrapper/GUI.hpp"
+#include "Physic/Collider.hpp"
 
 #include "LowRenderer/Camera.hpp"
 
@@ -91,6 +92,30 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
         ApplyPostProcessing(viewportSize);
     }
     // unbind the framebuffer
+    Wrapper::RHI::UnbindFrameBuffer();
+}
+
+void LowRenderer::Camera::RenderMeshList(const std::vector<Physic::Collider*>& meshList, const Maths::Vec2& viewportSize)
+{
+    m_framebuffer.Bind(true, (int)viewportSize.x, (int)viewportSize.y);
+
+    glCullFace(GL_FRONT);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+
+    Resource::ResourceManager::GetInstance().colorShader->Use();
+
+    for (Physic::Collider* col : meshList)
+    {
+        Resource::Mesh* mesh = nullptr;
+        if (std::type_index(typeid(*col)) == std::type_index(typeid(Physic::BoxCollider)))
+        {
+            mesh = Resource::ResourceManager::GetInstance().cube;
+        }
+        Resource::ResourceManager::GetInstance().colorShader->SetUniformMatrix("mvp", m_viewMatrix * m_projMatrix);
+        mesh->RenderFlatColor(Maths::Vec3(0.1f, 0.8f, 0.1f));
+    }
+
     Wrapper::RHI::UnbindFrameBuffer();
 }
 
@@ -329,7 +354,7 @@ Texture* Camera::TakePhoto(const Mesh& mesh, const Transform& meshTransform, con
     material.GetShader()->SetUniformMatrix("model", model);
     material.GetShader()->SetUniformMatrix("mvp", model * viewProj);
 
-    mesh.Render(*material.GetShader(), material);
+    mesh.Render(material);
 
     framebuffer.DetachTexture();
 

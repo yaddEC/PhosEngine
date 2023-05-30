@@ -13,6 +13,7 @@
 #include "LowRenderer/Light/SpotLight.hpp"
 
 #include "Resource/ShaderProgram.hpp"
+#include "Physic/Collider.hpp"
 
 #include "Maths/Maths.hpp"
 #include "Engine/Transform.hpp"
@@ -91,6 +92,15 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 		mainCamera->Render(m_meshRenderers, viewportSize, m_skybox);
 	}
 	
+}
+
+void LowRenderer::Renderer::RenderCollider(Camera* mainCamera, Maths::Vec2 viewportSize)
+{
+	if (mainCamera)
+	{
+		mainCamera->ComputeViewProjMatrix(viewportSize);
+		mainCamera->RenderMeshList(m_colliderDebugList, viewportSize);
+	}
 }
 
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
@@ -176,6 +186,18 @@ void LowRenderer::Renderer::DeleteSpotLight(SpotLight* dir)
 		if (*it == dir)
 		{
 			it = m_spotLights.erase(it);
+			return;
+		}
+	}
+}
+
+void LowRenderer::Renderer::DeleteColliderMesh(Physic::Collider* col)
+{
+	for (std::vector<Physic::Collider*>::iterator it = m_colliderDebugList.begin(); it != m_colliderDebugList.end(); ++it)
+	{
+		if (*it == col)
+		{
+			it = m_colliderDebugList.erase(it);
 			return;
 		}
 	}

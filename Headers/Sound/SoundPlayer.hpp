@@ -19,8 +19,12 @@ namespace Sound
 		void GUIUpdate() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
-	protected :
-		bool p_isLooping;
-		Resource::Audio* p_audio;
+
+		void Play();
+		void Stop();
+	private :
+		bool m_isLooping;
+		Resource::Audio* m_audio;
+		float m_volume;
 	};
 }

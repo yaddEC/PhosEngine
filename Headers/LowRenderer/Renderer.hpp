@@ -26,6 +26,8 @@ namespace LowRenderer
 
 		void PreComputeShaderData();
 		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras);
+		void RenderCollider(Camera* mainCamera, Maths::Vec2 viewportSize);
+
 		int IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 		void RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize);
 
@@ -46,6 +48,9 @@ namespace LowRenderer
 		void AddSpotLight(SpotLight* spot) { m_spotLights.push_back(spot); }
 		void DeleteSpotLight(SpotLight* spto);
 
+		void AddColliderMesh(Physic::Collider* col) { m_colliderDebugList.push_back(col); }
+		void DeleteColliderMesh(Physic::Collider* col);
+
 		std::vector<MeshRenderer*> GetMeshRenderers();
 		Maths::Vec3 GetAmbient() const;
 		Resource::CubeMap* GetSkybox() const { return m_skybox; }
@@ -54,6 +59,8 @@ namespace LowRenderer
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
+		std::vector<Physic::Collider*> m_colliderDebugList;
+
 		std::vector<CameraComponent*> m_cameras;
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;

@@ -10,13 +10,24 @@
 #include "Resource/Texture.hpp"
 #include "Wrapper/GUI.hpp"
 #include "Resource/ResourceIncludes.hpp"
+#include "Wrapper/RHI.hpp"
 
-
-void UI::SpriteRenderer::Render()
+void UI::SpriteRenderer::Render(const Maths::Vec2& sizeMult)
 {
+	if (!sprite) return;
+
+
 	Resource::ShaderProgram* program = Resource::ResourceManager::GetInstance().UIShader;
-	if(sprite)
-		program->SetTexture("Texture", 0, *sprite);
+	program->SetTexture("Texture", 0, *sprite);
+
+	
+	Maths::Vec2 finalScale = {-rectTransform.scale.x * sprite->GetTextureWidth() * sizeMult.x, -rectTransform.scale.y * sprite->GetTextureHeight() * sizeMult.y };
+
+	program->SetUniformVec4("position_scale", Maths::Vec4(rectTransform.position.x,
+		rectTransform.position.y,finalScale.x, finalScale.y));
+
+	Wrapper::RHI::RenderSubMesh(Resource::ResourceManager::GetInstance().quad->GetSubMesh(0).GetVAO(),
+		Resource::ResourceManager::GetInstance().quad->GetSubMesh(0).indices);
 }
 
 void UI::SpriteRenderer::OnInspector()
@@ -26,7 +37,6 @@ void UI::SpriteRenderer::OnInspector()
 
 void UI::SpriteRenderer::Parse(std::vector<std::string> fileData, size_t& lineIndex)
 {
-	name = "Sprite Renderer";
 	for (; lineIndex < fileData.size(); lineIndex++)
 	{
 		std::vector<std::string> tokens = Resource::Parser::Tokenize(fileData[lineIndex], ' ', '\t');
@@ -50,5 +60,12 @@ void UI::SpriteRenderer::Parse(std::vector<std::string> fileData, size_t& lineIn
 
 std::string UI::SpriteRenderer::Save()
 {
-	return "Sprite " + sprite->GetFilePath() + "\n";
+	std::string result;
+	if(sprite)
+		result += "Sprite " + sprite->GetFilePath() + "\n";
+	else
+		result += "Sprite none\n";
+
+
+	return result;
 }
