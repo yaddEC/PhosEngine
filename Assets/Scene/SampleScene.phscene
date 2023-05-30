@@ -94,6 +94,8 @@ component "Sphere Collider"
 	end
 component "Fixed Joint"
 	Collider 7
+	BreakForce 340282346638528859811704183484516925440.000000
+	BreakTorque 340282346638528859811704183484516925440.000000
 	end
 end
 name "Boo 4"
@@ -180,5 +182,27 @@ component "RigidBody"
 	Different_Gravity 0
 	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "Cube"
+id 11
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
 	end
 end
