@@ -23,6 +23,7 @@ namespace EditorGUI
 		Engine::GameObject* m_renaming = nullptr;
 
 		std::vector<std::pair<Engine::GameObject*, Engine::GameObject*>> m_objectToParentBuffer;
+		std::vector<Engine::GameObject*> m_bufferToDestroy;
 
 		void DisplayHierarchy(Engine::GameObject* current);
 		void AddObjectPopup(Engine::GameObject* current);
