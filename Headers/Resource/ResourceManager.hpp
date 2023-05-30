@@ -200,6 +200,8 @@ namespace Resource
 		ShaderProgram* outlineShader = nullptr;
 		ShaderProgram* UIShader = nullptr;
 		Mesh* cube = nullptr;
+		Mesh* sphere = nullptr;
+		Mesh* capsule = nullptr;
 		Mesh* quad = nullptr;
 
 		Threading::AtomicMutex m_queueMutex;

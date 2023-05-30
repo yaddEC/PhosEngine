@@ -48,6 +48,9 @@ namespace LowRenderer
 		void AddSpotLight(SpotLight* spot) { m_spotLights.push_back(spot); }
 		void DeleteSpotLight(SpotLight* spto);
 
+		void AddColliderMesh(Physic::Collider* col) { m_colliderDebugList.push_back(col); }
+		void DeleteColliderMesh(Physic::Collider* col);
+
 		std::vector<MeshRenderer*> GetMeshRenderers();
 		Maths::Vec3 GetAmbient() const;
 		Resource::CubeMap* GetSkybox() const { return m_skybox; }
@@ -56,7 +59,7 @@ namespace LowRenderer
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
-		std::vector<Resource::Mesh*> m_colliderDebugList;
+		std::vector<Physic::Collider*> m_colliderDebugList;
 
 		std::vector<CameraComponent*> m_cameras;
 		std::vector<DirectionalLight*> m_directionalLights;

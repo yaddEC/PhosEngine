@@ -42,7 +42,8 @@ namespace Resource
 		bool isSkinned;
 
 
-		void Render(const class ShaderProgram& shaderProgram, const class Material& material) const;
+		void Render(const class Material& material) const;
+		void RenderFlatColor() const;
 
 		void Unload();
 
