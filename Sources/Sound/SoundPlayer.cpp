@@ -11,7 +11,8 @@
 
 Sound::SoundPlayer::SoundPlayer() : MonoBehaviour(true),
 	m_isLooping(false),
-	m_audio(nullptr)
+	m_audio(nullptr),
+	m_volume(1.f)
 {
 }
 
@@ -37,7 +38,8 @@ void Sound::SoundPlayer::OnInspector()
 }
 void Sound::SoundPlayer::GUIUpdate()
 {
-
+	if (m_audio->GetVolume() != m_volume)
+		m_audio->SetVolume(m_volume);
 }
 void Sound::SoundPlayer::OnDestroy()
 {
@@ -55,7 +57,8 @@ Reflection::ClassMetaData& Sound::SoundPlayer::GetMetaData()
 		result.memberList =
 		{
 			ClassMemberInfo("isLooping", offsetof(SoundPlayer, SoundPlayer::m_isLooping), MemberType::T_BOOL),
-			ClassMemberInfo("Audio", offsetof(SoundPlayer, SoundPlayer::m_audio), MemberType::T_AUDIO)
+			ClassMemberInfo("Audio", offsetof(SoundPlayer, SoundPlayer::m_audio), MemberType::T_AUDIO),
+			ClassMemberInfo("Volume", offsetof(SoundPlayer, SoundPlayer::m_volume), MemberType::T_FLOAT)
 		};
 		//result.PosTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>("DefaultAssets\\LightIcon.png");
 		//result.PosModelForTexture = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>("DefaultAssets\\Model\\primitivePlane.obj");

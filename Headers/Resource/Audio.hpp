@@ -2,9 +2,7 @@
 #include "IResource.hpp"
 #include "dllInclude.hpp"
 
-struct ma_decoder;
-struct ma_device_config;
-struct ma_device;
+struct ma_sound;
 
 namespace Resource
 {
@@ -16,9 +14,9 @@ namespace Resource
 		void Create();
 		void Play(bool isLooping);
 		void Stop();
+		void SetVolume(float value);
+		float GetVolume();
 	private:
-		ma_decoder* decoder;
-		ma_device_config* deviceConfig;
-		ma_device* device;
+		ma_sound* sound;
 	};
 }
