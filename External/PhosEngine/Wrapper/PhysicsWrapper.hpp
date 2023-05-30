@@ -143,7 +143,6 @@ namespace Wrapper
         PxRigidActor* m_physxActor = nullptr;
         MaterialType m_physxMaterial = MaterialType::ROCK;
 
-
     };
 
     class PHOSENGINE_API RayCastHit
@@ -186,6 +185,9 @@ namespace Wrapper
         void Update();
         void OnGuiChanged();
 
+        Maths::Vec3 GetVelocity();
+        void SetVelocity(Maths::Vec3 velocity);
+        void AddForce(Maths::Vec3 force);
         Rigidbody* rigidbody = nullptr;
 
         inline PxRigidActor* GetRigidActor() { return m_physxActor; }
@@ -195,7 +197,7 @@ namespace Wrapper
         void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
         bool m_transformChangedExternally = false;
-        float m_delay;
+        float m_delay = 0.f;
     };
 
     bool RayCast(Maths::Vec3 origin, Maths::Vec3 direction, float maxDistance, RayCastHit& hit);

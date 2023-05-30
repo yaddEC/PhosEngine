@@ -38,13 +38,15 @@ namespace Engine
 		void OnTriggerEnter(GameObject* gameobject);
 		void OnTriggerStay(GameObject* gameobject);
 		void OnTriggerExit(GameObject* gameobject);
-
+		void ComponentBufferLoad();
 		void OnGuiChanged();
 
 		Scene* GetScene() { return m_scene; }
 		void SetScene(Scene* _scene) { m_scene = _scene; }
 		std::vector<MonoBehaviour*> GetComponents() { return m_components; }
 		std::vector<MonoBehaviour*> GetComponentBuffer() { return m_componentsBuffer; }
+		bool IsLoaded() { return m_isLoaded; };
+		void SetLoadStatus(bool isLoaded) { m_isLoaded = isLoaded; }
 
 		Engine::GameObject* FindChildByName(const std::string& name);
 
@@ -95,6 +97,7 @@ namespace Engine
 		unsigned int m_ID;
 		unsigned int m_tag;
 		unsigned int m_layer;
+		bool m_isLoaded;
 
 	};
 }

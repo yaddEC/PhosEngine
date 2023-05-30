@@ -17,7 +17,7 @@ namespace Engine
 	class Scene;
 }
 
-namespace Resource 
+namespace Resource
 {
 	class Material;
 	class Texture;
@@ -27,6 +27,7 @@ namespace Resource
 	class Prefab;
 	class PostProcessingShader;
 	class Animation;
+	class Audio;
 
 	class PHOSENGINE_API ResourceManager
 	{
@@ -46,7 +47,7 @@ namespace Resource
 			return instance;
 		}
 
-		
+
 		template<class T>
 		inline T* GetResource(const std::string& filepath)
 		{
@@ -62,7 +63,7 @@ namespace Resource
 				for (auto resource : m_resourceMap)
 				{
 					if (resource.second->GetName() == filepath)
-						return (T *)resource.second;
+						return (T*)resource.second;
 				}
 				return nullptr;
 			}
@@ -116,10 +117,16 @@ namespace Resource
 			{
 				m_prefabList.push_back(((Prefab*)newResource)->GetName());
 			}
-			
+
 			if (typeid(T) == typeid(PostProcessingShader))
 			{
 				m_postProcessingList.push_back(((PostProcessingShader*)newResource)->GetName());
+			}
+
+			if (typeid(T) == typeid(Audio))
+			{
+				((Audio*)newResource)->Create();
+				m_AudioList.push_back(((Audio*)newResource)->GetName());
 			}
 
 			return newResource;
@@ -164,15 +171,21 @@ namespace Resource
 		inline std::vector<std::string> GetResourceNameList<Material>()
 		{
 			return m_materialNameList;
-		}		
-		
+		}
+
 		template<>
 		inline std::vector<std::string> GetResourceNameList<PostProcessingShader>()
 		{
 			return m_postProcessingList;
 		}
 
-		void SetCurrentScene(Engine::Scene* currentScene); 
+		template<>
+		inline std::vector<std::string> GetResourceNameList<Audio>()
+		{
+			return m_AudioList;
+		}
+
+		void SetCurrentScene(Engine::Scene* currentScene);
 
 		std::queue<IResource*> GetQueueToBeBinded() const { return m_toBeBinded; }
 		std::unordered_map<std::string, IResource*> GetResourceMap() const { return m_resourceMap; }
@@ -181,6 +194,7 @@ namespace Resource
 
 		ShaderProgram* skyboxShader = nullptr;
 		ShaderProgram* pickingShader = nullptr;
+		ShaderProgram* colorShader = nullptr;
 		ShaderProgram* iconShaderForPicking = nullptr;
 		ShaderProgram* iconShader = nullptr;
 		ShaderProgram* outlineShader = nullptr;
@@ -201,13 +215,12 @@ namespace Resource
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
 		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
-			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList, m_postProcessingList;
+			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList, m_postProcessingList, m_AudioList;
 
 		Engine::Scene* m_currentScene = nullptr;
 
-		std::chrono::system_clock::duration lastRefreshTime;
 	};
-	
-	
+
+
 
 }

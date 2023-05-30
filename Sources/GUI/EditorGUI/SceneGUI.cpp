@@ -109,14 +109,14 @@ void SceneGUI::DoUpdate()
 		if (input.IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1) && GUI::IsWindowHovered() && !m_guizmoSelected)
 		{
 			unsigned int objectID = m_currentScene->GetRenderer()->IdPicker(&m_sceneCamera, p_size - Vec2(10, 35),
-				GUI::GetWindowPos(*Window::GetCurrentContext()));
+			GUI::GetWindowPos(*Window::GetCurrentContext()));
 			m_selectedObject = FindSelectedObject(objectID);
 			if (m_selectedObject)
 			{
 				m_selectedRenderer = m_selectedObject->GetComponent<LowRenderer::MeshRenderer>();
 				selectedClicked = true;
 			}
-			else
+			else 
 			{
 				DeselectCurrentObject();
 			}
@@ -189,7 +189,6 @@ void SceneGUI::DoUpdate()
 			}
 			for (auto& callback : selected->transform->transformChangedCallbacks)
 			{
-				printf("lol\n");
 				callback();
 			}
 			lastSelected = nullptr;

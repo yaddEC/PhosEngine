@@ -221,14 +221,14 @@ void Core::Editor::UpdateEditorGUI()
     m_PlayStateGUI->Update();
     if (m_PlayStateGUI->isStatePressed)
     {
-        m_Inspector->DeselectCurrentObject();
+        m_Inspector->DeselectCurrentGameObject();
+        m_Inspector->DeselectCurrentAsset();
         m_sceneGUI->DeselectCurrentObject();
         m_PlayStateGUI->isStatePressed = false;
     }
-    if (!m_sceneGUI->GetSelected())
-    {
-        m_Inspector->DeselectCurrentObject();
-    }
+
+
+    
     m_gameGUI->Update();
     m_sceneGUI->Update();
     m_InputGUI->Update();
@@ -247,7 +247,8 @@ void Core::Editor::UpdateEditorGUI()
         m_Hierarchy->SetCurrentScene(m_mainScene);
         m_RendererGUI->SetCurrentScene(m_mainScene);
         Resource::ResourceManager::GetInstance().SetCurrentScene(m_mainScene);
-        m_Inspector->DeselectCurrentObject();
+        m_Inspector->DeselectCurrentGameObject();
+        m_Inspector->DeselectCurrentAsset();
         m_sceneGUI->DeselectCurrentObject();
     }
    
@@ -259,16 +260,20 @@ void Core::Editor::UpdateEditorGUI()
     }
     else if (m_AssetExplorer->GetSelected())
     {
+        m_Inspector->DeselectCurrentGameObject();
+        m_sceneGUI->DeselectCurrentObject();
         m_Inspector->SetResourceToDisplay(m_AssetExplorer->GetSelected());
         if (m_AssetExplorer->GetSelected()->GetTypeName() == "Canvas")
             m_canvasEditor->SetCanvas((UI::Canvas*)m_AssetExplorer->GetSelected());
     }
     else if (m_sceneGUI->selectedClicked)
     {
+        m_Inspector->DeselectCurrentGameObject();
         Engine::GameObject* selected = m_sceneGUI->GetSelected();
         m_Inspector->SetGameObjectToDisplay(selected);
         m_Hierarchy->SetSelected(selected);
     }
+
     
     m_RendererGUI->Update();
     m_Inspector->Update();
