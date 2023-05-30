@@ -60,8 +60,12 @@ void UI::SpriteRenderer::Parse(std::vector<std::string> fileData, size_t& lineIn
 
 std::string UI::SpriteRenderer::Save()
 {
+	std::string result;
 	if(sprite)
-		return "Sprite " + sprite->GetFilePath() + "\n";
+		result += "Sprite " + sprite->GetFilePath() + "\n";
 	else
-		return "Sprite none\n";
+		result += "Sprite none\n";
+
+
+	return result;
 }

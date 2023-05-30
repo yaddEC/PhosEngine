@@ -2,8 +2,10 @@
 #include "Physic/Joint.hpp"
 #include "Wrapper/PhysicsWrapper.hpp"
 
-Physic::Joint::Joint():MonoBehaviour(true)
+#include "Physic/Rigidbody.hpp"
+Physic::Joint::Joint():MonoBehaviour(false)
 {
+    physicsJoint = nullptr;
 }
 
 Physic::Joint::~Joint()
@@ -13,15 +15,24 @@ Physic::Joint::~Joint()
 
 void Physic::Joint::Update()
 {
+    if(GetGameObjectId() && GetGameObjectId()!=-1 && !GetOtherRigidbody() )
+        physicsJoint->OnGuiChanged();
 }
 
 void Physic::Joint::Start()
 {
+    p_selfRigidbody = this->gameobject->GetComponent<Physic::Rigidbody>();
 	physicsJoint = new Wrapper::PhysicsJoint();
+    physicsJoint->joint = this;
+    physicsJoint->Setup();
+    
 }
 
 void Physic::Joint::GUIUpdate()
 {
+    if(physicsJoint)
+        physicsJoint->OnGuiChanged();
+
 }
 
 Reflection::ClassMetaData& Physic::Joint::GetMetaData()
@@ -74,9 +85,9 @@ Reflection::ClassMetaData& Physic::HingeJoint::GetMetaData()
     static ClassMetaData result;
     if (!computed)
     {
-        result.name = "Joint";
+        result.name = "Hinge Joint";
         result.memberList = {
-
+            ClassMemberInfo("Collider", offsetof(HingeJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
         };
         computed = true;
     }
@@ -95,9 +106,9 @@ Reflection::ClassMetaData& Physic::SpringJoint::GetMetaData()
     static ClassMetaData result;
     if (!computed)
     {
-        result.name = "Joint";
+        result.name = "Spring Joint";
         result.memberList = {
-
+            ClassMemberInfo("Collider", offsetof(SpringJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
         };
         computed = true;
     }
@@ -116,9 +127,9 @@ Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
     static ClassMetaData result;
     if (!computed)
     {
-        result.name = "Joint";
+        result.name = "Configurable Joint";
         result.memberList = {
-
+            ClassMemberInfo("Collider", offsetof(ConfigurableJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
         };
         computed = true;
     }

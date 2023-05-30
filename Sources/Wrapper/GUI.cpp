@@ -678,6 +678,46 @@ bool Wrapper::GUI::PickGameObject(const std::string& label, const std::string& b
 	return false;
 }
 
+bool Wrapper::GUI::PickAudio(const std::string& label, Resource::Audio** audio, bool text)
+{
+	const float widgetOffset = 130.0f;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(widgetOffset);
+	}
+	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Audio>();
+	std::string currentMeshName = (*audio) ? (*audio)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
+	{
+		if (ImGui::Selectable("None", !audio))
+		{
+			*audio = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto str : meshNameList)
+		{
+			if (ImGui::Selectable(str.c_str(), str == currentMeshName))
+			{
+				*audio = Resource::ResourceManager::GetInstance().GetResource<Resource::Audio>(str);
+				ImGui::EndCombo();
+				return true;
+			}
+		}
+		ImGui::EndCombo();
+	}
+	if (Resource::Audio** newaudio = (Resource::Audio**)DragDropTarget("Audio"))
+	{
+		*audio = *newaudio;
+	}
+
+	return false;
+}
+
 void Wrapper::GUI::DisplayText(const char* format, ...)
 {
 	const int bufferSize = 1024;

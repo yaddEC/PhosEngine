@@ -65,7 +65,6 @@ void Resource::ResourceManager::LoadAll()
 					},
 					resource.second
 				});
-			//std::cout << pool.GetTasks().size() << std::endl;
 		}
 	}
 
@@ -86,7 +85,6 @@ void Resource::ResourceManager::LoadAll()
 			{
 				resource.second->Bind();
 				resource.second->isBinded = true;
-				//std::cout << resource.second->GetName() << " " << count << std::endl;
 				count++;
 			}
 			if (!resource.second->isLoaded && resource.second->GetTypeName() != "Scene")
@@ -102,7 +100,6 @@ void Resource::ResourceManager::LoadAll()
 	pool.stopPool();
 	pool.~Pool();
 
-	lastRefreshTime = std::chrono::system_clock::now().time_since_epoch();
 }
 
 
@@ -141,6 +138,7 @@ void Resource::ResourceManager::SetStaticResource()
 	iconShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\BillboardShader\\BillboardShader.prog");
 	outlineShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\OutlineShader.prog");
 	UIShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\UIShader\\UIShader.prog");
+	colorShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\ColorShader\\ColorShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 }
 
@@ -192,6 +190,10 @@ void Resource::ResourceManager::AddResourceByExtension(const fs::directory_entry
 	else if (extension == "phcanvas" || extension == "PHCANVAS")
 	{
 		CreateResource<UI::Canvas>(GetRelativePath(entry, rootAssetPath));
+	}
+	else if (extension == "wav" || extension == "WAV" || extension == "mp3" || extension == "MP3")
+	{
+		CreateResource<Audio>(GetRelativePath(entry, rootAssetPath));
 	}
 }
 

@@ -1,3 +1,4 @@
+#include "..\..\..\PhosEditor\External\PhosEngine\Physic\Rigidbody.hpp"
 // Include needed
 #include <utility>
 #include <limits>
@@ -7,6 +8,7 @@
 #include "Engine/Transform.hpp"
 #include "Engine/GameObject.hpp"
 #include "Wrapper/PhysicsWrapper.hpp"
+#include "Wrapper/GUI.hpp"
 #include <Physic/Rigidbody.hpp>
 
 namespace Physic {
@@ -74,16 +76,36 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    void Rigidbody::OnInspector()
+    {
+        MonoBehaviour::OnInspector();
+        Maths::Vec3 velocity = (0, 0, 0);
+        if (physicsRigidbody->GetRigidActor())
+            velocity = GetVelocity();
+        Wrapper::GUI::EditVec3("Velocity", velocity);
+
+    }
+
     void Rigidbody::SetGravity(Maths::Vec3 gravity)
     {
         m_gravity = gravity;
         physicsRigidbody->OnGuiChanged();
     }
 
+    Maths::Vec3 Rigidbody::GetVelocity()
+    {
+        return physicsRigidbody->GetVelocity();
+    }
+
     void Rigidbody::SetVelocity(Maths::Vec3 velocity)
     {
-        m_velocity = velocity;
+        physicsRigidbody->SetVelocity(velocity);
         physicsRigidbody->OnGuiChanged();
+    }
+
+    void Rigidbody::AddForce(Maths::Vec3 force)
+    {
+        physicsRigidbody->AddForce(force);
     }
 
     void Rigidbody::SetMass(float mass)
@@ -103,6 +125,16 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    bool Rigidbody::IsKinematic()
+    {
+        return m_isKinematic;
+    }
+
+    void Rigidbody::setKinematic(bool kinematic)
+    {
+        m_isKinematic = kinematic;
+    }
+
     Reflection::ClassMetaData& Rigidbody::GetMetaData() {
         using namespace Reflection;
 
@@ -111,11 +143,10 @@ namespace Physic {
         if (!computed) {
             result.name = "RigidBody";
             result.memberList = {
-                ClassMemberInfo("Velocity", offsetof(Rigidbody, m_velocity), MemberType::T_VEC3),
                 ClassMemberInfo("mass", offsetof(Rigidbody, m_mass), MemberType::T_FLOAT),
                 ClassMemberInfo("Different_Gravity", offsetof(Rigidbody, m_differentGravity), MemberType::T_BOOL),
+                ClassMemberInfo("isKinematic", offsetof(Rigidbody, m_isKinematic), MemberType::T_BOOL),
                 ClassMemberInfo("Gravity", offsetof(Rigidbody, m_gravity), MemberType::T_VEC3),
-                
             };
             computed = true;
         }

@@ -45,7 +45,7 @@ void UI::Canvas::Save()
 		progFile << element.second->GetTypeName() << " \"" << element.first << "\"\n";
 		progFile << "RectTransform " << element.second->rectTransform.position.x << ' ' <<
 			element.second->rectTransform.position.y << ' ' << element.second->rectTransform.scale.x << ' ' << element.second->rectTransform.scale.y << '\n';
-		progFile << element.second->Save() << "end";
+		progFile << element.second->Save() << "end\n";
 	}
 
 	progFile.close();
