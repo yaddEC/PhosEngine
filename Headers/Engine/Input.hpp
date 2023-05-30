@@ -59,6 +59,7 @@ namespace Engine
 
 		float GetGamepadAxis(int axis, int idPlayer);
 
+		GamepadInput* GetGamepad() { return GpInput; }
 
 		bool IsKeyPressed(int key);
 		bool IsKeyDown(int key);
