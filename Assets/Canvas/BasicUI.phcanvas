@@ -1,3 +1,11 @@
-SpriteRenderer "Sprite Renderer"
-RectTransform 2 4 0 0Sprite Assets\Texture\BlazikenTexture.png
+1080 720
+SpriteRenderer "Pause"
+RectTransform -0.64 0.8 1.6 1.6
+Sprite Assets\Texture\pause.png
+endSpriteRenderer "Play"
+RectTransform -0.8 0.8 1.6 1.6
+Sprite Assets\Texture\play.png
+endSpriteRenderer "Stop"
+RectTransform -0.48 0.8 1.6 1.6
+Sprite Assets\Texture\stop.png
 end

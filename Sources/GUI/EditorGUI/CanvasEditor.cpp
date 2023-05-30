@@ -15,14 +15,10 @@ void EditorGUI::CanvasEditor::DoUpdate()
 {
 	if (m_currentCanvas)
 	{
-		m_framebuffer.Bind();
+		m_framebuffer.Bind(true, p_size.x, p_size.y - 42);
 		m_framebuffer.Clear();
 		m_currentCanvas->RenderUI(p_size - Maths::Vec2(0, 42));
 		Wrapper::GUI::Image(m_renderTexture, p_size - Maths::Vec2(0, 42));
 	}
-		/*Wrapper::GUI::DisplayText("%s", m_currentCanvas->GetName().c_str());*/
-	
-
-	
 
 }

@@ -19,6 +19,11 @@ namespace Resource
 	class PostProcessingShader;
 }
 
+namespace UI
+{
+	class Canvas;
+}
+
 namespace Wrapper
 {
 	enum class MaterialType;
@@ -95,6 +100,7 @@ namespace Wrapper
 		static bool PickMaterialType(const std::string& label, MaterialType* materialType, bool text);
 		static bool PickGameObject(const std::string& label, const std::string& buttonLabel, int* gameObject, bool text);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
+		static bool PickCanvas(const std::string& label, UI::Canvas** canvas, bool text = true);
 
 		static void DisplayText(const char* format, ...);
 		static void DisplayFloat(const std::string& label, float value);

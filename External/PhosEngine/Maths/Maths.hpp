@@ -21,6 +21,12 @@ namespace Maths
 	}
 
 	template <typename T>
+	T Lerp(const T& a, const T& b, float t)
+	{
+		return a * (1 - t) + b * t;
+	}
+
+	template <typename T>
 	T Min(const T& a, const T& b)
 	{
 		return a < b ? a : b;

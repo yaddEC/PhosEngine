@@ -3,7 +3,6 @@
 #include <vector>
 #include <fstream>
 #include "Engine/GameObject.hpp"
-//#include "Engine/MonoBehaviour.hpp"
 #include "dllInclude.hpp"
 #include "Resource/Texture.hpp"
 #include "Resource/Mesh.hpp"
@@ -23,6 +22,7 @@ namespace Reflection
 		T_GAME_OBJECT,
 		T_POST_PROCESSING_SHADER,
 		T_PHYSIC_MATERIAL,
+		T_CANVAS
 	};
 
 
@@ -39,7 +39,6 @@ namespace Reflection
 		float editMin;
 		float editMax;
 
-		void DisplayMemberInfo(size_t classPtr);
 		void GUIUpdate(void* classPtr);
 		std::string Save(size_t classPtr);
 		void Parse(const std::vector<std::string>& tokens, size_t classPtr);
@@ -53,7 +52,6 @@ namespace Reflection
 		std::string name;
 		std::vector<ClassMemberInfo> memberList;
 
-		void DisplayClassInfo(void* classPtr);
 		void GUIUpdate(void* classPtr);
 
 		Resource::Texture* PosTexture = nullptr;

@@ -16,7 +16,7 @@ namespace UI
 		virtual void Start() {};
 		virtual void Update() {};
 		virtual void OnInspector() {};
-		virtual void Render() {};
+		virtual void Render(const Maths::Vec2& sizeMult) {};
 		virtual void OnDestroy() {};
 
 		virtual std::string GetTypeName() = 0;

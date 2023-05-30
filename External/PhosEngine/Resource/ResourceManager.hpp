@@ -175,6 +175,7 @@ namespace Resource
 		void SetCurrentScene(Engine::Scene* currentScene); 
 
 		std::queue<IResource*> GetQueueToBeBinded() const { return m_toBeBinded; }
+		std::unordered_map<std::string, IResource*> GetResourceMap() const { return m_resourceMap; }
 
 		// Static resource
 
