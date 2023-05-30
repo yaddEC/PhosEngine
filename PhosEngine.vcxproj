@@ -273,6 +273,7 @@ xcopy /y /d "$(ProjectDir)Headers\dllInclude.hpp" "$(SolutionDir)External\PhosEn
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Physic\" "$(SolutionDir)External\PhosEngine\Physic\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
+xcopy /y /d "$(ProjectDir)Headers\Script\" "$(SolutionDir)External\PhosEngine\Script\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
 </Command>
