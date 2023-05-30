@@ -125,8 +125,56 @@ Reflection::ClassMetaData& Physic::SpringJoint::GetMetaData()
     return result;
 }
 
-Physic::ConfigurableJoint::ConfigurableJoint()
+Physic::ConfigurableJoint::ConfigurableJoint(): Joint()
 {
+        p_gameObjectId = -1;
+        m_anchor = Maths::Vec3();
+        m_axis = Maths::Vec3();
+        m_connectedAnchor = Maths::Vec3();
+        m_motion = Maths::Vec3();
+        m_angularMotion = Maths::Vec3();
+
+        m_linearLimitSpring.damper = 0;
+        m_linearLimitSpring.spring = 0;
+
+        m_linearLimit.limit = 0;
+        m_linearLimit.bounciness = 0;
+        m_linearLimit.contactDistance = 0;
+
+        m_xDrive.maximumForce = 0;
+        m_xDrive.positionDamper = 0;
+        m_xDrive.positionSpring = 0;
+
+        m_yDrive.maximumForce = 0;
+        m_yDrive.positionDamper = 0;
+        m_yDrive.positionSpring = 0;
+
+        m_zDrive.maximumForce = 0;
+        m_zDrive.positionDamper = 0;
+        m_zDrive.positionSpring = 0;
+
+        m_angularXDrive.maximumForce = 0;
+        m_angularXDrive.positionDamper = 0;
+        m_angularXDrive.positionSpring = 0;
+
+        m_angularYDrive.maximumForce = 0;
+        m_angularYDrive.positionDamper = 0;
+        m_angularYDrive.positionSpring = 0;
+
+        m_angularZDrive.maximumForce = 0;
+        m_angularZDrive.positionDamper = 0;
+        m_angularZDrive.positionSpring = 0;
+
+        m_angularZDrive.maximumForce = 0;
+        m_angularZDrive.positionDamper = 0;
+        m_angularZDrive.positionSpring = 0;
+
+        m_angularMotion = Maths::Vec3();
+
+
+        m_targetPosition = Maths::Vec3();
+        m_targetVelocity = Maths::Vec3();
+        m_targetAngularVelocity = Maths::Vec3();
 }
 
 Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
@@ -141,7 +189,7 @@ Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
         result.memberList = {
             ClassMemberInfo("Collider", offsetof(ConfigurableJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
             ClassMemberInfo("Axis", offsetof(ConfigurableJoint, m_anchor), MemberType::T_VEC3),
-            ClassMemberInfo("Anchor", offsetof(ConfigurableJoint, m_anchor), MemberType::T_VEC3),
+            ClassMemberInfo("Anchor", offsetof(ConfigurableJoint, m_axis), MemberType::T_VEC3),
             ClassMemberInfo("Connect_Anchor", offsetof(ConfigurableJoint, m_connectedAnchor), MemberType::T_VEC3),
             ClassMemberInfo("Motion", offsetof(ConfigurableJoint, m_motion), MemberType::T_VEC3),
             ClassMemberInfo("Ang._Motion", offsetof(ConfigurableJoint, m_angularMotion), MemberType::T_VEC3),
@@ -181,12 +229,11 @@ Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
             ClassMemberInfo("Ang_YZDrive_Pos_Damper", offsetof(ConfigurableJoint, m_angularZDrive.positionDamper), MemberType::T_FLOAT),
             ClassMemberInfo("Ang_YZDrive_Pos_Spring", offsetof(ConfigurableJoint, m_angularZDrive.positionSpring), MemberType::T_FLOAT),
 
-            ClassMemberInfo("Ang._Motion", offsetof(ConfigurableJoint, m_angularMotion), MemberType::T_VEC3),
-
-
-            ClassMemberInfo("Target_Pos", offsetof(ConfigurableJoint, m_targetPosition), MemberType::T_INF_FLOAT),
-            ClassMemberInfo("Target_Velocity", offsetof(ConfigurableJoint, m_targetVelocity), MemberType::T_INF_FLOAT),
-            ClassMemberInfo("Target_Ang_Velocity", offsetof(ConfigurableJoint, m_targetAngularVelocity), MemberType::T_INF_FLOAT),
+            ClassMemberInfo("Target_Pos", offsetof(ConfigurableJoint, m_targetPosition), MemberType::T_FLOAT),
+            ClassMemberInfo("Target_Velocity", offsetof(ConfigurableJoint, m_targetVelocity), MemberType::T_FLOAT),
+            ClassMemberInfo("Target_Ang_Velocity", offsetof(ConfigurableJoint, m_targetAngularVelocity), MemberType::T_FLOAT),
+            ClassMemberInfo("BreakForce", offsetof(ConfigurableJoint, p_breakForce), MemberType::T_INF_FLOAT),
+            ClassMemberInfo("BreakTorque", offsetof(ConfigurableJoint, p_breakTorque), MemberType::T_INF_FLOAT),
         };
         computed = true;
     }

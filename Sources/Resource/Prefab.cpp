@@ -165,5 +165,7 @@ void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, st
 		SaveGameObjectAsPrefab(child->GetGameObject(), file, depth + 1);
 	}
 	file << tab << "end\n";
+
+	
 }
 
