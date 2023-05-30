@@ -248,6 +248,7 @@
     <ClInclude Include="External\PhosEngine\Resource\ShaderProgram.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\SubMesh.hpp" />
     <ClInclude Include="External\PhosEngine\Resource\Texture.hpp" />
+    <ClInclude Include="External\PhosEngine\Script\PlayerMouvement.hpp" />
     <ClInclude Include="External\PhosEngine\Sound\SoundPlayer.hpp" />
     <ClInclude Include="External\PhosEngine\Threading\AtomicMutex.hpp" />
     <ClInclude Include="External\PhosEngine\Threading\PoolSystem.hpp" />

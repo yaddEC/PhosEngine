@@ -12,7 +12,6 @@ namespace Sound
 		SoundPlayer();
 		~SoundPlayer();
 
-		Resource::Audio* audio;
 
 		void Update() override;
 		void Start() override;
@@ -20,7 +19,12 @@ namespace Sound
 		void GUIUpdate() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
-	protected:
-		bool p_isLooping;
+
+		void Play();
+		void Stop();
+	private:
+		bool m_isLooping;
+		Resource::Audio* m_audio;
+		float m_volume;
 	};
 }
