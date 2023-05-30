@@ -238,15 +238,15 @@ void Core::Editor::UpdateEditorGUI()
 
     if (Engine::Scene* newScene = m_AssetExplorer->GetNewScene() )
     {
-        m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
+        m_PlayStateGUI->setScene(newScene);
         m_mainScene->Unload();
         m_mainScene = newScene;
         m_mainScene->Load();
-        m_gameGUI->SetCurrentScene(m_mainScene);
-        m_sceneGUI->SetCurrentScene(m_mainScene);
-        m_Hierarchy->SetCurrentScene(m_mainScene);
-        m_RendererGUI->SetCurrentScene(m_mainScene);
-        Resource::ResourceManager::GetInstance().SetCurrentScene(m_mainScene);
+        m_gameGUI->SetCurrentScene(newScene);
+        m_sceneGUI->SetCurrentScene(newScene);
+        m_Hierarchy->SetCurrentScene(newScene);
+        m_RendererGUI->SetCurrentScene(newScene);
+        Resource::ResourceManager::GetInstance().SetCurrentScene(newScene);
         m_Inspector->DeselectCurrentGameObject();
         m_Inspector->DeselectCurrentAsset();
         m_sceneGUI->DeselectCurrentObject();

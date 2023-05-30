@@ -32,6 +32,8 @@ namespace UI
 
 		void ParseUIelement(std::vector<std::string> fileData, size_t& lineIndex);
 
+		Maths::Vec2 m_baseResolution = Maths::Vec2(1080, 720);
+
 		std::map<std::string, UIElement*> m_uiElementList;
 	};
 }

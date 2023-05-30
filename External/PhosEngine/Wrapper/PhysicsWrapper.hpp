@@ -39,6 +39,8 @@ public:
 namespace Wrapper
 {
 
+    #define INF PX_MAX_F32
+
 
     int countRigidActors(PxScene* scene);
 

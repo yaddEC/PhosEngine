@@ -11,6 +11,11 @@ namespace Resource
 	class PostProcessingShader;
 }
 
+namespace UI
+{
+	class Canvas;
+}
+
 
 namespace LowRenderer
 {
@@ -51,5 +56,7 @@ namespace LowRenderer
 
 		Maths::Mat4 m_viewMatrix;
 		Maths::Mat4 m_projMatrix;
+
+		UI::Canvas* m_canvas = nullptr;
 	};
 }

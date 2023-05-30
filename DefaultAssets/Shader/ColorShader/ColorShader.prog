@@ -1,0 +1,2 @@
+vert DefaultAssets\\Shader\\ColorShader\\ColorShader.vert
+frag DefaultAssets\\Shader\\ColorShader\\ColorShader.frag
