@@ -39,8 +39,6 @@ void LowRenderer::CameraComponent::Start()
 void LowRenderer::CameraComponent::OnInspector()
 {
     MonoBehaviour::OnInspector();
-    Wrapper::GUI::DisplayVec3("Forward", transform->GetForwardVector());
-    Wrapper::GUI::DisplayVec3("Global Pos", transform->GetGlobalPosition());
 }
 
 void LowRenderer::CameraComponent::OnDestroy()
