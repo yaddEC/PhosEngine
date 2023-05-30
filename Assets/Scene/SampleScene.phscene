@@ -182,3 +182,27 @@ component "RigidBody"
 	Gravity 0.000000 -20.000000 0.000000
 	end
 end
+name "Sphere"
+id 11
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveSphere.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader None
+	end
+component "PlayerMovement"
+	Speed 1.500000
+	IdUser 0.000000
+	up 0
+	right 0
+	down 0
+	left 0
+	end
+end
