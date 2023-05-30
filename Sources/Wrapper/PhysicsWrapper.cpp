@@ -884,7 +884,8 @@ namespace Wrapper
                     dynamicActor->putToSleep();
                     rigidbody->SetVelocity(Maths::Vec3(0, 0, 0));
 
-                    m_delay -= Engine::Input::deltaTime;
+                    m_delay -= Engine::Input::GetInstance().GetDeltaTime();
+                    //m_delay -= Engine::Input::GetInstance().deltaTime;
                     if(m_delay<=0)
                         m_transformChangedExternally = false;
                 }

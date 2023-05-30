@@ -86,18 +86,6 @@ namespace Physic {
         return result;
     }
 
-    void BoxCollider::Start()
-    {
-        Collider::Start();
-        gameobject->GetScene()->GetRenderer()->AddColliderMesh(this);
-    }
-
-    void BoxCollider::OnDestroy()
-    {
-        Collider::OnDestroy();
-        gameobject->GetScene()->GetRenderer()->DeleteColliderMesh(this);
-    }
-
     BoxCollider::BoxCollider(Maths::Vec3 _size)
         : Collider()
     {
@@ -130,16 +118,6 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
-    void SphereCollider::Start()
-    {
-        Collider::Start();
-    }
-
-    void SphereCollider::OnDestroy()
-    {
-        Collider::OnDestroy();
-    }
-
     SphereCollider::SphereCollider(float _radius)
         : Collider()
     {
@@ -170,17 +148,6 @@ namespace Physic {
     {
         m_radius = radius;
         physicsCollider->OnGuiChanged();
-    }
-
-
-    void CapsuleCollider::Start()
-    {
-        Collider::Start();
-    }
-
-    void CapsuleCollider::OnDestroy()
-    {
-        Collider::OnDestroy();
     }
 
     CapsuleCollider::CapsuleCollider(float _radius, float _height)

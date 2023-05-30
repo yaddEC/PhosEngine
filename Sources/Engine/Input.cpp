@@ -12,8 +12,6 @@
 
 using namespace Maths;
 using namespace Engine;
-float Input::deltaTime = 0.0f;
-
 
 
 
@@ -25,6 +23,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void Input::Init(GLFWwindow* _window)
 {
 	timeStep = 1/60.f ;
+	deltaTime = 0.0f;
 	window = _window;
 	for (size_t i = 0; i < 348; i++) {
 		keyMap[i] = 0;
@@ -55,7 +54,13 @@ float Input::GetVerticalAxis() {
 	return 0;
 }
 
-Vec2 Input::GetMouseDelta() {
+float Engine::Input::GetGamepadAxis(int axis, int idPlayer)
+{
+	return GpInput[idPlayer].axis[axis];
+}
+
+Vec2 Input::GetMouseDelta() 
+{
 	return mouseDelta;
 }
 
@@ -126,7 +131,10 @@ void Input::UpdateGamePad()
 			for (size_t j = 0; j < axisCount; j++)
 			{
 				GpInput[i].axis[j] = ptr[j];
-				
+				if (abs(GpInput[i].axis[j]) < 0.1)
+				{
+					GpInput[i].axis[j] = 0;
+				}
 			}
 
 			int buttonCount;
@@ -167,35 +175,35 @@ bool Engine::Input::IsKeyReleased(int key)
 	return keyMap[key] == -1;
 }
 
-bool Input::IsAnyKeyDown() {
+bool Input::IsAnyKeyDown() 
+{
 	return anyKeyDown;
 }
 
+bool Input::IsButtonPressed(int key, int idPlayer)
+{
+	return GpInput[idPlayer].button[key] > 0;
+}
 
-bool Input::IsMouseButtonPressed(int mouseButton) {
-	
-	/*bool mouseBool = glfwGetMouseButton(window, mouseButton);
-	if (mouseBool)
-	{
-		if (mouseMap == 0)
-		{
-			mouseMap = 1;
-			return true;
-		}
-	}
-	else
-	{
-		mouseMap = 0;
-	}
+bool Input::IsButtonDown(int key, int idPlayer) 
+{
+	return GpInput[idPlayer].button[key] == 2;
+}
 
-	return false;*/
+bool Engine::Input::IsButtonReleased(int key, int idPlayer)
+{
+	return GpInput[idPlayer].button[key] == -1;
+}
+
+
+bool Input::IsMouseButtonPressed(int mouseButton)
+{
 	return mouseMap[mouseButton] > 0;
 }
 
-bool Input::IsMouseButtonDown(int mouseButton) {
-	
+bool Input::IsMouseButtonDown(int mouseButton)
+{
 	return mouseMap[mouseButton] == 2;
-
 }
 
 bool Engine::Input::IsMouseButtonReleased(int mouseButton)
@@ -246,23 +254,23 @@ void Engine::Input::ShowDataGP(const GamepadInput& GpInput)
 
 	if (Wrapper::GUI::TreeNode("Button##" + std::to_string(GpInput.IDconnexion), false))
 	{
-		Wrapper::GUI::DisplayText("Button A : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_A]);
-		Wrapper::GUI::DisplayText("Button B : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_B]);
-		Wrapper::GUI::DisplayText("Button X : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_X]);
-		Wrapper::GUI::DisplayText("Button Y : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_Y]);
-		Wrapper::GUI::DisplayText("Left Bumper : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER]);
-		Wrapper::GUI::DisplayText("Right Bumper : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER]);
-		Wrapper::GUI::DisplayText("Back : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_BACK]);
-		Wrapper::GUI::DisplayText("Start : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_START]);
-		Wrapper::GUI::DisplayText("Guide : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_GUIDE]);
-		Wrapper::GUI::DisplayText("Left Thumb : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_LEFT_THUMB]);
-		Wrapper::GUI::DisplayText("Right Thumb : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_RIGHT_THUMB]);
-		Wrapper::GUI::DisplayText("Pad Up : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_DPAD_UP]);
-		Wrapper::GUI::DisplayText("Pad Right : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_DPAD_RIGHT]);
-		Wrapper::GUI::DisplayText("Pad Down : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_DPAD_DOWN]);
-		Wrapper::GUI::DisplayText("Pad Left : %d", GpInput.button[GLFW_GAMEPAD_BUTTON_DPAD_LEFT]);
+		Wrapper::GUI::DisplayText("Button A : %d", GpInput.button[GamepadButton::BUTTON_A]);
+		Wrapper::GUI::DisplayText("Button B : %d", GpInput.button[GamepadButton::BUTTON_B]);
+		Wrapper::GUI::DisplayText("Button X : %d", GpInput.button[GamepadButton::BUTTON_X]);
+		Wrapper::GUI::DisplayText("Button Y : %d", GpInput.button[GamepadButton::BUTTON_Y]);
+		Wrapper::GUI::DisplayText("Left Bumper : %d", GpInput.button[GamepadButton::BUTTON_LEFT_BUMPER]);
+		Wrapper::GUI::DisplayText("Right Bumper : %d", GpInput.button[GamepadButton::BUTTON_RIGHT_BUMPER]);
+		Wrapper::GUI::DisplayText("Back : %d", GpInput.button[GamepadButton::BUTTON_BACK]);
+		Wrapper::GUI::DisplayText("Start : %d", GpInput.button[GamepadButton::BUTTON_START]);
+		Wrapper::GUI::DisplayText("Guide : %d", GpInput.button[14]);
+		Wrapper::GUI::DisplayText("Left Thumb : %d", GpInput.button[GamepadButton::BUTTON_LEFT_THUMB]);
+		Wrapper::GUI::DisplayText("Right Thumb : %d", GpInput.button[GamepadButton::BUTTON_RIGHT_THUMB]);
+		Wrapper::GUI::DisplayText("Pad Up : %d", GpInput.button[GamepadButton::BUTTON_DPAD_UP]);
+		Wrapper::GUI::DisplayText("Pad Right : %d", GpInput.button[GamepadButton::BUTTON_DPAD_RIGHT]);
+		Wrapper::GUI::DisplayText("Pad Down : %d", GpInput.button[GamepadButton::BUTTON_DPAD_DOWN]);
+		Wrapper::GUI::DisplayText("Pad Left : %d", GpInput.button[GamepadButton::BUTTON_DPAD_LEFT]);
 		Wrapper::GUI::TreePop();
 	}
-}
+}	
 
 

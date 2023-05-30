@@ -62,7 +62,7 @@ void Scene::GameObjectFromBuffer()
 void Scene::Update()
 {
 	if(m_IsGameMode)
-		Physic::PhysicsManager::GetInstance().Update(Input::deltaTime);
+		Physic::PhysicsManager::GetInstance().Update(Engine::Input::GetInstance().GetDeltaTime());
 	
 	if(m_gameObjectBuffer.size() != 0)
 	{
