@@ -8,9 +8,10 @@ component "Mesh Renderer"
 	Material Assets\Material\Material.phmat
 	end
 component "Box Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Size  1.000000 1.000000 1.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType 0
 	end
 end
 name "testMat"
@@ -23,15 +24,16 @@ component "Mesh Renderer"
 	Material Assets\Material\MetalGrid.phmat
 	end
 component "Box Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Size  1.000000 1.000000 1.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType 0
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 end
 name "SpotLight"
@@ -53,40 +55,47 @@ layer 0
 tag 0
 transform -0.75 10 0 0 0 1.5708 1 1 1
 component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
+	Mesh None
+	Material None
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
 	end
 end
 name "Boo 3"
 id 5
 layer 0
 tag 0
-transform -17.8 21.45 0 0 0 -1.5708 1 1 1
+transform -17.8 21.025 -6.04461 -6.13067e-06 1.12876 -1.5708 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -90.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 0.000000 0.000000
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
+	end
+component "Fixed Joint"
+	Collider 7
+	BreakForce 340282346638528859811704183484516925440.000000
+	BreakTorque 340282346638528859811704183484516925440.000000
 	end
 end
 name "Boo 4"
@@ -99,64 +108,48 @@ component "Mesh Renderer"
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
 	end
 end
 name "Boo 6"
 id 7
 layer 0
 tag 0
-transform -30.7 9.8 -11.05 0 0 0 1 1 1
+transform -19.9093 29.8158 -2.9281 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh Assets\Model\boo.obj
 	Material Assets\Material\boo_mat.001.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 7.700000 0.000000
 	end
 component "Sphere Collider"
-	isTrigger  0
-	Center  0.000000 2.000000 0.000000
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
 	Radius 2.000000
+	MaterialType 0
 	end
 end
-name "Cube"
+name "Girl"
 id 8
 layer 0
 tag 0
-transform 8.15 2.75 -6.65 0 0 0 0.2 0.2 0.2
+transform 0 0 0 0 0 0 0.1 0.1 0.1
 component "Mesh Renderer"
 	Mesh Assets\Model\Walking.fbx
 	Material Assets\Material\GirlMat.phmat
-	end
-component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
-	end
-component "Capsule Collider"
-	isTrigger  0
-	Center  0.000000 0.000000 0.000000
-	Height 1.000000
-	Radius 1.000000
-	end
-component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
-	mass 1.000000
-	reset  0
 	end
 child
 	name "mixamorig:Hips"
@@ -725,10 +718,10 @@ component "Mesh Renderer"
 	Material DefaultAssets\Material\DefaultMat.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
 	end
 end
 name "Cube"
@@ -741,9 +734,112 @@ component "Mesh Renderer"
 	Material DefaultAssets\Material\DefaultMat.phmat
 	end
 component "RigidBody"
-	Gravity  0.000000 -20.000000 0.000000
-	Velocity  0.000000 0.000000 0.000000
 	mass 1.000000
-	reset  0
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "Cube"
+id 90
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "Camera"
+id 91
+layer 0
+tag 0
+transform 4.05 2.9 -33.15 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+	Canvas Assets\Canvas\BasicUI.phcanvas
+	end
+end
+name "Camera2"
+id 92
+layer 0
+tag 0
+transform -1 10.55 -30.8 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\Grayscale.phppro
+	Canvas None
+	end
+component "PlayerMovement"
+	Speed 1.500000
+	IdUser 0.000000
+	up 0
+	right 0
+	down 0
+	left 0
+	end
+end
+name "Sound"
+id 93
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Sound"
+	isLooping 0
+	Audio Assets\Audio\DebugSound.mp3
+	Volume 1.000000
+	end
+end
+name "Sound2"
+id 94
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Sound"
+	isLooping 0
+	Audio Assets\Audio\DebugSound.mp3
+	Volume 1.000000
+	end
+end
+name "Sphere"
+id 95
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveSphere.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader None
+	Canvas None
+	end
+component "PlayerMovement"
+	Speed 1.500000
+	IdUser 0.000000
+	up 0
+	right 0
+	down 0
+	left 0
 	end
 end
