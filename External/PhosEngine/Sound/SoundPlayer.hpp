@@ -19,6 +19,9 @@ namespace Sound
 		void GUIUpdate() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
+
+		void Play();
+		void Stop();
 	private:
 		bool m_isLooping;
 		Resource::Audio* m_audio;
