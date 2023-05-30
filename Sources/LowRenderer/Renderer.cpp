@@ -93,6 +93,15 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	
 }
 
+void LowRenderer::Renderer::RenderCollider(Camera* mainCamera, Maths::Vec2 viewportSize)
+{
+	if (mainCamera)
+	{
+		mainCamera->ComputeViewProjMatrix(viewportSize);
+		mainCamera->RenderMeshList(m_colliderDebugList, viewportSize);
+	}
+}
+
 int Renderer::IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos)
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

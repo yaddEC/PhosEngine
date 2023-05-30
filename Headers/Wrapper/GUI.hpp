@@ -23,6 +23,11 @@ namespace Resource
 	class Audio;
 }
 
+namespace UI
+{
+	class Canvas;
+}
+
 namespace Wrapper
 {
 	enum class MaterialType;
@@ -101,6 +106,7 @@ namespace Wrapper
 		static bool PickGameObject(const std::string& label, const std::string& buttonLabel, int* gameObject, bool text);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 		static bool PickAudio(const std::string& label, Resource::Audio** audio, bool text);
+		static bool PickCanvas(const std::string& label, UI::Canvas** canvas, bool text = true);
 
 		static void DisplayText(const char* format, ...);
 		static void DisplayFloat(const std::string& label, float value);

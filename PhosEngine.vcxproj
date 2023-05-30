@@ -273,6 +273,7 @@ xcopy /y /d "$(ProjectDir)Headers\dllInclude.hpp" "$(SolutionDir)External\PhosEn
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
 xcopy /y /d "$(ProjectDir)Headers\Physic\" "$(SolutionDir)External\PhosEngine\Physic\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
+xcopy /y /d "$(ProjectDir)Headers\Script\" "$(SolutionDir)External\PhosEngine\Script\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
 xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
 </Command>
@@ -529,6 +530,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Threading\Thread.cpp" />
     <ClCompile Include="Sources\UI\Canvas.cpp" />
     <ClCompile Include="Sources\UI\SpriteRenderer.cpp" />
+    <ClCompile Include="Sources\UI\UIElement.cpp" />
     <ClCompile Include="Sources\Wrapper\GUI.cpp" />
     <ClCompile Include="Sources\Wrapper\PhysicsWrapper.cpp" />
     <ClCompile Include="Sources\Wrapper\RHI.cpp" />

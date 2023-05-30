@@ -26,6 +26,8 @@ namespace LowRenderer
 
 		void PreComputeShaderData();
 		void RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras);
+		void RenderCollider(Camera* mainCamera, Maths::Vec2 viewportSize);
+
 		int IdPicker(Camera* mainCamera, Maths::Vec2 viewportSize, Maths::Vec2 TabPos);
 		void RenderIcon(Camera* mainCamera, Maths::Vec2 viewportSize);
 
@@ -54,6 +56,8 @@ namespace LowRenderer
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
+		std::vector<Resource::Mesh*> m_colliderDebugList;
+
 		std::vector<CameraComponent*> m_cameras;
 		std::vector<DirectionalLight*> m_directionalLights;
 		std::vector<PointLight*> m_pointLights;

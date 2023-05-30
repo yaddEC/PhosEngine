@@ -94,6 +94,13 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     Wrapper::RHI::UnbindFrameBuffer();
 }
 
+void LowRenderer::Camera::RenderMeshList(const std::vector<Resource::Mesh*>& meshList, const Maths::Vec2& viewportSize)
+{
+    glCullFace(GL_FRONT);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+}
+
 void Camera::IdPickerRender(const std::vector<MeshRenderer*>& rendList, const Vec2& viewportSize)
 {
     Mat4 proj = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
