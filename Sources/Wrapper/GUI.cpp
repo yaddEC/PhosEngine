@@ -79,6 +79,8 @@ bool Wrapper::GUI::InitGUI(GLFWwindow* window)
 	Style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
 	Style.Colors[ImGuiCol_DragDropTarget] = ImVec4(0.749f, 0.282f, 0.004f, 1.000f);
 	Style.Colors[ImGuiCol_NavHighlight] = ImVec4(0.196f, 0.737f, 0.702f, 1.000f);
+	Style.Colors[ImGuiCol_DragDropTarget] = ImVec4(0.196f, 0.737f, 0.702f, 0.749f);
+	
 
 	static const ImWchar ranges1[] =
 	{
