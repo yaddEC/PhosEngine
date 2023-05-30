@@ -11,6 +11,9 @@
 
 #include "dllInclude.hpp"
 
+#define NEXT_WIDTH 0.6
+#define WIDGET_OFFSET 0.3
+
 namespace Resource
 {
 	class Texture;
@@ -18,6 +21,11 @@ namespace Resource
 	class Material;
 	class PostProcessingShader;
 	class Audio;
+}
+
+namespace UI
+{
+	class Canvas;
 }
 
 namespace Wrapper
@@ -55,6 +63,7 @@ namespace Wrapper
 		static bool CollapsingHeader(const std::string& label);
 
 		static void PushID(int ID);
+		static void PushID(std::string ID);
 		static void PopID();
 
 		static Maths::Vec2 GetWindowSize();
@@ -97,6 +106,7 @@ namespace Wrapper
 		static bool PickGameObject(const std::string& label, const std::string& buttonLabel, int* gameObject, bool text);
 		static bool PickPostProcessing(const std::string& label, Resource::PostProcessingShader** material, bool text = true);
 		static bool PickAudio(const std::string& label, Resource::Audio** audio, bool text);
+		static bool PickCanvas(const std::string& label, UI::Canvas** canvas, bool text = true);
 
 		static void DisplayText(const char* format, ...);
 		static void DisplayFloat(const std::string& label, float value);

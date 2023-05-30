@@ -22,6 +22,9 @@ namespace Reflection
 		T_GAME_OBJECT,
 		T_POST_PROCESSING_SHADER,
 		T_PHYSIC_MATERIAL,
+		T_AUDIO,
+		T_INF_FLOAT,
+		T_CANVAS
 	};
 
 
