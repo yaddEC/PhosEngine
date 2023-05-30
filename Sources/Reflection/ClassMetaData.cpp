@@ -16,6 +16,7 @@
 #include "Engine/Scene.hpp"
 #include "Resource/Material.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
+#include "Script/PlayerMouvement.hpp"
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
@@ -420,6 +421,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Sound")
 	{
 		return gameObject->AddComponent<Sound::SoundPlayer>();
+	}
+	if (componentName == "PlayerMovement")
+	{
+		return gameObject->AddComponent<Script::PlayerMouvement>();
 	}
 
 	return nullptr;
