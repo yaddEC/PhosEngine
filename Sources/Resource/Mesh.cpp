@@ -65,11 +65,20 @@ Mesh::~Mesh()
     Unload();
 }
 
-void Mesh::Render(const ShaderProgram& shaderProgram, const class Material& material) const
+void Mesh::Render(const class Material& material) const
 {
     for (SubMesh mesh : m_subMeshes)
     {
-        mesh.Render(shaderProgram, material);
+        mesh.Render(material);
+    }
+}
+
+void Resource::Mesh::RenderFlatColor(const Maths::Vec3& color) const
+{
+    ResourceManager::GetInstance().colorShader->SetUniformVec3("color", color);
+    for (SubMesh mesh : m_subMeshes)
+    {
+        mesh.RenderFlatColor();
     }
 }
 

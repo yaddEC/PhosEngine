@@ -41,7 +41,8 @@ namespace Resource
 		virtual ~Mesh();
 		std::string GetTypeName() { return "Mesh"; }
 
-		void Render(const class ShaderProgram& shaderProgram, const class Material& material) const;
+		void Render(const class Material& material) const;
+		void RenderFlatColor(const Maths::Vec3& color) const;
 		void RenderShadowMap() const;
 
 		Texture* GenerateFileIcon() override;

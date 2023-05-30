@@ -136,7 +136,7 @@ void Engine::Scene::Load()
 	m_gameObjectBuffer.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(GetFilePath());
 	size_t lineIndex = 0;
-	while (lineIndex < fileData.size() - 2)
+	while (lineIndex + 2 < fileData.size())
 	{
 		ParseGameObject(fileData, lineIndex);
 		lineIndex++;

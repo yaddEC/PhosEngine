@@ -30,9 +30,14 @@ SubMesh::SubMesh(vector<SkinnedVertex> _vertices, vector<unsigned int> _indices)
     isSkinned = true;
 }
 
-void SubMesh::Render(const ShaderProgram& shaderProgram, const class Material& material) const
+void SubMesh::Render(const class Material& material) const
 {
     material.SendDataToShader();
+    Wrapper::RHI::RenderSubMesh(m_VAO, indices);
+}
+
+void Resource::SubMesh::RenderFlatColor() const
+{
     Wrapper::RHI::RenderSubMesh(m_VAO, indices);
 }
 

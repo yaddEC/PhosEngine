@@ -11,6 +11,10 @@
 
 #include "dllInclude.hpp"
 
+namespace Physic
+{
+	class Collider;
+}
 
 namespace Resource
 {
@@ -44,7 +48,7 @@ namespace LowRenderer
 		void Render(const std::vector<LowRenderer::MeshRenderer*>& rendList,
 			const Maths::Vec2& viewportSize, const Resource::CubeMap* skybox);
 
-		void RenderMeshList(const std::vector<Resource::Mesh*>& meshList,
+		void RenderMeshList(const std::vector<Physic::Collider*>& colList,
 			const Maths::Vec2& viewportSize);
 		void IdPickerRender(const std::vector<LowRenderer::MeshRenderer*>& rendList, const Maths::Vec2& viewportSize);
 		void IdPickerIcon(const std::vector<DirectionalLight*>& m_directionalLights, std::vector<PointLight*>& m_pointLights, std::vector<SpotLight*>& m_spotLights, const Maths::Vec2& viewportSize);

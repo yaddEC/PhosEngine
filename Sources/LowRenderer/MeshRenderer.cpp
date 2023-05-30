@@ -55,7 +55,7 @@ void MeshRenderer::Render(const Maths::Mat4& viewProj, const Maths::Vec3& viewPo
 		m_material->GetShader()->SetUniformBool("isSkinned", false);
 	}
 
-	m_mesh->Render(*m_material->GetShader(), *m_material);
+	m_mesh->Render(*m_material);
 
 }
 
@@ -85,7 +85,7 @@ void LowRenderer::MeshRenderer::RenderOutline(const Maths::Mat4& viewProj) const
 
 	glLineWidth(4);
 
-	m_mesh->Render(*outlineShader, *m_material);
+	m_mesh->Render(*m_material);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

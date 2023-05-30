@@ -132,6 +132,8 @@ void Resource::ResourceManager::Unload()
 void Resource::ResourceManager::SetStaticResource()
 {
 	cube = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCube.obj");
+	sphere = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveSphere.obj");
+	capsule = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveCapsule.obj");
 	skyboxShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\SkyboxShader\\SkyboxShader.prog");
 	pickingShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\PickingShader\\PickingShader.prog");
 	iconShaderForPicking = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\IconShaderForPicking\\IconShaderForPicking.prog");
