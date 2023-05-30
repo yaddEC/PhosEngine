@@ -763,6 +763,9 @@ component "Camera Component"
 	PostProcessingShader Assets\Shader\PostProcessingShader\Grayscale.phppro
 	Canvas None
 	end
+component "PlayerMovement"
+	Speed 1.500000
+	end
 end
 name "Sound"
 id 92

@@ -7,6 +7,7 @@
 #include "Physic/Collider.hpp"
 #include "Physic/Rigidbody.hpp"
 #include "Physic/Joint.hpp"
+#include "Script/PlayerMouvement.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
@@ -158,6 +159,10 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		if (GUI::Selectable("Sound", false))
 		{
 			m_gameobject->AddComponent<Sound::SoundPlayer>();
+		}
+		if (GUI::Selectable("Player Movement", false))
+		{
+			m_gameobject->AddComponent<Script::PlayerMouvement>();
 		}
 		GUI::EndPopup();
 	}
