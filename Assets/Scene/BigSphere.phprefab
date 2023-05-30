@@ -1,0 +1,8 @@
+name "BigSphere"
+id 3
+transform 0 7.67637 0 0 0 0 4 4 4
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveSphere.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+end
