@@ -29,7 +29,6 @@ void Script::InputManager::Start()
 
 void Script::InputManager::Update()
 {
-    int lastID = 5;
     for (int i = 0; i < playerMovement.size(); i++)
     {
         if ((i == 0 && playerMovement[1]->GetIdUser() == gamepads[i].IDconnexion )||
@@ -41,7 +40,6 @@ void Script::InputManager::Update()
         {
             playerMovement[i]->SetIdUser(gamepads[i].IDconnexion);
         }
-        lastID = gamepads[i].IDconnexion;
     }
 }
 
