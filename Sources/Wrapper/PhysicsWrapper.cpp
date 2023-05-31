@@ -353,8 +353,6 @@ namespace Wrapper
         m_scene = m_physics->createScene(sceneDesc);
         if (!m_scene)
             throw std::runtime_error("createScene failed!");
-
-
     }
 
     void Physics::SetupVisualDebugger()

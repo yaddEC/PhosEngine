@@ -34,7 +34,7 @@ std::string GetRelativePath(const fs::directory_entry& entry, const std::string&
 	return pathStr.substr(pathStr.find(rootDirectory));
 }
 
-void Resource::ResourceManager::Init(const std::string& rootAssetPath)
+void Resource::ResourceManager::Init(const char* rootAssetPath)
 {
 	for (const auto& entry : fs::recursive_directory_iterator(rootAssetPath))
 	{
@@ -144,7 +144,18 @@ void Resource::ResourceManager::SetStaticResource()
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 }
 
-void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene) 
+void Resource::ResourceManager::RenameResource(const std::string& filepath, const std::string& newName)
+{
+	if (m_resourceMap.count(filepath))
+	{
+		IResource* resource = m_resourceMap.at(filepath);
+		resource->SetName(newName);
+		m_resourceMap.erase(filepath);
+		m_resourceMap.emplace(resource->GetFilePath(), resource);
+	}
+}
+
+void Resource::ResourceManager::SetCurrentScene(Engine::Scene* currentScene)
 {
 	m_currentScene = currentScene;
 }

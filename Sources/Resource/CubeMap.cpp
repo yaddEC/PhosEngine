@@ -38,6 +38,13 @@ void Resource::CubeMap::Bind()
 void Resource::CubeMap::Unload()
 {
 	Wrapper::RHI::UnloadCubeMap(&m_cubeMapKey);
+	for (size_t i = 0; i < 6; i++)
+	{
+		if (m_faces[i])
+		{
+			//Wrapper::RHI::Tex
+		}
+	}
 }
 
 void Resource::CubeMap::Save()
@@ -112,7 +119,11 @@ void Resource::CubeMap::LoadData()
 {
 	for (int i = 0; i < 6; i++)
 	{
-		if (!m_faces[i]) continue;
+		if (!m_faces[i])
+		{
+			m_datas[i] = nullptr;
+			continue;
+		}
 
 		std::string path = m_faces[i]->GetFilePath();
 		int x, y, comp;

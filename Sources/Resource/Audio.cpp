@@ -49,7 +49,7 @@ void Resource::Audio::Create()
 
 Resource::Audio::~Audio()
 {
-    ma_sound_uninit(sound);
+    //ma_sound_uninit(sound);
 
     delete sound;
 }

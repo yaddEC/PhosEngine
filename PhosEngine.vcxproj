@@ -289,6 +289,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>Headers;Externals;Externals/ImGuizmo/Header/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -318,12 +319,13 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;PHOSCORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;PHOSENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>Headers;Externals;Externals/ImGUI/Header</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -331,7 +333,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;glew32.lib;glfw3_mt.lib;zlibstatic.lib;assimp-vc142-mt.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;PhysX\Realease\LowLevel_static_64.lib;PhysX\Realease\LowLevelAABB_static_64.lib;PhysX\Realease\LowLevelDynamics_static_64.lib;PhysX\Realease\PhysX_64.lib;PhysX\Realease\PhysXCharacterKinematic_static_64.lib;PhysX\Realease\PhysXCommon_64.lib;PhysX\Realease\PhysXCooking_64.lib;PhysX\Realease\PhysXExtensions_static_64.lib;PhysX\Realease\PhysXFoundation_64.lib;PhysX\Realease\PhysXPvdSDK_static_64.lib;PhysX\Realease\PhysXTask_static_64.lib;PhysX\Realease\PhysXVehicle_static_64.lib;PhysX\Realease\SceneQuery_static_64.lib;PhysX\Realease\SimulationController_static_64.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)Libs;%(AdditionalLibraryDirectories);DLL/*</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -342,11 +344,16 @@ xcopy /y /d "$(ProjectDir)Headers\Maths\" "$(SolutionDir)External\PhosEngine\Mat
 xcopy /y /d "$(ProjectDir)Headers\Resource\" "$(SolutionDir)External\PhosEngine\Resource\"
 xcopy /y /d "$(ProjectDir)Headers\Wrapper\" "$(SolutionDir)External\PhosEngine\Wrapper\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\" "$(SolutionDir)External\PhosEngine\LowRenderer\"
+xcopy /y /d "$(ProjectDir)Headers\UI\" "$(SolutionDir)External\PhosEngine\UI\"
+xcopy /y /d "$(ProjectDir)Headers\Threading\" "$(SolutionDir)External\PhosEngine\Threading\"
+xcopy /y /d "$(ProjectDir)Headers\Reflection\" "$(SolutionDir)External\PhosEngine\Reflection\"
+xcopy /y /d "$(ProjectDir)Headers\dllInclude.hpp" "$(SolutionDir)External\PhosEngine\"
 xcopy /y /d "$(ProjectDir)Headers\LowRenderer\Light\" "$(SolutionDir)External\PhosEngine\LowRenderer\Light\"
+xcopy /y /d "$(ProjectDir)Headers\Physic\" "$(SolutionDir)External\PhosEngine\Physic\"
 xcopy /y /d "$(ProjectDir)Headers\Engine\" "$(SolutionDir)External\PhosEngine\Engine\"
+xcopy /y /d "$(ProjectDir)Headers\Script\" "$(SolutionDir)External\PhosEngine\Script\"
 xcopy /y /d "$(ProjectDir)Externals\GL\" "$(SolutionDir)External\GL\"
-xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
-</Command>
+xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFromEngine|x64'">
@@ -361,6 +368,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>Headers;Externals;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

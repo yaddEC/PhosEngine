@@ -65,17 +65,18 @@ void Resource::Material::Save()
 
 void Resource::Material::GUIUpdate()
 {
-	std::string shaderName = m_shader ? m_shader->GetName() : "No Shader";
+	/*std::string shaderName = m_shader ? m_shader->GetName() : "No Shader";
 	if (GUI::Combo("Shader : ", ResourceManager::GetInstance().GetResourceNameList<ShaderProgram>(), shaderName))
 	{
 		m_shader = ResourceManager::GetInstance().GetResource<ShaderProgram>(shaderName);
-	}
+	}*/
+	GUI::PickShaderProgram("Shader Program", &m_shader);
 
 	m_albedo.GUIUpdate("Albedo : ");
 	m_roughness.GUIUpdate("Roughness : ");
 	m_metallic.GUIUpdate("Metallic : ");
 
-	std::string normalMap = m_normalMap ? m_normalMap->GetName() : "None";;
+	/*std::string normalMap = m_normalMap ? m_normalMap->GetName() : "None";;
 	if (GUI::Combo("Normal map : ", ResourceManager::GetInstance().GetResourceNameList<Texture>(), normalMap, true, "None"))
 	{
 		if (normalMap == "None")
@@ -86,8 +87,8 @@ void Resource::Material::GUIUpdate()
 		{
 			m_normalMap = ResourceManager::GetInstance().GetResource<Texture>(normalMap);
 		}
-	}
-
+	}*/
+	GUI::PickTexture("Normal Map", &m_normalMap);
 
 }
 
@@ -98,6 +99,8 @@ Resource::Texture* Resource::Material::GenerateFileIcon()
 
 void Resource::Material::SendDataToShader() const
 {
+	if (!m_shader) return;
+
 	if (m_albedo.useTexture)
 		m_shader->SetTexture("material.albedo.texture", 0, *m_albedo.texture);
 	else
@@ -222,7 +225,7 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 	GUI::BeginGroup();
 
 
-	std::string selectedSpec = useTexture ? texture->GetName() : "Color";
+	/*std::string selectedSpec = useTexture ? texture->GetName() : "Color";
 	if (GUI::Combo(label, Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>(), selectedSpec, true, "Color"))
 	{
 		if (selectedSpec == "Color")
@@ -235,15 +238,38 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 			texture = ResourceManager::GetInstance().GetResource<Texture>(selectedSpec);
 			useTexture = true;
 		}
+	}*/
+	Resource::Texture* temp = texture;
+
+	if (useTexture)
+	{
+		GUI::PickTexture(label, &temp);
+		if (temp)
+		{
+			texture = temp;
+		}
 	}
+	else
+	{
+		GUI::PickTexture(label, &temp);
+		if (temp)
+		{
+			texture = temp;
+		}
+	}
+
+	if (temp)
+		useTexture = true;
+	else
+		useTexture = false;
 
 	GUI::EndGroup();
 
-	if (Resource::Texture** newtexture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
+	/*if (Resource::Texture** newtexture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
 	{
 		texture = *newtexture;
 		useTexture = true;
-	}
+	}*/
 	if (!useTexture)
 		GUI::EditColorRGB(label, color, false);
 }
@@ -252,29 +278,37 @@ void Resource::ValueMap::GUIUpdate(const std::string& label)
 {
 	GUI::BeginGroup();
 
+	Resource::Texture* temp = texture;
 
-	std::string selectedSpec = useTexture ? texture->GetName() : "Value";
-	if (GUI::Combo(label, Resource::ResourceManager::GetInstance().GetResourceNameList<Texture>(), selectedSpec, true, "Value"))
+	if (useTexture)
 	{
-		if (selectedSpec == "Value")
+		GUI::PickTexture(label, &temp);
+		if (temp)
 		{
-			texture = nullptr;
-			useTexture = false;
-		}
-		else
-		{
-			texture = ResourceManager::GetInstance().GetResource<Texture>(selectedSpec);
-			useTexture = true;
+			texture = temp;
 		}
 	}
+	else
+	{
+		GUI::PickTexture(label, &temp);
+		if (temp)
+		{
+			texture = temp;
+		}
+	}
+
+	if (texture)
+		useTexture = true;
+	else
+		useTexture = false;
 
 	GUI::EndGroup();
 
-	if (Resource::Texture** newtexture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
+	/*if (Resource::Texture** newtexture = (Texture**)Wrapper::GUI::DragDropTarget("Texture"))
 	{
 		texture = *newtexture;
 		useTexture = true;
-	}
+	}*/
 	if (!useTexture)
 		GUI::EditFloat("value" + label, value, false, 0.001f, 0.f, 1.0f);
 }

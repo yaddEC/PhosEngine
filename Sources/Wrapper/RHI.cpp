@@ -86,6 +86,11 @@ void Wrapper::RHI::ResizeTexture(unsigned int* textureKey, int channel, int widt
 
 }
 
+void Wrapper::RHI::UnloadTexture(unsigned int* textureKey)
+{
+	glDeleteTextures(1, textureKey);
+}
+
 void Wrapper::RHI::BindShader(unsigned int* shaderKey, const std::string& sourceCode, unsigned int ShaderType)
 {
 	*shaderKey = GetCompiledShader(ShaderType, sourceCode.c_str());
@@ -357,8 +362,17 @@ void Wrapper::RHI::BindCubeMap(unsigned int* cubeMapKey, unsigned char* data[], 
 	{
 		if (data[i] && faces[i])
 		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, faces[i]->GetTextureWidth(), faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]
-			);
+			if (faces[i]->GetChannelsCount() == 4)
+			{
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, faces[i]->GetTextureWidth(),
+					faces[i]->GetTextureHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data[i]);
+			}
+			else if(faces[i]->GetChannelsCount() == 3)
+			{
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, faces[i]->GetTextureWidth(),
+					faces[i]->GetTextureHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, data[i]);
+			}
+			
 		}
 	}
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

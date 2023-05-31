@@ -88,12 +88,11 @@ namespace Physic {
 
     
 
-    void BoxCollider::OnInspector()
+
+    void BoxCollider::OnGizmo()
     {
-        MonoBehaviour::OnInspector();
-        LowRenderer::Gizmo box{Resource::ResourceManager::GetInstance().cube, transform->position,
-            transform->rotationEuler, transform->scale};
-        gameobject->GetScene()->GetRenderer()->AddGizmo(box);
+        gameobject->GetScene()->GetRenderer()->BoxGizmo(transform->position + p_center, transform->rotationEuler,
+            transform->scale * m_size);
     }
 
     BoxCollider::BoxCollider(Maths::Vec3 _size)
@@ -130,6 +129,11 @@ namespace Physic {
 
    
 
+    void SphereCollider::OnGizmo()
+    {
+        gameobject->GetScene()->GetRenderer()->SphereGizmo(transform->position + p_center, transform->scale.x * m_radius);
+    }
+
     SphereCollider::SphereCollider(float _radius)
         : Collider()
     {
@@ -162,8 +166,12 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
-
     
+
+    void CapsuleCollider::OnGizmo()
+    {
+        gameobject->GetScene()->GetRenderer()->CapsuleGizmo(transform->position + p_center, transform->rotationEuler, transform->scale * Maths::Vec3(m_radius, m_height * 0.5f, 1.f));
+    }
 
     CapsuleCollider::CapsuleCollider(float _radius, float _height)
         : Collider()

@@ -136,7 +136,8 @@ void Engine::Scene::Load()
 	m_gameObjects.clear();
 	m_gameObjectBuffer.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(GetFilePath());
-	size_t lineIndex = 0;
+	m_renderer->SetSkybox(Resource::ResourceManager::GetInstance().GetResource<Resource::CubeMap>(fileData[0]));
+	size_t lineIndex = 1;
 	while (lineIndex + 2 < fileData.size())
 	{
 		ParseGameObject(fileData, lineIndex);
@@ -166,6 +167,8 @@ void Engine::Scene::Save()
 	std::fstream progFile;
 	progFile.open((p_directory + "\\" + p_name).c_str(), std::fstream::out | std::fstream::trunc);
 
+
+	progFile << m_renderer->GetSkybox()->GetFilePath() << '\n';
 	if (progFile)
 	{
 		for (GameObject* go : m_gameObjects)

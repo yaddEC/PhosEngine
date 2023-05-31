@@ -54,7 +54,7 @@ void Texture::Bind()
 
 void Texture::Unload()
 {
-	glDeleteTextures(1, &m_textureKey);
+	Wrapper::RHI::UnloadTexture(&m_textureKey);
 }
 
 void Resource::Texture::GUIUpdate()

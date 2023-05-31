@@ -34,7 +34,7 @@ namespace Resource
 	public:
 		ResourceManager(const ResourceManager&) = delete;
 
-		void Init(const std::string& rootAseetsPath);
+		void Init(const char* rootAseetsPath);
 		void LoadAll();
 		void Save();
 		void Unload();
@@ -83,51 +83,6 @@ namespace Resource
 
 			GetInstance().m_resourceMap.emplace(filepath, newResource);
 
-			if (typeid(T) == typeid(Material))
-			{
-				m_materialNameList.push_back(((Material*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(Mesh))
-			{
-				m_meshNameList.push_back(((Mesh*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(Texture))
-			{
-				m_textureNameList.push_back(((Texture*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(ShaderProgram))
-			{
-				m_shaderPorgramNameList.push_back(((ShaderProgram*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(CubeMap))
-			{
-				m_cubeMapNameList.push_back(((CubeMap*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(Engine::Scene))
-			{
-				m_sceneNameList.push_back(((Engine::Scene*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(Prefab))
-			{
-				m_prefabList.push_back(((Prefab*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(PostProcessingShader))
-			{
-				m_postProcessingList.push_back(((PostProcessingShader*)newResource)->GetName());
-			}
-
-			if (typeid(T) == typeid(Audio))
-			{
-				((Audio*)newResource)->Create();
-				m_AudioList.push_back(((Audio*)newResource)->GetName());
-			}
 
 			return newResource;
 
@@ -140,50 +95,9 @@ namespace Resource
 				resource->Unload();
 		}
 
-		template<class T>
-		std::vector<std::string> GetResourceNameList();
+		void RenameResource(const std::string& filepath, const std::string& newName);
 
-		template<>
-		inline std::vector<std::string> GetResourceNameList<Texture>()
-		{
-			return m_textureNameList;
-		}
-
-		template<>
-		inline std::vector<std::string> GetResourceNameList<ShaderProgram>()
-		{
-			return m_shaderPorgramNameList;
-		}
-
-		template<>
-		inline std::vector<std::string> GetResourceNameList<CubeMap>()
-		{
-			return m_cubeMapNameList;
-		}
-
-		template<>
-		inline std::vector<std::string> GetResourceNameList<Mesh>()
-		{
-			return m_meshNameList;
-		}
-
-		template<>
-		inline std::vector<std::string> GetResourceNameList<Material>()
-		{
-			return m_materialNameList;
-		}
-
-		template<>
-		inline std::vector<std::string> GetResourceNameList<PostProcessingShader>()
-		{
-			return m_postProcessingList;
-		}
-
-		template<>
-		inline std::vector<std::string> GetResourceNameList<Audio>()
-		{
-			return m_AudioList;
-		}
+		
 
 		void SetCurrentScene(Engine::Scene* currentScene);
 
@@ -216,8 +130,6 @@ namespace Resource
 
 
 		std::unordered_map<std::string, IResource*> m_resourceMap;
-		std::vector<std::string> m_textureNameList, m_materialNameList, m_meshNameList,
-			m_shaderPorgramNameList, m_cubeMapNameList, m_sceneNameList, m_prefabList, m_postProcessingList, m_AudioList;
 
 		Engine::Scene* m_currentScene = nullptr;
 

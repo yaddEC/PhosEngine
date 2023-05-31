@@ -210,3 +210,20 @@ Maths::Vec3 LowRenderer::Renderer::GetAmbient() const
 {
 	return m_ambient;
 }
+
+void LowRenderer::Renderer::SphereGizmo(const Maths::Vec3& position, const Maths::Vec3& scale, const Maths::Vec3& color)
+{
+	m_gizmoList.push_back(Gizmo(Resource::ResourceManager::GetInstance().sphere, position, Maths::Vec3(), scale, color));
+}
+
+void LowRenderer::Renderer::BoxGizmo(const Maths::Vec3& position, const Maths::Vec3& rotation,
+	const Maths::Vec3& scale, const Maths::Vec3& color)
+{
+	m_gizmoList.push_back(Gizmo(Resource::ResourceManager::GetInstance().cube, position, rotation, scale, color));
+}
+
+void LowRenderer::Renderer::CapsuleGizmo(const Maths::Vec3& position, const Maths::Vec3& rotation,
+	const Maths::Vec3& scale, const Maths::Vec3& color)
+{
+	m_gizmoList.push_back(Gizmo(Resource::ResourceManager::GetInstance().capsule, position, rotation, scale, color));
+}

@@ -33,6 +33,7 @@ namespace Wrapper
 		static void BindTexture(unsigned int* textureKey, unsigned char* data, int channel, int width, int height);
 		static void BindDepthTexture(unsigned int* textureKey, int width, int height);
 		static void ResizeTexture(unsigned int* textureKey, int channel, int width, int height);
+		static void UnloadTexture(unsigned int* textureKey);
 
 		static void BindShader(unsigned int* shaderKey, const std::string& sourceCode, unsigned int ShaderType);
 		static void BindShader(unsigned int* programKey, std::vector<Resource::ShaderInfo> &shaderList);

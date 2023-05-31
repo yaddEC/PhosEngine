@@ -22,6 +22,7 @@ namespace Engine
 		bool isActive = true;
 
 		virtual void Start() {};
+		virtual void OnGizmo() {};
 		virtual void OnTriggerEnter(GameObject* go) {};
 		virtual void OnTriggerStay(GameObject* go) {};
 		virtual void OnTriggerExit(GameObject* go) {};

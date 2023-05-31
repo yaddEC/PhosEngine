@@ -19,7 +19,7 @@ namespace Resource
 
 		union
 		{
-			Texture* texture;
+			Texture* texture = nullptr;
 			Maths::Vec3 color;
 		};
 
@@ -36,7 +36,7 @@ namespace Resource
 
 		union
 		{
-			Texture* texture;
+			Texture* texture = nullptr;
 			float value;
 		};
 

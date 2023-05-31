@@ -258,9 +258,9 @@ void Wrapper::GUI::Image(const Resource::Texture& texture, Maths::Vec2 size)
 	ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(texture.GetTextureKey())), ImVec2(size.x, size.y), ImVec2(0, 1), ImVec2(1, 0));
 }
 
-void Wrapper::GUI::TextUnformatted(const std::string& text, const std::string& text_end)
+void Wrapper::GUI::TextUnformatted(const char* text, const char* text_end)
 {
-	ImGui::TextUnformatted(text.c_str(),text_end.c_str());
+	ImGui::TextUnformatted(text ,text_end);
 }
 
 Maths::Vec2 Wrapper::GUI::CalcTextSize(const std::string& text)
@@ -291,45 +291,6 @@ bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text
 	return ImGui::SliderFloat(("##" + label).c_str(), &value, min, max, "%.2f");
 }
 
-bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** texture, bool text)
-{
-	float textWidth = GUI::CalcTextSize(label.c_str()).x;
-	if (text)
-	{
-		ImGui::Text(label.c_str());
-		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
-	}
-	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Texture>();
-	std::string currentTextureName = *texture ? (*texture)->GetName() : "None";
-
-	if (ImGui::BeginCombo(("##" + label).c_str(), currentTextureName.c_str()))
-	{
-		if (ImGui::Selectable("None", !texture))
-		{
-			*texture = nullptr;
-			ImGui::EndCombo();
-			return true;
-		}
-
-		for (auto str : meshNameList)
-		{
-			if (ImGui::Selectable(str.c_str(), str == currentTextureName))
-			{
-				*texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(str);
-				ImGui::EndCombo();
-				return true;
-			}
-		}
-		ImGui::EndCombo();
-	}
-	if (Resource::Texture** newTexture = (Resource::Texture**)DragDropTarget("Texture"))
-	{
-		*texture = *newTexture;
-		return true;
-	}
-
-	return false;
-}
 
 
 bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, float speed, float min, float max)
@@ -457,21 +418,158 @@ bool Wrapper::GUI::EditColorRGBA(const std::string& label, Maths::Vec4* value, b
 	return ImGui::ColorEdit4(("##" + label).c_str(), &value->x);
 }
 
+bool Wrapper::GUI::PickCubeMap(const std::string& label, Resource::CubeMap** cubemap, bool text)
+{
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
+	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	std::string currentPostProName = (*cubemap) ? (*cubemap)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
+	{
+		if (ImGui::Selectable("None", !cubemap))
+		{
+			*cubemap = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
+		{
+			if (resource.second->GetTypeName() == "CubeMap")
+			{
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*cubemap = Resource::ResourceManager::GetInstance().GetResource<Resource::CubeMap>(str);
+					ImGui::EndCombo();
+					return true;
+				}
+			}
+
+		}
+		ImGui::EndCombo();
+	}
+
+	if (Resource::CubeMap** mat = (Resource::CubeMap**)DragDropTarget("CubeMap"))
+	{
+		*cubemap = *mat;
+	}
+
+	return false;
+}
+
+bool Wrapper::GUI::PickShaderProgram(const std::string& label, Resource::ShaderProgram** texture, bool text)
+{
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
+	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	std::string currentPostProName = (*texture) ? (*texture)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
+	{
+		if (ImGui::Selectable("None", !texture))
+		{
+			*texture = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
+		{
+			if (resource.second->GetTypeName() == "ShaderProgram")
+			{
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*texture = Resource::ResourceManager::GetInstance().GetResource<Resource::ShaderProgram>(str);
+					ImGui::EndCombo();
+					return true;
+				}
+			}
+
+		}
+		ImGui::EndCombo();
+	}
+
+	if (Resource::ShaderProgram** mat = (Resource::ShaderProgram**)DragDropTarget("ShaderProgram"))
+	{
+		*texture = *mat;
+	}
+
+	return false;
+}
+
+bool Wrapper::GUI::PickTexture(const std::string& label, Resource::Texture** texture, bool text)
+{
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
+	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	std::string currentPostProName = (*texture) ? (*texture)->GetName() : "None";
+
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
+	{
+		if (ImGui::Selectable("None", !texture))
+		{
+			*texture = nullptr;
+			ImGui::EndCombo();
+			return true;
+		}
+
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
+		{
+			if (resource.second->GetTypeName() == "Texture")
+			{
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*texture = Resource::ResourceManager::GetInstance().GetResource<Resource::Texture>(str);
+					ImGui::EndCombo();
+					return true;
+				}
+			}
+
+		}
+		ImGui::EndCombo();
+	}
+
+	if (Resource::Texture** mat = (Resource::Texture**)DragDropTarget("Texture"))
+	{
+		*texture = *mat;
+	}
+
+	return false;
+}
 
 bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, bool text)
 {
 
 	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
-	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
-	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Mesh>();
-	std::string currentMeshName = (*mesh) ? (*mesh)->GetName() : "None";
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	std::string currentPostProName = (*mesh) ? (*mesh)->GetName() : "None";
 
-	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
 	{
 		if (ImGui::Selectable("None", !mesh))
 		{
@@ -480,20 +578,26 @@ bool Wrapper::GUI::PickMesh(const std::string& label, Resource::Mesh** mesh, boo
 			return true;
 		}
 
-		for (auto str : meshNameList)
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
 		{
-			if (ImGui::Selectable(str.c_str(), str == currentMeshName))
+			if (resource.second->GetTypeName() == "Mesh")
 			{
-				*mesh = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>(str);
-				ImGui::EndCombo();
-				return true;
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*mesh = Resource::ResourceManager::GetInstance().GetResource<Resource::Mesh>(str);
+					ImGui::EndCombo();
+					return true;
+				}
 			}
+
 		}
 		ImGui::EndCombo();
 	}
-	if (Resource::Mesh** newmesh = (Resource::Mesh**)DragDropTarget("Mesh"))
+
+	if (Resource::Mesh** mat = (Resource::Mesh**)DragDropTarget("Mesh"))
 	{
-		*mesh = *newmesh;
+		*mesh = *mat;
 	}
 
 	return false;
@@ -503,16 +607,16 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 {
 	
 	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
-	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
-	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Material>();
-	std::string currentMeshName = (*material) ? (*material)->GetName() : "None";
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	std::string currentPostProName = (*material) ? (*material)->GetName() : "None";
 
-	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
 	{
 		if (ImGui::Selectable("None", !material))
 		{
@@ -521,14 +625,19 @@ bool Wrapper::GUI::PickMaterial(const std::string& label, Resource::Material** m
 			return true;
 		}
 
-		for (auto str : meshNameList)
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
 		{
-			if (ImGui::Selectable(str.c_str(), str == currentMeshName))
+			if (resource.second->GetTypeName() == "Material")
 			{
-				*material = Resource::ResourceManager::GetInstance().GetResource<Resource::Material>(str);
-				ImGui::EndCombo();
-				return true;
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*material = Resource::ResourceManager::GetInstance().GetResource<Resource::Material>(str);
+					ImGui::EndCombo();
+					return true;
+				}
 			}
+
 		}
 		ImGui::EndCombo();
 	}
@@ -584,13 +693,13 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 {
 
 	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
-	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
-	std::vector<std::string> postProNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::PostProcessingShader>();
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
 	std::string currentPostProName = (*postPro) ? (*postPro)->GetName() : "None";
 
 	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
@@ -602,19 +711,24 @@ bool Wrapper::GUI::PickPostProcessing(const std::string& label, Resource::PostPr
 			return true;
 		}
 
-		for (auto str : postProNameList)
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
 		{
-			if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+			if (resource.second->GetTypeName() == "PostProcessingShader")
 			{
-				*postPro = Resource::ResourceManager::GetInstance().GetResource<Resource::PostProcessingShader>(str);
-				ImGui::EndCombo();
-				return true;
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*postPro = Resource::ResourceManager::GetInstance().GetResource<Resource::PostProcessingShader>(str);
+					ImGui::EndCombo();
+					return true;
+				}
 			}
+
 		}
 		ImGui::EndCombo();
 	}
 
-	if (Resource::PostProcessingShader** mat = (Resource::PostProcessingShader**)DragDropTarget("Post Processing"))
+	if (Resource::PostProcessingShader** mat = (Resource::PostProcessingShader**)DragDropTarget("PostProcessingShader"))
 	{
 		*postPro = *mat;
 	}
@@ -696,16 +810,16 @@ bool Wrapper::GUI::PickAudio(const std::string& label, Resource::Audio** audio, 
 {
 	
 	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
-	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
-	std::vector<std::string> meshNameList = Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::Audio>();
-	std::string currentMeshName = (*audio) ? (*audio)->GetName() : "None";
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	std::string currentPostProName = (*audio) ? (*audio)->GetName() : "None";
 
-	if (ImGui::BeginCombo(("##" + label).c_str(), currentMeshName.c_str()))
+	if (ImGui::BeginCombo(("##" + label).c_str(), currentPostProName.c_str()))
 	{
 		if (ImGui::Selectable("None", !audio))
 		{
@@ -714,20 +828,26 @@ bool Wrapper::GUI::PickAudio(const std::string& label, Resource::Audio** audio, 
 			return true;
 		}
 
-		for (auto str : meshNameList)
+		for (auto resource : Resource::ResourceManager::GetInstance().GetResourceMap())
 		{
-			if (ImGui::Selectable(str.c_str(), str == currentMeshName))
+			if (resource.second->GetTypeName() == "Audio")
 			{
-				*audio = Resource::ResourceManager::GetInstance().GetResource<Resource::Audio>(str);
-				ImGui::EndCombo();
-				return true;
+				auto str = resource.second->GetName();
+				if (ImGui::Selectable(str.c_str(), str == currentPostProName))
+				{
+					*audio = Resource::ResourceManager::GetInstance().GetResource<Resource::Audio>(str);
+					ImGui::EndCombo();
+					return true;
+				}
 			}
+
 		}
 		ImGui::EndCombo();
 	}
-	if (Resource::Audio** newaudio = (Resource::Audio**)DragDropTarget("Audio"))
+
+	if (Resource::Audio** mat = (Resource::Audio**)DragDropTarget("Audio"))
 	{
-		*audio = *newaudio;
+		*audio = *mat;
 	}
 
 	return false;

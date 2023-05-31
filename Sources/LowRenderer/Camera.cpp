@@ -104,7 +104,7 @@ void LowRenderer::Camera::RenderGizmoList(const std::vector<Gizmo>& gizmoList, c
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    glLineWidth(4);
+    glLineWidth(3);
 
     Resource::ResourceManager::GetInstance().colorShader->Use();
 
