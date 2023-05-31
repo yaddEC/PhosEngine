@@ -168,8 +168,8 @@ void AssetExplorer::DoUpdate()
 		progFile.open((m_currentDirectory + "\\" + (*go)->name + ".phprefab").c_str(), std::fstream::out | std::fstream::trunc);
 		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
 		pr->SaveGameObjectAsPrefab(*go, progFile);
+		progFile.close();
 	}
-
 }
 
 
@@ -442,6 +442,7 @@ void EditorGUI::AssetExplorer::NewResource()
 			progFile.open((m_currentDirectory + "\\" + "NewCubeMap.phcm").c_str(), std::fstream::out | std::fstream::trunc);
 			Resource::CubeMap* cm = Resource::ResourceManager::GetInstance().CreateResource<Resource::CubeMap>(m_currentDirectory + "\\" + "NewCubeMap.phcm");
 			cm->Save();
+			progFile.close();
 		}
 		if (GUI::Selectable("Material", false))
 		{
