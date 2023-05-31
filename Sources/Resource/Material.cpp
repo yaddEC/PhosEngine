@@ -99,6 +99,7 @@ Resource::Texture* Resource::Material::GenerateFileIcon()
 
 void Resource::Material::SendDataToShader() const
 {
+	if (!this) return;
 	if (!m_shader) return;
 
 	if (m_albedo.useTexture)

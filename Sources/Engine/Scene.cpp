@@ -167,8 +167,10 @@ void Engine::Scene::Save()
 	std::fstream progFile;
 	progFile.open((p_directory + "\\" + p_name).c_str(), std::fstream::out | std::fstream::trunc);
 
-
-	progFile << m_renderer->GetSkybox()->GetFilePath() << '\n';
+	if (m_renderer->GetSkybox())
+		progFile << m_renderer->GetSkybox()->GetFilePath() << '\n';
+	else
+		progFile << "None\n";
 	if (progFile)
 	{
 		for (GameObject* go : m_gameObjects)
