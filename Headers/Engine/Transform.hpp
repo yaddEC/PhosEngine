@@ -56,9 +56,14 @@ namespace Engine
 		typedef std::function<void()> TransformChangedCallback;
 		void RegisterTransformChangedCallback(TransformChangedCallback callback);
 		std::vector<TransformChangedCallback> transformChangedCallbacks;
+
+		void BeginOverride();
+		void EndOverride();
+
 	private:
 		Maths::Mat4 m_globalMatrix;
 
+		bool m_isTransformOverride = false;
 		bool m_isDestroyed = false;
 
 		Transform* m_parent = nullptr;

@@ -13,7 +13,7 @@ namespace Engine
 	{
 	public:
 
-		MonoBehaviour(bool _renderingComponent = false);
+		MonoBehaviour(bool _renderingComponent = false, bool _overrideTransform = false);
 		virtual ~MonoBehaviour();
 		
 		GameObject* gameobject;
@@ -33,7 +33,7 @@ namespace Engine
 		virtual void OnInspector();
 		virtual void OnDestroy() {};
 		const bool renderingComponent = false;
-
+		const bool overrideTransform = false;
 		virtual Reflection::ClassMetaData& GetMetaData() = 0;
 	};
 }

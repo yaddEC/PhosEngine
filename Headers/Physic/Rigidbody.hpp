@@ -54,7 +54,7 @@ namespace Physic
 
     private:
         bool m_differentGravity;
-        bool m_isKinematic;
+        bool m_isKinematic = false;
         Maths::Vec3 m_gravity = Maths::Vec3(0, -20, 0);
         Maths::Vec3 m_velocity;
         float m_mass = 1;

@@ -14,9 +14,10 @@
 namespace Physic {
 
     Rigidbody::Rigidbody()
-        : MonoBehaviour(false) {
+        : MonoBehaviour(false, true) {
         physicsRigidbody = new Wrapper::PhysicsRigidbody();
         physicsRigidbody->rigidbody = this;
+        
     }
 
     void Rigidbody::Init() {}
@@ -40,6 +41,9 @@ namespace Physic {
             if(col->physicsCollider)
                 col->physicsCollider->UpdateType();
         }
+
+        
+
     }
 
     void Rigidbody::Update() {

@@ -45,7 +45,7 @@ namespace Physic {
 
     void Collider::OnDestroy()
     {
-        delete physicsCollider;
+        //delete physicsCollider;
     }
 
     void Collider::Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material)
@@ -86,16 +86,14 @@ namespace Physic {
         return result;
     }
 
-    void BoxCollider::Start()
-    {
-        Collider::Start();
-        gameobject->GetScene()->GetRenderer()->AddColliderMesh(this);
-    }
+    
 
-    void BoxCollider::OnDestroy()
+    void BoxCollider::OnInspector()
     {
-        Collider::OnDestroy();
-        gameobject->GetScene()->GetRenderer()->DeleteColliderMesh(this);
+        MonoBehaviour::OnInspector();
+        LowRenderer::Gizmo box{Resource::ResourceManager::GetInstance().cube, transform->position,
+            transform->rotationEuler, transform->scale};
+        gameobject->GetScene()->GetRenderer()->AddGizmo(box);
     }
 
     BoxCollider::BoxCollider(Maths::Vec3 _size)
@@ -130,15 +128,7 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
-    void SphereCollider::Start()
-    {
-        Collider::Start();
-    }
-
-    void SphereCollider::OnDestroy()
-    {
-        Collider::OnDestroy();
-    }
+   
 
     SphereCollider::SphereCollider(float _radius)
         : Collider()
@@ -173,15 +163,7 @@ namespace Physic {
     }
 
 
-    void CapsuleCollider::Start()
-    {
-        Collider::Start();
-    }
-
-    void CapsuleCollider::OnDestroy()
-    {
-        Collider::OnDestroy();
-    }
+    
 
     CapsuleCollider::CapsuleCollider(float _radius, float _height)
         : Collider()

@@ -55,7 +55,7 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
    
 
     m_framebuffer.Bind(true, (int)viewportSize.x, (int)viewportSize.y);
-    m_framebuffer.Clear(m_backgroundColor);
+    //m_framebuffer.Clear(m_backgroundColor);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     if (skybox && m_backgroundMode == BackGround::BG_Skybox) // Skybox
@@ -95,27 +95,64 @@ void Camera::Render(const std::vector<MeshRenderer*>& rendList, const Vec2& view
     Wrapper::RHI::UnbindFrameBuffer();
 }
 
-void LowRenderer::Camera::RenderMeshList(const std::vector<Physic::Collider*>& meshList, const Maths::Vec2& viewportSize)
+void LowRenderer::Camera::RenderGizmoList(const std::vector<Gizmo>& gizmoList, const Maths::Vec2& viewportSize)
 {
     m_framebuffer.Bind(true, (int)viewportSize.x, (int)viewportSize.y);
-
     glCullFace(GL_FRONT);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glLineWidth(4);
+
     Resource::ResourceManager::GetInstance().colorShader->Use();
 
-    for (Physic::Collider* col : meshList)
+    for (Gizmo gizmo : gizmoList)
     {
+        Maths::Mat4 modelMat = Maths::Mat4::CreateTransformMatrix(gizmo.position, gizmo.rotationEuler, gizmo.scale);
+
+        Resource::ResourceManager::GetInstance().colorShader->SetUniformMatrix("mvp",
+            modelMat * m_viewMatrix * m_projMatrix);
+        gizmo.mesh->RenderFlatColor(Maths::Vec3(0.1f, 0.8f, 0.1f));
+    }
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    Wrapper::RHI::UnbindFrameBuffer();
+}
+
+void LowRenderer::Camera::RenderMeshList(Engine::Scene* scene, const Maths::Vec2& viewportSize)
+{
+    m_framebuffer.Bind(true, (int)viewportSize.x, (int)viewportSize.y);
+    m_framebuffer.Clear(m_backgroundColor);
+    glCullFace(GL_FRONT);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glLineWidth(4);
+
+    Resource::ResourceManager::GetInstance().colorShader->Use();
+
+    for (auto go : scene->GetGameObjects())
+    {
+        Physic::Collider* col = nullptr;
         Resource::Mesh* mesh = nullptr;
-        if (std::type_index(typeid(*col)) == std::type_index(typeid(Physic::BoxCollider)))
+
+        if (col = go->GetComponent<BoxCollider>())
         {
             mesh = Resource::ResourceManager::GetInstance().cube;
         }
-        Resource::ResourceManager::GetInstance().colorShader->SetUniformMatrix("mvp", m_viewMatrix * m_projMatrix);
+
+        if (!col) continue;
+
+        Resource::ResourceManager::GetInstance().colorShader->SetUniformMatrix("mvp",
+            col->transform->GetGlobalMatrix() * m_viewMatrix * m_projMatrix);
         mesh->RenderFlatColor(Maths::Vec3(0.1f, 0.8f, 0.1f));
     }
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     Wrapper::RHI::UnbindFrameBuffer();
 }
 
@@ -365,4 +402,18 @@ void LowRenderer::Camera::ComputeViewProjMatrix(const Maths::Vec2& viewportSize)
 {
     m_projMatrix = Mat4::CreateProjectionMatrix(fov, 0.01f, 400, viewportSize.y / viewportSize.x);
     m_viewMatrix = Mat4::CreateViewMatrix(transform->position, transform->rotationEuler.x, transform->rotationEuler.y);
+}
+
+void LowRenderer::Camera::ClearBuffers(const Maths::Vec2& viewportSize)
+{
+    m_framebuffer.Bind(true, viewportSize.x, viewportSize.y);
+    m_framebuffer.Clear(m_backgroundColor);
+
+    if (m_postPro)
+    {
+        m_postProFramebuffer.Bind(true, viewportSize.x, viewportSize.y);
+        m_postProFramebuffer.Clear(m_backgroundColor);
+    }
+
+    Wrapper::RHI::UnbindFrameBuffer();
 }

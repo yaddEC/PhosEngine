@@ -69,6 +69,7 @@ void Scene::Update()
 		GameObjectFromBuffer();
 	}
 
+	m_renderer->ClearGizmo();
 
 	for (GameObject* go : m_gameObjects)
 	{

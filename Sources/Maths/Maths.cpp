@@ -393,6 +393,7 @@ Maths::Vec3 Maths::Vec3::operator /= (float _Sca)
 
 Maths::Vec4::Vec4(void) : x(0), y(0), z(0), w(0) {}
 Maths::Vec4::Vec4(float xyzw) : x(xyzw), y(xyzw), z(xyzw), w(xyzw) {}
+Maths::Vec4::Vec4(const Vec3& vec, float _w) : x(vec.x), y(vec.y), z(vec.z), w(_w) {}
 Maths::Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 //DESTRUCTOR :

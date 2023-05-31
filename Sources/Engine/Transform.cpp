@@ -91,19 +91,35 @@ Maths::Vec3 Engine::Transform::GetGlobalPosition()
 
 void Transform::ComputeGlobalMatrix(const Mat4& parentMatrix)
 {
-	Mat4 localMatrix = Quaternion::CreateTransformMatrix(position, rotation, scale);
-	m_globalMatrix = localMatrix * parentMatrix;
-	for (Transform* child : m_children)
-		child->ComputeGlobalMatrix(m_globalMatrix);
+	if (m_isTransformOverride)
+	{
+		m_globalMatrix = Quaternion::CreateTransformMatrix(position, rotation, scale);
+		for (Transform* child : m_children)
+			child->ComputeGlobalMatrix(m_globalMatrix);
+	}
+	else
+	{
+		Mat4 localMatrix = Quaternion::CreateTransformMatrix(position, rotation, scale);
+		m_globalMatrix = localMatrix * parentMatrix;
+		for (Transform* child : m_children)
+			child->ComputeGlobalMatrix(m_globalMatrix);
+	}
+	
 }
 
 void Transform::OnGUI()
 {
-
 	Vec3 tempRot = rotationEuler * Maths::RAD2DEG;
 	bool positionChanged = Wrapper::GUI::EditVec3("Position", position, true, 0.05f);
 	bool rotChange = Wrapper::GUI::EditVec3("Rotation", tempRot, true, 0.1f);
 	bool scaleChanged = Wrapper::GUI::EditVec3("Scale", scale, true, 0.05f);
+
+	if (rotChange)
+	{
+		Quaternion newQuat = this->rotation.ToQuaternion(tempRot * DEG2RAD);
+		rotationEuler = tempRot * DEG2RAD;
+		SetRotation(newQuat);
+	}
 
 	if (positionChanged || rotChange || scaleChanged)
 	{
@@ -112,19 +128,25 @@ void Transform::OnGUI()
 			callback();
 		}
 	}
-
-	if (rotChange)
-	{
-		Quaternion newQuat = this->rotation.ToQuaternion(tempRot * DEG2RAD);
-		rotationEuler = tempRot * DEG2RAD;
-		SetRotation(newQuat);
-	}
-	
 }
 
 void Engine::Transform::RegisterTransformChangedCallback(TransformChangedCallback callback)
 {
 	transformChangedCallbacks.push_back(callback);
+}
+
+void Engine::Transform::BeginOverride()
+{
+	m_isTransformOverride = true;
+	Maths::Mat4 transformMatrix = GetGlobalMatrix();
+
+	// Set all to global
+	/*position = GetGlobalPosition();
+	rotationEuler = (transformMatrix * Maths::Vec4(rotationEuler, 0.f)).xyz();
+	scale.x = Maths::Vec3(transformMatrix.data4V[0].x, transformMatrix.data4V[1].x, transformMatrix.data4V[2].x).GetMagnitude();
+	scale.y = Maths::Vec3(transformMatrix.data4V[0].y, transformMatrix.data4V[1].y, transformMatrix.data4V[2].y).GetMagnitude();
+	scale.z = Maths::Vec3(transformMatrix.data4V[0].z, transformMatrix.data4V[1].z, transformMatrix.data4V[2].z).GetMagnitude();
+	rotation = Quaternion::ToQuaternion(rotationEuler);*/
 }
 
 void Transform::SetParent(Transform* _parent)

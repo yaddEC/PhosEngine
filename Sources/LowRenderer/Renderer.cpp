@@ -76,7 +76,7 @@ void LowRenderer::Renderer::PreComputeShaderData()
 	}
 }
 
-void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool renderAllCameras)
+void Renderer::RenderAll(Camera* mainCamera, const Maths::Vec2& viewportSize, bool renderAllCameras)
 {
 	if (renderAllCameras)
 	{
@@ -94,12 +94,21 @@ void Renderer::RenderAll(Camera* mainCamera, Maths::Vec2 viewportSize, bool rend
 	
 }
 
-void LowRenderer::Renderer::RenderCollider(Camera* mainCamera, Maths::Vec2 viewportSize)
+//void LowRenderer::Renderer::RenderCollider(Camera* mainCamera, Engine::Scene* scene, const Maths::Vec2& viewportSize)
+//{
+//	if (mainCamera)
+//	{
+//		mainCamera->ComputeViewProjMatrix(viewportSize);
+//		mainCamera->RenderMeshList(scene, viewportSize);
+//	}
+//}
+
+void LowRenderer::Renderer::DrawGizmo(Camera* mainCamera, const Maths::Vec2& viewportSize)
 {
 	if (mainCamera)
 	{
 		mainCamera->ComputeViewProjMatrix(viewportSize);
-		mainCamera->RenderMeshList(m_colliderDebugList, viewportSize);
+		mainCamera->RenderGizmoList(m_gizmoList, viewportSize);
 	}
 }
 
@@ -191,17 +200,6 @@ void LowRenderer::Renderer::DeleteSpotLight(SpotLight* dir)
 	}
 }
 
-void LowRenderer::Renderer::DeleteColliderMesh(Physic::Collider* col)
-{
-	for (std::vector<Physic::Collider*>::iterator it = m_colliderDebugList.begin(); it != m_colliderDebugList.end(); ++it)
-	{
-		if (*it == col)
-		{
-			it = m_colliderDebugList.erase(it);
-			return;
-		}
-	}
-}
 
 std::vector<MeshRenderer*> LowRenderer::Renderer::GetMeshRenderers()
 {
