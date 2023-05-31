@@ -127,12 +127,12 @@ namespace Wrapper
         void UpdateType();
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void OnGuiChanged();
+        void OnTransformChanged();
 
         Collider* collider = nullptr;
 
     private:
 
-        void OnTransformChanged();
         union Geometry
         {
             PxBoxGeometry box;
@@ -190,13 +190,13 @@ namespace Wrapper
         Maths::Vec3 GetVelocity();
         void SetVelocity(Maths::Vec3 velocity);
         void AddForce(Maths::Vec3 force);
+        void OnTransformChanged();
         Rigidbody* rigidbody = nullptr;
 
         inline PxRigidActor* GetRigidActor() { return m_physxActor; }
         inline void SetRigidActor(PxRigidActor* actor) { m_physxActor = actor; }
 
     private:
-        void OnTransformChanged();
         PxRigidActor* m_physxActor = nullptr;
         bool m_transformChangedExternally = false;
         float m_delay = 0.f;

@@ -210,6 +210,7 @@ namespace Maths
 
 		Vec4(void);
 		Vec4(float xyzw);
+		Vec4(const Vec3& vec, float w);
 		Vec4(float x, float y, float z, float w);
 
 		//DESTRUCTOR :

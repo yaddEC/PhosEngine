@@ -217,8 +217,8 @@ void Core::Editor::UpdateEditorGUI()
 
     GUI::DockingSpace();
 
-    m_canvasEditor->Update();
     m_PlayStateGUI->Update();
+    
     if (m_PlayStateGUI->isStatePressed)
     {
         m_Inspector->DeselectCurrentGameObject();
@@ -229,13 +229,27 @@ void Core::Editor::UpdateEditorGUI()
 
 
     
-    m_gameGUI->Update();
-    m_sceneGUI->Update();
+    m_canvasEditor->Update();
     m_InputGUI->Update();
 
     m_Hierarchy->Update();
+    if (m_Hierarchy->selectedClicked)
+    {
+        m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());
+        m_sceneGUI->SetSelected(m_Hierarchy->GetSelected());
+    }
     m_AssetExplorer->Update();
 
+    m_RendererGUI->Update();
+    m_Inspector->Update();
+    Wrapper::GUI::MenuBar([this]() { this->Top(); });
+    m_PhysicsSettingsGUI->Update();
+    m_GeneralSettingsGUI->Update();
+
+    m_gameGUI->Update();
+    m_sceneGUI->Update();
+
+    
     if (Engine::Scene* newScene = m_AssetExplorer->GetNewScene() )
     {
         m_PlayStateGUI->setScene(newScene);
@@ -252,12 +266,7 @@ void Core::Editor::UpdateEditorGUI()
         m_sceneGUI->DeselectCurrentObject();
     }
    
-    m_PlayStateGUI->Update();
-    if (m_Hierarchy->selectedClicked)
-    {
-        m_Inspector->SetGameObjectToDisplay(m_Hierarchy->GetSelected());
-        m_sceneGUI->SetSelected(m_Hierarchy->GetSelected());
-    }
+    
     else if (m_AssetExplorer->GetSelected())
     {
         m_Inspector->DeselectCurrentGameObject();
@@ -273,13 +282,6 @@ void Core::Editor::UpdateEditorGUI()
         m_Inspector->SetGameObjectToDisplay(selected);
         m_Hierarchy->SetSelected(selected);
     }
-
     
-    m_RendererGUI->Update();
-    m_Inspector->Update();
-    Wrapper::GUI::MenuBar([this]() { this->Top(); });
-    m_PhysicsSettingsGUI->Update();
-    m_GeneralSettingsGUI->Update();
-
 }
 

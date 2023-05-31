@@ -57,9 +57,7 @@ namespace Physic
     {
     public:
 
-        void Start() override;
-        void OnDestroy() override;
-
+        void OnInspector() override;
         BoxCollider(Maths::Vec3 _size = Maths::Vec3(1, 1, 1));
         Reflection::ClassMetaData& GetMetaData() override;
         void SetSize(Maths::Vec3 size);
@@ -72,8 +70,6 @@ namespace Physic
     {
     public:
 
-        void Start() override;
-        void OnDestroy() override;
 
         SphereCollider(float _radius = 1);
         Reflection::ClassMetaData& GetMetaData() override;
@@ -87,8 +83,6 @@ namespace Physic
     {
     public:
 
-        void Start() override;
-        void OnDestroy() override;
 
         CapsuleCollider(float _radius = 1, float _height = 1);
         Reflection::ClassMetaData& GetMetaData() override;
