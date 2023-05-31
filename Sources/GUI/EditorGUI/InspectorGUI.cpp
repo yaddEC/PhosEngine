@@ -109,45 +109,59 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		{
 			m_gameobject->AddComponent<Physic::Rigidbody>();
 		}
-		if (GUI::Selectable("Sphere Collider", false))
+
+		if (GUI::BeginMenu("Colliders"))
 		{
-			m_gameobject->AddComponent<Physic::SphereCollider>();
+			if (GUI::MenuItem("Sphere Collider", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::SphereCollider>();
+			}
+			if (GUI::MenuItem("Capsule Collider", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::CapsuleCollider>();
+			}
+			if (GUI::MenuItem("Box Collider", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::BoxCollider>();
+			}
+			GUI::EndMenu();
 		}
-		if (GUI::Selectable("Capsule Collider", false))
+
+		if (GUI::BeginMenu("Joints"))
 		{
-			m_gameobject->AddComponent<Physic::CapsuleCollider>();
+			if (GUI::MenuItem("Fixed Joints", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::FixedJoint>();
+			}
+			if (GUI::MenuItem("Hinge Joints", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::HingeJoint>();
+			}
+			if (GUI::MenuItem("Spring Joints", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::SpringJoint>();
+			}
+			if (GUI::MenuItem("Custom Joints", nullptr))
+			{
+				m_gameobject->AddComponent<Physic::ConfigurableJoint>();
+			}
+			GUI::EndMenu();
 		}
-		if (GUI::Selectable("Box Collider", false))
+		if (GUI::BeginMenu("Light"))
 		{
-			m_gameobject->AddComponent<Physic::BoxCollider>();
-		}
-		if (GUI::Selectable("Fixed Joints", false))
-		{
-			m_gameobject->AddComponent<Physic::FixedJoint>();
-		}
-		if (GUI::Selectable("Hinge Joints", false))
-		{
-			m_gameobject->AddComponent<Physic::HingeJoint>();
-		}
-		if (GUI::Selectable("Spring Joints", false))
-		{
-			m_gameobject->AddComponent<Physic::SpringJoint>();
-		}
-		if (GUI::Selectable("Custom Joints", false))
-		{
-			m_gameobject->AddComponent<Physic::ConfigurableJoint>();
-		}
-		if (GUI::Selectable("Spot Light", false))
-		{
-			m_gameobject->AddComponent<LowRenderer::SpotLight>();
-		}
-		if (GUI::Selectable("Directional Light", false))
-		{
-			m_gameobject->AddComponent<LowRenderer::DirectionalLight>();
-		}
-		if (GUI::Selectable("Point Light", false))
-		{
-			m_gameobject->AddComponent<LowRenderer::PointLight>();
+			if (GUI::MenuItem("Spot Light", nullptr))
+			{
+				m_gameobject->AddComponent<LowRenderer::SpotLight>();
+			}
+			if (GUI::MenuItem("Directional Light", nullptr))
+			{
+				m_gameobject->AddComponent<LowRenderer::DirectionalLight>();
+			}
+			if (GUI::MenuItem("Point Light", nullptr))
+			{
+				m_gameobject->AddComponent<LowRenderer::PointLight>();
+			}
+			GUI::EndMenu();
 		}
 		if (GUI::Selectable("Mesh Renderer", false))
 		{
@@ -161,13 +175,17 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		{
 			m_gameobject->AddComponent<Sound::SoundPlayer>();
 		}
-		if (GUI::Selectable("Player Movement", false))
+		if (GUI::BeginMenu("Script"))
 		{
-			m_gameobject->AddComponent<Script::PlayerMouvement>();
-		}
-		if (GUI::Selectable("Input Manager", false))
-		{
-			m_gameobject->AddComponent<Script::InputManager>();
+			if (GUI::MenuItem("Player Movement", nullptr))
+			{
+				m_gameobject->AddComponent<Script::PlayerMouvement>();
+			}
+			if (GUI::MenuItem("Input Manager", nullptr))
+			{
+				m_gameobject->AddComponent<Script::InputManager>();
+			}
+			GUI::EndMenu();
 		}
 		GUI::EndPopup();
 	}
