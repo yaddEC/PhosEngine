@@ -226,6 +226,7 @@ namespace Wrapper
 
     void Physics::Init()
     {
+
         CreateFoundation();
         SetupVisualDebugger();
         CreatePhysics();
@@ -253,8 +254,11 @@ namespace Wrapper
         if (m_pvd)
             m_pvd->release();
 
+        PxCloseExtensions();
+
         if (m_foundation)
             m_foundation->release();
+
         //delete m_scene.simulationEventCallback;
     }
 
@@ -319,6 +323,7 @@ namespace Wrapper
         m_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_defaultAllocatorCallback, m_defaultErrorCallback);
         if (!m_foundation)
             throw std::runtime_error("PxCreateFoundation failed!");
+
     }
 
     void Physics::CreatePhysics()
@@ -326,6 +331,10 @@ namespace Wrapper
         m_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_foundation, PxTolerancesScale(), true, m_pvd);
         if (!m_physics)
             throw std::runtime_error("PxCreatePhysics failed!");
+        if (!PxInitExtensions(*m_physics, m_pvd)) {
+            throw std::runtime_error("PxInitExtensions failed!");
+        }
+        
     }
 
     void Physics::CreateScene()
@@ -354,6 +363,7 @@ namespace Wrapper
         m_pvd = PxCreatePvd(*m_foundation);
         PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
         m_pvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+
 
     }
 
@@ -684,8 +694,12 @@ namespace Wrapper
 
     void Wrapper::PhysicsJoint::Setup()
     {
+        
         PxPhysics *gPhysics = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics();
         PxRigidActor* selfRigidActor = joint->GetSelfRigidbody()->physicsRigidbody->GetRigidActor();
+
+        if (!selfRigidActor)
+            return;
 
         if (FixedJoint* fixedJoint = dynamic_cast<FixedJoint*>(joint))
         {
@@ -746,32 +760,30 @@ namespace Wrapper
             d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, anchor, nullptr, connectedAnchor);
 
             // Set motion
-            d6joint->setMotion(PxD6Axis::eX, configurableJoint->GetMotion().x == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
-            d6joint->setMotion(PxD6Axis::eY, configurableJoint->GetMotion().y == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
-            d6joint->setMotion(PxD6Axis::eZ, configurableJoint->GetMotion().z == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
-            d6joint->setMotion(PxD6Axis::eTWIST, configurableJoint->GetAngularMotion().x == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
-            d6joint->setMotion(PxD6Axis::eSWING1, configurableJoint->GetAngularMotion().y == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
-            d6joint->setMotion(PxD6Axis::eSWING2, configurableJoint->GetAngularMotion().z == 1 ? PxD6Motion::eFREE : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eX, configurableJoint->GetMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eY, configurableJoint->GetMotion().y == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eZ, configurableJoint->GetMotion().z == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eTWIST, configurableJoint->GetAngularMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING1, configurableJoint->GetAngularMotion().y == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+            d6joint->setMotion(PxD6Axis::eSWING2, configurableJoint->GetAngularMotion().z == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
 
-            Spring linearLimitSpring = configurableJoint->GetLinearLimitSpring();
+            //Set Linear Limit
             Limit linearLimit = configurableJoint->GetLinearLimit();
 
-            PxReal limitExtent = linearLimit.limit;
+            PxJointLinearLimitPair linearLimitPhysic(gPhysics->getTolerancesScale(), -linearLimit.limit, linearLimit.limit, linearLimit.contactDistance);
+            linearLimitPhysic.restitution = linearLimit.bounciness;
+
+            //Set linear Spring Limit
+            Spring linearLimitSpring = configurableJoint->GetLinearLimitSpring();
             PxSpring limitSpring = { linearLimitSpring.spring, linearLimitSpring.damper };
 
-            PxJointLinearLimit linearLimitX(limitExtent, limitSpring);
-            PxJointLinearLimit linearLimitY(limitExtent, limitSpring);
-            PxJointLinearLimit linearLimitZ(limitExtent, limitSpring);
+            linearLimitPhysic.damping = limitSpring.damping;
+            linearLimitPhysic.stiffness = limitSpring.stiffness;
 
-            linearLimitX.contactDistance = linearLimit.contactDistance;
-            linearLimitX.bounceThreshold = linearLimit.bounciness;
-
-            linearLimitY.contactDistance = linearLimit.contactDistance;
-            linearLimitY.bounceThreshold = linearLimit.bounciness;
-
-            linearLimitZ.contactDistance = linearLimit.contactDistance;
-            linearLimitZ.bounceThreshold = linearLimit.bounciness;
-
+            d6joint->setLinearLimit(PxD6Axis::eX, linearLimitPhysic);
+            d6joint->setLinearLimit(PxD6Axis::eY, linearLimitPhysic);
+            d6joint->setLinearLimit(PxD6Axis::eZ, linearLimitPhysic);
+            //set drive
             PxD6JointDrive driveX(configurableJoint->GetXDrive().positionSpring, configurableJoint->GetXDrive().positionDamper, configurableJoint->GetXDrive().maximumForce);
             PxD6JointDrive driveY(configurableJoint->GetYDrive().positionSpring, configurableJoint->GetYDrive().positionDamper, configurableJoint->GetYDrive().maximumForce);
             PxD6JointDrive driveZ(configurableJoint->GetZDrive().positionSpring, configurableJoint->GetZDrive().positionDamper, configurableJoint->GetZDrive().maximumForce);
@@ -816,38 +828,34 @@ namespace Wrapper
             else if(Rigidbody* otherRigidbody = otherObject->GetComponent<Rigidbody>())
             {
                 Rigidbody* selfRigidbody = joint->GetSelfRigidbody();
-                PxRigidActor* selfActor = selfRigidbody->physicsRigidbody->GetRigidActor();
-                PxRigidActor* otherActor = otherRigidbody->physicsRigidbody->GetRigidActor();
 
-                if (selfActor == nullptr || otherActor == nullptr)
-                {
-                    printf("SELF OR OTHER ACTOR IS NULL \n");
-                    joint->SetGameObjectId(-1);
-                    return;
-                }
-
-                if (selfActor == otherActor)
-                {
-                    printf("SELF == OTHER \n");
-                    joint->SetGameObjectId(-1);
-                    return;
-                }
-
-                if (selfActor->is<PxRigidStatic>() && otherActor->is<PxRigidStatic>())
-                {
-                    printf("SELF == OTHER ACTOR \n");
-                    joint->SetGameObjectId(-1);
-                    return;
-                }
-
-                d6joint->setActors(selfActor, otherActor);
                 joint->SetOtherRigidbody(otherRigidbody);
-                PxTransform pose1(PxVec3(selfRigidbody->transform->position.x, selfRigidbody->transform->position.y, selfRigidbody->transform->position.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
-                PxTransform pose2(PxVec3(otherRigidbody->transform->position.x, otherRigidbody->transform->position.y, otherRigidbody->transform->position.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
-                d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse());
-                d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse());
-
+                d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
                 d6joint->setActors(joint->GetSelfRigidbody()->physicsRigidbody->GetRigidActor(), joint->GetOtherRigidbody()->physicsRigidbody->GetRigidActor());
+
+                Maths::Vec3 selfGlobalPos = selfRigidbody->transform->position;
+                Maths::Vec3 otherGlobalPos = otherRigidbody->transform->position;
+
+                if (FixedJoint* fixedJoint = dynamic_cast<FixedJoint*>(joint))
+                {
+                    PxTransform pose1(PxVec3(selfRigidbody->transform->position.x, selfRigidbody->transform->position.y, selfRigidbody->transform->position.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
+                    PxTransform pose2(PxVec3(otherRigidbody->transform->position.x, otherRigidbody->transform->position.y, otherRigidbody->transform->position.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse());
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse());
+                }
+                else if (ConfigurableJoint* configurableJoint = dynamic_cast<ConfigurableJoint*>(joint))
+                {
+
+                    PxTransform pose1(PxVec3(selfGlobalPos.x, selfGlobalPos.y, selfGlobalPos.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
+                    PxTransform pose2(PxVec3(selfGlobalPos.x, selfGlobalPos.y, selfGlobalPos.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
+                    PxTransform anchor(PxVec3(configurableJoint->GetAnchor().x, configurableJoint->GetAnchor().y, configurableJoint->GetAnchor().z));
+                    PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
+                    PxTransform final1 = pose1.getInverse() * anchor;
+                    PxTransform final2 = pose2.getInverse() * connectedAnchor;
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse() * anchor);
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse() * connectedAnchor);
+                }
+                
             }
             else
             {
@@ -860,6 +868,17 @@ namespace Wrapper
     void PhysicsRigidbody::Init()
     {
         rigidbody->gameobject->transform->RegisterTransformChangedCallback([this]() { OnTransformChanged(); });
+
+        Physic::Joint *joint;
+
+        if (joint = rigidbody->gameobject->GetComponent<Physic::ConfigurableJoint>())
+            joint->physicsJoint->Setup();
+        else if (joint = rigidbody->gameobject->GetComponent<Physic::SpringJoint>())
+            joint->physicsJoint->Setup();
+        else if (joint = rigidbody->gameobject->GetComponent<Physic::HingeJoint>())
+            joint->physicsJoint->Setup();
+        else if (joint = rigidbody->gameobject->GetComponent<Physic::FixedJoint>())
+            joint->physicsJoint->Setup();
 
         if (rigidbody->IsGravityDifferent())
             m_physxActor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
@@ -924,7 +943,7 @@ namespace Wrapper
     {
         if (m_physxActor)
         {
-            if ( m_physxActor && m_physxActor->is<PxRigidDynamic>())
+            if ( !rigidbody->IsKinematic() && m_physxActor->is<PxRigidDynamic>())
             {
 
                 PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
@@ -958,7 +977,8 @@ namespace Wrapper
                     dynamicActor->putToSleep();
                     rigidbody->SetVelocity(Maths::Vec3(0, 0, 0));
 
-                    m_delay -= Engine::Input::deltaTime;
+                    m_delay -= Engine::Input::GetInstance().GetDeltaTime();
+                    //m_delay -= Engine::Input::GetInstance().deltaTime;
                     if(m_delay<=0)
                         m_transformChangedExternally = false;
                 }

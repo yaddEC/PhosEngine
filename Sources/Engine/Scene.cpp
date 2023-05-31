@@ -62,7 +62,7 @@ void Scene::GameObjectFromBuffer()
 void Scene::Update()
 {
 	if(m_IsGameMode)
-		Physic::PhysicsManager::GetInstance().Update(Input::deltaTime);
+		Physic::PhysicsManager::GetInstance().Update(Engine::Input::GetInstance().GetDeltaTime());
 	
 	if(m_gameObjectBuffer.size() != 0)
 	{
@@ -234,6 +234,7 @@ void Engine::Scene::LoadSettings()
 		(*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
 		tagNames.push_back("Default");
 		(tagNameToIndexMap)["Default"] = 0;
+		out.close();
 		return;
 	}
 	else if (in.peek() == std::ifstream::traits_type::eof())
@@ -318,6 +319,19 @@ GameObject* Engine::Scene::FindGameObjectWithId(unsigned int id)
 		}
 	}
 	return nullptr;
+}
+
+std::vector<GameObject*> Engine::Scene::FindAllGameObjectWithTag(const std::string tagName)
+{
+	std::vector<GameObject*> res;
+	for (GameObject* go : m_gameObjects)
+	{
+		if (GetTagName(go->GetTag()) == tagName)
+		{
+			res.push_back(go);
+		}
+	}
+	return res;
 }
 
 void Engine::Scene::CreateTag(const std::string tagName)

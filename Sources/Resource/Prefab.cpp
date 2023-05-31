@@ -23,8 +23,6 @@ using namespace Resource;
 
 void Resource::Prefab::Load()
 {
-	
-
 	m_gameObjectList.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(GetFilePath());
 	size_t lineIndex = 0;
@@ -165,5 +163,7 @@ void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, st
 		SaveGameObjectAsPrefab(child->GetGameObject(), file, depth + 1);
 	}
 	file << tab << "end\n";
+
+	
 }
 

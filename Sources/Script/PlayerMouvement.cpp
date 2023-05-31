@@ -24,16 +24,25 @@ void Script::PlayerMouvement::Update()
 {
 	Engine::Input& input = Engine::Input::GetInstance();
 
-	if (input.IsKeyPressed(GLFW_KEY_W) || input.IsKeyPressed(GLFW_KEY_S))
+    if (m_idUser == -1)
     {
-        transform->position.z += input.deltaTime * input.GetVerticalAxis() * m_playerSpeed;
+        if (input.IsKeyPressed(GLFW_KEY_W) || input.IsKeyPressed(GLFW_KEY_S))
+        {
+            transform->position.z += input.GetDeltaTime() * input.GetVerticalAxis() * m_playerSpeed;
+        }
+        if (input.IsKeyPressed(GLFW_KEY_A) || input.IsKeyPressed(GLFW_KEY_D))
+        {
+            transform->position.x += input.GetDeltaTime() * input.GetHorizontalAxis() * m_playerSpeed;
+        }
     }
-    if (input.IsKeyPressed(GLFW_KEY_A) || input.IsKeyPressed(GLFW_KEY_D))
-	{
-		transform->position.x += input.deltaTime * input.GetHorizontalAxis() * m_playerSpeed;
-	}
-}
+    else
+    {
+        transform->position.z += input.GetDeltaTime() * -input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_Y, m_idUser) * m_playerSpeed;
+        transform->position.x += input.GetDeltaTime() * input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_X, m_idUser) * m_playerSpeed;
+    }
 
+
+}
 void Script::PlayerMouvement::GUIUpdate()
 {
 }
@@ -47,6 +56,11 @@ void Script::PlayerMouvement::OnDestroy()
 {
 }
 
+void Script::PlayerMouvement::SetIdUser(int ID)
+{
+    m_idUser = ID;
+}
+
 Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
 {
     using namespace Reflection;
@@ -58,7 +72,7 @@ Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
         result.name = "PlayerMovement";
         result.memberList = {
             ClassMemberInfo("Speed", offsetof(PlayerMouvement, m_playerSpeed), MemberType::T_FLOAT),
-
+            ClassMemberInfo("IdUser", offsetof(PlayerMouvement, m_idUser), MemberType::T_FLOAT),
         };
         computed = true;
     }

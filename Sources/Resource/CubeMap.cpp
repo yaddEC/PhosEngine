@@ -105,6 +105,7 @@ void Resource::CubeMap::SetProperties(const std::string& filepath)
 			m_faces[faceIndex] = Resource::ResourceManager::GetInstance().GetResource <Resource::Texture>(texturePath);
 		}
 	}
+	progFile.close();
 }
 
 void Resource::CubeMap::LoadData()
