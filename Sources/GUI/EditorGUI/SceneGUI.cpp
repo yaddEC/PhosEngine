@@ -175,8 +175,19 @@ void SceneGUI::DoUpdate()
 
 
 			GUI::GizmoDecomposeMatrixToComponents(temp, position.xyz, rotation.xyz, scale.xyz);
-			
-			if (selected->transform->position != position)
+
+			if (selected->transform->GetParent())
+			{
+				position = position - selected->transform->GetParent()->position;
+
+				rotation = rotation - (selected->transform->GetParent()->rotationEuler * RAD2DEG);
+				//position = position - selected->transform->GetParent()->position;
+
+			}
+
+
+
+			if (selected->transform->position != position && gizMode!=1)
 			{
 				selected->transform->position = position;
 			}
