@@ -39,12 +39,14 @@ Resource::Audio::Audio()
     }
     sound = new ma_sound;
 }
+
 void Resource::Audio::Create()
 {
     if (ma_sound_init_from_file(&engine, GetFilePath().c_str(), 0, NULL, NULL, sound) != MA_SUCCESS) {
         std::cout << "Could not load file\n";
     }
 }
+
 Resource::Audio::~Audio()
 {
     ma_sound_uninit(sound);

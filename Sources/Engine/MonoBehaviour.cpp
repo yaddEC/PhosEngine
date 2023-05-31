@@ -6,9 +6,10 @@
 
 #include "Engine/MonoBehaviour.hpp"
 
-Engine::MonoBehaviour::MonoBehaviour(bool _renderingComponent)
-	: renderingComponent(_renderingComponent)
+Engine::MonoBehaviour::MonoBehaviour(bool _renderingComponent, bool _overrideTransform)
+	: renderingComponent(_renderingComponent), overrideTransform(_overrideTransform)
 {}
+
 
 Engine::MonoBehaviour::~MonoBehaviour()
 {}

@@ -493,17 +493,17 @@ namespace Wrapper
         if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
         {
             Maths::Vec3 boxSize = boxCollider->GetSize();
-            m_geometry.box = PxBoxGeometry(worldModel.data_4_4[0][0] * boxSize.x, worldModel.data_4_4[1][1] * boxSize.y, worldModel.data_4_4[2][2] * boxSize.z);
+            m_geometry.box = PxBoxGeometry(collider->transform->scale.x * boxSize.x, collider->transform->scale.y * boxSize.y, collider->transform->scale.z * boxSize.z);
             m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.box, *material);
         }
         else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
         {
-            m_geometry.sphere = PxSphereGeometry(worldModel.data_4_4[0][0] * sphereCollider->GetRadius());
+            m_geometry.sphere = PxSphereGeometry(collider->transform->scale.x * sphereCollider->GetRadius());
             m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.sphere, *material);
         }
         else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
         {
-            m_geometry.capsule = PxCapsuleGeometry(worldModel.data_4_4[0][0] * capsuleCollider->GetRadius(), worldModel.data_4_4[1][1] * capsuleCollider->GetHeight() * 0.5f);
+            m_geometry.capsule = PxCapsuleGeometry(collider->transform->scale.x * capsuleCollider->GetRadius(), collider->transform->scale.y * capsuleCollider->GetHeight() * 0.5f);
             m_shape = PxRigidActorExt::createExclusiveShape(*m_physxActor, m_geometry.capsule, *material);
         }
 
@@ -524,27 +524,42 @@ namespace Wrapper
     {
         if (this)
         {
-            Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
+            // Compute model matrix
+            //Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
+
+            // Set trigger state
             PxShape* shapes[1];
             m_physxActor->getShapes(shapes, 1);
             shapes[0]->setFlag(PxShapeFlag::eTRIGGER_SHAPE, collider->GetTriggerState());
+
+            // Set Layer
             PxFilterData filterData;
             filterData.word0 = collider->gameobject->GetLayer();
             shapes[0]->setSimulationFilterData(filterData);
+
+            // Set position and rotation
+            Maths::Quaternion rotationQuat = collider->transform->rotation;
+            PxQuat pxRotation(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a);
             Maths::Vec3 collCenter = collider->GetCenter();
-            PxVec3 position = PxVec3(worldModel.data_4_4[0][3] + collCenter.x, worldModel.data_4_4[1][3] + collCenter.y, worldModel.data_4_4[2][3] + collCenter.z);
-            m_physxActor->setGlobalPose(PxTransform(position));
+            Maths::Vec3 globalPos = collider->transform->GetGlobalPosition() + collCenter;
+            PxVec3 position = PxVec3(globalPos.x, globalPos.y, globalPos.z);
+            m_physxActor->setGlobalPose(PxTransform(position, pxRotation));
+
+            // Set Material
             m_physxMaterial = collider->GetMaterial();
             PxMaterial* material = CreateMaterialByType(Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics(), m_physxMaterial);
             PxMaterial* materials[] = { material };
             shapes[0]->setMaterials(materials, 1);
+
+            // Set Dimension
             if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
             {
                 Maths::Vec3 boxSize = boxCollider->GetSize();
                 PxVec3 newDimensions(boxSize.x * collider->gameobject->transform->scale.x, boxSize.y * collider->gameobject->transform->scale.y, boxSize.z * collider->gameobject->transform->scale.z);
                 PxBoxGeometry boxGeometry;
                 shapes[0]->getBoxGeometry(boxGeometry);
-                boxGeometry.halfExtents = newDimensions * 0.5f;
+                boxGeometry.halfExtents = newDimensions;// *0.5f;
+                
                 shapes[0]->setGeometry(boxGeometry);
             }
             else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
@@ -567,7 +582,7 @@ namespace Wrapper
      
     }
 
-    void Wrapper::PhysicsCollider::OnTransformChanged()
+    /*void Wrapper::PhysicsCollider::OnTransformChanged()
     {
         if (this)
         {
@@ -590,7 +605,8 @@ namespace Wrapper
             }
             else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
             {
-                std::array<float, 3> scaleValues = { collider->gameobject->transform->scale.x,collider->gameobject->transform->scale.y, collider->gameobject->transform->scale.z };
+                std::array<float, 3> scaleValues = { collider->gameobject->transform->scale.x,collider->gameobject->transform->scale.y,
+                    collider->gameobject->transform->scale.z };
                 float max_scale = *std::max_element(scaleValues.begin(), scaleValues.end());
 
                 m_geometry.sphere.radius = sphereCollider->GetRadius() * max_scale;
@@ -608,6 +624,56 @@ namespace Wrapper
             }
         }
       
+    }*/
+
+    void Wrapper::PhysicsCollider::OnTransformChanged()
+    {
+        if (this)
+        {
+            // Compute model matrix
+            //Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();
+            
+            // Set position and rotation
+            Maths::Quaternion rotationQuat = collider->transform->rotation;
+            PxQuat pxRotation(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a);
+            Maths::Vec3 collCenter = collider->GetCenter();
+            Maths::Vec3 globalPos = collider->transform->GetGlobalPosition();// +collCenter;
+            PxVec3 position = PxVec3(globalPos.x, globalPos.y, globalPos.z);
+            m_physxActor->setGlobalPose(PxTransform(position, pxRotation));
+
+            // Get shape
+            PxShape* shape;
+            m_physxActor->getShapes(&shape, 1);
+
+            // Set dimension
+            if (BoxCollider* boxCollider = dynamic_cast<BoxCollider*>(collider))
+            {
+                Maths::Vec3 boxSize = boxCollider->GetSize();
+                PxVec3 newDimensions(boxSize.x * collider->gameobject->transform->scale.x, boxSize.y * collider->gameobject->transform->scale.y, boxSize.z * collider->gameobject->transform->scale.z);
+                PxBoxGeometry boxGeometry;
+                shape->getBoxGeometry(boxGeometry);
+                boxGeometry.halfExtents = newDimensions;// *0.5f;
+
+                shape->setGeometry(boxGeometry);
+            }
+            else if (SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider))
+            {
+
+                PxSphereGeometry sphereGeometry;
+                shape->getSphereGeometry(sphereGeometry);
+                sphereGeometry.radius = sphereCollider->GetRadius() * collider->gameobject->transform->scale.x;
+                shape->setGeometry(sphereGeometry);
+            }
+            else if (CapsuleCollider* capsuleCollider = dynamic_cast<CapsuleCollider*>(collider))
+            {
+                PxCapsuleGeometry capsuleGeometry;
+                shape->getCapsuleGeometry(capsuleGeometry);
+                capsuleGeometry.radius = capsuleCollider->GetRadius() * collider->gameobject->transform->scale.x;
+                capsuleGeometry.halfHeight = capsuleCollider->GetHeight() * collider->gameobject->transform->scale.y;
+                shape->setGeometry(capsuleGeometry);
+            }
+        }
+
     }
 
 
@@ -733,6 +799,11 @@ namespace Wrapper
 
             //target+linear needed
         }
+
+        /*PxJointLimitCone limitCone = PxJointLimitCone{;
+        limitCone.projectionMode = PxJointProjectionMode::eLIMIT;
+        d6joint->setLimitCone(limitCone);*/
+
         d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
 
         
@@ -762,8 +833,8 @@ namespace Wrapper
                 d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
                 d6joint->setActors(joint->GetSelfRigidbody()->physicsRigidbody->GetRigidActor(), joint->GetOtherRigidbody()->physicsRigidbody->GetRigidActor());
 
-                Maths::Vec3 selfGlobalPos = selfRigidbody->transform->GetGlobalPosition();
-                Maths::Vec3 otherGlobalPos = otherRigidbody->transform->GetGlobalPosition();
+                Maths::Vec3 selfGlobalPos = selfRigidbody->transform->position;
+                Maths::Vec3 otherGlobalPos = otherRigidbody->transform->position;
 
                 if (FixedJoint* fixedJoint = dynamic_cast<FixedJoint*>(joint))
                 {
@@ -781,8 +852,8 @@ namespace Wrapper
                     PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
                     PxTransform final1 = pose1.getInverse() * anchor;
                     PxTransform final2 = pose2.getInverse() * connectedAnchor;
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse() * anchor.getInverse());
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse() * connectedAnchor.getInverse());
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse() * anchor);
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse() * connectedAnchor);
                 }
                 
             }
@@ -821,7 +892,9 @@ namespace Wrapper
 
         Maths::Quaternion eulerRot = Maths::Quaternion::ToQuaternion(rigidbody->gameobject->transform->rotationEuler);
         Maths::Vec3 collCenter = rigidbody->col->GetCenter();
-        PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+collCenter.x, rigidbody->gameobject->transform->position.y + collCenter.y, rigidbody->gameobject->transform->position.z + collCenter.z), PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
+        PxTransform pose(PxVec3(rigidbody->gameobject->transform->position.x+collCenter.x,
+            rigidbody->gameobject->transform->position.y + collCenter.y, rigidbody->gameobject->transform->position.z + collCenter.z),
+            PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
         m_physxActor->setGlobalPose(pose);
         m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
     }
@@ -889,6 +962,7 @@ namespace Wrapper
 
 
                     PxTransform updatedTransform = dynamicActor->getGlobalPose();
+                    
                     Maths::Vec3 newPosition = Maths::Vec3(updatedTransform.p.x, updatedTransform.p.y, updatedTransform.p.z);
                     rigidbody->gameobject->transform->position = newPosition-rigidbody->col->GetCenter();
                     PxQuat updatedRotation = updatedTransform.q;
