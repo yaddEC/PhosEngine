@@ -8,6 +8,7 @@
 #include "Physic/Rigidbody.hpp"
 #include "Physic/Joint.hpp"
 #include "Script/PlayerMouvement.hpp"
+#include "Script/InputManager.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
@@ -163,6 +164,10 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 		if (GUI::Selectable("Player Movement", false))
 		{
 			m_gameobject->AddComponent<Script::PlayerMouvement>();
+		}
+		if (GUI::Selectable("Input Manager", false))
+		{
+			m_gameobject->AddComponent<Script::InputManager>();
 		}
 		GUI::EndPopup();
 	}

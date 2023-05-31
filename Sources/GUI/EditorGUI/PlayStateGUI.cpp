@@ -23,7 +23,8 @@ void EditorGUI::PlayStateGUI::DoUpdate()
 void EditorGUI::PlayStateGUI::PlayStateButton()
 {
 	m_frameCount++;
-	m_elapsedTime += Engine::Input::deltaTime;
+
+	m_elapsedTime += Engine::Input::GetInstance().GetDeltaTime();
 	if (m_elapsedTime >= 1.0f)
 	{
 		m_fps = static_cast<float>(m_frameCount) / m_elapsedTime;

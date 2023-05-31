@@ -1,0 +1,8 @@
+name "Capsule"
+id 15
+transform -5.90644 8 0 0 0 -1.5708 1.39999 1.75842 1.39999
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCapsule.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+end

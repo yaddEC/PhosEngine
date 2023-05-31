@@ -1,0 +1,8 @@
+name "Sphere"
+id 20
+transform -0.25 0.5 0.8 0 0 0 0.1 0.1 0.1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveSphere.obj
+	Material Assets\Material\xyz_test.phmat
+	end
+end

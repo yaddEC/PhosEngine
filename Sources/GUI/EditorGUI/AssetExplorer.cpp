@@ -54,11 +54,14 @@ void AssetExplorer::Reload()
 
 void AssetExplorer::DoUpdate()
 {
+	
+
 	Input& input = Input::GetInstance();
 
 	GUI::DisplayText(m_currentDirectory.c_str()); GUI::SameLine();
 
 	GUI::SetCursorPos(Maths::Vec2(GUI::GetWindowSize().x - 110, GUI::GetCursorPos().y - 5));
+
 
 	NewResource();
 
@@ -73,6 +76,7 @@ void AssetExplorer::DoUpdate()
 		}
 	}
 
+	GUI::BeginGroup();
 
 
 	Maths::Vec2 cursorPos = GUI::GetCursorPos();
@@ -153,8 +157,10 @@ void AssetExplorer::DoUpdate()
 		GUI::OpenPopup("New_Resource_Popup");
 		resource = false;
 	}
-	GUI::SameLine();
-	
+	GUI::SameLine(GUI::GetWindowSize().x*0.225f);
+	GUI::DisplayText("");
+
+	GUI::EndGroup();
 
 	if (Engine::GameObject** go = (Engine::GameObject**)GUI::DragDropTarget("GameObject"))
 	{
@@ -162,6 +168,8 @@ void AssetExplorer::DoUpdate()
 		progFile.open((m_currentDirectory + "\\" + (*go)->name + ".phprefab").c_str(), std::fstream::out | std::fstream::trunc);
 		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
 		pr->SaveGameObjectAsPrefab(*go, progFile);
+		progFile.close();
+		pr->Load();
 	}
 }
 
@@ -435,6 +443,7 @@ void EditorGUI::AssetExplorer::NewResource()
 			progFile.open((m_currentDirectory + "\\" + "NewCubeMap.phcm").c_str(), std::fstream::out | std::fstream::trunc);
 			Resource::CubeMap* cm = Resource::ResourceManager::GetInstance().CreateResource<Resource::CubeMap>(m_currentDirectory + "\\" + "NewCubeMap.phcm");
 			cm->Save();
+			progFile.close();
 		}
 		if (GUI::Selectable("Material", false))
 		{
