@@ -169,6 +169,7 @@ void AssetExplorer::DoUpdate()
 		Resource::Prefab* pr = Resource::ResourceManager::GetInstance().CreateResource<Resource::Prefab>(m_currentDirectory + "\\" + (*go)->name + ".phprefab");
 		pr->SaveGameObjectAsPrefab(*go, progFile);
 		progFile.close();
+		pr->Load();
 	}
 }
 
