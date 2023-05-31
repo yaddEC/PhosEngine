@@ -56,6 +56,8 @@ namespace Physic
     class PHOSENGINE_API BoxCollider : public Collider
     {
     public:
+
+        void OnInspector() override;
         BoxCollider(Maths::Vec3 _size = Maths::Vec3(1, 1, 1));
         Reflection::ClassMetaData& GetMetaData() override;
         void SetSize(Maths::Vec3 size);
@@ -67,6 +69,8 @@ namespace Physic
     class PHOSENGINE_API SphereCollider : public Collider
     {
     public:
+
+
         SphereCollider(float _radius = 1);
         Reflection::ClassMetaData& GetMetaData() override;
         void SetRadius(float radius);
@@ -78,6 +82,8 @@ namespace Physic
     class PHOSENGINE_API CapsuleCollider : public Collider
     {
     public:
+
+
         CapsuleCollider(float _radius = 1, float _height = 1);
         Reflection::ClassMetaData& GetMetaData() override;
         void SetRadius(float radius);

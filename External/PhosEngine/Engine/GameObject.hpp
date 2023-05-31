@@ -3,7 +3,7 @@
 #include <string>
 #include <typeindex>
 #include "Maths/Maths.hpp"
-
+#include "Engine/Transform.hpp"
 #include "dllInclude.hpp"
 
 namespace LowRenderer
@@ -15,7 +15,6 @@ namespace LowRenderer
 
 namespace Engine
 {
-	class Transform;
 	class MonoBehaviour;
 	class Scene;
 
@@ -54,6 +53,8 @@ namespace Engine
 		T* AddComponent()
 		{
 			T* newComponent = new T();
+			if (((MonoBehaviour*)newComponent)->overrideTransform)
+				transform->BeginOverride();
 			newComponent->gameobject = this;
 			newComponent->transform = transform;
 			m_componentsBuffer.push_back(newComponent);

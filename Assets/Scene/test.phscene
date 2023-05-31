@@ -1,23 +1,115 @@
-name "Capsule"
+name "Cube"
 id 1
 layer 0
 tag 0
-transform 0 0 0 0 0 0 1 1 1
+transform 0 0 0 0 0 0 20 1 20
 component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCapsule.obj
+	Mesh DefaultAssets\Model\primitiveCube.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
 	end
-component "Capsule Collider"
+component "Box Collider"
 	isTrigger 0
 	Center 0.000000 0.000000 0.000000
-	Height 1.000000
-	Radius 1.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "Directional Light"
+id 2
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Directional Light"
+	Color 0.702703 0.284879 0.284879
+	Intensity 10.000000
+	end
+end
+name "Sphere"
+id 3
+layer 0
+tag 0
+transform 0 5 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveSphere.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+child
+	name "Cube"
+	id 4
+	layer 0
+	tag 0
+	transform -6.6458e-06 9.65475 2.20716e-05 1.7922e-07 -1.33237e-05 -6.95321e-08 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCube.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	component "Box Collider"
+		isTrigger 0
+		Center 0.000000 0.000000 0.000000
+		Size 1.000000 1.000000 1.000000
+		MaterialType -842150451
+		end
+	component "RigidBody"
+		mass 1.000000
+		Different_Gravity 1
+		isKinematic 0
+		Gravity 0.000000 -20.000000 0.000000
+		end
+	child
+		name "Capsule"
+		id 5
+		layer 0
+		tag 0
+		transform 2.38419e-07 8.573 0 0 0 0 1 1 1
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCapsule.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		end
+	end
+end
+name "Cube"
+id 6
+layer 0
+tag 0
+transform -7.39814 5.12381 -8.20424 5.97596e-07 0.00152263 -8.12291e-08 0.999999 1 0.999999
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
 	MaterialType -842150451
 	end
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 1
-	isKinematic 1
+	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
+	end
+child
+	name "Sphere"
+	id 7
+	layer 0
+	tag 0
+	transform -8.95 2 0 0 0 0 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveSphere.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	component "RigidBody"
+		mass 1.000000
+		Different_Gravity 1
+		isKinematic 0
+		Gravity 0.000000 -20.000000 0.000000
+		end
+	component "Sphere Collider"
+		isTrigger 0
+		Center 0.000000 0.000000 0.000000
+		Radius 1.000000
+		MaterialType -842150451
+		end
 	end
 end

@@ -128,6 +128,9 @@ void SceneGUI::DoUpdate()
 
 	if (m_currentScene) 
 	{
+		m_sceneCamera.ClearBuffers(p_size - Vec2(10, 35));
+		//m_currentScene->GetRenderer()->RenderCollider(&m_sceneCamera, m_currentScene, p_size - Vec2(10, 35));
+		m_currentScene->GetRenderer()->DrawGizmo(&m_sceneCamera, p_size - Vec2(10, 35));
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, p_size - Vec2(10, 35), false);
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}
