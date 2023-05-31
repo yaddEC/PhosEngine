@@ -27,6 +27,7 @@ namespace Resource
 
 		unsigned int GetTextureWidth() const { return m_width; }
 		unsigned int GetTextureHeight() const { return m_height; }
+		int GetChannelsCount() const { return m_nrChannels; }
 
 		//float GetTextureSizeRatio() { return (float)width / (float)height; }
 

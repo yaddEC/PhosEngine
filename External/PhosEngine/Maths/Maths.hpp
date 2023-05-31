@@ -190,6 +190,8 @@ namespace Maths
 		Vec3 operator -= (float _Sca);
 		Vec3 operator *= (float _Sca);
 		Vec3 operator /= (float _Sca);
+
+		
 	};
 
 	class PHOSENGINE_API Vec4

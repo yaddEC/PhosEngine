@@ -1,11 +1,12 @@
-name "Cube"
+Assets\Cubemap\Space.phcm
+name "Ground"
 id 1
 layer 0
 tag 0
 transform 0 0 0 0 0 0 20 1 20
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
+	Material Assets\Material\Beige.phmat
 	end
 component "Box Collider"
 	isTrigger 0
@@ -28,17 +29,17 @@ name "Sphere"
 id 3
 layer 0
 tag 0
-transform 0 5 0 0 0 0 1 1 1
+transform 0 5.52976 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
+	Material Assets\Material\Red.phmat
 	end
 child
 	name "Cube"
 	id 4
 	layer 0
 	tag 0
-	transform -6.6458e-06 9.65475 2.20716e-05 1.7922e-07 -1.33237e-05 -6.95321e-08 1 1 1
+	transform -6.65081e-06 9.433 2.20587e-05 1.7922e-07 -0.954713 -6.95321e-08 1 1 1
 	component "Mesh Renderer"
 		Mesh DefaultAssets\Model\primitiveCube.obj
 		Material DefaultAssets\Material\DefaultMat.phmat
@@ -60,7 +61,7 @@ child
 		id 5
 		layer 0
 		tag 0
-		transform 2.38419e-07 8.573 0 0 0 0 1 1 1
+		transform 2 2 2 3.14159 -1.3222 -3.14159 0.999999 0.999997 0.999999
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCapsule.obj
 			Material DefaultAssets\Material\DefaultMat.phmat

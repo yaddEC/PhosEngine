@@ -121,6 +121,9 @@ void SceneGUI::DoUpdate()
 				DeselectCurrentObject();
 			}
 		}
+		if (input.IsKeyDown(GLFW_KEY_C))
+			m_displayShapeGizmo = !m_displayShapeGizmo;
+
 
 	}
 
@@ -130,7 +133,20 @@ void SceneGUI::DoUpdate()
 	{
 		m_sceneCamera.ClearBuffers(p_size - Vec2(10, 35));
 		//m_currentScene->GetRenderer()->RenderCollider(&m_sceneCamera, m_currentScene, p_size - Vec2(10, 35));
-		m_currentScene->GetRenderer()->DrawGizmo(&m_sceneCamera, p_size - Vec2(10, 35));
+
+		if (m_displayShapeGizmo)
+		{
+			for (Engine::GameObject* go : m_currentScene->GetGameObjects())
+			{
+				for (Engine::MonoBehaviour* component : go->GetComponents())
+				{
+					component->OnGizmo();
+				}
+			}
+			m_currentScene->GetRenderer()->DrawGizmo(&m_sceneCamera, p_size - Vec2(10, 35));
+		}
+		
+
 		m_currentScene->GetRenderer()->RenderAll(&m_sceneCamera, p_size - Vec2(10, 35), false);
 		m_currentScene->GetRenderer()->RenderIcon(&m_sceneCamera, p_size - Vec2(10, 35));
 	}

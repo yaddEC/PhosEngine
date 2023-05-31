@@ -19,6 +19,7 @@ namespace Resource
 		void Unload() override;
 		void Save() override;
 		void GUIUpdate() override;
+		std::string GetTypeName() override { return "CubeMap"; }
 		Texture* GenerateFileIcon() override;
 
 		unsigned int GetKey() const { return m_cubeMapKey; }

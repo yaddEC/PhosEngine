@@ -31,6 +31,7 @@ namespace EditorGUI
 
 		Engine::GameObject* m_selectedObject;
 		LowRenderer::MeshRenderer* m_selectedRenderer;
+		bool m_displayShapeGizmo = false;
 
 		float m_speedModifier;
 		bool m_drawCameraData = false;

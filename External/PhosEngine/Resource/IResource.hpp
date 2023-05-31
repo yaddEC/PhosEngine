@@ -25,6 +25,9 @@ namespace Resource
 		std::string GetDirectory() { return p_directory; }
 		void SetFileInfo(const std::string& filepath);
 
+		void SetName(const std::string& newName) { p_name = newName; }
+		void SetDirectoy(const std::string& dir) { p_directory = dir; }
+
 		// Do not call every frame
 		virtual class Texture* GenerateFileIcon() { return nullptr; }
 

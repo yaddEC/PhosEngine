@@ -218,7 +218,12 @@ void AssetExplorer::DisplayFile(const string& file)
 						fs::rename(file, newFolderPath);
 						m_isRenaming = -1;
 					}
-
+					Resource::ResourceManager::GetInstance().RenameResource(file, displayfilename);
+					Resource::Texture* icon = nullptr;
+					if (m_fileIcons.count(file))
+						Resource::Texture* icon = m_fileIcons.at(file);
+					m_fileIcons.erase(file);
+					m_fileIcons.emplace(newFolderPath, icon);
 				}
 
 				GUI::EndGroup();
@@ -243,7 +248,12 @@ void AssetExplorer::DisplayFile(const string& file)
 						fs::rename(file, newFolderPath);
 						m_isRenaming = -1;
 					}
-
+					Resource::ResourceManager::GetInstance().RenameResource(file, displayfilename);
+					Resource::Texture* icon = nullptr;
+					if (m_fileIcons.count(file))
+						Resource::Texture* icon = m_fileIcons.at(file);
+					m_fileIcons.erase(file);
+					m_fileIcons.emplace(newFolderPath, icon);
 				}
 				GUI::EndGroup();
 			}
@@ -444,10 +454,16 @@ void EditorGUI::AssetExplorer::NewResource()
 			Resource::CubeMap* cm = Resource::ResourceManager::GetInstance().CreateResource<Resource::CubeMap>(m_currentDirectory + "\\" + "NewCubeMap.phcm");
 			cm->Save();
 			progFile.close();
+			m_fileIcons.emplace(m_currentDirectory + "\\" + "NewCubeMap.phcm", nullptr);
 		}
 		if (GUI::Selectable("Material", false))
 		{
-
+			std::fstream progFile;
+			progFile.open((m_currentDirectory + "\\" + "Material.phmat").c_str(), std::fstream::out | std::fstream::trunc);
+			Resource::Material* cm = Resource::ResourceManager::GetInstance().CreateResource<Resource::Material>(m_currentDirectory + "\\" + "Material.phmat");
+			cm->Save();
+			progFile.close();
+			m_fileIcons.emplace(m_currentDirectory + "\\" + "NewCubeMap.phcm", nullptr);
 		}
 
 		GUI::EndPopup();
@@ -526,6 +542,7 @@ void EditorGUI::AssetExplorer::FileButton(const std::string& file, const Maths::
 
 void EditorGUI::AssetExplorer::RenameFile(const std::string& file)
 {
+	auto fileName = file;
 	int index = 1;
 	m_isRenaming = 0;
 	std::string new_file_name = "New File.txt";
@@ -534,12 +551,19 @@ void EditorGUI::AssetExplorer::RenameFile(const std::string& file)
 
 	while (fs::exists(new_file_path))
 	{
-		new_file_path = path + "\\" + "New File(" + std::to_string(index) + ").txt";
+		new_file_name = "New File(" + std::to_string(index) + ").txt";
 		m_isRenaming = index;
 		index++;
 	}
 
-	fs::rename(file, new_file_path);
+	Resource::ResourceManager::GetInstance().RenameResource(fileName, new_file_name);
+
+	Resource::Texture* icon = nullptr;
+	if(m_fileIcons.count(file))
+		Resource::Texture* icon = m_fileIcons.at(file);
+	m_fileIcons.erase(file);
+	m_fileIcons.emplace(new_file_path, icon);
+	fs::rename(file, path + "\\" + new_file_name);
 }
 
 void EditorGUI::AssetExplorer::RenameFolder(const std::string& folder)

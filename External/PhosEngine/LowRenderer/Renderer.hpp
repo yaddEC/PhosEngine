@@ -26,9 +26,11 @@ namespace LowRenderer
 		Maths::Vec3 position;
 		Maths::Vec3 rotationEuler;
 		Maths::Vec3 scale;
+		Maths::Vec3 color;
 
-		Gizmo(Resource::Mesh* _mesh, Maths::Vec3 _position, Maths::Vec3 _rotationEuler, Maths::Vec3 _scale)
-			: mesh(_mesh), position(_position), rotationEuler(_rotationEuler), scale(_scale) {}
+		Gizmo(Resource::Mesh* _mesh, const Maths::Vec3& _position,
+			const Maths::Vec3& _rotationEuler, const Maths::Vec3& _scale, const Maths::Vec3& _color = Maths::Vec3(0, 1, 0))
+			: mesh(_mesh), position(_position), rotationEuler(_rotationEuler), scale(_scale), color(_color) {}
 	};
 
 	class PHOSENGINE_API Renderer
@@ -69,8 +71,15 @@ namespace LowRenderer
 		void SetSkybox(Resource::CubeMap* cubeMap) { m_skybox = cubeMap; }
 
 		void AddGizmo(const Gizmo& gizmo) { m_gizmoList.push_back(gizmo); }
+		void SphereGizmo(const Maths::Vec3& position, const Maths::Vec3& scale,
+			const Maths::Vec3& color = Maths::Vec3(0, 1, 0));
+		void BoxGizmo(const Maths::Vec3& position, const Maths::Vec3& rotation, const Maths::Vec3& scale,
+			const Maths::Vec3& color = Maths::Vec3(0, 1, 0));
+		void CapsuleGizmo(const Maths::Vec3& position, const Maths::Vec3& rotation, const Maths::Vec3& scale,
+			const Maths::Vec3& color = Maths::Vec3(0, 1, 0));
 		void ClearGizmo() { m_gizmoList.clear(); }
 		
+		Resource::CubeMap* m_skybox = nullptr;
 	private:
 
 		std::vector<MeshRenderer*> m_meshRenderers;
@@ -80,7 +89,6 @@ namespace LowRenderer
 		std::vector<PointLight*> m_pointLights;
 		std::vector<SpotLight*> m_spotLights;
 		Maths::Vec3 m_ambient = Maths::Vec3(0.3f, 0.3f, 0.3f);
-		Resource::CubeMap* m_skybox = nullptr;
 	};
 
 

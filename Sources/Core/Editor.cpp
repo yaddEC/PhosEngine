@@ -30,14 +30,10 @@ void Editor::Top()
 {
     if (Wrapper::GUI::BeginMenu("File"))
     {
-        if (Wrapper::GUI::MenuItem("New Project...", NULL)) {}
-        if (Wrapper::GUI::MenuItem("Open Project...", NULL)) {}
         if (Wrapper::GUI::MenuItem("Save Project", NULL))
         {
             Resource::ResourceManager::GetInstance().Save();
         }
-        Wrapper::GUI::Separator();
-        if (Wrapper::GUI::MenuItem("Exit", "Alt+F4")) {}
         Wrapper::GUI::EndMenu();
     }
     if (Wrapper::GUI::BeginMenu("Window"))
@@ -53,27 +49,9 @@ void Editor::Top()
         if (Wrapper::GUI::MenuItem("Canvas Editor", NULL, m_canvasEditor->isOpen)) { m_canvasEditor->isOpen = !m_canvasEditor->isOpen; }
         Wrapper::GUI::EndMenu();
     }
-    if (Wrapper::GUI::BeginMenu("Help"))
-    {
-        if (Wrapper::GUI::MenuItem("About Phos", NULL)) {}
-        Wrapper::GUI::Separator();
-        if (Wrapper::GUI::MenuItem("Phos Manual", NULL)) {}
-        if (Wrapper::GUI::MenuItem("Scripting Reference", NULL)) {}
-        Wrapper::GUI::EndMenu();
-    }
-    if (Wrapper::GUI::BeginMenu("Settings"))
-    {
 
-        if (Wrapper::GUI::MenuItem("Physics Settings", NULL)){m_PhysicsSettingsGUI->isOpen = true;}
-        if (Wrapper::GUI::MenuItem("Show FPS", NULL, m_PlayStateGUI->showFps)) { m_PlayStateGUI->showFps = !m_PlayStateGUI->showFps; }
-        if (Wrapper::GUI::MenuItem("VSync", NULL, m_vsync)) { m_vsync = !m_vsync; Wrapper::Window::SetSwapInterval(m_vsync); }
-        Wrapper::GUI::Separator();
-        if (Wrapper::GUI::MenuItem("General Settings", NULL)) { m_GeneralSettingsGUI->isOpen = true; }
-        Wrapper::GUI::EndMenu();
-    }
+
     Wrapper::GUI::BeginGroupCentered((40.f, 20.f));
-    
-   
     Wrapper::GUI::EndGroup();
 }
 

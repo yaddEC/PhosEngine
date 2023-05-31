@@ -1,3 +1,4 @@
+Assets\Cubemap\Skybox.phcm
 name "Ground"
 id 1
 layer 0
@@ -5,7 +6,7 @@ tag 0
 transform -5.25 -3 -1.55 0 0 0 50 1 100
 component "Mesh Renderer"
 	Mesh Assets\Model\cube.obj
-	Material Assets\Material\Material.phmat
+	Material Assets\Material\Container.phmat
 	end
 component "Box Collider"
 	isTrigger 0
@@ -106,7 +107,7 @@ component "RigidBody"
 	mass 1.000000
 	Different_Gravity 1
 	isKinematic 0
-	Gravity 0.000000 7.700000 0.000000
+	Gravity 0.000000 -5.000000 0.000000
 	end
 component "Sphere Collider"
 	isTrigger 0
@@ -675,17 +676,17 @@ name "Directional Light"
 id 86
 layer 0
 tag 0
-transform 0 0 0 -0.808087 0 0 1 1 1
+transform 0 0 0 -1.05186 -2.29841 0.775617 0.999999 1 1
 component "Directional Light"
-	Color 1.000000 1.000000 1.000000
-	Intensity 1.000000
+	Color 0.857143 0.841030 0.536128
+	Intensity 8.900000
 	end
 end
 name "Cube"
 id 87
 layer 0
 tag 0
-transform 22.4 12.15 0 0 0 0 1 1 1
+transform -14.0808 12.15 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -701,7 +702,7 @@ name "Cube"
 id 88
 layer 0
 tag 0
-transform 3.58664 -1 -6.57101 1.5708 -1.4327 -1.99676e-06 1 1 1
+transform 17.2425 -0.999939 -8.46892 1.5708 -1.4327 -1.51546e-06 0.999999 0.999999 0.999999
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -723,7 +724,7 @@ name "Cube"
 id 89
 layer 0
 tag 0
-transform 0 0 0 0 0 0 1 1 1
+transform 14.5036 0 0 0 0 0 1 1 1
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -761,7 +762,7 @@ component "Camera Component"
 	FOV 50.000000
 	UseSkybox 1
 	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\Grayscale.phppro
+	PostProcessingShader Assets\Shader\PostProcessingShader\Bloom.phppro
 	Canvas None
 	end
 component "PlayerMovement"

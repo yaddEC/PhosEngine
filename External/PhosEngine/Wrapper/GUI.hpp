@@ -18,9 +18,11 @@ namespace Resource
 {
 	class Texture;
 	class Mesh;
+	class ShaderProgram;
 	class Material;
 	class PostProcessingShader;
 	class Audio;
+	class CubeMap;
 }
 
 namespace UI
@@ -81,7 +83,7 @@ namespace Wrapper
 
 		static void Image(const Resource::Texture& texture, Maths::Vec2 size);
 
-		static void TextUnformatted(const std::string& text, const std::string& text_end = "");
+		static void TextUnformatted(const char* text, const char* text_end = "");
 		static Maths::Vec2 CalcTextSize(const std::string& text);
 		static bool TruncTextBySize(std::string& text, float maxLength);
 
@@ -99,6 +101,8 @@ namespace Wrapper
 		static bool EditColorRGB(const std::string& label, Maths::Vec3* value, bool text = true);
 		static bool EditColorRGBA(const std::string& label, Maths::Vec4* value, bool text = true);
 
+		static bool PickCubeMap(const std::string& label, Resource::CubeMap** cubemap, bool text = true);
+		static bool PickShaderProgram(const std::string& label, Resource::ShaderProgram** texture, bool text = true);
 		static bool PickTexture(const std::string& label, Resource::Texture** texture, bool text = true);
 		static bool PickMesh(const std::string& label, Resource::Mesh** mesh, bool text = true);
 		static bool PickMaterial(const std::string& label, Resource::Material** material, bool text = true);

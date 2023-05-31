@@ -135,6 +135,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/;External/ImGuizmo/Header/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,16 +155,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/;External/ImGuizmo/Header/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Libs/*;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>DLL/*;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;glew32.lib;glfw3.lib;PhosEngine.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;PhysX\Realease\LowLevel_static_64.lib;PhysX\Realease\LowLevelAABB_static_64.lib;PhysX\Realease\LowLevelDynamics_static_64.lib;PhysX\Realease\PhysX_64.lib;PhysX\Realease\PhysXCharacterKinematic_static_64.lib;PhysX\Realease\PhysXCommon_64.lib;PhysX\Realease\PhysXCooking_64.lib;PhysX\Realease\PhysXExtensions_static_64.lib;PhysX\Realease\PhysXFoundation_64.lib;PhysX\Realease\PhysXPvdSDK_static_64.lib;PhysX\Realease\PhysXTask_static_64.lib;PhysX\Realease\PhysXVehicle_static_64.lib;PhysX\Realease\SceneQuery_static_64.lib;PhysX\Realease\SimulationController_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>DLL/*;%(AdditionalLibraryDirectories);$(SolutionDir)Libs/;$(SolutionDir)Libs/;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "DLL\" "$(OutDir)"</Command>
@@ -207,6 +209,12 @@
     <ClInclude Include="External\GL\glew.h" />
     <ClInclude Include="External\GL\glxew.h" />
     <ClInclude Include="External\GL\wglew.h" />
+    <ClInclude Include="External\ImGuizmo\Header\GraphEditor.h" />
+    <ClInclude Include="External\ImGuizmo\Header\ImCurveEdit.h" />
+    <ClInclude Include="External\ImGuizmo\Header\ImGradient.h" />
+    <ClInclude Include="External\ImGuizmo\Header\ImGuizmo.h" />
+    <ClInclude Include="External\ImGuizmo\Header\ImSequencer.h" />
+    <ClInclude Include="External\ImGuizmo\Header\ImZoomSlider.h" />
     <ClInclude Include="External\ImGUI\Header\imconfig.h" />
     <ClInclude Include="External\ImGUI\Header\imgui.h" />
     <ClInclude Include="External\ImGUI\Header\imgui_impl_glfw.h" />

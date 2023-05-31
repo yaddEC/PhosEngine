@@ -5,7 +5,7 @@
 
 void EditorGUI::RendererGUI::DoUpdate()
 {
-	std::string selected = m_currentScene->GetRenderer()->GetSkybox() ? m_currentScene->GetRenderer()->GetSkybox()->GetName() : "None";
+	/*std::string selected = m_currentScene->GetRenderer()->GetSkybox() ? m_currentScene->GetRenderer()->GetSkybox()->GetName() : "None";
 	if (Wrapper::GUI::Combo("Skybox : ", Resource::ResourceManager::GetInstance().GetResourceNameList<Resource::CubeMap>(), selected, "None"))
 	{
 		if (selected == "None")
@@ -17,5 +17,7 @@ void EditorGUI::RendererGUI::DoUpdate()
 			Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
 			m_currentScene->GetRenderer()->SetSkybox(rm.GetResource<Resource::CubeMap>(selected));
 		}
-	}
+	}*/
+
+	Wrapper::GUI::PickCubeMap("Skybox", &m_currentScene->GetRenderer()->m_skybox);
 }
