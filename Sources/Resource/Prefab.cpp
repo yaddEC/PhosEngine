@@ -23,8 +23,6 @@ using namespace Resource;
 
 void Resource::Prefab::Load()
 {
-	
-
 	m_gameObjectList.clear();
 	std::vector<std::string> fileData = Parser::ConvertFileToStringArray(GetFilePath());
 	size_t lineIndex = 0;

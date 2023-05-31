@@ -15,15 +15,11 @@ namespace Script
 		void OnInspector() override;
 		void OnDestroy() override;
 		void SetIdUser(int ID);
+		int GetIdUser() { return m_idUser; }
 		Reflection::ClassMetaData& GetMetaData() override;
 	private:
 		float m_playerSpeed;
 		int m_idUser;
-		int user; //temp
-		bool up;
-		bool right;
-		bool down;
-		bool left;
 
 	};
 

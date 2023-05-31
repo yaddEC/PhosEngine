@@ -9,7 +9,6 @@
 Script::PlayerMouvement::PlayerMouvement()
 {
     m_playerSpeed = 1.5f;
-    user = 0;
 }
 
 Script::PlayerMouvement::~PlayerMouvement()
@@ -25,11 +24,7 @@ void Script::PlayerMouvement::Update()
 {
 	Engine::Input& input = Engine::Input::GetInstance();
 
-    up = false;
-    right = false;
-    down = false;
-    left = false;
-    if (m_idUser <= -1)
+    if (m_idUser == -1)
     {
         if (input.IsKeyPressed(GLFW_KEY_W) || input.IsKeyPressed(GLFW_KEY_S))
         {
@@ -78,11 +73,6 @@ Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
         result.memberList = {
             ClassMemberInfo("Speed", offsetof(PlayerMouvement, m_playerSpeed), MemberType::T_FLOAT),
             ClassMemberInfo("IdUser", offsetof(PlayerMouvement, m_idUser), MemberType::T_FLOAT),
-            ClassMemberInfo("up", offsetof(PlayerMouvement, up), MemberType::T_BOOL),
-            ClassMemberInfo("right", offsetof(PlayerMouvement, right), MemberType::T_BOOL),
-            ClassMemberInfo("down", offsetof(PlayerMouvement, down), MemberType::T_BOOL),
-            ClassMemberInfo("left", offsetof(PlayerMouvement, left), MemberType::T_BOOL),
-
         };
         computed = true;
     }

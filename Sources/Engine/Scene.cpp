@@ -233,6 +233,7 @@ void Engine::Scene::LoadSettings()
 		(*layerInteractionMatrix)[std::make_pair(0, 0)] = true;
 		tagNames.push_back("Default");
 		(tagNameToIndexMap)["Default"] = 0;
+		out.close();
 		return;
 	}
 	else if (in.peek() == std::ifstream::traits_type::eof())
