@@ -753,11 +753,14 @@ namespace Wrapper
         }
         else if (ConfigurableJoint* configurableJoint = dynamic_cast<ConfigurableJoint*>(joint))
         {
+            Maths::Vec3 selfAxis = configurableJoint->GetAxis();
+            PxQuat rotation = PxShortestRotation(PxVec3(1, 0, 0), PxVec3(selfAxis.x, selfAxis.y, selfAxis.z));
 
             PxTransform anchor(PxVec3(configurableJoint->GetAnchor().x, configurableJoint->GetAnchor().y, configurableJoint->GetAnchor().z));
+            PxTransform axis(rotation);
             PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
 
-            d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, anchor, nullptr, connectedAnchor);
+            d6joint = PxD6JointCreate(*gPhysics, selfRigidActor, anchor*axis, nullptr, connectedAnchor);
 
             // Set motion
             d6joint->setMotion(PxD6Axis::eX, configurableJoint->GetMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
@@ -766,6 +769,7 @@ namespace Wrapper
             d6joint->setMotion(PxD6Axis::eTWIST, configurableJoint->GetAngularMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
             d6joint->setMotion(PxD6Axis::eSWING1, configurableJoint->GetAngularMotion().y == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
             d6joint->setMotion(PxD6Axis::eSWING2, configurableJoint->GetAngularMotion().z == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+            
 
             //Set Linear Limit
             Limit linearLimit = configurableJoint->GetLinearLimit();
@@ -829,6 +833,8 @@ namespace Wrapper
             {
                 Rigidbody* selfRigidbody = joint->GetSelfRigidbody();
 
+                PxPhysics* gPhysics = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics();
+
                 joint->SetOtherRigidbody(otherRigidbody);
                 d6joint->setBreakForce(joint->GetBreakForce(), joint->GetBreakTorque());
                 d6joint->setActors(joint->GetSelfRigidbody()->physicsRigidbody->GetRigidActor(), joint->GetOtherRigidbody()->physicsRigidbody->GetRigidActor());
@@ -845,15 +851,61 @@ namespace Wrapper
                 }
                 else if (ConfigurableJoint* configurableJoint = dynamic_cast<ConfigurableJoint*>(joint))
                 {
+                    Maths::Vec3 selfAxis = configurableJoint->GetAxis();
+                    PxQuat rotation = PxShortestRotation(PxVec3(1, 0, 0), PxVec3(selfAxis.x, selfAxis.y, selfAxis.z));
+
+                    PxTransform anchor(PxVec3(configurableJoint->GetAnchor().x, configurableJoint->GetAnchor().y, configurableJoint->GetAnchor().z));
+                    PxTransform axis(rotation);
+                    PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
+
+
+
+                    //Set Linear Limit
+                    Limit linearLimit = configurableJoint->GetLinearLimit();
+
+                    PxJointLinearLimitPair linearLimitPhysic(gPhysics->getTolerancesScale(), -linearLimit.limit, linearLimit.limit, linearLimit.contactDistance);
+                    linearLimitPhysic.restitution = linearLimit.bounciness;
+
+                    //Set linear Spring Limit
+                    Spring linearLimitSpring = configurableJoint->GetLinearLimitSpring();
+                    PxSpring limitSpring = { linearLimitSpring.spring, linearLimitSpring.damper };
+
+                    linearLimitPhysic.damping = limitSpring.damping;
+                    linearLimitPhysic.stiffness = limitSpring.stiffness;
+
+                    d6joint->setLinearLimit(PxD6Axis::eX, linearLimitPhysic);
+                    d6joint->setLinearLimit(PxD6Axis::eY, linearLimitPhysic);
+                    d6joint->setLinearLimit(PxD6Axis::eZ, linearLimitPhysic);
+                    //set drive
+                    PxD6JointDrive driveX(configurableJoint->GetXDrive().positionSpring, configurableJoint->GetXDrive().positionDamper, configurableJoint->GetXDrive().maximumForce);
+                    PxD6JointDrive driveY(configurableJoint->GetYDrive().positionSpring, configurableJoint->GetYDrive().positionDamper, configurableJoint->GetYDrive().maximumForce);
+                    PxD6JointDrive driveZ(configurableJoint->GetZDrive().positionSpring, configurableJoint->GetZDrive().positionDamper, configurableJoint->GetZDrive().maximumForce);
+                    PxD6JointDrive driveSwing(configurableJoint->GetAngularYZDrive().positionSpring, configurableJoint->GetAngularYZDrive().positionDamper, configurableJoint->GetAngularYZDrive().maximumForce);
+                    PxD6JointDrive driveTwist(configurableJoint->GetAngularXDrive().positionSpring, configurableJoint->GetAngularXDrive().positionDamper, configurableJoint->GetAngularXDrive().maximumForce);
+                    PxD6JointDrive driveSlerp(configurableJoint->GetAngularYDrive().positionSpring, configurableJoint->GetAngularYDrive().positionDamper, configurableJoint->GetAngularYDrive().maximumForce);
+
+                    d6joint->setDrive(PxD6Drive::eX, driveX);
+                    d6joint->setDrive(PxD6Drive::eY, driveY);
+                    d6joint->setDrive(PxD6Drive::eZ, driveZ);
+                    d6joint->setDrive(PxD6Drive::eSWING, driveSwing);
+                    d6joint->setDrive(PxD6Drive::eTWIST, driveTwist);
+                    d6joint->setDrive(PxD6Drive::eSLERP, driveSlerp);
 
                     PxTransform pose1(PxVec3(selfGlobalPos.x, selfGlobalPos.y, selfGlobalPos.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
                     PxTransform pose2(PxVec3(selfGlobalPos.x, selfGlobalPos.y, selfGlobalPos.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
-                    PxTransform anchor(PxVec3(configurableJoint->GetAnchor().x, configurableJoint->GetAnchor().y, configurableJoint->GetAnchor().z));
-                    PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
                     PxTransform final1 = pose1.getInverse() * anchor;
                     PxTransform final2 = pose2.getInverse() * connectedAnchor;
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse() * anchor);
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse() * connectedAnchor);
+
+                    // Set motion
+                    d6joint->setMotion(PxD6Axis::eX, configurableJoint->GetMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+                    d6joint->setMotion(PxD6Axis::eY, configurableJoint->GetMotion().y == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+                    d6joint->setMotion(PxD6Axis::eZ, configurableJoint->GetMotion().z == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+                    d6joint->setMotion(PxD6Axis::eTWIST, configurableJoint->GetAngularMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+                    d6joint->setMotion(PxD6Axis::eSWING1, configurableJoint->GetAngularMotion().y == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+                    d6joint->setMotion(PxD6Axis::eSWING2, configurableJoint->GetAngularMotion().z == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
+
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse() * anchor *axis);
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse() * connectedAnchor *  axis);
                 }
                 
             }

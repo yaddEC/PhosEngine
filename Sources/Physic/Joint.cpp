@@ -188,8 +188,8 @@ Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
         result.name = "Configurable Joint";
         result.memberList = {
             ClassMemberInfo("Collider", offsetof(ConfigurableJoint, p_gameObjectId), MemberType::T_GAME_OBJECT),
-            ClassMemberInfo("Axis", offsetof(ConfigurableJoint, m_anchor), MemberType::T_VEC3),
-            ClassMemberInfo("Anchor", offsetof(ConfigurableJoint, m_axis), MemberType::T_VEC3),
+            ClassMemberInfo("Axis", offsetof(ConfigurableJoint, m_axis), MemberType::T_VEC3),
+            ClassMemberInfo("Anchor", offsetof(ConfigurableJoint, m_anchor), MemberType::T_VEC3),
             ClassMemberInfo("Connect_Anchor", offsetof(ConfigurableJoint, m_connectedAnchor), MemberType::T_VEC3),
             ClassMemberInfo("Motion", offsetof(ConfigurableJoint, m_motion), MemberType::T_VEC3),
             ClassMemberInfo("Ang._Motion", offsetof(ConfigurableJoint, m_angularMotion), MemberType::T_VEC3),
