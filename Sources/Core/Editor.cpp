@@ -47,6 +47,8 @@ void Editor::Top()
         if (Wrapper::GUI::MenuItem("Debug Camera", NULL, m_sceneGUI->GetDebugCamera())) { m_sceneGUI->SetDebugCamera(!m_sceneGUI->GetDebugCamera()) ; }
         if (Wrapper::GUI::MenuItem("Input", NULL, m_InputGUI->isOpen)) { m_InputGUI->isOpen = !m_InputGUI->isOpen; }
         if (Wrapper::GUI::MenuItem("Canvas Editor", NULL, m_canvasEditor->isOpen)) { m_canvasEditor->isOpen = !m_canvasEditor->isOpen; }
+        if (Wrapper::GUI::MenuItem("Physics Settings", NULL, m_PhysicsSettingsGUI->isOpen)) { m_PhysicsSettingsGUI->isOpen = !m_PhysicsSettingsGUI->isOpen; }
+        if (Wrapper::GUI::MenuItem("Project Settings", NULL, m_GeneralSettingsGUI->isOpen)) { m_GeneralSettingsGUI->isOpen = !m_GeneralSettingsGUI->isOpen; }
         Wrapper::GUI::EndMenu();
     }
 

@@ -750,28 +750,11 @@ component "Camera Component"
 	end
 component "PlayerMovement"
 	Speed 15.000000
-	IdUser 0.000000
-	end
-end
-name "Camera2"
-id 91
-layer 0
-tag 1
-transform 15.2547 10.55 -70.9371 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\Bloom.phppro
-	Canvas None
-	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser -nan
+	IdUser 0
 	end
 end
 name "Sound"
-id 92
+id 91
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
@@ -782,7 +765,7 @@ component "Sound"
 	end
 end
 name "Sound2"
-id 93
+id 92
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
@@ -793,10 +776,61 @@ component "Sound"
 	end
 end
 name "InputManager"
-id 94
+id 93
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 component "Input Manager"
+	end
+end
+name "Camera"
+id 94
+layer 0
+tag 1
+transform -30.522 2.9 -42.7659 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+	Canvas Assets\Canvas\BasicUI.phcanvas
+	end
+component "PlayerMovement"
+	Speed 15.000000
+	IdUser 0
+	end
+end
+name "Camera"
+id 95
+layer 0
+tag 1
+transform -30.522 2.9 -42.7659 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+	Canvas Assets\Canvas\BasicUI.phcanvas
+	end
+component "PlayerMovement"
+	Speed 15.000000
+	IdUser 0
+	end
+end
+name "Camera"
+id 96
+layer 0
+tag 1
+transform -30.522 2.9 -42.7659 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+	Canvas Assets\Canvas\BasicUI.phcanvas
+	end
+component "PlayerMovement"
+	Speed 15.000000
+	IdUser 0
 	end
 end

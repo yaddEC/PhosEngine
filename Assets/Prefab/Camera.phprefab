@@ -1,0 +1,15 @@
+name "Camera"
+id 91
+transform -30.522 2.9 -42.7659 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+	Canvas Assets\Canvas\BasicUI.phcanvas
+	end
+component "PlayerMovement"
+	Speed 15.000000
+	IdUser 0.000000
+	end
+end

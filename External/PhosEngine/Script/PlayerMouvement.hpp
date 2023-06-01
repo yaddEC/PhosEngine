@@ -19,7 +19,7 @@ namespace Script
 		Reflection::ClassMetaData& GetMetaData() override;
 	private:
 		float m_playerSpeed;
-		int m_idUser;
+		int m_idUser = -2;
 
 	};
 
