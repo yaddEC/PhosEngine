@@ -9,6 +9,7 @@
 Script::PlayerMouvement::PlayerMouvement()
 {
     m_playerSpeed = 1.5f;
+
 }
 
 Script::PlayerMouvement::~PlayerMouvement()
@@ -17,7 +18,7 @@ Script::PlayerMouvement::~PlayerMouvement()
 
 void Script::PlayerMouvement::Start()
 {
-    
+    m_idUser = -2;
 }
 
 void Script::PlayerMouvement::Update()
@@ -72,7 +73,7 @@ Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
         result.name = "PlayerMovement";
         result.memberList = {
             ClassMemberInfo("Speed", offsetof(PlayerMouvement, m_playerSpeed), MemberType::T_FLOAT),
-            ClassMemberInfo("IdUser", offsetof(PlayerMouvement, m_idUser), MemberType::T_FLOAT),
+            ClassMemberInfo("IdUser", offsetof(PlayerMouvement, m_idUser), MemberType::T_INT),
         };
         computed = true;
     }

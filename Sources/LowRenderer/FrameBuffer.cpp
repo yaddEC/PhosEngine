@@ -11,7 +11,6 @@
 #include "Wrapper/RHI.hpp"
 #include <iostream>
 
-#define FRAMEBUFFER_EXPORTS
 #include "LowRenderer/Framebuffer.hpp"
 
 using namespace Resource;

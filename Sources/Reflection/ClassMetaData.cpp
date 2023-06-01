@@ -37,7 +37,14 @@ void Reflection::ClassMemberInfo::GUIUpdate(void* classPtr)
 	Engine::MonoBehaviour* monoBehavior = static_cast<Engine::MonoBehaviour*>(classPtr);
 	switch (type)
 	{
-	case MemberType::T_INT:   break;
+	case MemberType::T_INT:  
+
+		if (GUI::EditInt(name, (int*)((size_t)classPtr + ptr), true, editMin, editMax))
+		{
+			monoBehavior->GUIUpdate();
+		}
+
+		break; 
 
 	case MemberType::T_FLOAT:
 	{

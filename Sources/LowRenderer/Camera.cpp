@@ -27,7 +27,7 @@ using namespace Maths;
 
 Camera::Camera()
     : m_framebuffer(FrameBuffer(10, 10))
-    , m_postProFramebuffer(FrameBuffer(10, 10))
+    , m_postProFramebuffer(FrameBuffer(10, 10, false))
     , m_renderTexture(Texture())
     , m_postProRenderTexture(Texture())
 {

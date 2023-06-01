@@ -25,7 +25,8 @@ namespace Script
 	private:
 		Engine::GamepadInput* gamepads;
 		std::vector<PlayerMouvement*> playerMovement;
+		
 	};
-
+	
 
 }

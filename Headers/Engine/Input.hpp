@@ -8,6 +8,17 @@
 
 namespace Engine
 {
+	constexpr int MAX_CONTROLLER = 4;
+
+	enum class Controller
+	{
+		C_KEYBOARD,
+		C_GAMEPAD_1,
+		C_GAMEPAD_2,
+		C_GAMEPAD_3,
+		C_GAMEPAD_4
+	};
+
 	struct GamepadInput
 	{
 		// -1 is disconnect
@@ -92,7 +103,7 @@ namespace Engine
 		Maths::Vec2 mouseDelta;
 		int scrollDelta;
 
-		GamepadInput GpInput[2] = { 0 };
+		GamepadInput GpInput[MAX_CONTROLLER] = { 0 };
 
 		int keyMap[348] = {0};
 		int mouseMap[3] = {0};

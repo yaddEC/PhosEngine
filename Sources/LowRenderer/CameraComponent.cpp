@@ -20,7 +20,7 @@
 LowRenderer::CameraComponent::CameraComponent()
     : MonoBehaviour(true)
     , m_framebuffer(FrameBuffer(10, 10))
-    , m_postProFramebuffer(FrameBuffer(10, 10))
+    , m_postProFramebuffer(FrameBuffer(10, 10, false))
     , m_renderTexture(Resource::Texture())
     , m_postProRenderTexture(Resource::Texture())
 {

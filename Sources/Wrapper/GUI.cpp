@@ -280,6 +280,19 @@ bool Wrapper::GUI::TruncTextBySize(std::string& text, float maxLength)
 	return trunced;
 }
 
+bool Wrapper::GUI::EditInt(const std::string& label, int* value, bool text, float min, float max)
+{
+	float textWidth = GUI::CalcTextSize(label.c_str()).x;
+
+	if (text)
+	{
+		ImGui::Text(label.c_str());
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
+	}
+	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
+	return ImGui::DragInt(label.c_str(), value, 1, min, max);
+}
+
 bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text, float min, float max)
 {
 	float textWidth = GUI::CalcTextSize(label.c_str()).x;
@@ -303,7 +316,7 @@ bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, 
 		ImGui::SameLine( WIDGET_OFFSET* GUI::GetWindowSize().x);
 	}
 	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x );
-	return ImGui::DragFloat(("##" + label).c_str(), &value, speed, min, max);
+	return ImGui::DragFloat(("##" + label).c_str(), &value, speed, min, max, "%.3f");
 }
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool text, float speed, float min, float max)
