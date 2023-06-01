@@ -1,0 +1,15 @@
+name "Camera2"
+id 91
+transform 15.2547 10.55 -70.9371 0 0 0 1 1 1
+component "Camera Component"
+	FOV 50.000000
+	UseSkybox 1
+	BackGroundColor 0.000000 0.000000 0.000000
+	PostProcessingShader Assets\Shader\PostProcessingShader\Bloom.phppro
+	Canvas None
+	end
+component "PlayerMovement"
+	Speed 15.000000
+	IdUser -nan
+	end
+end

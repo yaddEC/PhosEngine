@@ -69,13 +69,18 @@ void EditorGUI::GameGUI::DoUpdate()
 		
 
 	default: 
-		m_currentScene->GetRenderer()->RenderAll(nullptr, Maths::Vec2(p_size.x / 2.f, p_size.y - 42), true);
+		m_currentScene->GetRenderer()->RenderAll(nullptr, Maths::Vec2(p_size.x / 2.f, (p_size.y - 42) / 2.f), true);
 		LowRenderer::CameraComponent* cam1 = m_currentScene->GetRenderer()->GetCameraList()[0];
 		LowRenderer::CameraComponent* cam2 = m_currentScene->GetRenderer()->GetCameraList()[1];
-		Wrapper::GUI::Image(cam1->GetRenderTexture(), Maths::Vec2(p_size.x / 2.f, p_size.y - 42));
+		LowRenderer::CameraComponent* cam3 = m_currentScene->GetRenderer()->GetCameraList()[2];
+		LowRenderer::CameraComponent* cam4 = m_currentScene->GetRenderer()->GetCameraList()[3];
+		Wrapper::GUI::Image(cam1->GetRenderTexture(), Maths::Vec2(p_size.x / 2.f, (p_size.y - 42) / 2.f));
 		Wrapper::GUI::SameLine();
-		Wrapper::GUI::Image(cam2->GetRenderTexture(), Maths::Vec2(p_size.x / 2.f, p_size.y - 42));
-		break; 
+		Wrapper::GUI::Image(cam2->GetRenderTexture(), Maths::Vec2(p_size.x / 2.f, (p_size.y - 42) / 2.f));
+		Wrapper::GUI::Image(cam3->GetRenderTexture(), Maths::Vec2(p_size.x / 2.f, (p_size.y - 42) / 2.f));
+		Wrapper::GUI::SameLine();
+		Wrapper::GUI::Image(cam4->GetRenderTexture(), Maths::Vec2(p_size.x / 2.f, (p_size.y - 42) / 2.f));
+		break;
 	
 	}
 

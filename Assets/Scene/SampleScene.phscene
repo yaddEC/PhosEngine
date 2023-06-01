@@ -1,123 +1,84 @@
 Assets\Cubemap\Skybox.phcm
-name "Ground"
+name "Map"
 id 1
 layer 0
 tag 0
-transform -5.25 -3 -1.55 0 0 0 50 1 100
-component "Mesh Renderer"
-	Mesh Assets\Model\cube.obj
-	Material Assets\Material\Container.phmat
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Left"
+	id 2
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	child
+		name "groundL"
+		id 3
+		layer 0
+		tag 0
+		transform -50 0 0 0 0 0 35 1 200
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		end
+	child
+		name "Walls"
+		id 4
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "Wall1"
+			id 5
+			layer 0
+			tag 0
+			transform -85 100 0 0 0 0 1 100 200
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material DefaultAssets\Material\DefaultMat.phmat
+				end
+			end
+		end
 	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType 0
-	end
-end
-name "testMat"
-id 2
-layer 0
-tag 0
-transform 2.59307 -1 0.0340826 4.26203e-07 0.0663433 -1.27703e-07 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material Assets\Material\MetalGrid.phmat
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType 0
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-end
-name "SpotLight"
-id 3
-layer 0
-tag 0
-transform -23.8 55.95 0 0 0 0 1 1 1
-component "Spot Light"
-	Color 1.000000 1.000000 1.000000
-	Intensity 1.000000
-	Angle 12.000000
-	Linear Attenuation 0.090000
-	Quadratic Attenuation 0.032000
-	end
-end
-name "test"
-id 4
-layer 0
-tag 0
-transform -67.4961 -42267.9 0 0 0 -1.29119 1 1 1
-component "Mesh Renderer"
-	Mesh None
-	Material None
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-component "Sphere Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Radius 2.000000
-	MaterialType 0
-	end
-end
-name "Boo 4"
-id 5
-layer 0
-tag 0
-transform -0.55 1.01602e-07 -25.9 0 0 1.5708 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-component "Sphere Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Radius 2.000000
-	MaterialType 0
-	end
-end
-name "Boo 6"
-id 6
-layer 0
-tag 0
-transform -15.513 1.03923e-07 -10.1139 -0.37585 -0.222625 -0.198957 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 1
-	isKinematic 0
-	Gravity 0.000000 -5.000000 0.000000
-	end
-component "Sphere Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Radius 2.000000
-	MaterialType 0
+child
+	name "Right"
+	id 6
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	child
+		name "groundR"
+		id 7
+		layer 0
+		tag 0
+		transform 50 0 0 0 0 0 35 1 200
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		end
+	child
+		name "Walls"
+		id 8
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "Wall1"
+			id 9
+			layer 0
+			tag 0
+			transform 85 100 0 0 0 0 1 100 200
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material DefaultAssets\Material\DefaultMat.phmat
+				end
+			end
+		end
 	end
 end
 name "Girl"
-id 7
+id 10
 layer 0
 tag 0
 transform 0 0 0 0 0 0 0.1 0.1 0.1
@@ -127,49 +88,49 @@ component "Mesh Renderer"
 	end
 child
 	name "mixamorig:Hips"
-	id 8
+	id 11
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
 	child
 		name "mixamorig:Spine"
-		id 9
+		id 12
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:Spine1"
-			id 10
+			id 13
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:Spine2"
-				id 11
+				id 14
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:Neck"
-					id 12
+					id 15
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:Head"
-						id 13
+						id 16
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:HeadTop_End"
-							id 14
+							id 17
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:HeadTop_End_end"
-								id 15
+								id 18
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
@@ -179,55 +140,55 @@ child
 					end
 				child
 					name "mixamorig:LeftShoulder"
-					id 16
+					id 19
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:LeftArm"
-						id 17
+						id 20
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:LeftForeArm"
-							id 18
+							id 21
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:LeftHand"
-								id 19
+								id 22
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
 								child
 									name "mixamorig:LeftHandThumb1"
-									id 20
+									id 23
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandThumb2"
-										id 21
+										id 24
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandThumb3"
-											id 22
+											id 25
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandThumb4"
-												id 23
+												id 26
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandThumb4_end"
-													id 24
+													id 27
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -238,31 +199,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandIndex1"
-									id 25
+									id 28
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandIndex2"
-										id 26
+										id 29
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandIndex3"
-											id 27
+											id 30
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandIndex4"
-												id 28
+												id 31
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandIndex4_end"
-													id 29
+													id 32
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -273,31 +234,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandMiddle1"
-									id 30
+									id 33
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandMiddle2"
-										id 31
+										id 34
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandMiddle3"
-											id 32
+											id 35
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandMiddle4"
-												id 33
+												id 36
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandMiddle4_end"
-													id 34
+													id 37
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -308,31 +269,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandRing1"
-									id 35
+									id 38
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandRing2"
-										id 36
+										id 39
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandRing3"
-											id 37
+											id 40
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandRing4"
-												id 38
+												id 41
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandRing4_end"
-													id 39
+													id 42
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -343,31 +304,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandPinky1"
-									id 40
+									id 43
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandPinky2"
-										id 41
+										id 44
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandPinky3"
-											id 42
+											id 45
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandPinky4"
-												id 43
+												id 46
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandPinky4_end"
-													id 44
+													id 47
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -382,55 +343,55 @@ child
 					end
 				child
 					name "mixamorig:RightShoulder"
-					id 45
+					id 48
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:RightArm"
-						id 46
+						id 49
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:RightForeArm"
-							id 47
+							id 50
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:RightHand"
-								id 48
+								id 51
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
 								child
 									name "mixamorig:RightHandThumb1"
-									id 49
+									id 52
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandThumb2"
-										id 50
+										id 53
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandThumb3"
-											id 51
+											id 54
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandThumb4"
-												id 52
+												id 55
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandThumb4_end"
-													id 53
+													id 56
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -441,31 +402,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandIndex1"
-									id 54
+									id 57
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandIndex2"
-										id 55
+										id 58
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandIndex3"
-											id 56
+											id 59
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandIndex4"
-												id 57
+												id 60
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandIndex4_end"
-													id 58
+													id 61
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -476,31 +437,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandMiddle1"
-									id 59
+									id 62
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandMiddle2"
-										id 60
+										id 63
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandMiddle3"
-											id 61
+											id 64
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandMiddle4"
-												id 62
+												id 65
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandMiddle4_end"
-													id 63
+													id 66
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -511,31 +472,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandRing1"
-									id 64
+									id 67
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandRing2"
-										id 65
+										id 68
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandRing3"
-											id 66
+											id 69
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandRing4"
-												id 67
+												id 70
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandRing4_end"
-													id 68
+													id 71
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -546,31 +507,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandPinky1"
-									id 69
+									id 72
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandPinky2"
-										id 70
+										id 73
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandPinky3"
-											id 71
+											id 74
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandPinky4"
-												id 72
+												id 75
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandPinky4_end"
-													id 73
+													id 76
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -588,37 +549,37 @@ child
 		end
 	child
 		name "mixamorig:LeftUpLeg"
-		id 74
+		id 77
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:LeftLeg"
-			id 75
+			id 78
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:LeftFoot"
-				id 76
+				id 79
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:LeftToeBase"
-					id 77
+					id 80
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:LeftToe_End"
-						id 78
+						id 81
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:LeftToe_End_end"
-							id 79
+							id 82
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
@@ -630,37 +591,37 @@ child
 		end
 	child
 		name "mixamorig:RightUpLeg"
-		id 80
+		id 83
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:RightLeg"
-			id 81
+			id 84
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:RightFoot"
-				id 82
+				id 85
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:RightToeBase"
-					id 83
+					id 86
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:RightToe_End"
-						id 84
+						id 87
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:RightToe_End_end"
-							id 85
+							id 88
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
@@ -672,165 +633,147 @@ child
 		end
 	end
 end
-name "Directional Light"
-id 86
-layer 0
-tag 0
-transform 0 0 0 -1.05186 -2.29841 0.775617 0.999999 1 1
-component "Directional Light"
-	Color 0.857143 0.841030 0.536128
-	Intensity 8.900000
-	end
-end
-name "Cube"
-id 87
-layer 0
-tag 0
-transform -14.0808 12.15 0 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-end
-name "Cube"
-id 88
-layer 0
-tag 0
-transform 17.2424 -1 -8.46891 1.5708 -1.4327 -2.98023e-08 0.999999 0.999999 0.999999
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType -842150451
-	end
-end
-name "Cube"
-id 89
-layer 0
-tag 0
-transform 14.5036 0 0 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType -842150451
-	end
-end
-name "Camera"
-id 90
-layer 0
-tag 1
-transform -30.522 2.9 -42.7659 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
-	Canvas Assets\Canvas\BasicUI.phcanvas
-	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser 0
-	end
-end
-name "Sound"
-id 91
-layer 0
-tag 0
-transform 0 0 0 0 0 0 1 1 1
-component "Sound"
-	isLooping 0
-	Audio Assets\Audio\DebugSound.mp3
-	Volume 1.000000
-	end
-end
-name "Sound2"
-id 92
-layer 0
-tag 0
-transform 0 0 0 0 0 0 1 1 1
-component "Sound"
-	isLooping 0
-	Audio Assets\Audio\DebugSound.mp3
-	Volume 1.000000
-	end
-end
 name "InputManager"
-id 93
+id 89
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 component "Input Manager"
 	end
 end
-name "Camera"
-id 94
+name "Lights"
+id 90
 layer 0
-tag 1
-transform -30.522 2.9 -42.7659 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
-	Canvas Assets\Canvas\BasicUI.phcanvas
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Directional Light"
+	id 91
+	layer 0
+	tag 0
+	transform -0.45 0 0 -1.12335 -2.29841 0.775617 0.999999 1 1
+	component "Directional Light"
+		Color 0.857143 0.841030 0.536128
+		Intensity 8.900000
+		end
 	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser 0
+child
+	name "Directional Light2"
+	id 92
+	layer 0
+	tag 0
+	transform 6.06479 0.0923456 -1.2512 -1.91912 0.322868 -0.233632 0.998046 1 1
+	component "Directional Light"
+		Color 0.942085 0.907059 0.731116
+		Intensity 1.000000
+		end
 	end
 end
-name "Camera"
-id 95
+name "Cameras"
+id 93
 layer 0
-tag 1
-transform -30.522 2.9 -42.7659 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
-	Canvas Assets\Canvas\BasicUI.phcanvas
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Camera"
+	id 94
+	layer 0
+	tag 1
+	transform -49.0455 23.7629 -226.286 0 0 0 1 1 1
+	component "Camera Component"
+		FOV 50.000000
+		UseSkybox 1
+		BackGroundColor 0.000000 0.000000 0.000000
+		PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+		Canvas Assets\Canvas\BasicUI.phcanvas
+		end
+	component "PlayerMovement"
+		Speed 15.000000
+		IdUser 0.000000
+		end
 	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser 0
+child
+	name "Camera2"
+	id 95
+	layer 0
+	tag 1
+	transform 53.8439 10.55 -215.631 0 0 0 1 1 1
+	component "Camera Component"
+		FOV 50.000000
+		UseSkybox 1
+		BackGroundColor 0.000000 0.000000 0.000000
+		PostProcessingShader Assets\Shader\PostProcessingShader\Bloom.phppro
+		Canvas None
+		end
+	component "PlayerMovement"
+		Speed 16.700001
+		IdUser -nan
+		end
+	end
+child
+	name "Camera"
+	id 99
+	layer 0
+	tag 1
+	transform -30.522 2.9 -42.7659 0 0 0 1 1 1
+	component "Camera Component"
+		FOV 50.000000
+		UseSkybox 1
+		BackGroundColor 0.000000 0.000000 0.000000
+		PostProcessingShader Assets\Shader\PostProcessingShader\Grayscale.phppro
+		Canvas Assets\Canvas\BasicUI.phcanvas
+		end
+	component "PlayerMovement"
+		Speed 15.000000
+		IdUser 0.000000
+		end
+	end
+child
+	name "Camera2"
+	id 100
+	layer 0
+	tag 1
+	transform 15.2547 10.55 -70.9371 0 0 0 1 1 1
+	component "Camera Component"
+		FOV 50.000000
+		UseSkybox 1
+		BackGroundColor 0.000000 0.000000 0.000000
+		PostProcessingShader Assets\Shader\PostProcessingShader\Kernel.phppro
+		Canvas None
+		end
+	component "PlayerMovement"
+		Speed 15.000000
+		IdUser -nan
+		end
 	end
 end
-name "Camera"
+name "Sounds"
 id 96
 layer 0
-tag 1
-transform -30.522 2.9 -42.7659 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
-	Canvas Assets\Canvas\BasicUI.phcanvas
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Sound2"
+	id 97
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	component "Sound"
+		isLooping 0
+		Audio Assets\Audio\DebugSound.mp3
+		Volume 1.000000
+		end
 	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser 0
+child
+	name "Sound"
+	id 98
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	component "Sound"
+		isLooping 0
+		Audio Assets\Audio\DebugSound.mp3
+		Volume 1.000000
+		end
 	end
 end
