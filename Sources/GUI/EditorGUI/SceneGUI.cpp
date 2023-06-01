@@ -13,6 +13,14 @@ using namespace Wrapper;
 using namespace EditorGUI;
 using namespace Engine;
 
+
+void RemoveParentTranslation(Vec3& position, Transform* transform)
+{
+	position -= transform->position;
+	if (transform->GetParent())
+		RemoveParentTranslation(position, transform->GetParent());
+}
+
 SceneGUI::SceneGUI() : IGUI("Scene",true), m_speedModifier(1.000f)
 {
 	
@@ -194,7 +202,7 @@ void SceneGUI::DoUpdate()
 
 			if (selected->transform->GetParent())
 			{
-				position = position - selected->transform->GetParent()->position;
+				RemoveParentTranslation(position, selected->transform->GetParent());
 
 				rotation = rotation - (selected->transform->GetParent()->rotationEuler * RAD2DEG);
 				//position = position - selected->transform->GetParent()->position;
