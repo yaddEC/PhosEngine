@@ -1,119 +1,80 @@
 Assets\Cubemap\Skybox.phcm
-name "Ground"
-id 1
-layer 0
-tag 0
-transform -5.25 -3 -1.55 0 0 0 50 1 100
-component "Mesh Renderer"
-	Mesh Assets\Model\cube.obj
-	Material Assets\Material\Container.phmat
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType 0
-	end
-end
-name "testMat"
-id 2
-layer 0
-tag 0
-transform 2.59307 -1 0.0340826 4.26203e-07 0.0663433 -1.27703e-07 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material Assets\Material\MetalGrid.phmat
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType 0
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-end
-name "SpotLight"
+name "Map"
 id 3
 layer 0
 tag 0
-transform -23.8 55.95 0 0 0 0 1 1 1
-component "Spot Light"
-	Color 1.000000 1.000000 1.000000
-	Intensity 1.000000
-	Angle 12.000000
-	Linear Attenuation 0.090000
-	Quadratic Attenuation 0.032000
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Left"
+	id 4
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	child
+		name "groundL"
+		id 2
+		layer 0
+		tag 0
+		transform -50 0 0 0 0 0 35 1 200
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		end
+	child
+		name "Walls"
+		id 89
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "Wall1"
+			id 88
+			layer 0
+			tag 0
+			transform -85 100 0 0 0 0 1 100 200
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material DefaultAssets\Material\DefaultMat.phmat
+				end
+			end
+		end
 	end
-end
-name "test"
-id 4
-layer 0
-tag 0
-transform -67.4961 -42267.9 0 0 0 -1.29119 1 1 1
-component "Mesh Renderer"
-	Mesh None
-	Material None
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-component "Sphere Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Radius 2.000000
-	MaterialType 0
-	end
-end
-name "Boo 4"
-id 5
-layer 0
-tag 0
-transform -0.55 1.01602e-07 -25.9 0 0 1.5708 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-component "Sphere Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Radius 2.000000
-	MaterialType 0
-	end
-end
-name "Boo 6"
-id 6
-layer 0
-tag 0
-transform -15.513 1.03923e-07 -10.1139 -0.37585 -0.222625 -0.198957 1 1 1
-component "Mesh Renderer"
-	Mesh Assets\Model\boo.obj
-	Material Assets\Material\boo_mat.001.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 1
-	isKinematic 0
-	Gravity 0.000000 -5.000000 0.000000
-	end
-component "Sphere Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Radius 2.000000
-	MaterialType 0
+child
+	name "Right"
+	id 5
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	child
+		name "groundR"
+		id 1
+		layer 0
+		tag 0
+		transform 50 0 0 0 0 0 35 1 200
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		end
+	child
+		name "Walls"
+		id 6
+		layer 0
+		tag 0
+		transform 0 0 0 0 0 0 1 1 1
+		child
+			name "Wall1"
+			id 87
+			layer 0
+			tag 0
+			transform 85 100 0 0 0 0 1 100 200
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material DefaultAssets\Material\DefaultMat.phmat
+				end
+			end
+		end
 	end
 end
 name "Girl"
@@ -672,131 +633,111 @@ child
 		end
 	end
 end
-name "Directional Light"
-id 86
-layer 0
-tag 0
-transform 0 0 0 -1.05186 -2.29841 0.775617 0.999999 1 1
-component "Directional Light"
-	Color 0.857143 0.841030 0.536128
-	Intensity 8.900000
-	end
-end
-name "Cube"
-id 87
-layer 0
-tag 0
-transform -14.0808 12.15 0 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-end
-name "Cube"
-id 88
-layer 0
-tag 0
-transform 17.2424 -1 -8.46891 1.5708 -1.4327 -2.98023e-08 0.999999 0.999999 0.999999
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "RigidBody"
-	mass 1.000000
-	Different_Gravity 0
-	isKinematic 0
-	Gravity 0.000000 -20.000000 0.000000
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType -842150451
-	end
-end
-name "Cube"
-id 89
-layer 0
-tag 0
-transform 14.5036 0 0 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveCube.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
-	end
-component "Box Collider"
-	isTrigger 0
-	Center 0.000000 0.000000 0.000000
-	Size 1.000000 1.000000 1.000000
-	MaterialType -842150451
-	end
-end
-name "Camera"
-id 90
-layer 0
-tag 1
-transform -30.522 2.9 -42.7659 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
-	Canvas Assets\Canvas\BasicUI.phcanvas
-	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser 0.000000
-	end
-end
-name "Camera2"
-id 91
-layer 0
-tag 1
-transform 15.2547 10.55 -70.9371 0 0 0 1 1 1
-component "Camera Component"
-	FOV 50.000000
-	UseSkybox 1
-	BackGroundColor 0.000000 0.000000 0.000000
-	PostProcessingShader Assets\Shader\PostProcessingShader\Bloom.phppro
-	Canvas None
-	end
-component "PlayerMovement"
-	Speed 15.000000
-	IdUser -nan
-	end
-end
-name "Sound"
-id 92
-layer 0
-tag 0
-transform 0 0 0 0 0 0 1 1 1
-component "Sound"
-	isLooping 0
-	Audio Assets\Audio\DebugSound.mp3
-	Volume 1.000000
-	end
-end
-name "Sound2"
+name "InputManager"
 id 93
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
-component "Sound"
-	isLooping 0
-	Audio Assets\Audio\DebugSound.mp3
-	Volume 1.000000
+component "Input Manager"
 	end
 end
-name "InputManager"
-id 94
+name "Lights"
+id 95
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
-component "Input Manager"
+child
+	name "Directional Light"
+	id 86
+	layer 0
+	tag 0
+	transform -0.45 0 0 -1.12335 -2.29841 0.775617 0.999999 1 1
+	component "Directional Light"
+		Color 0.857143 0.841030 0.536128
+		Intensity 8.900000
+		end
+	end
+child
+	name "Directional Light2"
+	id 96
+	layer 0
+	tag 0
+	transform 6.06479 0.0923456 -1.2512 -1.91912 0.322868 -0.233632 0.998046 1 1
+	component "Directional Light"
+		Color 0.942085 0.907059 0.731116
+		Intensity 1.000000
+		end
+	end
+end
+name "Cameras"
+id 97
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Camera"
+	id 90
+	layer 0
+	tag 1
+	transform -49.0455 23.7629 -226.286 0 0 0 1 1 1
+	component "Camera Component"
+		FOV 50.000000
+		UseSkybox 1
+		BackGroundColor 0.000000 0.000000 0.000000
+		PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+		Canvas Assets\Canvas\BasicUI.phcanvas
+		end
+	component "PlayerMovement"
+		Speed 15.000000
+		IdUser 0.000000
+		end
+	end
+child
+	name "Camera2"
+	id 94
+	layer 0
+	tag 1
+	transform 53.8439 10.55 -215.631 0 0 0 1 1 1
+	component "Camera Component"
+		FOV 50.000000
+		UseSkybox 1
+		BackGroundColor 0.000000 0.000000 0.000000
+		PostProcessingShader Assets\Shader\PostProcessingShader\Bloom.phppro
+		Canvas None
+		end
+	component "PlayerMovement"
+		Speed 16.700001
+		IdUser -nan
+		end
+	end
+end
+name "Sounds"
+id 98
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+child
+	name "Sound2"
+	id 92
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	component "Sound"
+		isLooping 0
+		Audio Assets\Audio\DebugSound.mp3
+		Volume 1.000000
+		end
+	end
+child
+	name "Sound"
+	id 91
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	component "Sound"
+		isLooping 0
+		Audio Assets\Audio\DebugSound.mp3
+		Volume 1.000000
+		end
 	end
 end
