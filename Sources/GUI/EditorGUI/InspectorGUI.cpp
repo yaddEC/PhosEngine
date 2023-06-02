@@ -196,6 +196,7 @@ void EditorGUI::InspectorGUI::DisplayResource()
 	if (!m_resource) return;
 	Wrapper::GUI::SetWindowFontSize(2.f);
 	Wrapper::GUI::DisplayText(m_resource->GetName().c_str());
+	Wrapper::GUI::DisplayText(m_resource->isBinded && m_resource->isLoaded ? "Yes" : "No");
 	Wrapper::GUI::SetWindowFontSize(1);
 	Wrapper::GUI::SetCursorPos(Wrapper::GUI::GetCursorPos() + Maths::Vec2(0, 5));
 	Wrapper::GUI::Separator();

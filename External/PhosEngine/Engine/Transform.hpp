@@ -41,7 +41,9 @@ namespace Engine
 		void SetRotation(Maths::Vec3 rotation);
 
 		void SetRotation(Maths::Quaternion quaternion);
-
+		void RotateX(float angle);
+		void RotateY(float angle);
+		void RotateZ(float angle);
 		void AddRotation(Maths::Quaternion quaternion);
 
 		Maths::Vec3 GetForwardVector();

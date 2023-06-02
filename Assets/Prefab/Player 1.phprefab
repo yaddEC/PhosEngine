@@ -1,0 +1,35 @@
+name "Player 1"
+id 99
+transform -50.75 4.75 0 0 0 0 1 1 1
+component "PlayerMovement"
+	Speed 6.000000
+	LookSpeedGamepad 50.000000
+	LookSpeedMouse 8.000000
+	end
+child
+	name "PlayerGraphics"
+	id 100
+	transform 0 0 0 0 0 1.5708 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 101
+	transform 0 0.85 0 0.42586 0 0 1 1 1
+	child
+		name "Camera"
+		id 102
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas None
+			end
+		end
+	end
+end

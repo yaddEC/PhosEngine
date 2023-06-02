@@ -11,16 +11,14 @@ namespace Script
 		~PlayerMouvement();
 		void Start() override;
 		void Update() override;
-		void GUIUpdate() override;
 		void OnInspector() override;
-		void OnDestroy() override;
-		void SetIdUser(int ID);
-		int GetIdUser() { return m_idUser; }
+		void SetController(Engine::Controller ID);
+		int GetController() { return (int)m_controller; }
 		Reflection::ClassMetaData& GetMetaData() override;
 	private:
-		float m_playerSpeed;
-		int m_idUser = -2;
-
+		float m_playerSpeed, m_lookSpeedGamepad, m_lookSpeedMouse;
+		Engine::Controller m_controller = Engine::Controller::C_NONE;
+		Engine::Transform* m_cameraCenter;
 	};
 
 
