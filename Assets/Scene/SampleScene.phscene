@@ -39,16 +39,112 @@ child
 				end
 			end
 		end
+	child
+		name "groundTop"
+		id 13
+		layer 0
+		tag 0
+		transform -69.0375 17.72 -59.865 0 0 0 18.7 1 50
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "New GameObject"
+		id 110
+		layer 0
+		tag 0
+		transform -67.532 1.99634 -124.747 0 0 0 17.2 1 1
+		component "Mesh Renderer"
+			Mesh Assets\Model\NewStair.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		end
+	child
+		name "Cube"
+		id 7
+		layer 0
+		tag 0
+		transform -51.3236 14.8829 -101.915 0 0 0 1 2 8
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 9
+		layer 0
+		tag 0
+		transform -51.3236 10.9927 -103.878 0 0 0 1 2 9.95
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 10
+		layer 0
+		tag 0
+		transform -51.3353 6.78675 -105.941 0 0 0 1 2.2 12
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 12
+		layer 0
+		tag 0
+		transform -51.329 2.998 -107.791 0 0 0 1 2.2 13.95
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Material\DefaultMat.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
 	end
 child
 	name "Right"
-	id 6
+	id 14
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
 	child
 		name "groundR"
-		id 7
+		id 15
 		layer 0
 		tag 0
 		transform 50 0 0 0 0 0 35 1 200
@@ -59,13 +155,13 @@ child
 		end
 	child
 		name "Walls"
-		id 8
+		id 16
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "Wall1"
-			id 9
+			id 17
 			layer 0
 			tag 0
 			transform 85 100 0 0 0 0 1 100 200
@@ -78,7 +174,7 @@ child
 	end
 end
 name "Girl"
-id 10
+id 18
 layer 0
 tag 0
 transform 0 0 0 0 0 0 0.1 0.1 0.1
@@ -88,49 +184,49 @@ component "Mesh Renderer"
 	end
 child
 	name "mixamorig:Hips"
-	id 11
+	id 19
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
 	child
 		name "mixamorig:Spine"
-		id 12
+		id 20
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:Spine1"
-			id 13
+			id 21
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:Spine2"
-				id 14
+				id 22
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:Neck"
-					id 15
+					id 23
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:Head"
-						id 16
+						id 24
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:HeadTop_End"
-							id 17
+							id 25
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:HeadTop_End_end"
-								id 18
+								id 26
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
@@ -140,55 +236,55 @@ child
 					end
 				child
 					name "mixamorig:LeftShoulder"
-					id 19
+					id 27
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:LeftArm"
-						id 20
+						id 28
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:LeftForeArm"
-							id 21
+							id 29
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:LeftHand"
-								id 22
+								id 30
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
 								child
 									name "mixamorig:LeftHandThumb1"
-									id 23
+									id 31
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandThumb2"
-										id 24
+										id 32
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandThumb3"
-											id 25
+											id 33
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandThumb4"
-												id 26
+												id 34
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandThumb4_end"
-													id 27
+													id 35
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -199,31 +295,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandIndex1"
-									id 28
+									id 36
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandIndex2"
-										id 29
+										id 37
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandIndex3"
-											id 30
+											id 38
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandIndex4"
-												id 31
+												id 39
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandIndex4_end"
-													id 32
+													id 40
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -234,31 +330,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandMiddle1"
-									id 33
+									id 41
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandMiddle2"
-										id 34
+										id 42
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandMiddle3"
-											id 35
+											id 43
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandMiddle4"
-												id 36
+												id 44
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandMiddle4_end"
-													id 37
+													id 45
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -269,31 +365,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandRing1"
-									id 38
+									id 46
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandRing2"
-										id 39
+										id 47
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandRing3"
-											id 40
+											id 48
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandRing4"
-												id 41
+												id 49
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandRing4_end"
-													id 42
+													id 50
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -304,31 +400,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandPinky1"
-									id 43
+									id 51
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandPinky2"
-										id 44
+										id 52
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandPinky3"
-											id 45
+											id 53
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandPinky4"
-												id 46
+												id 54
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandPinky4_end"
-													id 47
+													id 55
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -343,55 +439,55 @@ child
 					end
 				child
 					name "mixamorig:RightShoulder"
-					id 48
+					id 56
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:RightArm"
-						id 49
+						id 57
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:RightForeArm"
-							id 50
+							id 58
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:RightHand"
-								id 51
+								id 59
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
 								child
 									name "mixamorig:RightHandThumb1"
-									id 52
+									id 60
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandThumb2"
-										id 53
+										id 61
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandThumb3"
-											id 54
+											id 62
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandThumb4"
-												id 55
+												id 63
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandThumb4_end"
-													id 56
+													id 64
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -402,31 +498,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandIndex1"
-									id 57
+									id 65
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandIndex2"
-										id 58
+										id 66
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandIndex3"
-											id 59
+											id 67
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandIndex4"
-												id 60
+												id 68
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandIndex4_end"
-													id 61
+													id 69
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -437,31 +533,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandMiddle1"
-									id 62
+									id 70
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandMiddle2"
-										id 63
+										id 71
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandMiddle3"
-											id 64
+											id 72
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandMiddle4"
-												id 65
+												id 73
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandMiddle4_end"
-													id 66
+													id 74
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -472,31 +568,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandRing1"
-									id 67
+									id 75
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandRing2"
-										id 68
+										id 76
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandRing3"
-											id 69
+											id 77
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandRing4"
-												id 70
+												id 78
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandRing4_end"
-													id 71
+													id 79
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -507,31 +603,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandPinky1"
-									id 72
+									id 80
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandPinky2"
-										id 73
+										id 81
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandPinky3"
-											id 74
+											id 82
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandPinky4"
-												id 75
+												id 83
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandPinky4_end"
-													id 76
+													id 84
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -549,37 +645,37 @@ child
 		end
 	child
 		name "mixamorig:LeftUpLeg"
-		id 77
+		id 85
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:LeftLeg"
-			id 78
+			id 86
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:LeftFoot"
-				id 79
+				id 87
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:LeftToeBase"
-					id 80
+					id 88
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:LeftToe_End"
-						id 81
+						id 89
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:LeftToe_End_end"
-							id 82
+							id 90
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
@@ -591,37 +687,37 @@ child
 		end
 	child
 		name "mixamorig:RightUpLeg"
-		id 83
+		id 91
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:RightLeg"
-			id 84
+			id 92
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:RightFoot"
-				id 85
+				id 93
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:RightToeBase"
-					id 86
+					id 94
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:RightToe_End"
-						id 87
+						id 95
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:RightToe_End_end"
-							id 88
+							id 96
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
@@ -634,7 +730,7 @@ child
 	end
 end
 name "InputManager"
-id 89
+id 97
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
@@ -642,13 +738,13 @@ component "Input Manager"
 	end
 end
 name "Lights"
-id 90
+id 98
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 child
 	name "Directional Light"
-	id 91
+	id 99
 	layer 0
 	tag 0
 	transform -0.45 0 0 -1.12335 -2.29841 0.775617 0.999999 1 1
@@ -659,7 +755,7 @@ child
 	end
 child
 	name "Directional Light2"
-	id 92
+	id 100
 	layer 0
 	tag 0
 	transform 6.06479 0.0923456 -1.2512 -1.91912 0.322868 -0.233632 0.998046 1 1
@@ -670,31 +766,31 @@ child
 	end
 end
 name "Cameras"
-id 93
+id 101
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 child
 	name "Camera"
-	id 94
+	id 102
 	layer 0
 	tag 1
-	transform -49.0455 23.7629 -226.286 0 0 0 1 1 1
+	transform -31.527 3.91366 -55.704 0 -1.6057 0 1 1 1
 	component "Camera Component"
 		FOV 50.000000
 		UseSkybox 1
 		BackGroundColor 0.000000 0.000000 0.000000
-		PostProcessingShader Assets\Shader\PostProcessingShader\EdgeDectection.phppro
+		PostProcessingShader None
 		Canvas Assets\Canvas\BasicUI.phcanvas
 		end
 	component "PlayerMovement"
 		Speed 15.000000
-		IdUser 0.000000
+		IdUser -1
 		end
 	end
 child
 	name "Camera2"
-	id 95
+	id 103
 	layer 0
 	tag 1
 	transform 53.8439 10.55 -215.631 0 0 0 1 1 1
@@ -707,12 +803,12 @@ child
 		end
 	component "PlayerMovement"
 		Speed 16.700001
-		IdUser -nan
+		IdUser -2
 		end
 	end
 child
 	name "Camera"
-	id 99
+	id 104
 	layer 0
 	tag 1
 	transform -30.522 2.9 -42.7659 0 0 0 1 1 1
@@ -725,15 +821,15 @@ child
 		end
 	component "PlayerMovement"
 		Speed 15.000000
-		IdUser 0.000000
+		IdUser -2
 		end
 	end
 child
 	name "Camera2"
-	id 100
+	id 105
 	layer 0
 	tag 1
-	transform 15.2547 10.55 -70.9371 0 0 0 1 1 1
+	transform 2.46124 10.55 -53.4457 0 0 0 1 1 1
 	component "Camera Component"
 		FOV 50.000000
 		UseSkybox 1
@@ -743,18 +839,18 @@ child
 		end
 	component "PlayerMovement"
 		Speed 15.000000
-		IdUser -nan
+		IdUser 0
 		end
 	end
 end
 name "Sounds"
-id 96
+id 106
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 child
 	name "Sound2"
-	id 97
+	id 107
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
@@ -766,7 +862,7 @@ child
 	end
 child
 	name "Sound"
-	id 98
+	id 108
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1

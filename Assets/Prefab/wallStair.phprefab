@@ -1,0 +1,8 @@
+name "wallStair"
+id 105
+transform -55.3397 2.01759 -124.246 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh Assets\Model\LittleStair.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+end
