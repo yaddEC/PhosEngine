@@ -1,0 +1,8 @@
+name "groundL"
+id 3
+transform -50 0 0 0 0 0 35 1 50
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material Assets\Material\Container.phmat
+	end
+end

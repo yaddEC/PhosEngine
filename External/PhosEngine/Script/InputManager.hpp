@@ -23,8 +23,8 @@ namespace Script
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 	private:
-		Engine::GamepadInput* gamepads;
-		std::vector<PlayerMouvement*> playerMovement;
+		Engine::GamepadInput* m_gamepads;
+		std::vector<PlayerMouvement*> m_playerMovement;
 		
 	};
 	
