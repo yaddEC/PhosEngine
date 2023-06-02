@@ -5,10 +5,11 @@
 //----------------
 #include "Engine/Input.hpp"
 #include "Script/PlayerMouvement.hpp"
+#include "Wrapper/GUI.hpp"
+#include "Engine/Scene.hpp"
 
 Script::PlayerMouvement::PlayerMouvement()
 {
-    m_playerSpeed = 1.5f;
 
 }
 
@@ -18,48 +19,46 @@ Script::PlayerMouvement::~PlayerMouvement()
 
 void Script::PlayerMouvement::Start()
 {
-    m_idUser = -2;
+    m_controller = Engine::Controller::C_NONE;
+    m_cameraCenter = gameobject->FindChildByName("Camera Center")->transform;
 }
 
 void Script::PlayerMouvement::Update()
 {
 	Engine::Input& input = Engine::Input::GetInstance();
 
-    if (m_idUser == -1)
+    Maths::Vec3 inputMove = Maths::Vec3{input.GetAxis("MoveX", m_controller), 0, input.GetAxis("MoveY", m_controller) };
+    transform->position += inputMove * input.GetDeltaTime() * m_playerSpeed;
+
+    Maths::Vec2 inputRot = Maths::Vec2(-input.GetAxis("LookX", m_controller), input.GetAxis("LookY", m_controller));
+    inputRot.Normalize();
+    float mult = Maths::DEG2RAD;
+
+    if (m_controller == Engine::Controller::C_KEYBOARD)
     {
-        if (input.IsKeyPressed(GLFW_KEY_W) || input.IsKeyPressed(GLFW_KEY_S))
-        {
-            transform->position.z += input.GetDeltaTime() * input.GetVerticalAxis() * m_playerSpeed;
-        }
-        if (input.IsKeyPressed(GLFW_KEY_A) || input.IsKeyPressed(GLFW_KEY_D))
-        {
-            transform->position.x += input.GetDeltaTime() * input.GetHorizontalAxis() * m_playerSpeed;
-        }
+        mult *= m_lookSpeedMouse * input.GetDeltaTime();
     }
     else
     {
-        transform->position.z += input.GetDeltaTime() * -input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_Y, m_idUser) * m_playerSpeed;
-        transform->position.x += input.GetDeltaTime() * input.GetGamepadAxis(GLFW_GAMEPAD_AXIS_LEFT_X, m_idUser) * m_playerSpeed;
+        mult *= m_lookSpeedGamepad * input.GetDeltaTime();
     }
+   
+    transform->RotateY(-inputRot.x * mult);
 
+    m_cameraCenter->SetRotation(Maths::Vec3(Maths::Clamp(m_cameraCenter->rotationEuler.x - inputRot.y * mult, -1.5f, 1.5f), 0, 0));
+}
 
-}
-void Script::PlayerMouvement::GUIUpdate()
-{
-}
 
 void Script::PlayerMouvement::OnInspector()
 {
     MonoBehaviour::OnInspector();
+    Wrapper::GUI::DisplayText("Controller : %s", Engine::ControllerName[(int)m_controller + 2]);
 }
 
-void Script::PlayerMouvement::OnDestroy()
-{
-}
 
-void Script::PlayerMouvement::SetIdUser(int ID)
+void Script::PlayerMouvement::SetController(Engine::Controller ID)
 {
-    m_idUser = ID;
+    m_controller = ID;
 }
 
 Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
@@ -73,7 +72,8 @@ Reflection::ClassMetaData& Script::PlayerMouvement::GetMetaData()
         result.name = "PlayerMovement";
         result.memberList = {
             ClassMemberInfo("Speed", offsetof(PlayerMouvement, m_playerSpeed), MemberType::T_FLOAT),
-            ClassMemberInfo("IdUser", offsetof(PlayerMouvement, m_idUser), MemberType::T_INT),
+            ClassMemberInfo("LookSpeedGamepad", offsetof(PlayerMouvement, m_lookSpeedGamepad), MemberType::T_FLOAT),
+            ClassMemberInfo("LookSpeedMouse", offsetof(PlayerMouvement, m_lookSpeedMouse), MemberType::T_FLOAT)
         };
         computed = true;
     }

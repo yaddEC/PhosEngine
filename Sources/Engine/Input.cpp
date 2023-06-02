@@ -29,6 +29,16 @@ void Input::Init(GLFWwindow* _window)
 		keyMap[i] = 0;
 	}
 	glfwSetScrollCallback(window, scroll_callback);
+
+	InitAxisMap();
+}
+
+void Engine::Input::InitAxisMap()
+{
+	m_AxisMap.emplace("MoveX", ActionAxis(GLFW_KEY_D, GLFW_KEY_A, GamepadAxis::AXIS_LEFT_STICK_X));
+	m_AxisMap.emplace("MoveY", ActionAxis(GLFW_KEY_W, GLFW_KEY_S, GamepadAxis::AXIS_LEFT_STICK_Y));
+	m_AxisMap.emplace("LookX", ActionAxis(MOUSE_DELTA_X, GamepadAxis::AXIS_RIGHT_STICK_X));
+	m_AxisMap.emplace("LookY", ActionAxis(MOUSE_DELTA_Y, GamepadAxis::AXIS_RIGHT_STICK_Y));
 }
 
 void Input::ScrollBackDoor(int value)
@@ -130,11 +140,13 @@ void Input::UpdateGamePad()
 			const float* ptr = glfwGetJoystickAxes(GpInput[i].IDconnexion, &axisCount);
 			for (size_t j = 0; j < axisCount; j++)
 			{
-				GpInput[i].axis[j] = ptr[j];
-				if (abs(GpInput[i].axis[j]) < 0.1)
-				{
+				if (j == 1 || j == 3)
+					GpInput[i].axis[j] = -ptr[j];
+				else
+					GpInput[i].axis[j] = ptr[j];
+
+				if (abs(GpInput[i].axis[j]) < 0.1f)
 					GpInput[i].axis[j] = 0;
-				}
 			}
 
 			int buttonCount;
@@ -231,7 +243,7 @@ void Input::DisplayGUI()
 	{			
 		if (GpInput[i].IDconnexion != -1)
 		{
-			if (Wrapper::GUI::CollapsingHeader(("Gamepad " + std::to_string(GpInput[i].IDconnexion)).c_str()))
+			if (Wrapper::GUI::CollapsingHeader(("Gamepad " + std::to_string(GpInput[i].IDconnexion + 1)).c_str()))
 			{
 				ShowDataGP(GpInput[i]);
 			}
@@ -239,16 +251,48 @@ void Input::DisplayGUI()
 	}
 }
 
+float Engine::Input::GetAxis(const char* axis, Controller controller)
+{
+	if (controller == Controller::C_NONE) return 0;
+	if (!m_AxisMap.count(axis)) return 0;
+	auto action = m_AxisMap.at(axis);
+
+	if (controller == Controller::C_KEYBOARD)
+	{
+		if (action.mouse)
+		{
+			if(action.mouseAxis == MOUSE_DELTA_X)
+				return GetMouseDelta().x;
+			if (action.mouseAxis == MOUSE_DELTA_Y)
+				return GetMouseDelta().y;
+		}
+		else
+		{
+			if (IsKeyPressed(action.keyboardNeg))
+				return -1;
+			else if (IsKeyPressed(action.keyboardPos))
+				return 1;
+			else
+				return 0;
+		}
+		
+	}
+	if ((int)controller >= 0)
+	{
+		return GetGamepadAxis(action.gamepadAxis, (int)controller);
+	}
+}
+
 void Engine::Input::ShowDataGP(const GamepadInput& GpInput)
 {
 	if (Wrapper::GUI::TreeNode("Axis##" + std::to_string(GpInput.IDconnexion), false))
 	{
-		Wrapper::GUI::DisplayFloat("Left stick X axis ", GpInput.axis[GLFW_GAMEPAD_AXIS_LEFT_X]);
-		Wrapper::GUI::DisplayFloat("Left stick Y axis ", GpInput.axis[GLFW_GAMEPAD_AXIS_LEFT_Y]);
-		Wrapper::GUI::DisplayFloat("Right stick X axis ", GpInput.axis[GLFW_GAMEPAD_AXIS_RIGHT_X]);
-		Wrapper::GUI::DisplayFloat("Right stick Y axis ", GpInput.axis[GLFW_GAMEPAD_AXIS_RIGHT_Y]);
-		Wrapper::GUI::DisplayFloat("Left trigger axis ", GpInput.axis[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER]);
-		Wrapper::GUI::DisplayFloat("Right trigger axis ", GpInput.axis[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER]);
+		Wrapper::GUI::DisplayFloat("Left stick X axis ", GpInput.axis[AXIS_LEFT_STICK_X]);
+		Wrapper::GUI::DisplayFloat("Left stick Y axis ", GpInput.axis[AXIS_LEFT_STICK_Y]);
+		Wrapper::GUI::DisplayFloat("Right stick X axis ", GpInput.axis[AXIS_RIGHT_STICK_X]);
+		Wrapper::GUI::DisplayFloat("Right stick Y axis ", GpInput.axis[AXIS_RIGHT_STICK_Y]);
+		Wrapper::GUI::DisplayFloat("Left trigger axis ", GpInput.axis[AXIS_LEFT_TRIGGER]);
+		Wrapper::GUI::DisplayFloat("Right trigger axis ", GpInput.axis[AXIS_RIGHT_TRIGGER]);
 		Wrapper::GUI::TreePop();
 	}
 
@@ -271,6 +315,8 @@ void Engine::Input::ShowDataGP(const GamepadInput& GpInput)
 		Wrapper::GUI::DisplayText("Pad Left : %d", GpInput.button[GamepadButton::BUTTON_DPAD_LEFT]);
 		Wrapper::GUI::TreePop();
 	}
-}	
+}
+
+
 
 

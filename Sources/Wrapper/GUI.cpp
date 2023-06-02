@@ -290,7 +290,7 @@ bool Wrapper::GUI::EditInt(const std::string& label, int* value, bool text, floa
 		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
 	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x);
-	return ImGui::DragInt(label.c_str(), value, 1, min, max);
+	return ImGui::DragInt(("##" + label).c_str(), value, 1, min, max);
 }
 
 bool Wrapper::GUI::SliderFloat(const std::string& label, float& value, bool text, float min, float max)

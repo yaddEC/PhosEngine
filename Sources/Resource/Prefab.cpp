@@ -121,6 +121,7 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		{
 			newGameObject->transform->position = Maths::Vec3(std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]));
 			newGameObject->transform->rotationEuler = Maths::Vec3(std::stof(tokens[4]), std::stof(tokens[5]), std::stof(tokens[6]));
+			newGameObject->transform->rotation = Maths::Quaternion::ToQuaternion(newGameObject->transform->rotationEuler);
 			newGameObject->transform->scale = Maths::Vec3(std::stof(tokens[7]), std::stof(tokens[8]), std::stof(tokens[9]));
 		}
 		else if (tokens[0] == "component")

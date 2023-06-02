@@ -3,15 +3,19 @@
 #include <GLFW/glfw3.h>
 
 #include "Maths/Maths.hpp"
-
-#include "dllInclude.hpp"
+#include <map>
+#include <string>
 
 namespace Engine
 {
 	constexpr int MAX_CONTROLLER = 4;
+	constexpr int MOUSE_DELTA_X = -1;
+	constexpr int MOUSE_DELTA_Y = -2;
+	constexpr const char* ControllerName[6] {"None", "Keyboard", "Gamepad 1", "Gamepad 2" , "Gamepad 3" , "Gamepad 4" };
 
-	enum class Controller
+	enum class Controller : int
 	{
+		C_NONE = -2,
 		C_KEYBOARD,
 		C_GAMEPAD_1,
 		C_GAMEPAD_2,
@@ -19,14 +23,7 @@ namespace Engine
 		C_GAMEPAD_4
 	};
 
-	struct GamepadInput
-	{
-		// -1 is disconnect
-		int IDconnexion = -1;
-
-		float axis[6] = { 0 };
-		int button[15] = { 0 };
-	};
+	
 	
 	enum GamepadButton
 	{
@@ -44,6 +41,39 @@ namespace Engine
 		BUTTON_DPAD_RIGHT = GLFW_GAMEPAD_BUTTON_DPAD_UP,
 		BUTTON_DPAD_DOWN = GLFW_GAMEPAD_BUTTON_DPAD_RIGHT,
 		BUTTON_DPAD_LEFT = GLFW_GAMEPAD_BUTTON_DPAD_DOWN,
+	};
+
+	enum GamepadAxis
+	{
+		AXIS_LEFT_STICK_X = GLFW_GAMEPAD_AXIS_LEFT_X,
+		AXIS_LEFT_STICK_Y = GLFW_GAMEPAD_AXIS_LEFT_Y,
+		AXIS_RIGHT_STICK_X = GLFW_GAMEPAD_AXIS_RIGHT_X,
+		AXIS_RIGHT_STICK_Y = GLFW_GAMEPAD_AXIS_RIGHT_Y,
+		AXIS_LEFT_TRIGGER = GLFW_GAMEPAD_AXIS_LEFT_TRIGGER,
+		AXIS_RIGHT_TRIGGER = GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER
+	};
+
+	struct GamepadInput
+	{
+		// -1 is disconnect
+		int IDconnexion = -1;
+
+		float axis[6] = { 0 };
+		int button[15] = { 0 };
+	};
+
+	struct ActionAxis
+	{
+		ActionAxis(int _keyboardPos, int _keyboardNeg, GamepadAxis _axis)
+			: keyboardPos(_keyboardPos), keyboardNeg(_keyboardNeg), gamepadAxis(_axis), mouse(false) {}
+
+		ActionAxis(int _mouseAxis, GamepadAxis _axis)
+			: mouseAxis(_mouseAxis), gamepadAxis(_axis), mouse(true) {}
+
+		int keyboardPos, keyboardNeg;
+		int mouseAxis;
+		bool mouse;
+		GamepadAxis gamepadAxis;
 	};
 
 	class PHOSENGINE_API Input
@@ -72,20 +102,22 @@ namespace Engine
 
 		GamepadInput* GetGamepad() { return GpInput; }
 
+		// Keyboard Input
 		bool IsKeyPressed(int key);
 		bool IsKeyDown(int key);
 		bool IsKeyReleased(int key);
 		bool IsAnyKeyDown();
 
+		// Gamepad Input
 		bool IsButtonPressed(int key, int idPlayer);
 		bool IsButtonDown(int key, int idPlayer);
 		bool IsButtonReleased(int key, int idPlayer);
 
+		// Mouse Input
 		bool IsMouseButtonPressed(int mouseButton);
 		bool IsMouseButtonDown(int mouseButton);
 		bool IsMouseButtonUp(int mouseButton);
 		bool IsMouseButtonReleased(int mouseButton);
-
 		Maths::Vec2 GetMouseDelta();
 		int GetScrollDelta();
 		Maths::Vec2 GetMousePos() { return mousePosition; }
@@ -94,7 +126,9 @@ namespace Engine
 		void ShowDataGP(const GamepadInput& GpInput);
 
 		float GetDeltaTime() { return deltaTime; }
-		//static float deltaTime;
+
+		float GetAxis(const char* axis, Controller controller);
+
 	private:
 		Input() {}
 
@@ -111,6 +145,9 @@ namespace Engine
 		bool anyKeyDown = false;
 
 		float deltaTime;
+
+		void InitAxisMap();
+		std::map<std::string, ActionAxis> m_AxisMap;
 
 	};
 }

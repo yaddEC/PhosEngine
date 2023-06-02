@@ -50,8 +50,6 @@ void Resource::ResourceManager::LoadAll()
 	Threading::Pool pool;
 
 	
-
-
 	for (auto resource : m_resourceMap)
 	{
 		if (resource.second->GetTypeName() != "Scene" && !resource.second->isLoaded)
@@ -81,11 +79,12 @@ void Resource::ResourceManager::LoadAll()
 		bool allResourceAreLoaded = true;
 		for (auto resource : m_resourceMap)
 		{
-			if (resource.second->isLoaded && !resource.second->isBinded)
+			if (resource.second->isLoaded && !resource.second->isBinded && resource.second->GetTypeName() != "Scene")
 			{
 				resource.second->Bind();
 				resource.second->isBinded = true;
 				count++;
+				std::cout << resource.first << " " << count << " / " << m_resourceMap.size() << std::endl;
 			}
 			if (!resource.second->isLoaded && resource.second->GetTypeName() != "Scene")
 				allResourceAreLoaded = false;

@@ -53,6 +53,24 @@ void Engine::Transform::SetRotation(Maths::Quaternion quaternion)
 	rotation = quaternion;
 }
 
+void Engine::Transform::RotateX(float angle)
+{
+	rotationEuler.x += angle;
+	rotation = Quaternion::ToQuaternion(rotationEuler);
+}
+
+void Engine::Transform::RotateY(float angle)
+{
+	rotationEuler.y += angle;
+	rotation = Quaternion::ToQuaternion(rotationEuler);
+}
+
+void Engine::Transform::RotateZ(float angle)
+{
+	rotationEuler.z += angle;
+	rotation = Quaternion::ToQuaternion(rotationEuler);
+}
+
 void Engine::Transform::AddRotation(Maths::Quaternion quaternion)
 {
 	rotation *= quaternion;
