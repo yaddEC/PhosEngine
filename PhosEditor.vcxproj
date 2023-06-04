@@ -131,7 +131,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>Headers/;External/;External/ImGUI/Header/;External/PhosEngine/;External/ImGuizmo/Header/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -186,6 +186,7 @@
     <ClCompile Include="External\ImGuizmo\Source\ImSequencer.cpp" />
     <ClCompile Include="Sources\Core\App.cpp" />
     <ClCompile Include="Sources\Core\Editor.cpp" />
+    <ClCompile Include="Sources\Core\Game.cpp" />
     <ClCompile Include="Sources\Core\ProjectManager.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\AssetExplorer.cpp" />
     <ClCompile Include="Sources\GUI\EditorGUI\CanvasEditor.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="External\PhosEngine\Wrapper\Window.hpp" />
     <ClInclude Include="Headers\Core\App.hpp" />
     <ClInclude Include="Headers\Core\Editor.hpp" />
+    <ClInclude Include="Headers\Core\Game.hpp" />
     <ClInclude Include="Headers\Core\ProjectManager.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\AssetExplorer.hpp" />
     <ClInclude Include="Headers\GUI\EditorGUI\CanvasEditor.hpp" />

@@ -113,6 +113,7 @@ namespace Resource
 		ShaderProgram* iconShader = nullptr;
 		ShaderProgram* outlineShader = nullptr;
 		ShaderProgram* UIShader = nullptr;
+		ShaderProgram* gameShader = nullptr;
 		Mesh* cube = nullptr;
 		Mesh* sphere = nullptr;
 		Mesh* capsule = nullptr;
