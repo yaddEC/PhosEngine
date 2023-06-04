@@ -179,6 +179,7 @@ void Resource::Material::SetProperties(const std::string& filepath)
 			else if (tokens[0] == "v_meta")
 			{
 				m_metallic.value = std::stof(tokens[1]);
+				m_metallic.useTexture = false;
 			}
 			else if (tokens[0] == "t_rough")
 			{
@@ -188,6 +189,7 @@ void Resource::Material::SetProperties(const std::string& filepath)
 			else if (tokens[0] == "v_rough")
 			{
 				m_roughness.value = std::stof(tokens[1]);
+				m_roughness.useTexture = false;
 			}
 		}
 	}
@@ -252,6 +254,7 @@ void Resource::ColorMap::GUIUpdate(const std::string& label)
 	}
 	else
 	{
+		temp = nullptr;
 		GUI::PickTexture(label, &temp);
 		if (temp)
 		{
@@ -291,6 +294,7 @@ void Resource::ValueMap::GUIUpdate(const std::string& label)
 	}
 	else
 	{
+		temp = nullptr;
 		GUI::PickTexture(label, &temp);
 		if (temp)
 		{
@@ -298,7 +302,7 @@ void Resource::ValueMap::GUIUpdate(const std::string& label)
 		}
 	}
 
-	if (texture)
+	if (temp)
 		useTexture = true;
 	else
 		useTexture = false;

@@ -3,6 +3,7 @@
 #include <limits>
 #include "pch.h"
 //----------------
+#include <iostream>
 #include "Engine/Input.hpp"
 #include "Script/PlayerMouvement.hpp"
 #include "Wrapper/GUI.hpp"
@@ -27,8 +28,15 @@ void Script::PlayerMouvement::Update()
 {
 	Engine::Input& input = Engine::Input::GetInstance();
 
+    Maths::Vec3 forward = transform->GetForwardVector();
+    forward.y = 0;
+
+    Maths::Vec3 right = transform->GetRightVector();
+    right.y = 0;
+
     Maths::Vec3 inputMove = Maths::Vec3{input.GetAxis("MoveX", m_controller), 0, input.GetAxis("MoveY", m_controller) };
-    transform->position += inputMove * input.GetDeltaTime() * m_playerSpeed;
+    transform->position += (forward * inputMove.z + right * inputMove.x) * input.GetDeltaTime() * m_playerSpeed;
+    std::cout << inputMove.x << " " << inputMove.z << std::endl;
 
     Maths::Vec2 inputRot = Maths::Vec2(-input.GetAxis("LookX", m_controller), input.GetAxis("LookY", m_controller));
     inputRot.Normalize();

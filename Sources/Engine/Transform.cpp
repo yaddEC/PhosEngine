@@ -51,6 +51,7 @@ void Engine::Transform::SetRotation(Maths::Vec3 _rotation)
 void Engine::Transform::SetRotation(Maths::Quaternion quaternion)
 {
 	rotation = quaternion;
+	rotationEuler = quaternion.ToEulerAngles();
 }
 
 void Engine::Transform::RotateX(float angle)

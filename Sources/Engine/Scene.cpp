@@ -362,6 +362,7 @@ std::string Engine::Scene::GetTagName(unsigned int tag)
 
 void Engine::Scene::SaveGameObject(Engine::GameObject* gameObject, std::fstream& file, int depth)
 {
+	Maths::Vec3 transformRot = gameObject->transform->rotation.ToEulerAngles();
 	std::string tab = std::string(depth, '\t');
 	gameObject->transform->SetRotation(gameObject->transform->rotationEuler);
 	file << tab << "name \"" << gameObject->name << "\"\n"

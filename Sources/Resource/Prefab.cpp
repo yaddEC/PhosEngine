@@ -68,6 +68,8 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 		GameObject* newGameObject = new GameObject();
 		newGameObject->name = go->name;
 		newGameObject->SetID(go->GetID());
+		newGameObject->SetTag(go->GetTag());
+		newGameObject->SetLayer(go->GetLayer());
 		result.push_back(newGameObject);
 		
 	}
@@ -75,7 +77,7 @@ std::vector<Engine::GameObject*> Resource::Prefab::GetCopy() const
 	for (size_t i = 0; i < result.size(); i++)
 	{
 		result[i]->transform->position = m_gameObjectList[i]->transform->position;
-		result[i]->transform->rotation = m_gameObjectList[i]->transform->rotation;
+		result[i]->transform->SetRotation(m_gameObjectList[i]->transform->rotation);
 		result[i]->transform->scale = m_gameObjectList[i]->transform->scale;
 
 		for (auto child : m_gameObjectList[i]->transform->GetChildren())
@@ -115,7 +117,15 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 		}
 		else if (tokens[0] == "id")
 		{
-			newGameObject->SetID(static_cast<unsigned int>(std::stof(tokens[1])));
+			newGameObject->SetID(static_cast<unsigned int>(std::stoi(tokens[1])));
+		}
+		else if (tokens[0] == "tag")
+		{
+			newGameObject->SetTag(static_cast<unsigned int>(std::stoi(tokens[1])));
+		}
+		else if (tokens[0] == "layer")
+		{
+			newGameObject->SetLayer(static_cast<unsigned int>(std::stoi(tokens[1])));
 		}
 		else if (tokens[0] == "transform")
 		{
@@ -146,12 +156,15 @@ Engine::GameObject* Resource::Prefab::ParseGameObject(const std::vector<std::str
 
 void Resource::Prefab::SaveGameObjectAsPrefab(Engine::GameObject* gameObject, std::fstream& file, int depth)
 {
+	Maths::Vec3 transformRot = gameObject->transform->rotation.ToEulerAngles();
 
 	std::string tab = std::string(depth, '\t');
-	Maths::Vec3 transformRot = gameObject->transform->rotation.ToEulerAngles();
+	gameObject->transform->SetRotation(gameObject->transform->rotationEuler);
 	file << tab << "name \"" << gameObject->name << "\"\n"
 		<< tab << "id " << gameObject->GetID() << '\n'
-		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z 
+		<< tab << "layer " << gameObject->GetLayer() << '\n'
+		<< tab << "tag " << gameObject->GetTag() << '\n'
+		<< tab << "transform " << gameObject->transform->position.x << ' ' << gameObject->transform->position.y << ' ' << gameObject->transform->position.z
 		<< ' ' << gameObject->transform->rotationEuler.x << ' ' << gameObject->transform->rotationEuler.y << ' ' << gameObject->transform->rotationEuler.z
 		<< ' ' << gameObject->transform->scale.x << ' ' << gameObject->transform->scale.y << ' ' << gameObject->transform->scale.z << '\n';
 	for (auto comp : gameObject->GetComponents())
