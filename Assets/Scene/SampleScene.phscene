@@ -766,13 +766,13 @@ child
 	end
 end
 name "Sounds"
-id 104
+id 99
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 child
 	name "Sound2"
-	id 105
+	id 100
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
@@ -784,7 +784,7 @@ child
 	end
 child
 	name "Sound"
-	id 106
+	id 101
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
@@ -796,7 +796,7 @@ child
 	end
 end
 name "Player 1"
-id 107
+id 102
 layer 0
 tag 1
 transform -50.75 4.75 0 0 0 0 1 1 1
@@ -807,10 +807,10 @@ component "PlayerMovement"
 	end
 child
 	name "PlayerGraphics"
-	id 108
+	id 103
 	layer 0
 	tag 0
-	transform 0 0 0 0 0 0 1 1 1
+	transform 0 0 0 0 0 1.5708 1 1 1
 	component "Mesh Renderer"
 		Mesh DefaultAssets\Model\primitiveCapsule.obj
 		Material DefaultAssets\Material\DefaultMat.phmat
@@ -818,13 +818,142 @@ child
 	end
 child
 	name "Camera Center"
-	id 109
+	id 104
 	layer 0
 	tag 0
 	transform 0 0.85 0 0 0 0 1 1 1
 	child
 		name "Camera"
-		id 110
+		id 105
+		layer 0
+		tag 0
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas None
+			end
+		end
+	end
+end
+name "Player 1"
+id 106
+layer 0
+tag 1
+transform -59.35 4.75 0 0 0 0 1 1 1
+component "PlayerMovement"
+	Speed 6.000000
+	LookSpeedGamepad 50.000000
+	LookSpeedMouse 8.000000
+	end
+child
+	name "PlayerGraphics"
+	id 107
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 1.5708 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 108
+	layer 0
+	tag 0
+	transform 0 0.85 0 0 0 0 1 1 1
+	child
+		name "Camera"
+		id 109
+		layer 0
+		tag 0
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas None
+			end
+		end
+	end
+end
+name "Player 1"
+id 110
+layer 0
+tag 1
+transform -57.25 4.75 6.35 0 0 0 1 1 1
+component "PlayerMovement"
+	Speed 6.000000
+	LookSpeedGamepad 50.000000
+	LookSpeedMouse 8.000000
+	end
+child
+	name "PlayerGraphics"
+	id 111
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 1.5708 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 112
+	layer 0
+	tag 0
+	transform 0 0.85 0 0 0 0 1 1 1
+	child
+		name "Camera"
+		id 113
+		layer 0
+		tag 0
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas None
+			end
+		end
+	end
+end
+name "Player 1"
+id 114
+layer 0
+tag 1
+transform -50.75 4.75 -5.92631 0 0 0 1 1 1
+component "PlayerMovement"
+	Speed 6.000000
+	LookSpeedGamepad 50.000000
+	LookSpeedMouse 8.000000
+	end
+child
+	name "PlayerGraphics"
+	id 115
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 1.5708 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 116
+	layer 0
+	tag 0
+	transform 0 0.85 0 0 0 0 1 1 1
+	child
+		name "Camera"
+		id 117
 		layer 0
 		tag 0
 		transform 0 0 -16 0 0 0 1 1 1
