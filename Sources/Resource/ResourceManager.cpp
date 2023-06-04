@@ -140,6 +140,7 @@ void Resource::ResourceManager::SetStaticResource()
 	outlineShader = (ShaderProgram*)m_resourceMap.at("Assets\\Shader\\OutlineShader.prog");
 	UIShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\UIShader\\UIShader.prog");
 	colorShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\ColorShader\\ColorShader.prog");
+	gameShader = (ShaderProgram*)m_resourceMap.at("DefaultAssets\\Shader\\GameShader\\GameShader.prog");
 	quad = (Mesh*)m_resourceMap.at("DefaultAssets\\Model\\primitiveQuad.obj");
 }
 
