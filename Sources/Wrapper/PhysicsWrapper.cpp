@@ -855,8 +855,8 @@ namespace Wrapper
                 }
                 else if (ConfigurableJoint* configurableJoint = dynamic_cast<ConfigurableJoint*>(joint))
                 {
-                    PxTransform pose1(PxVec3(otherGlobalPos.x, otherGlobalPos.y, otherGlobalPos.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
-                    PxTransform pose2(PxVec3(selfGlobalPos.x, selfGlobalPos.y, selfGlobalPos.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
+                    PxTransform pose1(PxVec3(selfGlobalPos.x, selfGlobalPos.y, selfGlobalPos.z), PxQuat(selfRigidbody->transform->rotation.b, selfRigidbody->transform->rotation.c, selfRigidbody->transform->rotation.d, selfRigidbody->transform->rotation.a));
+                    PxTransform pose2(PxVec3(otherGlobalPos.x, otherGlobalPos.y, otherGlobalPos.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
 
                     Maths::Vec3 selfAxis = configurableJoint->GetAxis();
                     PxQuat rotation = PxShortestRotation(PxVec3(1, 0, 0), PxVec3(selfAxis.x, selfAxis.y, selfAxis.z));
@@ -866,8 +866,8 @@ namespace Wrapper
                     PxTransform connectedAnchor(PxVec3(configurableJoint->GetConnectedAnchor().x, configurableJoint->GetConnectedAnchor().y, configurableJoint->GetConnectedAnchor().z));
 
                     // Set local poses
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1 * pose1.getInverse() * anchor * axis);
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2 * connectedAnchor * axis);
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse() * anchor * axis);
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse() * connectedAnchor * axis);
 
                     // Set motion
                     d6joint->setMotion(PxD6Axis::eX, configurableJoint->GetMotion().x == 1 ? PxD6Motion::eLIMITED : PxD6Motion::eLOCKED);
@@ -980,6 +980,15 @@ namespace Wrapper
             dynamicActor->addForce(PxVec3(force.x, force.y, force.z));
         }
         
+    }
+
+    void PhysicsRigidbody::ClearForce()
+    {
+        if (m_physxActor)
+        {
+            PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+            dynamicActor->clearForce();
+        }
     }
 
     void UpdateRotationEuler(Maths::Vec3& rotationEuler, const Maths::Quaternion& newRotation) {

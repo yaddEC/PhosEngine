@@ -116,6 +116,13 @@ namespace Physic {
         physicsRigidbody->AddForce(force);
     }
 
+    void Rigidbody::ClearForce()
+    {
+        physicsRigidbody->ClearForce();
+    }
+
+
+
     void Rigidbody::SetMass(float mass)
     {
         m_mass = mass;
