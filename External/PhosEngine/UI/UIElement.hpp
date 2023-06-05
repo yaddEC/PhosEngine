@@ -14,7 +14,7 @@ namespace UI
 		RectTransform rectTransform;
 
 		virtual void Start() {};
-		virtual void Update() {};
+		virtual void Update(const Maths::Vec2& canvasPos, const Maths::Vec2& sizeMult, const Maths::Vec2& viewportSize) {};
 		virtual void OnInspector() {};
 		virtual void Render(const Maths::Vec2& sizeMult) {};
 		virtual void OnDestroy() {};

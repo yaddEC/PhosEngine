@@ -137,7 +137,11 @@ void Editor::Run()
         /* Poll for and process events */
         m_window.PollEvents();
 
+#ifndef PHOS_GAME
+
         GUI::NewFrame();
+
+#endif
         
         Engine::Input::GetInstance().Update();
         m_mainScene->Update();
@@ -145,10 +149,13 @@ void Editor::Run()
 #ifndef PHOS_GAME
 
         UpdateEditorGUI();
+        GUI::RenderFrame(m_window.GetWindow());
+
+#else
+
 
 #endif
 
-        GUI::RenderFrame(m_window.GetWindow());
         
         /* Swap front and back buffers */
         m_window.SwapBuffer();
@@ -177,10 +184,11 @@ void Editor::Destroy()
 #endif
 }
 
+#ifndef PHOS_GAME
+
 bool Core::Editor::InitEditorGUI()
 {
 
-#ifndef PHOS_GAME
     m_sceneGUI = new EditorGUI::SceneGUI();
     m_gameGUI = new EditorGUI::GameGUI();
     m_Hierarchy = new EditorGUI::HierarchyGUI();
@@ -194,8 +202,8 @@ bool Core::Editor::InitEditorGUI()
     m_canvasEditor = new EditorGUI::CanvasEditor();
     return true;
 
-#endif
 }
+#endif
 
 void Core::Editor::CreateGuiIni()
 {

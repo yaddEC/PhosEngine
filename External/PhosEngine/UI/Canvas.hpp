@@ -22,6 +22,7 @@ namespace UI
 		void Unload() override;
 		void Save() override;
 		void GUIUpdate() override;
+		void Update(const Maths::Vec2& canvasPos, const Maths::Vec2& viewportSize);
 		std::string GetTypeName() override { return "Canvas"; }
 
 		void Instantiate(UIElement* element);
@@ -29,6 +30,7 @@ namespace UI
 		void RenderUI(const Maths::Vec2& viewportSize) const;
 
 	private:
+
 
 		void ParseUIelement(std::vector<std::string> fileData, size_t& lineIndex);
 
