@@ -1,0 +1,5 @@
+t_alb Assets\Texture\crate_diffuse.png
+shader Assets\Shader\PBRShader.prog
+t_norm Assets\Texture\crate_normal.png
+v_meta 0
+v_rough 0

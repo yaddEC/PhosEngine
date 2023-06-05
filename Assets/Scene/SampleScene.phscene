@@ -15,10 +15,16 @@ child
 		id 3
 		layer 0
 		tag 0
-		transform -50 0 0 0 0 0 35 1 200
+		transform -50 0 -132.976 0 0 0 35 1 50
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
 			end
 		end
 	child
@@ -32,22 +38,192 @@ child
 			id 5
 			layer 0
 			tag 0
-			transform -85 100 0 0 0 0 1 100 200
+			transform -85 50 -132.521 0 0 0 1 50 50
 			component "Mesh Renderer"
 				Mesh DefaultAssets\Model\primitiveCube.obj
-				Material DefaultAssets\Material\DefaultMat.phmat
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "wallStair1"
+			id 6
+			layer 0
+			tag 0
+			transform -51.326 14.8095 -101.915 0 0 0 1 2 8
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "wallStair2"
+			id 7
+			layer 0
+			tag 0
+			transform -51.326 10.9927 -103.878 0 0 0 1 2 10.05
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "wallStair3"
+			id 8
+			layer 0
+			tag 0
+			transform -51.326 6.78675 -105.899 0 0 0 1 2.2 12.05
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "wallStair4"
+			id 9
+			layer 0
+			tag 0
+			transform -51.326 2.998 -107.791 0 0 0 1 2.2 13.95
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "Cube"
+			id 10
+			layer 0
+			tag 0
+			transform -51.3256 2.67256 -87.9121 0 0 0 1 3.5 6
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "Cube"
+			id 11
+			layer 0
+			tag 0
+			transform -51.326 13.9941 -87.912 0 0 0 1 2.7 6
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "Cube"
+			id 12
+			layer 0
+			tag 0
+			transform -51.326 6.94703 -63.7083 0 0 0 1 9.85 18.2
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "Cube"
+			id 13
+			layer 0
+			tag 0
+			transform -51.326 7.89115 -23.7897 0 0 0 1 8.95 12.7
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		child
+			name "fakeWall"
+			id 14
+			layer 0
+			tag 0
+			transform -51.326 6.95343 -41.0468 0 0 0 1 9.9 4.55
+			component "Mesh Renderer"
+				Mesh Assets\Model\cube.obj
+				Material Assets\Material\FakeWallMat.phmat
+				end
+			end
+		child
+			name "Cube"
+			id 15
+			layer 0
+			tag 0
+			transform -68.0364 8.75498 -10.8306 0 0 0 17.7 8.45 1
+			component "Mesh Renderer"
+				Mesh DefaultAssets\Model\primitiveCube.obj
+				Material Assets\Material\Wall1.phmat
+				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
 				end
 			end
 		end
 	child
 		name "groundTop"
-		id 6
+		id 16
 		layer 0
 		tag 0
-		transform -69.0375 17.72 -59.865 0 0 0 18.7 1 50
+		transform -69.0384 17.72 -59.865 0 0 0 18.7 1 50
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
 			end
 		component "Box Collider"
 			isTrigger 0
@@ -57,25 +233,42 @@ child
 			end
 		end
 	child
-		name "New GameObject"
-		id 7
+		name "Stairs"
+		id 17
 		layer 0
 		tag 0
 		transform -67.532 1.99634 -124.747 0 0 0 17.2 1 1
 		component "Mesh Renderer"
 			Mesh Assets\Model\NewStair.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
+			end
+		end
+	child
+		name "SmallSphere"
+		id 18
+		layer 0
+		tag 0
+		transform -78.0172 1.17499 -90.9105 0 0 0 1.4 1.4 1.4
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveSphere.obj
+			Material DefaultAssets\Model\DefaultMaterial.phmat
+			end
+		component "Point Light"
+			Color 0.007723 1.000000 0.000000
+			Intensity 17.100000
+			Linear Attenuation 0.090000
+			Quadratic Attenuation 0.032000
 			end
 		end
 	child
 		name "Cube"
-		id 8
+		id 19
 		layer 0
 		tag 0
-		transform -51.3236 14.8829 -101.915 0 0 0 1 2 8
+		transform -67.265 36.4906 24.3059 0 0 0 17.7 1 21.85
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
 			end
 		component "Box Collider"
 			isTrigger 0
@@ -86,13 +279,13 @@ child
 		end
 	child
 		name "Cube"
-		id 9
+		id 20
 		layer 0
 		tag 0
-		transform -51.3236 10.9927 -103.878 0 0 0 1 2 9.95
+		transform -50 0 -33.1846 0 0 0 35 1 50
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
 			end
 		component "Box Collider"
 			isTrigger 0
@@ -103,13 +296,13 @@ child
 		end
 	child
 		name "Cube"
-		id 10
+		id 21
 		layer 0
 		tag 0
-		transform -51.3353 6.78675 -105.941 0 0 0 1 2.2 12
+		transform -50 0 66.4369 0 0 0 35 1 50
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
 			end
 		component "Box Collider"
 			isTrigger 0
@@ -120,13 +313,30 @@ child
 		end
 	child
 		name "Cube"
-		id 11
+		id 22
 		layer 0
 		tag 0
-		transform -51.329 2.998 -107.791 0 0 0 1 2.2 13.95
+		transform -85 49.9978 67.4981 0 0 0 1 50 50
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Wall1.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 23
+		layer 0
+		tag 0
+		transform -85 50 -32.521 0 0 0 1 50 50
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Wall1.phmat
 			end
 		component "Box Collider"
 			isTrigger 0
@@ -138,43 +348,375 @@ child
 	end
 child
 	name "Right"
-	id 12
+	id 24
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
 	child
 		name "groundR"
-		id 13
+		id 25
 		layer 0
 		tag 0
-		transform 50 0 0 0 0 0 35 1 200
+		transform 50 0 -132.861 0 0 0 35 1 50
 		component "Mesh Renderer"
 			Mesh DefaultAssets\Model\primitiveCube.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
 			end
 		end
 	child
 		name "Walls"
-		id 14
+		id 26
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "Wall1"
-			id 15
+			id 27
 			layer 0
 			tag 0
-			transform 85 100 0 0 0 0 1 100 200
+			transform 85 50 -132.315 0 0 0 1 50 50
 			component "Mesh Renderer"
 				Mesh DefaultAssets\Model\primitiveCube.obj
-				Material DefaultAssets\Material\DefaultMat.phmat
+				Material Assets\Material\Wall1.phmat
 				end
+			component "Box Collider"
+				isTrigger 0
+				Center 0.000000 0.000000 0.000000
+				Size 1.000000 1.000000 1.000000
+				MaterialType -842150451
+				end
+			end
+		end
+	child
+		name "Cube"
+		id 28
+		layer 0
+		tag 0
+		transform 68.8402 9.90645 -78.4082 0 0 0 15.6 14.2 27.05
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Wall1.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 29
+		layer 0
+		tag 0
+		transform 54.3009 11.1593 -18.58 0 0 0 1 13 33.1
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Wall1.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 30
+		layer 0
+		tag 0
+		transform 70 25 -33.4528 0 0 0 16.7 1 18
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 31
+		layer 0
+		tag 0
+		transform 77 25 -9.3 0 0 0 7 1 7
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material DefaultAssets\Model\DefaultMaterial.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 32
+		layer 0
+		tag 0
+		transform 61.5677 25 -9.3 0 0 0 8.25 1 7
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 33
+		layer 0
+		tag 0
+		transform 68.9836 25 6.02044 0 0 0 15.65 1 8.5
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 34
+		layer 0
+		tag 0
+		transform 64.5106 11.6833 13.4779 0 0 0 9.8 12.4 1
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Wall1.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "fakeWall"
+		id 35
+		layer 0
+		tag 0
+		transform 80.2522 11.6782 13.478 0 0 0 6 12.4 1
+		component "Mesh Renderer"
+			Mesh Assets\Model\cube.obj
+			Material Assets\Material\FakeWallMat.phmat
+			end
+		end
+	child
+		name "Point Light"
+		id 36
+		layer 0
+		tag 0
+		transform 80.7878 4.06924 -16.9791 0 0 0 1 1 1
+		component "Point Light"
+			Color 0.203922 0.882353 0.196078
+			Intensity 22.600000
+			Linear Attenuation 0.090000
+			Quadratic Attenuation 0.032000
+			end
+		end
+	child
+		name "Cube"
+		id 37
+		layer 0
+		tag 0
+		transform 50.8116 22.5172 80.7251 0 0 0 20 1 20
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 38
+		layer 0
+		tag 0
+		transform 50 0 -33.4513 0 0 0 35 1 50
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 39
+		layer 0
+		tag 0
+		transform 50 0 65.7631 0 0 0 35 1 50
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 40
+		layer 0
+		tag 0
+		transform 69.7386 25 -78.2552 0 0 0 16.5 1 26.95
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Ground.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 41
+		layer 0
+		tag 0
+		transform 85 50 -32.9766 0 0 0 1 50 50
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Wall1.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 42
+		layer 0
+		tag 0
+		transform 85 50 66.7078 0 0 0 1 50 50
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\Wall1.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	end
+child
+	name "InterracteObjects"
+	id 43
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 0 1 1 1
+	child
+		name "Cube"
+		id 44
+		layer 0
+		tag 0
+		transform -63.6239 4.09986 -110.625 0 0 0 3.5 3.5 3.5
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\crate.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 45
+		layer 0
+		tag 0
+		transform -66.9395 4.4731 -27.685 0 0 0 3.5 3.5 3.5
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\crate.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 46
+		layer 0
+		tag 0
+		transform 71.4759 9.98425 -37.9544 0 0 0 4 4 4
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\crate.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
+			end
+		end
+	child
+		name "Cube"
+		id 47
+		layer 0
+		tag 0
+		transform -60.8271 7.65951 -146.625 0 0 0 4 4 4
+		component "Mesh Renderer"
+			Mesh DefaultAssets\Model\primitiveCube.obj
+			Material Assets\Material\crate.phmat
+			end
+		component "Box Collider"
+			isTrigger 0
+			Center 0.000000 0.000000 0.000000
+			Size 1.000000 1.000000 1.000000
+			MaterialType -842150451
 			end
 		end
 	end
 end
 name "Girl"
-id 16
+id 48
 layer 0
 tag 0
 transform 0 0 0 0 0 0 0.1 0.1 0.1
@@ -184,49 +726,49 @@ component "Mesh Renderer"
 	end
 child
 	name "mixamorig:Hips"
-	id 17
+	id 49
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
 	child
 		name "mixamorig:Spine"
-		id 18
+		id 50
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:Spine1"
-			id 19
+			id 51
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:Spine2"
-				id 20
+				id 52
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:Neck"
-					id 21
+					id 53
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:Head"
-						id 22
+						id 54
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:HeadTop_End"
-							id 23
+							id 55
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:HeadTop_End_end"
-								id 24
+								id 56
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
@@ -236,55 +778,55 @@ child
 					end
 				child
 					name "mixamorig:LeftShoulder"
-					id 25
+					id 57
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:LeftArm"
-						id 26
+						id 58
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:LeftForeArm"
-							id 27
+							id 59
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:LeftHand"
-								id 28
+								id 60
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
 								child
 									name "mixamorig:LeftHandThumb1"
-									id 29
+									id 61
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandThumb2"
-										id 30
+										id 62
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandThumb3"
-											id 31
+											id 63
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandThumb4"
-												id 32
+												id 64
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandThumb4_end"
-													id 33
+													id 65
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -295,31 +837,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandIndex1"
-									id 34
+									id 66
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandIndex2"
-										id 35
+										id 67
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandIndex3"
-											id 36
+											id 68
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandIndex4"
-												id 37
+												id 69
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandIndex4_end"
-													id 38
+													id 70
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -330,31 +872,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandMiddle1"
-									id 39
+									id 71
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandMiddle2"
-										id 40
+										id 72
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandMiddle3"
-											id 41
+											id 73
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandMiddle4"
-												id 42
+												id 74
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandMiddle4_end"
-													id 43
+													id 75
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -365,31 +907,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandRing1"
-									id 44
+									id 76
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandRing2"
-										id 45
+										id 77
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandRing3"
-											id 46
+											id 78
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandRing4"
-												id 47
+												id 79
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandRing4_end"
-													id 48
+													id 80
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -400,31 +942,31 @@ child
 									end
 								child
 									name "mixamorig:LeftHandPinky1"
-									id 49
+									id 81
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:LeftHandPinky2"
-										id 50
+										id 82
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:LeftHandPinky3"
-											id 51
+											id 83
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:LeftHandPinky4"
-												id 52
+												id 84
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:LeftHandPinky4_end"
-													id 53
+													id 85
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -439,55 +981,55 @@ child
 					end
 				child
 					name "mixamorig:RightShoulder"
-					id 54
+					id 86
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:RightArm"
-						id 55
+						id 87
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:RightForeArm"
-							id 56
+							id 88
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
 							child
 								name "mixamorig:RightHand"
-								id 57
+								id 89
 								layer 0
 								tag 0
 								transform 0 0 0 0 0 0 1 1 1
 								child
 									name "mixamorig:RightHandThumb1"
-									id 58
+									id 90
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandThumb2"
-										id 59
+										id 91
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandThumb3"
-											id 60
+											id 92
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandThumb4"
-												id 61
+												id 93
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandThumb4_end"
-													id 62
+													id 94
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -498,31 +1040,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandIndex1"
-									id 63
+									id 95
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandIndex2"
-										id 64
+										id 96
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandIndex3"
-											id 65
+											id 97
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandIndex4"
-												id 66
+												id 98
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandIndex4_end"
-													id 67
+													id 99
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -533,31 +1075,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandMiddle1"
-									id 68
+									id 100
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandMiddle2"
-										id 69
+										id 101
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandMiddle3"
-											id 70
+											id 102
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandMiddle4"
-												id 71
+												id 103
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandMiddle4_end"
-													id 72
+													id 104
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -568,31 +1110,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandRing1"
-									id 73
+									id 105
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandRing2"
-										id 74
+										id 106
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandRing3"
-											id 75
+											id 107
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandRing4"
-												id 76
+												id 108
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandRing4_end"
-													id 77
+													id 109
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -603,31 +1145,31 @@ child
 									end
 								child
 									name "mixamorig:RightHandPinky1"
-									id 78
+									id 110
 									layer 0
 									tag 0
 									transform 0 0 0 0 0 0 1 1 1
 									child
 										name "mixamorig:RightHandPinky2"
-										id 79
+										id 111
 										layer 0
 										tag 0
 										transform 0 0 0 0 0 0 1 1 1
 										child
 											name "mixamorig:RightHandPinky3"
-											id 80
+											id 112
 											layer 0
 											tag 0
 											transform 0 0 0 0 0 0 1 1 1
 											child
 												name "mixamorig:RightHandPinky4"
-												id 81
+												id 113
 												layer 0
 												tag 0
 												transform 0 0 0 0 0 0 1 1 1
 												child
 													name "mixamorig:RightHandPinky4_end"
-													id 82
+													id 114
 													layer 0
 													tag 0
 													transform 0 0 0 0 0 0 1 1 1
@@ -645,37 +1187,37 @@ child
 		end
 	child
 		name "mixamorig:LeftUpLeg"
-		id 83
+		id 115
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:LeftLeg"
-			id 84
+			id 116
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:LeftFoot"
-				id 85
+				id 117
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:LeftToeBase"
-					id 86
+					id 118
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:LeftToe_End"
-						id 87
+						id 119
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:LeftToe_End_end"
-							id 88
+							id 120
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
@@ -687,37 +1229,37 @@ child
 		end
 	child
 		name "mixamorig:RightUpLeg"
-		id 89
+		id 121
 		layer 0
 		tag 0
 		transform 0 0 0 0 0 0 1 1 1
 		child
 			name "mixamorig:RightLeg"
-			id 90
+			id 122
 			layer 0
 			tag 0
 			transform 0 0 0 0 0 0 1 1 1
 			child
 				name "mixamorig:RightFoot"
-				id 91
+				id 123
 				layer 0
 				tag 0
 				transform 0 0 0 0 0 0 1 1 1
 				child
 					name "mixamorig:RightToeBase"
-					id 92
+					id 124
 					layer 0
 					tag 0
 					transform 0 0 0 0 0 0 1 1 1
 					child
 						name "mixamorig:RightToe_End"
-						id 93
+						id 125
 						layer 0
 						tag 0
 						transform 0 0 0 0 0 0 1 1 1
 						child
 							name "mixamorig:RightToe_End_end"
-							id 94
+							id 126
 							layer 0
 							tag 0
 							transform 0 0 0 0 0 0 1 1 1
@@ -730,7 +1272,7 @@ child
 	end
 end
 name "InputManager"
-id 95
+id 127
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
@@ -738,13 +1280,13 @@ component "Input Manager"
 	end
 end
 name "Lights"
-id 96
+id 128
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 child
 	name "Directional Light"
-	id 97
+	id 129
 	layer 0
 	tag 0
 	transform -0.45 0 0 -1.12335 -2.29841 0.775617 0.999999 1 1
@@ -755,7 +1297,7 @@ child
 	end
 child
 	name "Directional Light2"
-	id 98
+	id 130
 	layer 0
 	tag 0
 	transform 6.06479 0.0923456 -1.2512 -1.91912 0.322868 -0.233632 0.998046 1 1
@@ -766,13 +1308,13 @@ child
 	end
 end
 name "Sounds"
-id 99
+id 131
 layer 0
 tag 0
 transform 0 0 0 0 0 0 1 1 1
 child
 	name "Sound2"
-	id 100
+	id 132
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
@@ -784,7 +1326,7 @@ child
 	end
 child
 	name "Sound"
-	id 101
+	id 133
 	layer 0
 	tag 0
 	transform 0 0 0 0 0 0 1 1 1
@@ -796,10 +1338,10 @@ child
 	end
 end
 name "Player 1"
-id 102
+id 134
 layer 0
 tag 1
-transform -50.75 4.75 0 0 0 0 1 1 1
+transform -50.75 4.75 0 0 -2.57645 0 1 1 1
 component "PlayerMovement"
 	Speed 6.000000
 	LookSpeedGamepad 50.000000
@@ -807,10 +1349,10 @@ component "PlayerMovement"
 	end
 child
 	name "PlayerGraphics"
-	id 103
+	id 135
 	layer 0
 	tag 0
-	transform 0 0 0 0 0 1.5708 1 1 1
+	transform 0 0 0 0 0 0 1 1 1
 	component "Mesh Renderer"
 		Mesh DefaultAssets\Model\primitiveCapsule.obj
 		Material DefaultAssets\Material\DefaultMat.phmat
@@ -818,142 +1360,13 @@ child
 	end
 child
 	name "Camera Center"
-	id 104
+	id 136
 	layer 0
 	tag 0
-	transform 0 0.85 0 0 0 0 1 1 1
+	transform 0 0.85 0 0.0178614 0 0 1 1 1
 	child
 		name "Camera"
-		id 105
-		layer 0
-		tag 0
-		transform 0 0 -16 0 0 0 1 1 1
-		component "Camera Component"
-			FOV 50.000000
-			UseSkybox 1
-			BackGroundColor 0.000000 0.000000 0.000000
-			PostProcessingShader None
-			Canvas None
-			end
-		end
-	end
-end
-name "Player 1"
-id 106
-layer 0
-tag 1
-transform -59.35 4.75 0 0 0 0 1 1 1
-component "PlayerMovement"
-	Speed 6.000000
-	LookSpeedGamepad 50.000000
-	LookSpeedMouse 8.000000
-	end
-child
-	name "PlayerGraphics"
-	id 107
-	layer 0
-	tag 0
-	transform 0 0 0 0 0 1.5708 1 1 1
-	component "Mesh Renderer"
-		Mesh DefaultAssets\Model\primitiveCapsule.obj
-		Material DefaultAssets\Material\DefaultMat.phmat
-		end
-	end
-child
-	name "Camera Center"
-	id 108
-	layer 0
-	tag 0
-	transform 0 0.85 0 0 0 0 1 1 1
-	child
-		name "Camera"
-		id 109
-		layer 0
-		tag 0
-		transform 0 0 -16 0 0 0 1 1 1
-		component "Camera Component"
-			FOV 50.000000
-			UseSkybox 1
-			BackGroundColor 0.000000 0.000000 0.000000
-			PostProcessingShader None
-			Canvas None
-			end
-		end
-	end
-end
-name "Player 1"
-id 110
-layer 0
-tag 1
-transform -57.25 4.75 6.35 0 0 0 1 1 1
-component "PlayerMovement"
-	Speed 6.000000
-	LookSpeedGamepad 50.000000
-	LookSpeedMouse 8.000000
-	end
-child
-	name "PlayerGraphics"
-	id 111
-	layer 0
-	tag 0
-	transform 0 0 0 0 0 1.5708 1 1 1
-	component "Mesh Renderer"
-		Mesh DefaultAssets\Model\primitiveCapsule.obj
-		Material DefaultAssets\Material\DefaultMat.phmat
-		end
-	end
-child
-	name "Camera Center"
-	id 112
-	layer 0
-	tag 0
-	transform 0 0.85 0 0 0 0 1 1 1
-	child
-		name "Camera"
-		id 113
-		layer 0
-		tag 0
-		transform 0 0 -16 0 0 0 1 1 1
-		component "Camera Component"
-			FOV 50.000000
-			UseSkybox 1
-			BackGroundColor 0.000000 0.000000 0.000000
-			PostProcessingShader None
-			Canvas None
-			end
-		end
-	end
-end
-name "Player 1"
-id 114
-layer 0
-tag 1
-transform -50.75 4.75 -5.92631 0 0 0 1 1 1
-component "PlayerMovement"
-	Speed 6.000000
-	LookSpeedGamepad 50.000000
-	LookSpeedMouse 8.000000
-	end
-child
-	name "PlayerGraphics"
-	id 115
-	layer 0
-	tag 0
-	transform 0 0 0 0 0 1.5708 1 1 1
-	component "Mesh Renderer"
-		Mesh DefaultAssets\Model\primitiveCapsule.obj
-		Material DefaultAssets\Material\DefaultMat.phmat
-		end
-	end
-child
-	name "Camera Center"
-	id 116
-	layer 0
-	tag 0
-	transform 0 0.85 0 0 0 0 1 1 1
-	child
-		name "Camera"
-		id 117
+		id 137
 		layer 0
 		tag 0
 		transform 0 0 -16 0 0 0 1 1 1
