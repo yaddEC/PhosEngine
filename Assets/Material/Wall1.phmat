@@ -1,0 +1,5 @@
+t_alb Assets\Texture\1K-plaster_9-diffuse.jpg
+shader Assets\Shader\PBRShader.prog
+t_norm Assets\Texture\1K-plaster_9-normal.jpg
+v_meta 0
+t_rough Assets\Texture\1K-plaster_9-specular.jpg

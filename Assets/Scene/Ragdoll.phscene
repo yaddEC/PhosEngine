@@ -27,9 +27,9 @@ component "Directional Light"
 end
 name "Hips"
 id 3
-layer 2
+layer 1
 tag 0
-transform 0 8.15 0 0 0 0 4 4 4
+transform 2.38419e-07 8.15 0 0 0 0 4 4 4
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -49,7 +49,7 @@ component "Sphere Collider"
 child
 	name "LeftThigh"
 	id 4
-	layer 2
+	layer 1
 	tag 0
 	transform -2 5 0 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -111,7 +111,7 @@ child
 child
 	name "RightThigh"
 	id 5
-	layer 2
+	layer 1
 	tag 0
 	transform 2 5 0 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -173,7 +173,7 @@ child
 child
 	name "Stomach"
 	id 6
-	layer 4
+	layer 1
 	tag 0
 	transform 2.38419e-07 10.2673 0 0 0 0 4 4 4
 	component "Mesh Renderer"
@@ -188,7 +188,7 @@ child
 		Motion 0.000000 0.000000 0.000000
 		Ang._Motion 0.000000 0.000000 0.000000
 		Lin.Lim.Spring_Damp 0.000000
-		Lin.Lim.Spring_Spring 0.100000
+		Lin.Lim.Spring_Spring 0.000000
 		Lin_Limit 0.000000
 		Lin_Limit_Bounciness 0.100000
 		Lin_Limit_Contact_Dist 0.000000
@@ -235,7 +235,7 @@ child
 child
 	name "RightArm"
 	id 7
-	layer 10
+	layer 1
 	tag 0
 	transform 7 13 0 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -243,13 +243,13 @@ child
 		Material DefaultAssets\Material\DefaultMat.phmat
 		end
 	component "Configurable Joint"
-		Collider 20
+		Collider 19
 		Axis 0.000000 0.000000 0.000000
 		Anchor 0.000000 0.000000 0.000000
 		Connect_Anchor 0.000000 0.000000 0.000000
 		Motion 0.000000 0.000000 0.000000
-		Ang._Motion 1.000000 1.000000 1.000000
-		Lin.Lim.Spring_Damp 0.000000
+		Ang._Motion 0.000000 0.000000 0.000000
+		Lin.Lim.Spring_Damp 10.000000
 		Lin.Lim.Spring_Spring 0.000000
 		Lin_Limit 0.000000
 		Lin_Limit_Bounciness 0.000000
@@ -298,7 +298,7 @@ child
 child
 	name "LeftShoulder"
 	id 8
-	layer 3
+	layer 1
 	tag 0
 	transform -4 13 2.32831e-10 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -306,17 +306,17 @@ child
 		Material DefaultAssets\Material\DefaultMat.phmat
 		end
 	component "Configurable Joint"
-		Collider -1
+		Collider 11
 		Axis 0.000000 0.000000 0.000000
 		Anchor 0.000000 0.000000 0.000000
 		Connect_Anchor 0.000000 0.000000 0.000000
 		Motion 0.000000 0.000000 0.000000
 		Ang._Motion 0.000000 0.000000 0.000000
-		Lin.Lim.Spring_Damp 0.000000
+		Lin.Lim.Spring_Damp 10.000000
 		Lin.Lim.Spring_Spring 0.000000
 		Lin_Limit 0.000000
 		Lin_Limit_Bounciness 0.000000
-		Lin_Limit_Contact_Dist 10.000000
+		Lin_Limit_Contact_Dist 0.000000
 		XDrive_Max_Force  0.000000
 		XDrive_Pos_Damper 0.000000
 		XDrive_Pos_Spring 0.000000
@@ -356,74 +356,11 @@ child
 		Radius 1.000000
 		MaterialType -842150451
 		end
-	child
-		name "LeftArm"
-		id 9
-		layer 10
-		tag 0
-		transform -7 13 0 0 0 0 1.4 1.4 1.4
-		component "Mesh Renderer"
-			Mesh DefaultAssets\Model\primitiveCapsule.obj
-			Material DefaultAssets\Material\DefaultMat.phmat
-			end
-		component "Configurable Joint"
-			Collider 8
-			Axis 0.000000 0.000000 0.000000
-			Anchor 0.000000 0.000000 0.000000
-			Connect_Anchor 0.000000 0.000000 0.000000
-			Motion 0.000000 0.000000 0.000000
-			Ang._Motion 1.000000 1.000000 1.000000
-			Lin.Lim.Spring_Damp 0.000000
-			Lin.Lim.Spring_Spring 0.000000
-			Lin_Limit 0.000000
-			Lin_Limit_Bounciness 0.000000
-			Lin_Limit_Contact_Dist 0.000000
-			XDrive_Max_Force  0.000000
-			XDrive_Pos_Damper 0.000000
-			XDrive_Pos_Spring 0.000000
-			YDrive_Max_Force  0.000000
-			YDrive_Pos_Damper 0.000000
-			YDrive Pos Spring 0.000000
-			ZDrive_Max_Force  0.000000
-			ZDrive_Pos_Damper 0.000000
-			ZDrive Pos Spring 0.000000
-			Ang_XDrive_Max_Force 0.000000
-			Ang_XDrive_Pos_Damper 0.000000
-			Ang_XDrive_Pos_Spring 0.000000
-			Ang_YDrive_Max_Force  0.000000
-			Ang_YDrive_Pos_Damper 0.000000
-			Ang_YDrive_Pos_Spring 0.000000
-			Ang_ZDrive_Max_Force  0.000000
-			Ang_ZDrive_Pos_Damper 0.000000
-			Ang_ZDrive_Pos_Spring 0.000000
-			Ang_YZDrive_Max_Force  0.000000
-			Ang_YZDrive_Pos_Damper 0.000000
-			Ang_YZDrive_Pos_Spring 0.000000
-			Target_Pos 0.000000
-			Target_Velocity 0.000000
-			Target_Ang_Velocity 0.000000
-			BreakForce 340282346638528859811704183484516925440.000000
-			BreakTorque 340282346638528859811704183484516925440.000000
-			end
-		component "RigidBody"
-			mass 1.000000
-			Different_Gravity 0
-			isKinematic 0
-			Gravity 0.000000 5.000000 0.000000
-			end
-		component "Capsule Collider"
-			isTrigger 0
-			Center 0.000000 0.000000 0.000000
-			Height 1.000000
-			Radius 1.000000
-			MaterialType -842150451
-			end
-		end
 	end
 child
 	name "LeftLeg"
-	id 10
-	layer 9
+	id 9
+	layer 1
 	tag 0
 	transform -2 2 0 0 0 1.5708 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -485,8 +422,8 @@ child
 	end
 child
 	name "RightLeg"
-	id 11
-	layer 9
+	id 10
+	layer 1
 	tag 0
 	transform 2 2 0 0 0 1.5708 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -548,8 +485,8 @@ child
 	end
 child
 	name "Torso"
-	id 12
-	layer 6
+	id 11
+	layer 1
 	tag 0
 	transform 0 12.0137 0 0 0 0 4 4 4
 	component "Mesh Renderer"
@@ -610,8 +547,8 @@ child
 	end
 child
 	name "RightHand"
-	id 13
-	layer 5
+	id 12
+	layer 1
 	tag 0
 	transform 10 13 0 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -672,7 +609,7 @@ child
 	end
 child
 	name "LeftFoot"
-	id 14
+	id 13
 	layer 1
 	tag 0
 	transform -2 1.44128e-20 -6.61574e-24 -1.5708 -1.57079 0 1.4 1.4 1.4
@@ -734,7 +671,7 @@ child
 	end
 child
 	name "RightFoot"
-	id 15
+	id 14
 	layer 1
 	tag 0
 	transform 2 0 -2.15935e-06 -1.5708 -1.5708 0 1.4 1.4 1.4
@@ -796,8 +733,8 @@ child
 	end
 child
 	name "Head"
-	id 16
-	layer 6
+	id 15
+	layer 1
 	tag 0
 	transform 0 17.574 0 0 0 0 4 4 4
 	component "Mesh Renderer"
@@ -857,7 +794,7 @@ child
 		end
 	child
 		name "Capsule"
-		id 17
+		id 16
 		layer 0
 		tag 0
 		transform 0 0.15 1 0 0.45204 1.5708 0.1 0.1 0.1
@@ -868,7 +805,7 @@ child
 		end
 	child
 		name "Sphere"
-		id 18
+		id 17
 		layer 0
 		tag 0
 		transform 0.25 0.5 0.8 0 0 0 0.1 0.1 0.1
@@ -879,7 +816,7 @@ child
 		end
 	child
 		name "Sphere"
-		id 19
+		id 18
 		layer 0
 		tag 0
 		transform -0.25 0.5 0.8 0 0 0 0.1 0.1 0.1
@@ -891,8 +828,8 @@ child
 	end
 child
 	name "RightShoulder"
-	id 20
-	layer 3
+	id 19
+	layer 1
 	tag 0
 	transform 4 13 0 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -953,8 +890,8 @@ child
 	end
 child
 	name "LeftHand"
-	id 21
-	layer 5
+	id 20
+	layer 1
 	tag 0
 	transform -10 13 0 0 0 0 1.4 1.4 1.4
 	component "Mesh Renderer"
@@ -962,7 +899,7 @@ child
 		Material DefaultAssets\Material\DefaultMat.phmat
 		end
 	component "Configurable Joint"
-		Collider 13
+		Collider 21
 		Axis 0.000000 0.000000 0.000000
 		Anchor 0.000000 0.000000 0.000000
 		Connect_Anchor 0.000000 0.000000 0.000000
@@ -1009,6 +946,69 @@ child
 	component "Sphere Collider"
 		isTrigger 0
 		Center 0.000000 0.000000 0.000000
+		Radius 1.000000
+		MaterialType -842150451
+		end
+	end
+child
+	name "LeftArm"
+	id 21
+	layer 1
+	tag 0
+	transform -7 13 0 0 0 0 1.4 1.4 1.4
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	component "Configurable Joint"
+		Collider 8
+		Axis 0.000000 0.000000 0.000000
+		Anchor 0.000000 0.000000 0.000000
+		Connect_Anchor 0.000000 0.000000 0.000000
+		Motion 0.000000 0.000000 0.000000
+		Ang._Motion 0.000000 0.000000 0.000000
+		Lin.Lim.Spring_Damp 0.000000
+		Lin.Lim.Spring_Spring 0.000000
+		Lin_Limit 0.000000
+		Lin_Limit_Bounciness 0.000000
+		Lin_Limit_Contact_Dist 0.000000
+		XDrive_Max_Force  0.000000
+		XDrive_Pos_Damper 0.000000
+		XDrive_Pos_Spring 0.000000
+		YDrive_Max_Force  0.000000
+		YDrive_Pos_Damper 0.000000
+		YDrive Pos Spring 0.000000
+		ZDrive_Max_Force  0.000000
+		ZDrive_Pos_Damper 0.000000
+		ZDrive Pos Spring 0.000000
+		Ang_XDrive_Max_Force 0.000000
+		Ang_XDrive_Pos_Damper 0.000000
+		Ang_XDrive_Pos_Spring 0.000000
+		Ang_YDrive_Max_Force  0.000000
+		Ang_YDrive_Pos_Damper 0.000000
+		Ang_YDrive_Pos_Spring 0.000000
+		Ang_ZDrive_Max_Force  0.000000
+		Ang_ZDrive_Pos_Damper 0.000000
+		Ang_ZDrive_Pos_Spring 0.000000
+		Ang_YZDrive_Max_Force  0.000000
+		Ang_YZDrive_Pos_Damper 0.000000
+		Ang_YZDrive_Pos_Spring 0.000000
+		Target_Pos 0.000000
+		Target_Velocity 0.000000
+		Target_Ang_Velocity 0.000000
+		BreakForce 340282346638528859811704183484516925440.000000
+		BreakTorque 340282346638528859811704183484516925440.000000
+		end
+	component "RigidBody"
+		mass 1.000000
+		Different_Gravity 0
+		isKinematic 0
+		Gravity 0.000000 5.000000 0.000000
+		end
+	component "Capsule Collider"
+		isTrigger 0
+		Center 0.000000 0.000000 0.000000
+		Height 1.000000
 		Radius 1.000000
 		MaterialType -842150451
 		end

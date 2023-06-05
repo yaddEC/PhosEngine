@@ -1,0 +1,22 @@
+name "SphereHead"
+id 6
+layer 0
+tag 0
+transform 0 23.0376 0 0 0 0 4 4 4
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveSphere.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Sphere Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Radius 1.000000
+	MaterialType -842150451
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
+	end
+end
