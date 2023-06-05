@@ -3,11 +3,8 @@
 #include "Maths/Maths.hpp"
 #include "Engine/Scene.hpp"
 #include "Wrapper/Window.hpp"
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
-//#include "Window.hpp"
 
 
 namespace EditorGUI
@@ -44,11 +41,10 @@ namespace Core
 		void UpdateEditorGUI();
 		void Top();
 
-		//Only if not existing
 		void CreateGuiIni();
 
-		//class SceneWindow* sceneWindow;
-		//class AssetsExplorer* assetsExplorer;
+#ifndef PHOS_GAME
+
 
 		EditorGUI::SceneGUI* m_sceneGUI;
 		EditorGUI::GameGUI* m_gameGUI;
@@ -61,6 +57,11 @@ namespace Core
 		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
 		EditorGUI::InputGUI* m_InputGUI;
 		EditorGUI::CanvasEditor* m_canvasEditor;
+
+#else
+
+
+#endif // PHOS_GAME
 
 		Engine::Scene* m_mainScene;
 

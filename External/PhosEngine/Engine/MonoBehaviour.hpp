@@ -30,6 +30,7 @@ namespace Engine
 		virtual void OnCollisionStay(GameObject* go) {};
 		virtual void OnCollisionExit(GameObject* go) {};
 		virtual void Update() {};
+		virtual void Awake() {};
 		virtual void GUIUpdate() {};
 		virtual void OnInspector();
 		virtual void OnDestroy() {};

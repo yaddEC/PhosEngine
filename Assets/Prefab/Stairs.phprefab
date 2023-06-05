@@ -1,0 +1,8 @@
+name "Stairs"
+id 101
+transform -69.3401 1.96773 -128.22 -3.14159 -1.5708 -3.14159 1 1 1
+component "Mesh Renderer"
+	Mesh Assets\Model\stairs.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+end

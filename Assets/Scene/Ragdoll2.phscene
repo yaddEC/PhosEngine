@@ -1,0 +1,208 @@
+None
+name "Ground"
+id 1
+layer 0
+tag 0
+transform 0 -39.9887 2.58952 0 0 0 50 1 100
+component "Mesh Renderer"
+	Mesh Assets\Model\cube.obj
+	Material Assets\Material\Container.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType 0
+	end
+end
+name "Directional Light"
+id 2
+layer 0
+tag 0
+transform 0 0 0 0 0 0 1 1 1
+component "Directional Light"
+	Color 1.000000 1.000000 1.000000
+	Intensity 3.400000
+	end
+end
+name "Cube"
+id 3
+layer 0
+tag 0
+transform -20 8 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType 0
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 0
+	isKinematic 0
+	Gravity 0.000000 10.000000 0.000000
+	end
+component "Configurable Joint"
+	Collider 4
+	Axis 0.000000 0.000000 0.000000
+	Anchor 0.000000 0.000000 0.000000
+	Connect_Anchor 0.000000 0.000000 0.000000
+	Motion 0.000000 0.000000 0.000000
+	Ang._Motion 1.000000 1.000000 1.000000
+	Lin.Lim.Spring_Damp 0.000000
+	Lin.Lim.Spring_Spring 0.000000
+	Lin_Limit 0.000000
+	Lin_Limit_Bounciness 0.000000
+	Lin_Limit_Contact_Dist 0.000000
+	XDrive_Max_Force  0.000000
+	XDrive_Pos_Damper 0.000000
+	XDrive_Pos_Spring 0.000000
+	YDrive_Max_Force  0.000000
+	YDrive_Pos_Damper 0.000000
+	YDrive Pos Spring 0.000000
+	ZDrive_Max_Force  0.000000
+	ZDrive_Pos_Damper 0.000000
+	ZDrive Pos Spring 0.000000
+	Ang_XDrive_Max_Force 0.000000
+	Ang_XDrive_Pos_Damper 0.000000
+	Ang_XDrive_Pos_Spring 0.000000
+	Ang_YDrive_Max_Force  0.000000
+	Ang_YDrive_Pos_Damper 0.000000
+	Ang_YDrive_Pos_Spring 0.000000
+	Ang_ZDrive_Max_Force  0.000000
+	Ang_ZDrive_Pos_Damper 0.000000
+	Ang_ZDrive_Pos_Spring 0.000000
+	Ang_YZDrive_Max_Force  0.000000
+	Ang_YZDrive_Pos_Damper 0.000000
+	Ang_YZDrive_Pos_Spring 0.000000
+	Target_Pos 0.000000
+	Target_Velocity 0.000000
+	Target_Ang_Velocity 0.000000
+	BreakForce 340282346638528859811704183484516925440.000000
+	BreakTorque 340282346638528859811704183484516925440.000000
+	end
+child
+	name "Capsule"
+	id 4
+	layer 0
+	tag 0
+	transform 22.3294 0 0 0 0 0 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material DefaultAssets\Material\DefaultMat.phmat
+		end
+	component "Capsule Collider"
+		isTrigger 0
+		Center 0.000000 0.000000 0.000000
+		Height 1.000000
+		Radius 1.000000
+		MaterialType 1
+		end
+	component "RigidBody"
+		mass 1.000000
+		Different_Gravity 1
+		isKinematic 0
+		Gravity 0.000000 -10.000000 0.000000
+		end
+	end
+end
+name "block"
+id 5
+layer 0
+tag 0
+transform -19.9733 10.1855 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "block"
+id 6
+layer 0
+tag 0
+transform -17.8571 8.20462 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "block"
+id 7
+layer 0
+tag 0
+transform -21.8925 8.25315 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "block"
+id 8
+layer 0
+tag 0
+transform -19.9733 5.87682 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "block"
+id 9
+layer 0
+tag 0
+transform -19.9733 8.3054 2.3491 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end
+name "block"
+id 10
+layer 0
+tag 0
+transform -19.9733 8.16589 -2.2568 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end

@@ -1,0 +1,16 @@
+name "block"
+id 5
+layer 0
+tag 0
+transform -19.9733 10.1855 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+end

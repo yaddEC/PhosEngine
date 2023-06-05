@@ -73,6 +73,7 @@ namespace Wrapper
 		static bool IsWondowFocused();
 		static bool IsWindowHovered();
 
+		static Maths::Vec2 GetWindowPos();
 		static Maths::Vec2 GetCursorPos();
 		static void SetCursorPos(const Maths::Vec2& pos);
 

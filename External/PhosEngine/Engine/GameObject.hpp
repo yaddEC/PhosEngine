@@ -28,7 +28,8 @@ namespace Engine
 		std::string name;
 		Transform* transform;
 
-		void Start();
+		void Start(); 
+		void Awake();
 		void Update();
 		void Destroy();
 		void OnCollisionEnter(GameObject* gameobject);

@@ -28,6 +28,8 @@ using namespace Wrapper;
 #pragma region callback
 void Editor::Top()
 {
+#ifndef PHOS_GAME
+
     if (Wrapper::GUI::BeginMenu("File"))
     {
         if (Wrapper::GUI::MenuItem("Save Project", NULL))
@@ -55,6 +57,8 @@ void Editor::Top()
 
     Wrapper::GUI::BeginGroupCentered((40.f, 20.f));
     Wrapper::GUI::EndGroup();
+
+#endif
 }
 
 
@@ -75,7 +79,12 @@ bool Editor::Init()
     auto t0 = Time::now();
     
     static bool popUp = false;
+
+#ifndef PHOS_GAME
+
     CreateGuiIni();
+
+#endif
 
     // INIT SCENE TEST
     Resource::ResourceManager& rm = Resource::ResourceManager::GetInstance();
@@ -93,37 +102,60 @@ bool Editor::Init()
     std::cout << d.count() << "ms\n";
 
     Engine::Input::GetInstance().Init(m_window.GetWindow());
-    InitEditorGUI();
     m_mainScene = rm.GetResource<Engine::Scene>("Assets\\Scene\\SampleScene.phscene");
     m_mainScene->Load();
-    m_sceneGUI->SetCurrentScene(m_mainScene);
+
     rm.SetCurrentScene(m_mainScene);
+
+#ifndef PHOS_GAME
+
+    InitEditorGUI();
+
+    m_sceneGUI->SetCurrentScene(m_mainScene);
     m_Hierarchy->SetCurrentScene(m_mainScene);
     m_gameGUI->SetCurrentScene(m_mainScene);
     m_RendererGUI->SetCurrentScene(m_mainScene);
-    rm.SetCurrentScene(m_mainScene);
     m_AssetExplorer->Reload();
     m_PlayStateGUI->setScene(m_mainScene);
+
+#endif
 
     return true;
 }
 
 void Editor::Run()
 {
+#ifndef PHOS_GAME
+
     m_PlayStateGUI->setScene(m_sceneGUI->GetCurrentScene());
+
+#endif
+
     /* Loop until the user closes the window */
     while (!m_window.ShouldClose())
     {
         /* Poll for and process events */
         m_window.PollEvents();
 
+#ifndef PHOS_GAME
+
         GUI::NewFrame();
+
+#endif
         
         Engine::Input::GetInstance().Update();
         m_mainScene->Update();
-        UpdateEditorGUI();
 
+#ifndef PHOS_GAME
+
+        UpdateEditorGUI();
         GUI::RenderFrame(m_window.GetWindow());
+
+#else
+
+
+#endif
+
         
         /* Swap front and back buffers */
         m_window.SwapBuffer();
@@ -133,6 +165,9 @@ void Editor::Run()
 void Editor::Destroy()
 {
     Resource::ResourceManager::GetInstance().Unload();
+
+#ifndef PHOS_GAME
+
     delete m_sceneGUI;
     //delete m_mainScene;
     delete m_gameGUI;
@@ -145,10 +180,15 @@ void Editor::Destroy()
     delete m_GeneralSettingsGUI;
     delete m_InputGUI;
     delete m_canvasEditor;
+
+#endif
 }
+
+#ifndef PHOS_GAME
 
 bool Core::Editor::InitEditorGUI()
 {
+
     m_sceneGUI = new EditorGUI::SceneGUI();
     m_gameGUI = new EditorGUI::GameGUI();
     m_Hierarchy = new EditorGUI::HierarchyGUI();
@@ -161,7 +201,9 @@ bool Core::Editor::InitEditorGUI()
     m_InputGUI = new EditorGUI::InputGUI();
     m_canvasEditor = new EditorGUI::CanvasEditor();
     return true;
+
 }
+#endif
 
 void Core::Editor::CreateGuiIni()
 {
@@ -190,6 +232,10 @@ void Core::Editor::CreateGuiIni()
 
     file.close();
 }
+
+
+#ifndef PHOS_GAME
+
 
 void Core::Editor::UpdateEditorGUI()
 {
@@ -265,3 +311,4 @@ void Core::Editor::UpdateEditorGUI()
     
 }
 
+#endif // !PHOS_GAME

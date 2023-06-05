@@ -1,0 +1,8 @@
+name "1str"
+id 101
+transform -68.6798 2.03135 -167.51 0 0 0 15.7 2.35 1.5
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+end

@@ -29,6 +29,7 @@ namespace LowRenderer
 
 		void Start() override;
 		void OnInspector() override;
+		void Update() override;
 		void OnDestroy() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 
@@ -37,6 +38,8 @@ namespace LowRenderer
 
 		Resource::Texture& GetRenderTexture();
 		void ComputeViewProjMatrix(const Maths::Vec2& viewportSize);
+
+		Maths::Vec2 windowPos;
 
 	private:
 
@@ -56,7 +59,7 @@ namespace LowRenderer
 
 		Maths::Mat4 m_viewMatrix;
 		Maths::Mat4 m_projMatrix;
-
+		Maths::Vec2 m_viewportSize;
 		UI::Canvas* m_canvas = nullptr;
 	};
 }
