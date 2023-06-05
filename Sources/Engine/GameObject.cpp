@@ -46,24 +46,20 @@ void Engine::GameObject::Awake()
 }
 
 template <class T>
-T* Engine::GameObject::GetComponentInChildren(unsigned int index )
+T* Engine::GameObject::GetComponentInChildren()
 {
-	T* res = nullptr;
 	for (Transform child : transform->m_children)
 	{
-		for (MonoBehaviour* component : child.gameObject->components)
+		for (MonoBehaviour* component : child.m_gameObject->m_components)
 		{
 			if (typeid(*component) == typeid(T))
 			{
-				res = (T*)component;
-				if (index == 0)
-					return res;
-				else
-					index--;
+				return (T*)component;
+
 			}
 		}
 	}
-	return res;
+	return nullptr;
 }
 
 void Engine::GameObject::Update()

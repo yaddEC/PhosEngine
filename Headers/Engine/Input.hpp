@@ -109,9 +109,9 @@ namespace Engine
 		bool IsAnyKeyDown();
 
 		// Gamepad Input
-		bool IsButtonPressed(int key, int idPlayer);
-		bool IsButtonDown(int key, int idPlayer);
-		bool IsButtonReleased(int key, int idPlayer);
+		bool IsButtonPressed(int key, Controller idPlayer);
+		bool IsButtonDown(int key, Controller idPlayer);
+		bool IsButtonReleased(int key, Controller idPlayer);
 
 		// Mouse Input
 		bool IsMouseButtonPressed(int mouseButton);

@@ -192,19 +192,19 @@ bool Input::IsAnyKeyDown()
 	return anyKeyDown;
 }
 
-bool Input::IsButtonPressed(int key, int idPlayer)
+bool Input::IsButtonPressed(int key, Controller idPlayer)
 {
-	return GpInput[idPlayer].button[key] > 0;
+	return GpInput[(int)idPlayer].button[key] > 0;
 }
 
-bool Input::IsButtonDown(int key, int idPlayer) 
+bool Input::IsButtonDown(int key, Controller idPlayer)
 {
-	return GpInput[idPlayer].button[key] == 2;
+	return GpInput[(int)idPlayer].button[key] == 2;
 }
 
-bool Engine::Input::IsButtonReleased(int key, int idPlayer)
+bool Engine::Input::IsButtonReleased(int key, Controller idPlayer)
 {
-	return GpInput[idPlayer].button[key] == -1;
+	return GpInput[(int)idPlayer].button[key] == -1;
 }
 
 

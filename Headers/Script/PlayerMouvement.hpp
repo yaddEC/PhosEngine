@@ -20,10 +20,13 @@ namespace Script
 		int GetController() { return (int)m_controller; }
 		Reflection::ClassMetaData& GetMetaData() override;
 	private:
-		float m_playerSpeed, m_lookSpeedGamepad, m_lookSpeedMouse;
+		float m_playerSpeed, m_lookSpeedGamepad, m_lookSpeedMouse, m_jumpeForce;
 		Engine::Controller m_controller = Engine::Controller::C_NONE;
 		Engine::Transform* m_cameraCenter;
-		Physic::Rigidbody* rb;
+		Physic::Rigidbody* m_rb;
+		Engine::Transform* m_mesh;
+		Engine::Transform* m_groundCheck;
+		bool m_isGrounded;
 	};
 
 
