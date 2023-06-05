@@ -35,6 +35,16 @@ void Engine::GameObject::Start()
 	SetLoadStatus(true);
 }
 
+void Engine::GameObject::Awake()
+{
+	for (MonoBehaviour* comp : m_componentsBuffer)
+	{
+		if (m_scene->GetIsGameMode() || comp->renderingComponent)
+			comp->Awake();
+	}
+
+}
+
 template <class T>
 T* Engine::GameObject::GetComponentInChildren(unsigned int index )
 {
@@ -58,11 +68,14 @@ T* Engine::GameObject::GetComponentInChildren(unsigned int index )
 
 void Engine::GameObject::Update()
 {
+
+
 	for (MonoBehaviour* comp : m_componentsBuffer)
 	{
 		if (m_scene->GetIsGameMode() || comp->renderingComponent)
 			comp->Start();
 	}
+
 	m_componentsBuffer.clear();
 
 	for (MonoBehaviour* comp : m_components)

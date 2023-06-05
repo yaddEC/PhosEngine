@@ -20,11 +20,15 @@ namespace Physic {
 
     void Collider::Start()
     {
+    }
+
+    void Collider::Awake()
+    {
         physicsCollider = new Wrapper::PhysicsCollider();
         physicsCollider->collider = this;
 
         Rigidbody* rigidbody = gameobject->GetComponent<Rigidbody>();
-            rb = rigidbody;
+        rb = rigidbody;
         if (rigidbody)
         {
             rb->col = this;

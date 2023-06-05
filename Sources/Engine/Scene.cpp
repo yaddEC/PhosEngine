@@ -84,6 +84,11 @@ void Scene::Update()
 
 	for (GameObject* go : m_gameObjects)
 	{
+		go->Awake();
+	}
+
+	for (GameObject* go : m_gameObjects)
+	{
 		go->Update();
 	}
 

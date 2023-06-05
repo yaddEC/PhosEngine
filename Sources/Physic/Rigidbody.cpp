@@ -24,25 +24,6 @@ namespace Physic {
 
     void Rigidbody::Start()
     {
-        Collider* collider = gameobject->GetComponent<BoxCollider>();
-        if (!collider)
-        {
-            collider = gameobject->GetComponent<SphereCollider>();
-            if (!collider)
-            {
-                collider = gameobject->GetComponent<CapsuleCollider>();
-            }
-        }
-        col = collider;
-
-        if (col)
-        {
-            col->rb = this;
-            if(col->physicsCollider)
-                col->physicsCollider->UpdateType();
-        }
-
-        
 
     }
 
@@ -68,6 +49,29 @@ namespace Physic {
         if (Wrapper::RayCast(gameobject->transform->position, dir, 6, test)) {
             printf("UP %s %d\n", gameobject->name.c_str(), rand());
         }*/
+    }
+
+    void Rigidbody::Awake()
+    {
+        Collider* collider = gameobject->GetComponent<BoxCollider>();
+        if (!collider)
+        {
+            collider = gameobject->GetComponent<SphereCollider>();
+            if (!collider)
+            {
+                collider = gameobject->GetComponent<CapsuleCollider>();
+            }
+        }
+        col = collider;
+
+        if (col)
+        {
+            col->rb = this;
+            col->rb->col = col;
+            if (col->physicsCollider)
+                col->physicsCollider->UpdateType();
+        }
+
     }
 
     void Rigidbody::OnDestroy()

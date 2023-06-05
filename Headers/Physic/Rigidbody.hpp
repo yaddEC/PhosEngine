@@ -28,6 +28,7 @@ namespace Physic
         void Init();
         void Start() override;
         void Update() override;
+        void Awake() override;
         void OnTriggerEnter(Engine::GameObject* go) override {};
         void OnTriggerStay(Engine::GameObject* go) override {};
         void OnTriggerExit(Engine::GameObject* go) override {};

@@ -17,8 +17,7 @@ Physic::Joint::~Joint()
 
 void Physic::Joint::Update()
 {
-    if(GetGameObjectId() && GetGameObjectId()!=-1 && !GetOtherRigidbody() )
-        physicsJoint->OnGuiChanged();
+
 }
 
 void Physic::Joint::Start()
@@ -27,6 +26,9 @@ void Physic::Joint::Start()
 	physicsJoint = new Wrapper::PhysicsJoint();
     physicsJoint->joint = this;
     physicsJoint->Setup();
+
+    if (GetGameObjectId() && GetGameObjectId() != -1 && !GetOtherRigidbody())
+        physicsJoint->OnGuiChanged();
     
 }
 
