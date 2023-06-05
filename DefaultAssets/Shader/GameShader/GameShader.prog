@@ -1,0 +1,2 @@
+vert DefaultAssets\Shader\GameShader\GameShader.vert
+frag DefaultAssets\Shader\GameShader\GameShader.frag
