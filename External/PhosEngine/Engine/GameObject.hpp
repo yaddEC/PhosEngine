@@ -81,7 +81,7 @@ namespace Engine
 		}
 
 		template <class T>
-		T* GetComponentInChildren(unsigned int index = 0);
+		T* GetComponentInChildren();
 
 		unsigned int GetID() { return m_ID; }
 		void SetID(unsigned int id) { m_ID = id; }
