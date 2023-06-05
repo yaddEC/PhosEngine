@@ -1,0 +1,5 @@
+t_alb Assets\Texture\Serpetine_Stone_Ground_Base_Color.png
+shader Assets\Shader\PBRShader.prog
+t_norm Assets\Texture\Serpetine_Stone_Ground_Normal.png
+t_meta Assets\Texture\Serpetine_Stone_Ground_Roughness.png
+v_rough 0
