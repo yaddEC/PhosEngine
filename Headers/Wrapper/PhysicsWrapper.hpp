@@ -190,6 +190,7 @@ namespace Wrapper
         Maths::Vec3 GetVelocity();
         void SetVelocity(Maths::Vec3 velocity);
         void AddForce(Maths::Vec3 force);
+        void ClearForce();
         void OnTransformChanged();
         Rigidbody* rigidbody = nullptr;
 

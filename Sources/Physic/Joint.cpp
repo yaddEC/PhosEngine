@@ -130,53 +130,6 @@ Reflection::ClassMetaData& Physic::SpringJoint::GetMetaData()
 Physic::ConfigurableJoint::ConfigurableJoint(): Joint()
 {
         p_gameObjectId = -1;
-        m_anchor = Maths::Vec3();
-        m_axis = Maths::Vec3();
-        m_connectedAnchor = Maths::Vec3();
-        m_motion = Maths::Vec3();
-        m_angularMotion = Maths::Vec3();
-
-        m_linearLimitSpring.damper = 0;
-        m_linearLimitSpring.spring = 0;
-
-        m_linearLimit.limit = 0;
-        m_linearLimit.bounciness = 0;
-        m_linearLimit.contactDistance = 0;
-
-        m_xDrive.maximumForce = 0;
-        m_xDrive.positionDamper = 0;
-        m_xDrive.positionSpring = 0;
-
-        m_yDrive.maximumForce = 0;
-        m_yDrive.positionDamper = 0;
-        m_yDrive.positionSpring = 0;
-
-        m_zDrive.maximumForce = 0;
-        m_zDrive.positionDamper = 0;
-        m_zDrive.positionSpring = 0;
-
-        m_angularXDrive.maximumForce = 0;
-        m_angularXDrive.positionDamper = 0;
-        m_angularXDrive.positionSpring = 0;
-
-        m_angularYDrive.maximumForce = 0;
-        m_angularYDrive.positionDamper = 0;
-        m_angularYDrive.positionSpring = 0;
-
-        m_angularZDrive.maximumForce = 0;
-        m_angularZDrive.positionDamper = 0;
-        m_angularZDrive.positionSpring = 0;
-
-        m_angularZDrive.maximumForce = 0;
-        m_angularZDrive.positionDamper = 0;
-        m_angularZDrive.positionSpring = 0;
-
-        m_angularMotion = Maths::Vec3();
-
-
-        m_targetPosition = Maths::Vec3();
-        m_targetVelocity = Maths::Vec3();
-        m_targetAngularVelocity = Maths::Vec3();
 }
 
 Reflection::ClassMetaData& Physic::ConfigurableJoint::GetMetaData()
