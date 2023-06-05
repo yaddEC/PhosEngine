@@ -3,7 +3,6 @@
 #include "Maths/Maths.hpp"
 #include "Engine/Scene.hpp"
 #include "Wrapper/Window.hpp"
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -58,6 +57,9 @@ namespace Core
 		EditorGUI::GeneralSettingsGUI* m_GeneralSettingsGUI;
 		EditorGUI::InputGUI* m_InputGUI;
 		EditorGUI::CanvasEditor* m_canvasEditor;
+
+#else
+
 
 #endif // PHOS_GAME
 

@@ -6,7 +6,6 @@ in vec2 TexCoords;
 uniform int cameraCount;
 uniform sampler2D screenTexture[4];
 
-const float offset = 1.0 / 300.0; 
 
 void main()
 {

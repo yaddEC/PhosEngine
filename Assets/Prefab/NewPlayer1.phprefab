@@ -1,0 +1,55 @@
+name "NewPlayer1"
+id 102
+layer 0
+tag 1
+transform -50.7376 3 0.000484645 9.59448e-06 -0.927078 4.22297e-08 1 1 1
+component "PlayerMovement"
+	Speed 16.000000
+	LookSpeedGamepad 50.000000
+	LookSpeedMouse 8.000000
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 2.000000 1.000000
+	MaterialType 2
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
+	end
+child
+	name "PlayerGraphics"
+	id 103
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 1.5708 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material Assets\Material\Beige.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 104
+	layer 0
+	tag 0
+	transform 0 0.85 0 0.11517 0 0 1 1 1
+	child
+		name "Camera"
+		id 105
+		layer 0
+		tag 0
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas Assets\Canvas\UI1.phcanvas
+			end
+		end
+	end
+end

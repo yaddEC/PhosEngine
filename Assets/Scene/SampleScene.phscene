@@ -1337,51 +1337,8 @@ child
 		end
 	end
 end
-name "Player 1"
-id 134
-layer 0
-tag 1
-transform -50.75 4.75 0 0 -2.57645 0 1 1 1
-component "PlayerMovement"
-	Speed 6.000000
-	LookSpeedGamepad 50.000000
-	LookSpeedMouse 8.000000
-	end
-child
-	name "PlayerGraphics"
-	id 135
-	layer 0
-	tag 0
-	transform 0 0 0 0 0 0 1 1 1
-	component "Mesh Renderer"
-		Mesh DefaultAssets\Model\primitiveCapsule.obj
-		Material DefaultAssets\Material\DefaultMat.phmat
-		end
-	end
-child
-	name "Camera Center"
-	id 136
-	layer 0
-	tag 0
-	transform 0 0.85 0 0.0178614 0 0 1 1 1
-	child
-		name "Camera"
-		id 137
-		layer 0
-		tag 0
-		transform 0 0 -16 0 0 0 1 1 1
-		component "Camera Component"
-			FOV 50.000000
-			UseSkybox 1
-			BackGroundColor 0.000000 0.000000 0.000000
-			PostProcessingShader None
-			Canvas None
-			end
-		end
-	end
-end
 name "New GameObject"
-id 138
+id 134
 layer 0
 tag 0
 transform -27.4497 11.3345 0 0 0 0 1 1 1
@@ -1395,5 +1352,60 @@ component "Capsule Collider"
 	Height 1.000000
 	Radius 1.000000
 	MaterialType -842150451
+	end
+end
+name "NewPlayer1"
+id 135
+layer 0
+tag 1
+transform -50.7376 3 0.000484645 9.62826e-06 -0.927078 2.53453e-08 1 1 1
+component "PlayerMovement"
+	Speed 16.000000
+	LookSpeedGamepad 50.000000
+	LookSpeedMouse 8.000000
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 2.000000 1.000000
+	MaterialType 2
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
+	end
+child
+	name "PlayerGraphics"
+	id 136
+	layer 0
+	tag 0
+	transform 0 0 0 0 0 1.5708 1 1 1
+	component "Mesh Renderer"
+		Mesh DefaultAssets\Model\primitiveCapsule.obj
+		Material Assets\Material\Beige.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 137
+	layer 0
+	tag 0
+	transform 0 0.85 0 0.11517 0 0 1 1 1
+	child
+		name "Camera"
+		id 138
+		layer 0
+		tag 0
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas Assets\Canvas\UI1.phcanvas
+			end
+		end
 	end
 end
