@@ -461,6 +461,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Threading\AtomicMutex.hpp" />
     <ClInclude Include="Headers\Threading\PoolSystem.hpp" />
     <ClInclude Include="Headers\Threading\Thread.hpp" />
+    <ClInclude Include="Headers\UI\Button.hpp" />
     <ClInclude Include="Headers\UI\Canvas.hpp" />
     <ClInclude Include="Headers\UI\RectTransform.hpp" />
     <ClInclude Include="Headers\UI\UIElement.hpp" />
@@ -538,6 +539,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Sound\SoundPlayer.cpp" />
     <ClCompile Include="Sources\Threading\PoolSystem.cpp" />
     <ClCompile Include="Sources\Threading\Thread.cpp" />
+    <ClCompile Include="Sources\UI\Button.cpp" />
     <ClCompile Include="Sources\UI\Canvas.cpp" />
     <ClCompile Include="Sources\UI\SpriteRenderer.cpp" />
     <ClCompile Include="Sources\UI\UIElement.cpp" />

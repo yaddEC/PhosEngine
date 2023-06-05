@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Engine/MonoBehaviour.hpp"
+namespace Physic
+{
+	class Rigidbody;
+}
 
 namespace Script
 {
@@ -19,6 +23,7 @@ namespace Script
 		float m_playerSpeed, m_lookSpeedGamepad, m_lookSpeedMouse;
 		Engine::Controller m_controller = Engine::Controller::C_NONE;
 		Engine::Transform* m_cameraCenter;
+		Physic::Rigidbody* rb;
 	};
 
 

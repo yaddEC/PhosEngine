@@ -222,6 +222,11 @@ bool Wrapper::GUI::IsWindowHovered()
 	return ImGui::IsWindowHovered();
 }
 
+Maths::Vec2 Wrapper::GUI::GetWindowPos()
+{
+	return Maths::Vec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y);
+}
+
 Maths::Vec2 Wrapper::GUI::GetCursorPos()
 {
 	ImVec2 pos = ImGui::GetCursorPos();
@@ -321,16 +326,14 @@ bool Wrapper::GUI::EditFloat(const std::string& label, float& value, bool text, 
 
 bool Wrapper::GUI::EditVec2(const std::string& label, Maths::Vec2& value, bool text, float speed, float min, float max)
 {
-	
-	
 	float textWidth = GUI::CalcTextSize(label.c_str()).x;
 	if (text)
 	{
 		ImGui::Text(label.c_str());
-		ImGui::SameLine(  WIDGET_OFFSET* GUI::GetWindowSize().x* GUI::GetWindowSize().x- textWidth);
+		ImGui::SameLine(WIDGET_OFFSET * GUI::GetWindowSize().x);
 	}
 	ImGui::SetNextItemWidth(NEXT_WIDTH * GUI::GetWindowSize().x - textWidth);
-	return ImGui::DragFloat2(("##" + label).c_str(), &value.x, speed, min, max);
+	return ImGui::DragFloat2(("##" + label).c_str(), &value.x, speed, min, max, "%.2f");
 }
 
 bool Wrapper::GUI::EditVec3(const std::string& label, Maths::Vec3& value, bool text, float speed, float min, float max)
@@ -917,7 +920,7 @@ void Wrapper::GUI::DisplayFloat(const std::string& label, float value)
 
 void Wrapper::GUI::DisplayVec2(const std::string& label, const Maths::Vec2& value)
 {
-	return ImGui::Text((label + " : (" + std::to_string(value.x) + ", " + std::to_string(value.y) + ")").c_str());
+	return ImGui::Text("%s : (%.2f, %.2f)", label.c_str(), value.x, value.y);
 }
 
 void Wrapper::GUI::DisplayVec3(const std::string& label, const Maths::Vec3& value)

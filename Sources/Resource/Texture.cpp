@@ -32,7 +32,7 @@ void Texture::Load()
 	SetFileInfo(GetFilePath());
 
 	stbi_set_flip_vertically_on_load(true);
-	m_data = stbi_load(GetFilePath().c_str(), &m_width, &m_height, &m_nrChannels, STBI_default);
+	m_data = stbi_load(GetFilePath().c_str(), &m_width, &m_height, &m_nrChannels, 0);
 }
 
 void Texture::SetData(unsigned char* _data, int _width, int _height, int _nrChannel)

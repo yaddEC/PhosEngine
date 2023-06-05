@@ -13,8 +13,12 @@
 #include "Resource/Parser.hpp"
 #include <fstream>
 #include "UI/SpriteRenderer.hpp"
+#include "UI/Button.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/ResourceIncludes.hpp"
+
+
+
 
 void UI::Canvas::Load()
 {
@@ -101,6 +105,12 @@ void UI::Canvas::GUIUpdate()
 			newElement->name = "Sprite Renderer";
 			Instantiate(newElement);
 		}
+		if (GUI::Selectable("Button", false))
+		{
+			auto newElement = new Button();
+			newElement->name = "Button";
+			Instantiate(newElement);
+		}
 
 		GUI::EndPopup();
 	}
@@ -110,6 +120,19 @@ void UI::Canvas::GUIUpdate()
 		GUI::OpenPopup("New Element Popup");
 	}
 }
+
+void UI::Canvas::Update(const Maths::Vec2& canvasPos, const Maths::Vec2& viewportSize)
+{
+	float scaling{ Maths::Lerp(viewportSize.x / m_baseResolution.x, viewportSize.y / m_baseResolution.y, 0.5f) };
+
+	Maths::Vec2 sizeRatio = Maths::Vec2(scaling / viewportSize.x, scaling / viewportSize.y);
+
+	for (auto element : m_uiElementList)
+	{
+		element.second->Update(canvasPos, sizeRatio, viewportSize);
+	}
+}
+
 
 void UI::Canvas::Instantiate(UIElement* element)
 {
@@ -161,6 +184,11 @@ void UI::Canvas::ParseUIelement(std::vector<std::string> fileData, size_t& lineI
 	if (tokens[0] == "SpriteRenderer")
 	{
 		newElement = new SpriteRenderer();
+		newElement->name = tokens[1];
+	}
+	if (tokens[0] == "Button")
+	{
+		newElement = new Button();
 		newElement->name = tokens[1];
 	}
 

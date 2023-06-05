@@ -41,6 +41,15 @@ void LowRenderer::CameraComponent::OnInspector()
     MonoBehaviour::OnInspector();
 }
 
+void LowRenderer::CameraComponent::Update()
+{
+    if (gameobject->GetScene()->GetIsGameMode())
+    {
+        if (m_canvas)
+            m_canvas->Update(windowPos, m_viewportSize);
+    }
+}
+
 void LowRenderer::CameraComponent::OnDestroy()
 {
 	gameobject->GetScene()->GetRenderer()->DeleteCamera(this);
@@ -127,6 +136,7 @@ Resource::Texture& LowRenderer::CameraComponent::GetRenderTexture()
 
 void LowRenderer::CameraComponent::ComputeViewProjMatrix(const Maths::Vec2& viewportSize)
 {
+    m_viewportSize = viewportSize;
 	m_projMatrix = Maths::Mat4::CreateProjectionMatrix(m_fov, 0.01f, 400, viewportSize.y / viewportSize.x);
 	m_viewMatrix = Maths::Mat4::LookAt(transform->GetGlobalPosition(),
 		transform->GetGlobalPosition() - transform->GetForwardVector(),
