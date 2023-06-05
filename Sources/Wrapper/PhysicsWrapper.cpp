@@ -988,6 +988,7 @@ namespace Wrapper
         {
             PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
             dynamicActor->clearForce();
+        }
     }
 
     void UpdateRotationEuler(Maths::Vec3& rotationEuler, const Maths::Quaternion& newRotation) {
