@@ -850,8 +850,8 @@ namespace Wrapper
                     PxTransform pose2(PxVec3(otherGlobalPos.x, otherGlobalPos.y, otherGlobalPos.z), PxQuat(otherRigidbody->transform->rotation.b, otherRigidbody->transform->rotation.c, otherRigidbody->transform->rotation.d, otherRigidbody->transform->rotation.a));
 
                     // Set local poses
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose1.getInverse());
-                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose2.getInverse());
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR0, pose2);
+                    d6joint->setLocalPose(PxJointActorIndex::eACTOR1, pose1);
                 }
                 else if (ConfigurableJoint* configurableJoint = dynamic_cast<ConfigurableJoint*>(joint))
                 {
@@ -949,6 +949,16 @@ namespace Wrapper
             PxQuat( eulerRot.b, eulerRot.c, eulerRot.d, eulerRot.a));
         m_physxActor->setGlobalPose(pose);
         m_physxActor->is<PxRigidDynamic>()->setMass(rigidbody->GetMass());
+
+        PxVec3 inertiaTensor = m_physxActor->is<PxRigidDynamic>()->getMassSpaceInertiaTensor();
+        Maths::Vec3 lockRotation = rigidbody->GetLockRotation();
+
+        inertiaTensor.x= lockRotation.x == 1 ? PX_MAX_F32 : inertiaTensor.x;
+        inertiaTensor.y = lockRotation.y == 1 ? PX_MAX_F32 : inertiaTensor.y;
+        inertiaTensor.z = lockRotation.z == 1 ? PX_MAX_F32 : inertiaTensor.z;
+
+        m_physxActor->is<PxRigidDynamic>()->setMassSpaceInertiaTensor(inertiaTensor);
+
     }
 
     Maths::Vec3 PhysicsRigidbody::GetVelocity()
@@ -1063,6 +1073,17 @@ namespace Wrapper
                 m_physxActor->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
             else
                 m_physxActor->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
+
+            PxRigidBodyExt::updateMassAndInertia(*m_physxActor->is<PxRigidDynamic>(), 1);
+            PxVec3 inertiaTensor = m_physxActor->is<PxRigidDynamic>()->getMassSpaceInertiaTensor();
+            Maths::Vec3 lockRotation = rigidbody->GetLockRotation();
+
+            inertiaTensor.x = lockRotation.x == 1 ? PX_MAX_F32 : inertiaTensor.x;
+            inertiaTensor.y = lockRotation.y == 1 ? PX_MAX_F32 : inertiaTensor.y;
+            inertiaTensor.z = lockRotation.z == 1 ? PX_MAX_F32 : inertiaTensor.z;
+
+            m_physxActor->is<PxRigidDynamic>()->setMassSpaceInertiaTensor(inertiaTensor);
+
 
            
         }

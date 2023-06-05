@@ -100,6 +100,12 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    void Rigidbody::SetLockRotation(Maths::Vec3 lockRotation)
+    {
+        m_lockRotation = lockRotation;
+        physicsRigidbody->OnGuiChanged();
+    }
+
     Maths::Vec3 Rigidbody::GetVelocity()
     {
         return physicsRigidbody->GetVelocity();
@@ -162,6 +168,7 @@ namespace Physic {
                 ClassMemberInfo("Different_Gravity", offsetof(Rigidbody, m_differentGravity), MemberType::T_BOOL),
                 ClassMemberInfo("isKinematic", offsetof(Rigidbody, m_isKinematic), MemberType::T_BOOL),
                 ClassMemberInfo("Gravity", offsetof(Rigidbody, m_gravity), MemberType::T_VEC3),
+                ClassMemberInfo("LockRotation", offsetof(Rigidbody, m_lockRotation), MemberType::T_VEC3),
             };
             computed = true;
         }

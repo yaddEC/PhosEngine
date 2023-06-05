@@ -39,8 +39,10 @@ namespace Physic
         void OnInspector() override;
         void OnDestroy() override;
         Maths::Vec3 GetGravity() { return m_gravity; };
+        Maths::Vec3 GetLockRotation() { return m_lockRotation; };
         float GetMass() { return m_mass; };
         void SetGravity(Maths::Vec3 gravity);
+        void SetLockRotation(Maths::Vec3 lockRotation);
         Maths::Vec3 GetVelocity();
         void SetVelocity(Maths::Vec3 velocity);
         void AddForce(Maths::Vec3 force);
@@ -56,6 +58,7 @@ namespace Physic
         Reflection::ClassMetaData& GetMetaData() override;
 
     private:
+        Maths::Vec3 m_lockRotation;
         bool m_differentGravity;
         bool m_isKinematic = false;
         Maths::Vec3 m_gravity = Maths::Vec3(0, -20, 0);
