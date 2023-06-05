@@ -1,0 +1,23 @@
+name "CapsuleBody"
+id 2
+layer 0
+tag 0
+transform -5.90644 8 0 0 -0 -1.5708 2.4 3 3
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCapsule.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Capsule Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Height 1.000000
+	Radius 1.000000
+	MaterialType -842150451
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
+	end
+end
