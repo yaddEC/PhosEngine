@@ -3,7 +3,7 @@ name "Ground"
 id 1
 layer 0
 tag 0
-transform 0 -20.6968 0 0 0 0 80 1 80
+transform 0 -20.6968 0 0 0 0.0153724 80 1 79.9999
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveCube.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -64,6 +64,7 @@ component "RigidBody"
 	Different_Gravity 0
 	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider 6
@@ -121,17 +122,18 @@ component "Sphere Collider"
 	MaterialType -842150451
 	end
 component "RigidBody"
-	mass 1.000000
-	Different_Gravity 1
+	mass 10.000000
+	Different_Gravity 0
 	isKinematic 0
-	Gravity 0.000000 80.000000 0.000000
+	Gravity 0.000000 10.000000 0.000000
+	LockRotation 1.000000 0.000000 1.000000
 	end
 end
 name "HandLeft"
 id 7
 layer 0
 tag 0
-transform -1.29122 10.2002 -50 0 0 0 1.5 1.5 1.5
+transform -0.366704 11.7598 -50 0 0 0 1.5 1.5 1.5
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -146,44 +148,45 @@ component "RigidBody"
 	mass 1.000000
 	Different_Gravity 1
 	isKinematic 0
-	Gravity 0.000000 -1.000000 0.000000
+	Gravity 0.000000 -2.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider 5
 	Axis 0.000000 0.000000 0.000000
 	Anchor 0.000000 0.000000 0.000000
 	Connect_Anchor 0.000000 0.000000 0.000000
-	Motion 0.000000 1.000000 1.000000
+	Motion 1.000000 1.000000 0.000000
 	Ang._Motion 0.000000 0.000000 0.000000
-	Lin.Lim.Spring_Damp 1.000000
-	Lin.Lim.Spring_Spring 0.100000
-	Lin_Limit 1.000000
-	Lin_Limit_Bounciness 0.100000
-	Lin_Limit_Contact_Dist 1.000000
+	Lin.Lim.Spring_Damp 0.100000
+	Lin.Lim.Spring_Spring 1.000000
+	Lin_Limit 0.500000
+	Lin_Limit_Bounciness 1.000000
+	Lin_Limit_Contact_Dist 0.100000
 	XDrive_Max_Force  0.000000
 	XDrive_Pos_Damper 0.100000
-	XDrive_Pos_Spring 1.000000
+	XDrive_Pos_Spring 0.100000
 	YDrive_Max_Force  0.000000
 	YDrive_Pos_Damper 0.100000
 	YDrive Pos Spring 0.000000
 	ZDrive_Max_Force  0.000000
 	ZDrive_Pos_Damper 0.100000
 	ZDrive Pos Spring 0.000000
-	Ang_XDrive_Max_Force 1.000000
+	Ang_XDrive_Max_Force 0.100000
 	Ang_XDrive_Pos_Damper 0.100000
-	Ang_XDrive_Pos_Spring 1.000000
+	Ang_XDrive_Pos_Spring 0.100000
 	Ang_YDrive_Max_Force  0.000000
 	Ang_YDrive_Pos_Damper 0.100000
-	Ang_YDrive_Pos_Spring 1.000000
+	Ang_YDrive_Pos_Spring 0.100000
 	Ang_ZDrive_Max_Force  0.000000
 	Ang_ZDrive_Pos_Damper 0.100000
-	Ang_ZDrive_Pos_Spring 1.000000
+	Ang_ZDrive_Pos_Spring 0.100000
 	Ang_YZDrive_Max_Force  0.000000
 	Ang_YZDrive_Pos_Damper 0.100000
-	Ang_YZDrive_Pos_Spring 1.000000
-	Target_Pos 1.000000
-	Target_Velocity 1.000000
-	Target_Ang_Velocity 1.000000
+	Ang_YZDrive_Pos_Spring 0.100000
+	Target_Pos 0.100000
+	Target_Velocity 0.100000
+	Target_Ang_Velocity 0.100000
 	BreakForce 340282346638528859811704183484516925440.000000
 	BreakTorque 340282346638528859811704183484516925440.000000
 	end
@@ -208,6 +211,7 @@ component "RigidBody"
 	Different_Gravity 1
 	isKinematic 0
 	Gravity 0.000000 0.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider -1
@@ -269,6 +273,7 @@ component "RigidBody"
 	Different_Gravity 1
 	isKinematic 0
 	Gravity 0.000000 0.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider -1
@@ -314,7 +319,7 @@ name "HandRight"
 id 10
 layer 0
 tag 0
-transform -10.7762 10.2187 -50 0 0 0 1.5 1.5 1.5
+transform -11.9388 12.2775 -50 0 0 0 1.5 1.5 1.5
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
@@ -329,44 +334,45 @@ component "RigidBody"
 	mass 1.000000
 	Different_Gravity 1
 	isKinematic 0
-	Gravity 0.000000 -1.000000 0.000000
+	Gravity 0.000000 -2.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider 5
 	Axis 0.000000 0.000000 0.000000
 	Anchor 0.000000 0.000000 0.000000
 	Connect_Anchor 0.000000 0.000000 0.000000
-	Motion 0.000000 1.000000 1.000000
+	Motion 1.000000 1.000000 0.000000
 	Ang._Motion 0.000000 0.000000 0.000000
-	Lin.Lim.Spring_Damp 1.000000
-	Lin.Lim.Spring_Spring 0.100000
-	Lin_Limit 1.000000
-	Lin_Limit_Bounciness 0.100000
-	Lin_Limit_Contact_Dist 1.000000
+	Lin.Lim.Spring_Damp 0.100000
+	Lin.Lim.Spring_Spring 1.000000
+	Lin_Limit 0.500000
+	Lin_Limit_Bounciness 1.000000
+	Lin_Limit_Contact_Dist 0.100000
 	XDrive_Max_Force  0.000000
 	XDrive_Pos_Damper 0.100000
-	XDrive_Pos_Spring 1.000000
+	XDrive_Pos_Spring 0.100000
 	YDrive_Max_Force  0.000000
 	YDrive_Pos_Damper 0.100000
 	YDrive Pos Spring 0.000000
 	ZDrive_Max_Force  0.000000
 	ZDrive_Pos_Damper 0.100000
 	ZDrive Pos Spring 0.000000
-	Ang_XDrive_Max_Force 1.000000
+	Ang_XDrive_Max_Force 0.100000
 	Ang_XDrive_Pos_Damper 0.100000
-	Ang_XDrive_Pos_Spring 1.000000
+	Ang_XDrive_Pos_Spring 0.100000
 	Ang_YDrive_Max_Force  0.000000
 	Ang_YDrive_Pos_Damper 0.100000
-	Ang_YDrive_Pos_Spring 1.000000
+	Ang_YDrive_Pos_Spring 0.100000
 	Ang_ZDrive_Max_Force  0.000000
 	Ang_ZDrive_Pos_Damper 0.100000
-	Ang_ZDrive_Pos_Spring 1.000000
+	Ang_ZDrive_Pos_Spring 0.100000
 	Ang_YZDrive_Max_Force  0.000000
 	Ang_YZDrive_Pos_Damper 0.100000
-	Ang_YZDrive_Pos_Spring 1.000000
-	Target_Pos 1.000000
-	Target_Velocity 1.000000
-	Target_Ang_Velocity 1.000000
+	Ang_YZDrive_Pos_Spring 0.100000
+	Target_Pos 0.100000
+	Target_Velocity 0.100000
+	Target_Ang_Velocity 0.100000
 	BreakForce 340282346638528859811704183484516925440.000000
 	BreakTorque 340282346638528859811704183484516925440.000000
 	end
@@ -392,6 +398,7 @@ component "RigidBody"
 	Different_Gravity 1
 	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider 8
@@ -454,6 +461,7 @@ component "RigidBody"
 	Different_Gravity 1
 	isKinematic 0
 	Gravity 0.000000 -20.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 component "Configurable Joint"
 	Collider 9
@@ -493,5 +501,84 @@ component "Configurable Joint"
 	Target_Ang_Velocity 0.000000
 	BreakForce 340282346638528859811704183484516925440.000000
 	BreakTorque 340282346638528859811704183484516925440.000000
+	end
+end
+name "TurnLeft"
+id 13
+layer 2
+tag 0
+transform -38.7615 17.026 -50 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 0.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
+	end
+component "Fixed Joint"
+	Collider 6
+	BreakForce 340282346638528859811704183484516925440.000000
+	BreakTorque 340282346638528859811704183484516925440.000000
+	end
+end
+name "TurnRight"
+id 14
+layer 2
+tag 0
+transform 4.91185 17.9773 -50 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 0.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
+	end
+component "Fixed Joint"
+	Collider -1
+	BreakForce 340282346638528859811704183484516925440.000000
+	BreakTorque 340282346638528859811704183484516925440.000000
+	end
+end
+name "Cube"
+id 15
+layer 0
+tag 0
+transform 37.3158 0 0 0 0 0 1 1 1
+component "Mesh Renderer"
+	Mesh DefaultAssets\Model\primitiveCube.obj
+	Material DefaultAssets\Material\DefaultMat.phmat
+	end
+component "Box Collider"
+	isTrigger 0
+	Center 0.000000 0.000000 0.000000
+	Size 1.000000 1.000000 1.000000
+	MaterialType -842150451
+	end
+component "RigidBody"
+	mass 1.000000
+	Different_Gravity 1
+	isKinematic 0
+	Gravity 0.000000 -20.000000 0.000000
+	LockRotation 0.000000 0.000000 0.000000
 	end
 end
