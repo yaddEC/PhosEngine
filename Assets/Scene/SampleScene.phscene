@@ -1402,9 +1402,9 @@ child
 			id 138
 			layer 2
 			tag 3
-			transform -1.1 0.5 17.65 0 0 0 2 2 2
+			transform -1.1 0.5 19.1 0 0 0 2 2 2
 			component "Mesh Renderer"
-				Mesh DefaultAssets\Model\primitiveSphere.obj
+				Mesh None
 				Material DefaultAssets\Material\DefaultMat.phmat
 				end
 			component "Grab Script"
@@ -1420,7 +1420,7 @@ child
 				id 139
 				layer 0
 				tag 0
-				transform -0.5 -0.4 0 0 0 0 0.2 0.2 0.2
+				transform -0.5 -0.4 0.55 0 0 0 0.2 0.2 0.2
 				component "Mesh Renderer"
 					Mesh DefaultAssets\Model\primitiveSphere.obj
 					Material Assets\Material\Beige.phmat
@@ -1431,7 +1431,7 @@ child
 				id 140
 				layer 0
 				tag 0
-				transform 0.5 -0.4 0 0 0 0 0.2 0.2 0.2
+				transform 0.5 -0.4 0.55 0 0 0 0.2 0.2 0.2
 				component "Mesh Renderer"
 					Mesh DefaultAssets\Model\primitiveSphere.obj
 					Material Assets\Material\Beige.phmat
