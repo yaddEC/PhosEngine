@@ -9,6 +9,11 @@
 #include "Physic/Joint.hpp"
 #include "Script/PlayerMouvement.hpp"
 #include "Script/InputManager.hpp"
+#include "Script/DeathDetection.hpp"
+#include "Script/OutOfBound.hpp"
+#include "Script/WinManager.hpp"
+#include "Script/WinZone.hpp"
+#include "Script/OutOfBound.hpp"
 #include "Script/GrabScript.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
@@ -185,6 +190,22 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 			if (GUI::MenuItem("Input Manager", nullptr))
 			{
 				m_gameobject->AddComponent<Script::InputManager>();
+			}
+			if (GUI::MenuItem("Death Dectection", nullptr))
+			{
+				m_gameobject->AddComponent<Script::DeathDetection>();
+			}
+			if (GUI::MenuItem("OutOfBound", nullptr))
+			{
+				m_gameobject->AddComponent<Script::OutOfBound>();
+			}
+			if (GUI::MenuItem("WinManager", nullptr))
+			{
+				m_gameobject->AddComponent<Script::WinManager>();
+			}
+			if (GUI::MenuItem("WinZone", nullptr))
+			{
+				m_gameobject->AddComponent<Script::WinZone>();
 			}
 			if (GUI::MenuItem("Grab Script", nullptr))
 			{

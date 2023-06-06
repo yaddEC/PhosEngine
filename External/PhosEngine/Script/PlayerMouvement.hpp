@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Engine/MonoBehaviour.hpp"
+#include "Engine/Input.hpp"
+
 namespace Physic
 {
 	class Rigidbody;
