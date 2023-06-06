@@ -47,6 +47,7 @@ namespace Physic
         Wrapper::MaterialType GetMaterial() { return p_material; };
         void SetCenter(Maths::Vec3 center);
         Maths::Vec3 GetCenter() { return p_center; };
+        void SetGlobalPos(Maths::Vec3 pos);
         Reflection::ClassMetaData& GetMetaData() override;
     protected:
         Wrapper::MaterialType p_material;

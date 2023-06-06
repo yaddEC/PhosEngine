@@ -40,6 +40,7 @@ namespace Script
 		//void OnInspector() override;
 		Reflection::ClassMetaData& GetMetaData() override;
 	private:
+		Maths::Vec3 m_grabOffset;
 		Script::PlayerMouvement* m_playerMouvement;
 		Engine::GameObject* m_actualObject;
 		Engine::GameObject* m_player;
@@ -50,6 +51,7 @@ namespace Script
 		Maths::Vec3 m_velocity;
 		Physic::Rigidbody* m_grabbedRB;
 		Physic::SphereCollider* m_selfCollider;
+		Engine::Transform m_relativeTransform;
 	};
 
 

@@ -77,6 +77,11 @@ namespace Physic {
         physicsCollider->OnGuiChanged();
     }
 
+    void Collider::SetGlobalPos(Maths::Vec3 pos)
+    {
+        physicsCollider->setGlobalPos(pos);
+    }
+
     Reflection::ClassMetaData& Collider::GetMetaData()
     {
         using namespace Reflection;

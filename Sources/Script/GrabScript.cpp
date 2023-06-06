@@ -49,41 +49,42 @@ void Script::GrabScript::OnTriggerEnter(Engine::GameObject* go)
 
 void Script::GrabScript::OnTriggerExit(Engine::GameObject* go)
 {
-    if (m_actualObject)
+    if (m_actualObject )
         m_actualObject = nullptr;
 }
 
 void Script::GrabScript::Update()
 {
+    m_selfCollider->SetGlobalPos(gameobject->transform->GetGlobalPosition());
     if(m_actualObject)
     { 
         if ((m_input->IsButtonDown(Engine::BUTTON_RIGHT_BUMPER, (Engine::Controller)m_playerMouvement->GetController()) || ((Engine::Controller)m_playerMouvement->GetController() == Engine::Controller::C_KEYBOARD && m_input->IsMouseButtonDown(GLFW_MOUSE_BUTTON_1))))
             {
                 m_isPressed = true;
-                m_grabbedRB->setKinematic(true);
                 m_grabbedRB = m_actualObject->GetComponent<Physic::Rigidbody>();
+                m_grabbedRB->setKinematic(true);
             }
-
-        if ((m_input->IsButtonReleased(Engine::BUTTON_RIGHT_BUMPER, (Engine::Controller)m_playerMouvement->GetController()) || ((Engine::Controller)m_playerMouvement->GetController() == Engine::Controller::C_KEYBOARD && m_input->IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1))))
-            {
-                m_grabbedRB->setKinematic(false);
-                m_grabbedRB->SetVelocity(m_velocity);
-                m_grabbedRB = nullptr;
-            }
-
-
-
+    }
         if (m_grabbedRB)
         {
+           
             m_prevPos = m_currPos;
             m_currPos = gameobject->transform->GetGlobalPosition();
             
             m_grabbedRB->gameobject->transform->position = m_currPos;
 
             m_velocity = (m_currPos - m_prevPos) / m_input->GetDeltaTime();
+
+            if ((m_input->IsButtonReleased(Engine::BUTTON_RIGHT_BUMPER, (Engine::Controller)m_playerMouvement->GetController()) || ((Engine::Controller)m_playerMouvement->GetController() == Engine::Controller::C_KEYBOARD && m_input->IsMouseButtonReleased(GLFW_MOUSE_BUTTON_1))))
+            {
+                m_grabbedRB->setKinematic(false);
+                m_grabbedRB->SetVelocity(m_velocity);
+                m_grabbedRB->SetPos(gameobject->transform->GetGlobalPosition() + m_selfCollider->GetCenter());
+                m_grabbedRB = nullptr;
+            }
         }
 
-    }
+    
 
 }
 

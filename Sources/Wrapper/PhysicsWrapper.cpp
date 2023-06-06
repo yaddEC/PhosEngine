@@ -677,6 +677,14 @@ namespace Wrapper
 
     }
 
+    void PhysicsCollider::setGlobalPos(Maths::Vec3 pos)
+    {
+        Maths::Vec3 collCenter = collider->GetCenter();
+        PxVec3 position = PxVec3(pos.x+ collCenter.x, pos.y+ collCenter.y, pos.z+ collCenter.z);
+
+        m_physxActor->setGlobalPose(PxTransform(position, m_physxActor->getGlobalPose().q));
+    }
+
 
     Wrapper::PhysicsJoint::PhysicsJoint()
     {

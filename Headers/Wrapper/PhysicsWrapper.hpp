@@ -128,6 +128,7 @@ namespace Wrapper
         void Setup(Maths::Vec3 center, Maths::Vec3 size, bool trigger, Wrapper::MaterialType material);
         void OnGuiChanged();
         void OnTransformChanged();
+        void setGlobalPos(Maths::Vec3 pos);
 
         Collider* collider = nullptr;
 
