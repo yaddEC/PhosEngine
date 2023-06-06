@@ -961,6 +961,15 @@ namespace Wrapper
 
     }
 
+    void PhysicsRigidbody::SetPos(const Maths::Vec3 pos)
+    {
+        if (m_physxActor)
+        {
+            PxRigidDynamic* dynamicActor = m_physxActor->is<PxRigidDynamic>();
+            dynamicActor->setGlobalPose(PxTransform( PxVec3(pos.x, pos.y, pos.z)));
+        }
+    }
+
     Maths::Vec3 PhysicsRigidbody::GetVelocity()
     {
         if (m_physxActor)

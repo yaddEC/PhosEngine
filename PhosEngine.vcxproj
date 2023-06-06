@@ -455,8 +455,12 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
+    <ClInclude Include="Headers\Script\DeathDetection.hpp" />
     <ClInclude Include="Headers\Script\InputManager.hpp" />
+    <ClInclude Include="Headers\Script\OutOfBound.hpp" />
     <ClInclude Include="Headers\Script\PlayerMouvement.hpp" />
+    <ClInclude Include="Headers\Script\WinManager.hpp" />
+    <ClInclude Include="Headers\Script\WinZone.hpp" />
     <ClInclude Include="Headers\Sound\SoundPlayer.hpp" />
     <ClInclude Include="Headers\Threading\AtomicMutex.hpp" />
     <ClInclude Include="Headers\Threading\PoolSystem.hpp" />
@@ -534,8 +538,12 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
     <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
+    <ClCompile Include="Sources\Script\DeathDetection.cpp" />
     <ClCompile Include="Sources\Script\InputManager.cpp" />
+    <ClCompile Include="Sources\Script\OutOfBound.cpp" />
     <ClCompile Include="Sources\Script\PlayerMouvement.cpp" />
+    <ClCompile Include="Sources\Script\WinManager.cpp" />
+    <ClCompile Include="Sources\Script\WinZone.cpp" />
     <ClCompile Include="Sources\Sound\SoundPlayer.cpp" />
     <ClCompile Include="Sources\Threading\PoolSystem.cpp" />
     <ClCompile Include="Sources\Threading\Thread.cpp" />

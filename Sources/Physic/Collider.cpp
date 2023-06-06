@@ -16,6 +16,7 @@ namespace Physic {
     Collider::Collider()
         : MonoBehaviour(false)
     {
+        physicsCollider = nullptr;
     }
 
     void Collider::Start()
@@ -44,7 +45,8 @@ namespace Physic {
 
     void Collider::GUIUpdate()
     {
-        physicsCollider->OnGuiChanged();
+        if(physicsCollider)
+            physicsCollider->OnGuiChanged();
     }
 
     void Collider::OnDestroy()

@@ -18,6 +18,11 @@
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Script/PlayerMouvement.hpp"
 #include "Script/InputManager.hpp"
+#include "Script/DeathDetection.hpp"
+#include "Script/DeathDetection.hpp"
+#include "Script/OutOfBound.hpp"
+#include "Script/WinManager.hpp"
+#include "Script/WinZone.hpp"
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
@@ -440,6 +445,22 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	if (componentName == "Input Manager")
 	{
 		return gameObject->AddComponent<Script::InputManager>();
+	}
+	if (componentName == "Detection")
+	{
+		return gameObject->AddComponent<Script::DeathDetection>();
+	}
+	if (componentName == "OutOfBound")
+	{
+		return gameObject->AddComponent<Script::OutOfBound>();
+	}
+	if (componentName == "WinZone")
+	{
+		return gameObject->AddComponent<Script::WinZone>();
+	}
+	if (componentName == "WinManager")
+	{
+		return gameObject->AddComponent<Script::WinManager>();
 	}
 
 	return nullptr;

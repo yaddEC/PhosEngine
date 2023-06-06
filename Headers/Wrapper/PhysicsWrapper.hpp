@@ -187,6 +187,7 @@ namespace Wrapper
         void Update();
         void OnGuiChanged();
 
+        void SetPos(const Maths::Vec3 pos);
         Maths::Vec3 GetVelocity();
         void SetVelocity(Maths::Vec3 velocity);
         void AddForce(Maths::Vec3 force);
