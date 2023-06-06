@@ -1349,10 +1349,10 @@ layer 1
 tag 1
 transform -50.7376 3.00001 0.000484607 9.6607e-06 -0.927078 9.13042e-09 1 1 1
 component "PlayerMovement"
-	Speed 20.000000
-	LookSpeedGamepad 50.000000
+	Speed 80.000000
+	LookSpeedGamepad 90.000000
 	LookSpeedMouse 8.000000
-	JumpForce 200.000000
+	JumpForce 2000.000000
 	end
 component "Box Collider"
 	isTrigger 0
@@ -1448,73 +1448,116 @@ child
 	transform 0 -1.5 0 0 0 0 1 1 1
 	end
 end
-name "HandLeft"
+name "NewPlayer2"
 id 142
-layer 0
-tag 0
-transform -48.9531 3.62784 10 0 0 0 1 1 1
-component "Mesh Renderer"
-	Mesh DefaultAssets\Model\primitiveSphere.obj
-	Material DefaultAssets\Material\DefaultMat.phmat
+layer 1
+tag 1
+transform -50.7376 3.00001 0.000484607 9.668e-06 -0.927078 5.47971e-09 1 1 1
+component "PlayerMovement"
+	Speed 80.000000
+	LookSpeedGamepad 90.000000
+	LookSpeedMouse 8.000000
+	JumpForce 2000.000000
 	end
-component "Sphere Collider"
-	isTrigger 1
+component "Box Collider"
+	isTrigger 0
 	Center 0.000000 0.000000 0.000000
-	Radius 1.000000
-	MaterialType -842150451
+	Size 1.000000 2.000000 1.000000
+	MaterialType 0
 	end
 component "RigidBody"
 	mass 1.000000
 	Different_Gravity 1
 	isKinematic 0
-	Gravity 0.000000 0.000000 0.000000
-	LockRotation 0.000000 0.000000 0.000000
+	Gravity 0.000000 -20.000000 0.000000
+	LockRotation 1.000000 0.000000 1.000000
 	end
-component "Configurable Joint"
-	Collider -1
-	Axis 0.000000 0.000000 0.000000
-	Anchor 0.000000 0.000000 0.000000
-	Connect_Anchor 0.000000 0.000000 0.000000
-	Motion 0.000000 0.000000 0.000000
-	Ang._Motion 0.000000 0.000000 0.000000
-	Lin.Lim.Spring_Damp 1.000000
-	Lin.Lim.Spring_Spring 1.000000
-	Lin_Limit 1.000000
-	Lin_Limit_Bounciness 1.000000
-	Lin_Limit_Contact_Dist 1.000000
-	XDrive_Max_Force  0.000000
-	XDrive_Pos_Damper 1.000000
-	XDrive_Pos_Spring 1.000000
-	YDrive_Max_Force  0.000000
-	YDrive_Pos_Damper 1.000000
-	YDrive Pos Spring 0.000000
-	ZDrive_Max_Force  0.000000
-	ZDrive_Pos_Damper 1.000000
-	ZDrive Pos Spring 0.000000
-	Ang_XDrive_Max_Force 1.000000
-	Ang_XDrive_Pos_Damper 1.000000
-	Ang_XDrive_Pos_Spring 1.000000
-	Ang_YDrive_Max_Force  0.000000
-	Ang_YDrive_Pos_Damper 1.000000
-	Ang_YDrive_Pos_Spring 1.000000
-	Ang_ZDrive_Max_Force  0.000000
-	Ang_ZDrive_Pos_Damper 1.000000
-	Ang_ZDrive_Pos_Spring 1.000000
-	Ang_YZDrive_Max_Force  0.000000
-	Ang_YZDrive_Pos_Damper 1.000000
-	Ang_YZDrive_Pos_Spring 1.000000
-	Target_Pos 1.000000
-	Target_Velocity 1.000000
-	Target_Ang_Velocity 1.000000
-	BreakForce 340282346638528859811704183484516925440.000000
-	BreakTorque 340282346638528859811704183484516925440.000000
+child
+	name "PlayerGraphics"
+	id 143
+	layer 0
+	tag 0
+	transform 1.52588e-05 -1.85026 8.20155e-06 0 1.29074 0 0.999999 1 0.999999
+	component "Mesh Renderer"
+		Mesh Assets\Model\Ghost2.obj
+		Material Assets\Material\Beige.phmat
+		end
+	end
+child
+	name "Camera Center"
+	id 144
+	layer 0
+	tag 0
+	transform 0 0.85 1 0.122151 -1.76627 0 1 1 1
+	child
+		name "Camera"
+		id 145
+		layer 0
+		tag 0
+		transform 0 0 -16 0 0 0 1 1 1
+		component "Camera Component"
+			FOV 50.000000
+			UseSkybox 1
+			BackGroundColor 0.000000 0.000000 0.000000
+			PostProcessingShader None
+			Canvas Assets\Canvas\UI2.phcanvas
+			end
+		child
+			name "SphereZone"
+			id 146
+			layer 2
+			tag 3
+			transform -1.1 0.5 19.1 0 0 0 2 2 2
+			component "Mesh Renderer"
+				Mesh None
+				Material DefaultAssets\Material\DefaultMat.phmat
+				end
+			component "Grab Script"
+				end
+			component "Sphere Collider"
+				isTrigger 1
+				Center 0.000000 0.000000 0.000000
+				Radius 1.000000
+				MaterialType 0
+				end
+			child
+				name "RightHand"
+				id 147
+				layer 0
+				tag 0
+				transform -0.5 -0.4 0.55 0 0 0 0.2 0.2 0.2
+				component "Mesh Renderer"
+					Mesh DefaultAssets\Model\primitiveSphere.obj
+					Material Assets\Material\Beige.phmat
+					end
+				end
+			child
+				name "LeftHand"
+				id 148
+				layer 0
+				tag 0
+				transform 0.5 -0.4 0.55 0 0 0 0.2 0.2 0.2
+				component "Mesh Renderer"
+					Mesh DefaultAssets\Model\primitiveSphere.obj
+					Material Assets\Material\Beige.phmat
+					end
+				end
+			end
+		end
+	end
+child
+	name "groundCheck"
+	id 149
+	layer 0
+	tag 0
+	transform 0 -1.5 0 0 0 0 1 1 1
 	end
 end
 name "Sphere"
-id 143
+id 150
 layer 3
 tag 3
-transform -50.35 15.0905 -1.586 0 0 0 2 2 2
+transform -50.35 15.0905 24.9251 0 0 0 2 2 2
 component "Mesh Renderer"
 	Mesh DefaultAssets\Model\primitiveSphere.obj
 	Material DefaultAssets\Material\DefaultMat.phmat
