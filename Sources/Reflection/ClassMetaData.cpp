@@ -18,6 +18,7 @@
 #include "LowRenderer/MeshRenderer.hpp"
 #include "Script/PlayerMouvement.hpp"
 #include "Script/InputManager.hpp"
+#include "Script/GrabScript.hpp"
 #include "Resource/ResourceIncludes.hpp"
 #include "Resource/ResourceManager.hpp"
 #include "Resource/Parser.hpp"
@@ -441,6 +442,10 @@ Engine::MonoBehaviour* Reflection::ClassMetaData::AddComponent(const std::string
 	{
 		return gameObject->AddComponent<Script::InputManager>();
 	}
+	if (componentName == "Grab Script")
+	{
+		return gameObject->AddComponent<Script::GrabScript>();
 
+	}
 	return nullptr;
 }

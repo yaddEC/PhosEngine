@@ -126,6 +126,7 @@ PxFilterFlags CustomFilterShader(PxFilterObjectAttributes attributes0, PxFilterD
     }
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+    //if(!isTrigger0 && !isTrigger1)
     pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
     return PxFilterFlag::eDEFAULT;
 }
@@ -471,6 +472,7 @@ namespace Wrapper
             Physic::PhysicsManager::GetInstance().GetPhysics().GetScene()->removeActor(*m_physxActor);
 
         if (collider->rb) {
+
             PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z));
             m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidDynamic(pose);
             collider->rb->physicsRigidbody->SetRigidActor(m_physxActor);
@@ -479,7 +481,8 @@ namespace Wrapper
         else {
             Maths::Vec3 eulerRotation = collider->gameobject->transform->rotationEuler;
             Maths::Quaternion rotationQuat = Maths::Quaternion::ToQuaternion(eulerRotation);
-            PxTransform pose(PxVec3(collider->gameobject->transform->position.x, collider->gameobject->transform->position.y, collider->gameobject->transform->position.z), PxQuat(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a));
+            Maths::Vec3 globalPos = collider->gameobject->transform->GetGlobalPosition();
+            PxTransform pose(PxVec3(globalPos.x, globalPos.y, globalPos.z), PxQuat(rotationQuat.b, rotationQuat.c, rotationQuat.d, rotationQuat.a));
             m_physxActor = Physic::PhysicsManager::GetInstance().GetPhysics().GetPhysics()->createRigidStatic(pose);
         }
         m_physxActor->userData = collider->gameobject;
@@ -520,7 +523,7 @@ namespace Wrapper
 
     void Wrapper::PhysicsCollider::OnGuiChanged()
     {
-        if (this)
+        if (this->m_physxActor)
         {
             // Compute model matrix
             //Maths::Mat4 worldModel = collider->gameobject->transform->GetGlobalMatrix();

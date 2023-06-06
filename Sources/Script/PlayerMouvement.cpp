@@ -70,7 +70,7 @@ void Script::PlayerMouvement::Update()
     {
         m_rb->AddForce(Maths::Vec3( 0, m_jumpeForce, 0));
     }
-    m_mesh->SetRotation(Maths::Vec3(0, m_cameraCenter->rotationEuler.y + 180, 0));
+    m_mesh->SetRotation(Maths::Vec3(0, m_cameraCenter->rotationEuler.y +15.5f, 0));
     m_cameraCenter->SetRotation(Maths::Vec3(Maths::Clamp(m_cameraCenter->rotationEuler.x - inputRot.y * mult *
         (m_controller == Engine::Controller::C_KEYBOARD ? -1 : 1), -1.4f, 1.4f),
         m_cameraCenter->rotationEuler.y, 0));

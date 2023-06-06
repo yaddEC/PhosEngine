@@ -455,6 +455,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClInclude Include="Headers\Resource\ShaderProgram.hpp" />
     <ClInclude Include="Headers\Resource\SubMesh.hpp" />
     <ClInclude Include="Headers\Resource\Texture.hpp" />
+    <ClInclude Include="Headers\Script\GrabScript.hpp" />
     <ClInclude Include="Headers\Script\InputManager.hpp" />
     <ClInclude Include="Headers\Script\PlayerMouvement.hpp" />
     <ClInclude Include="Headers\Sound\SoundPlayer.hpp" />
@@ -534,6 +535,7 @@ xcopy /y /d "$(ProjectDir)Externals\GLFW\" "$(SolutionDir)External\GLFW\"
     <ClCompile Include="Sources\Resource\ShaderProgram.cpp" />
     <ClCompile Include="Sources\Resource\SubMesh.cpp" />
     <ClCompile Include="Sources\Resource\Texture.cpp" />
+    <ClCompile Include="Sources\Script\GrabScript.cpp" />
     <ClCompile Include="Sources\Script\InputManager.cpp" />
     <ClCompile Include="Sources\Script\PlayerMouvement.cpp" />
     <ClCompile Include="Sources\Sound\SoundPlayer.cpp" />
