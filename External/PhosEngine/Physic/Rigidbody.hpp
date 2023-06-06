@@ -15,6 +15,7 @@ namespace Engine
 
 namespace Physic
 {
+    class Collider;
     class PHOSENGINE_API Rigidbody : public Engine::MonoBehaviour
     {
     public:
@@ -45,6 +46,7 @@ namespace Physic
         void SetLockRotation(Maths::Vec3 lockRotation);
         Maths::Vec3 GetVelocity();
         void SetVelocity(Maths::Vec3 velocity);
+        void SetPos(const Maths::Vec3 pos);
         void AddForce(Maths::Vec3 force);
         void ClearForce();
     
