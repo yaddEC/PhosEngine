@@ -35,7 +35,7 @@ void Script::PlayerMouvement::Update()
 {
 	Engine::Input& input = Engine::Input::GetInstance();
     Wrapper::RayCastHit hit;
-    if (Wrapper::RayCast(m_groundCheck->GetGlobalPosition(), Maths::Vec3(0, -1, 0), 1, hit) && gameobject->GetScene()->GetTagName(hit.objectHit->GetTag()) == "Ground")
+    if (Wrapper::RayCast(m_groundCheck->GetGlobalPosition(), Maths::Vec3(0, -1, 0), 1.5, hit) && gameobject->GetScene()->GetTagName(hit.objectHit->GetTag()) == "Ground")
     {
         m_isGrounded = true;
     }

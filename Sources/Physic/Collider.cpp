@@ -47,7 +47,6 @@ namespace Physic {
     {
         if(physicsCollider)
             physicsCollider->OnGuiChanged();
-
     }
 
     void Collider::OnDestroy()

@@ -117,6 +117,11 @@ namespace Physic {
         physicsRigidbody->OnGuiChanged();
     }
 
+    void Rigidbody::SetPos(const Maths::Vec3 pos)
+    {
+        physicsRigidbody->SetPos(pos);
+    }
+
     void Rigidbody::AddForce(Maths::Vec3 force)
     {
         physicsRigidbody->AddForce(force);
