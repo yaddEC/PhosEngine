@@ -66,7 +66,8 @@ void Script::PlayerMouvement::Update()
         mult *= m_lookSpeedGamepad * input.GetDeltaTime();
     }
 
-    if (m_isGrounded && (input.IsButtonPressed(Engine::BUTTON_A, m_controller) || (m_controller == Engine::Controller::C_KEYBOARD && input.IsKeyPressed(GLFW_KEY_SPACE))))
+    if (m_isGrounded && (input.IsButtonDown(Engine::BUTTON_A, m_controller)
+        || (m_controller == Engine::Controller::C_KEYBOARD && input.IsKeyDown(GLFW_KEY_SPACE))))
     {
         m_rb->AddForce(Maths::Vec3( 0, m_jumpeForce, 0));
     }
