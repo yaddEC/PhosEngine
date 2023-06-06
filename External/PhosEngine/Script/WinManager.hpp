@@ -1,6 +1,8 @@
 #pragma once
 
+#include <vector>
 #include "Engine/MonoBehaviour.hpp"
+#include "LowRenderer/CameraComponent.hpp"
 
 namespace Engine
 {
@@ -14,6 +16,7 @@ namespace Script
 	public:
 		WinManager();
 		~WinManager();
+		void Start() override;
 		void AddCount(bool isLeftSide);
 		void ReduceCount(bool isLeftSide);
 		void Update() override;
@@ -21,6 +24,7 @@ namespace Script
 		Reflection::ClassMetaData& GetMetaData() override;
 
 	private:
+		//std::vector<LowRenderer::CameraComponent> allCam;
 		int m_leftCount;
 		int m_rightCount;
 	};
