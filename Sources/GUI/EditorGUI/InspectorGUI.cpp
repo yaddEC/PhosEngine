@@ -9,6 +9,7 @@
 #include "Physic/Joint.hpp"
 #include "Script/PlayerMouvement.hpp"
 #include "Script/InputManager.hpp"
+#include "Script/GrabScript.hpp"
 #include "LowRenderer/MeshRenderer.hpp"
 #include "LowRenderer/Light/DirectionalLight.hpp"
 #include "LowRenderer/Light/SpotLight.hpp"
@@ -184,6 +185,10 @@ void EditorGUI::InspectorGUI::DisplayGameObject()
 			if (GUI::MenuItem("Input Manager", nullptr))
 			{
 				m_gameobject->AddComponent<Script::InputManager>();
+			}
+			if (GUI::MenuItem("Grab Script", nullptr))
+			{
+				m_gameobject->AddComponent<Script::GrabScript>();
 			}
 			GUI::EndMenu();
 		}
